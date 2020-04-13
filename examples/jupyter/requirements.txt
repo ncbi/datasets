@@ -1,0 +1,5 @@
+ncbi-datasets-pylib
+pandas
+gffutils
+pyfaidx
+matplotlib
