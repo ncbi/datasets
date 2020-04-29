@@ -6,12 +6,12 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**download_assembly_package**](DownloadApi.md#download_assembly_package) | **GET** /download/assembly_accession/{assembly_accessions} | Retrieve a requested assembly dataset and stream back reply by assembly accession
 [**download_assembly_package_post**](DownloadApi.md#download_assembly_package_post) | **POST** /download/assembly_accession | Retrieve a requested assembly dataset and stream back reply by POST
-[**download_gene_package**](DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene id
+[**download_gene_package**](DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene ID
 [**download_gene_package_post**](DownloadApi.md#download_gene_package_post) | **POST** /download/gene | Retrieve a requested gene dataset and stream back reply by POST
 
 
 # **download_assembly_package**
-> file download_assembly_package(assembly_accessions, chromosomes=chromosomes, include_sequence=include_sequence, include_annotation_type=include_annotation_type)
+> file download_assembly_package(assembly_accessions, chromosomes=chromosomes, include_sequence=include_sequence, include_annotation_type=include_annotation_type, resolve=resolve)
 
 Retrieve a requested assembly dataset and stream back reply by assembly accession
 
@@ -32,10 +32,11 @@ with ncbi.datasets.ApiClient() as api_client:
 chromosomes = ['chromosomes_example'] # list[str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
 include_sequence = True # bool |  (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] |  (optional)
+resolve = 'FULLY_RESOLVED' # str |  - FULLY_RESOLVED: By default, supply a fully resolved bag. (optional) (default to 'FULLY_RESOLVED')
 
     try:
         # Retrieve a requested assembly dataset and stream back reply by assembly accession
-        api_response = api_instance.download_assembly_package(assembly_accessions, chromosomes=chromosomes, include_sequence=include_sequence, include_annotation_type=include_annotation_type)
+        api_response = api_instance.download_assembly_package(assembly_accessions, chromosomes=chromosomes, include_sequence=include_sequence, include_annotation_type=include_annotation_type, resolve=resolve)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling DownloadApi->download_assembly_package: %s\n" % e)
@@ -49,6 +50,7 @@ Name | Type | Description  | Notes
  **chromosomes** | [**list[str]**](str.md)| The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence. | [optional] 
  **include_sequence** | **bool**|  | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)|  | [optional] 
+ **resolve** | **str**|  - FULLY_RESOLVED: By default, supply a fully resolved bag. | [optional] [default to &#39;FULLY_RESOLVED&#39;]
 
 ### Return type
 
@@ -127,7 +129,7 @@ No authorization required
 # **download_gene_package**
 > file download_gene_package(gene_ids)
 
-Retrieve a requested gene dataset and stream back reply by gene id
+Retrieve a requested gene dataset and stream back reply by gene ID
 
 ### Example
 
@@ -145,7 +147,7 @@ with ncbi.datasets.ApiClient() as api_client:
     gene_ids = [56] # list[int] | NCBI Gene ID
 
     try:
-        # Retrieve a requested gene dataset and stream back reply by gene id
+        # Retrieve a requested gene dataset and stream back reply by gene ID
         api_response = api_instance.download_gene_package(gene_ids)
         pprint(api_response)
     except ApiException as e:

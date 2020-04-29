@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **include_annotation** | **bool** |  | [optional] 
 **include_annotation_type** | [**list[AnnotationForAssemblyType]**](AnnotationForAssemblyType.md) |  | [optional] 
 **include_sequence** | **bool** |  | [optional] 
+**resolve** | [**AssemblyDatasetRequestResolution**](AssemblyDatasetRequestResolution.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

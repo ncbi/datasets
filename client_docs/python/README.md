@@ -67,15 +67,17 @@ Class | Method | HTTP request | Description
 *AssemblyDatasetDescriptorsApi* | [**assembly_descriptors_by_taxid**](docs/AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_taxid) | **GET** /assembly_descriptors/taxid/{tax_id} | Assembly descriptions by taxonomy ID
 *DownloadApi* | [**download_assembly_package**](docs/DownloadApi.md#download_assembly_package) | **GET** /download/assembly_accession/{assembly_accessions} | Retrieve a requested assembly dataset and stream back reply by assembly accession
 *DownloadApi* | [**download_assembly_package_post**](docs/DownloadApi.md#download_assembly_package_post) | **POST** /download/assembly_accession | Retrieve a requested assembly dataset and stream back reply by POST
-*DownloadApi* | [**download_gene_package**](docs/DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene id
+*DownloadApi* | [**download_gene_package**](docs/DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene ID
 *DownloadApi* | [**download_gene_package_post**](docs/DownloadApi.md#download_gene_package_post) | **POST** /download/gene | Retrieve a requested gene dataset and stream back reply by POST
-*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_gene_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_gene_id) | **GET** /gene_descriptors/gene/id/{gene_ids} | Retrieve list of descriptions of genes by gene id
+*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_gene_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_gene_id) | **GET** /gene_descriptors/gene/id/{gene_ids} | Retrieve list of descriptions of genes by gene ID
+*TaxTreeApi* | [**tax_tree_by_tax_id**](docs/TaxTreeApi.md#tax_tree_by_tax_id) | **GET** /tax_tree/taxid/{tax_id} | Retrieve tax tree by taxonomy ID
 
 
 ## Documentation For Models
 
  - [AnnotationForAssemblyType](docs/AnnotationForAssemblyType.md)
  - [AssemblyDatasetDescriptorsRequestContentType](docs/AssemblyDatasetDescriptorsRequestContentType.md)
+ - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
  - [GeneDescriptorGeneType](docs/GeneDescriptorGeneType.md)
  - [OrganismCounts](docs/OrganismCounts.md)
  - [OrganismRankType](docs/OrganismRankType.md)
@@ -89,6 +91,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1GeneDescriptor](docs/V1alpha1GeneDescriptor.md)
  - [V1alpha1GeneDescriptors](docs/V1alpha1GeneDescriptors.md)
  - [V1alpha1MaturePeptide](docs/V1alpha1MaturePeptide.md)
+ - [V1alpha1NomenclatureAuthority](docs/V1alpha1NomenclatureAuthority.md)
  - [V1alpha1Organism](docs/V1alpha1Organism.md)
  - [V1alpha1Orientation](docs/V1alpha1Orientation.md)
  - [V1alpha1Protein](docs/V1alpha1Protein.md)
