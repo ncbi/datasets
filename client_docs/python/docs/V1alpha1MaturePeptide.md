@@ -1,6 +1,5 @@
 # V1alpha1MaturePeptide
 
---- MongoRequiredFields:   MaturePeptide:     required_fields:       - accessionVersion ...
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

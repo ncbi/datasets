@@ -1,6 +1,5 @@
 # V1alpha1SeqRangeSet
 
---- MongoRequiredFields:   SeqRangeSet:     required_fields:       - accessionVersion       - range ...
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

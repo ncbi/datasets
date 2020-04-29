@@ -1,6 +1,5 @@
 # V1alpha1Transcript
 
---- MongoRequiredFields:   Transcript:     required_fields:       - accessionVersion       - genomicRange       - exons ...
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

@@ -1,6 +1,5 @@
 # V1alpha1Protein
 
---- MongoRequiredFields:   Protein:     required_fields:       - accessionVersion ...
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
