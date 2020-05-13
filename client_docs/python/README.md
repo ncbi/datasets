@@ -71,6 +71,7 @@ Class | Method | HTTP request | Description
 *DownloadApi* | [**download_gene_package_post**](docs/DownloadApi.md#download_gene_package_post) | **POST** /download/gene | Retrieve a requested gene dataset and stream back reply by POST
 *GeneDatasetDescriptorsApi* | [**gene_descriptors_by_gene_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_gene_id) | **GET** /gene_descriptors/gene/id/{gene_ids} | Retrieve list of descriptions of genes by gene ID
 *TaxTreeApi* | [**tax_tree_by_tax_id**](docs/TaxTreeApi.md#tax_tree_by_tax_id) | **GET** /tax_tree/taxid/{tax_id} | Retrieve tax tree by taxonomy ID
+*VirusDownloadApi* | [**get_virus_dataset_stream**](docs/VirusDownloadApi.md#get_virus_dataset_stream) | **GET** /download/virus/sars2 | Retrieve a requested virus dataset and stream back reply
 
 
 ## Documentation For Models
