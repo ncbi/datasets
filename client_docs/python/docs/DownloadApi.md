@@ -127,7 +127,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **download_gene_package**
-> file download_gene_package(gene_ids)
+> file download_gene_package(gene_ids, filename=filename)
 
 Retrieve a requested gene dataset and stream back reply by gene ID
 
@@ -145,10 +145,11 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.DownloadApi(api_client)
     gene_ids = [56] # list[int] | NCBI Gene ID
+filename = 'filename_example' # str | Output file name. (optional)
 
     try:
         # Retrieve a requested gene dataset and stream back reply by gene ID
-        api_response = api_instance.download_gene_package(gene_ids)
+        api_response = api_instance.download_gene_package(gene_ids, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling DownloadApi->download_gene_package: %s\n" % e)
@@ -159,6 +160,7 @@ with ncbi.datasets.ApiClient() as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)| NCBI Gene ID | 
+ **filename** | **str**| Output file name. | [optional] 
 
 ### Return type
 
@@ -181,7 +183,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **download_gene_package_post**
-> file download_gene_package_post(body)
+> file download_gene_package_post(body, filename=filename)
 
 Retrieve a requested gene dataset and stream back reply by POST
 
@@ -199,10 +201,11 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.DownloadApi(api_client)
     body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+filename = 'filename_example' # str | Output file name. (optional)
 
     try:
         # Retrieve a requested gene dataset and stream back reply by POST
-        api_response = api_instance.download_gene_package_post(body)
+        api_response = api_instance.download_gene_package_post(body, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling DownloadApi->download_gene_package_post: %s\n" % e)
@@ -213,6 +216,7 @@ with ncbi.datasets.ApiClient() as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**V1alpha1GeneDatasetRequest**](V1alpha1GeneDatasetRequest.md)|  | 
+ **filename** | **str**| Output file name. | [optional] 
 
 ### Return type
 
