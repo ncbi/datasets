@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**assembly_descriptors_by_accession**](AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_accession) | **GET** /assembly_descriptors/accession/{assembly_accession} | Assembly descriptions by assembly accession
 [**assembly_descriptors_by_organism**](AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_organism) | **GET** /assembly_descriptors/organism/{tax_name} | Assembly descriptions by taxonomic name (scientific or common name at any tax rank)
 [**assembly_descriptors_by_taxid**](AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_taxid) | **GET** /assembly_descriptors/taxid/{tax_id} | Assembly descriptions by taxonomy ID
+[**genome_summary_by_accession**](AssemblyDatasetDescriptorsApi.md#genome_summary_by_accession) | **GET** /genome/summary/accession/{assembly_accessions} | Summary of assembly dataset, including options to download package
 
 
 # **assembly_descriptors_by_accession**
@@ -178,6 +179,68 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**V1alpha1AssemblyDatasetDescriptors**](V1alpha1AssemblyDatasetDescriptors.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **genome_summary_by_accession**
+> V1alpha1DownloadSummary genome_summary_by_accession(assembly_accessions, chromosomes=chromosomes, include_sequence=include_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated)
+
+Summary of assembly dataset, including options to download package
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.AssemblyDatasetDescriptorsApi(api_client)
+    assembly_accessions = ['assembly_accessions_example'] # list[str] | Use 'add item' to include multiple assembly accessions.
+chromosomes = ['chromosomes_example'] # list[str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
+include_sequence = True # bool |  (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] |  (optional)
+hydrated = 'FULLY_HYDRATED' # str |  - FULLY_HYDRATED: By default, supply a fully hydrated bag. (optional) (default to 'FULLY_HYDRATED')
+
+    try:
+        # Summary of assembly dataset, including options to download package
+        api_response = api_instance.genome_summary_by_accession(assembly_accessions, chromosomes=chromosomes, include_sequence=include_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling AssemblyDatasetDescriptorsApi->genome_summary_by_accession: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **assembly_accessions** | [**list[str]**](str.md)| Use &#39;add item&#39; to include multiple assembly accessions. | 
+ **chromosomes** | [**list[str]**](str.md)| The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence. | [optional] 
+ **include_sequence** | **bool**|  | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)|  | [optional] 
+ **hydrated** | **str**|  - FULLY_HYDRATED: By default, supply a fully hydrated bag. | [optional] [default to &#39;FULLY_HYDRATED&#39;]
+
+### Return type
+
+[**V1alpha1DownloadSummary**](V1alpha1DownloadSummary.md)
 
 ### Authorization
 
