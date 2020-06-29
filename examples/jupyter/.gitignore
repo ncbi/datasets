@@ -1,3 +1,9 @@
+ncbi-datasets-pylib/.ipynb_checkpoints/
+ncbi-datasets-pylib/crispr_genes.fna
+ncbi-datasets-pylib/crispr_proteins.faa
+ncbi-datasets-pylib/human_assembly.zip
+ncbi-datasets-pylib/ncbi_genomes.zip
+ncbi-datasets-pylib/rodent_genomes.zip
 test.std*
 ve
 *all_output.ipynb
