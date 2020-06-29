@@ -1,4 +1,4 @@
-ncbi-datasets-pylib
+ncbi-datasets-pylib ~= 3.57
 pandas
 gffutils
 pyfaidx
