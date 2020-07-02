@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **proteins** | [**list[V1alpha1Protein]**](V1alpha1Protein.md) |  | [optional] 
 **swiss_prot_accessions** | **list[str]** |  | [optional] 
 **symbol** | **str** |  | [optional] 
+**synonyms** | **list[str]** |  | [optional] 
 **tax_id** | **str** |  | [optional] 
 **taxname** | **str** |  | [optional] 
 **transcripts** | [**list[V1alpha1Transcript]**](V1alpha1Transcript.md) |  | [optional] 

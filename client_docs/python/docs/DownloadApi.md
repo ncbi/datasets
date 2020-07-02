@@ -237,7 +237,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **download_gene_package**
-> file download_gene_package(gene_ids, filename=filename)
+> file download_gene_package(gene_ids, include_sequence_type=include_sequence_type, filename=filename)
 
 Retrieve a requested gene dataset and stream back reply by gene ID
 
@@ -255,11 +255,12 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.DownloadApi(api_client)
     gene_ids = [56] # list[int] | NCBI Gene ID
+include_sequence_type = ['include_sequence_type_example'] # list[str] |  (optional)
 filename = 'filename_example' # str | Output file name. (optional)
 
     try:
         # Retrieve a requested gene dataset and stream back reply by gene ID
-        api_response = api_instance.download_gene_package(gene_ids, filename=filename)
+        api_response = api_instance.download_gene_package(gene_ids, include_sequence_type=include_sequence_type, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling DownloadApi->download_gene_package: %s\n" % e)
@@ -270,6 +271,7 @@ filename = 'filename_example' # str | Output file name. (optional)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)| NCBI Gene ID | 
+ **include_sequence_type** | [**list[str]**](str.md)|  | [optional] 
  **filename** | **str**| Output file name. | [optional] 
 
 ### Return type
