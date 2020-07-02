@@ -4,6 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **accession_version** | **str** |  | [optional] 
+**ensembl_protein** | **str** |  | [optional] 
 **isoform_name** | **str** |  | [optional] 
 **length** | **int** |  | [optional] 
 **mature_peptides** | [**list[V1alpha1MaturePeptide]**](V1alpha1MaturePeptide.md) |  | [optional] 
