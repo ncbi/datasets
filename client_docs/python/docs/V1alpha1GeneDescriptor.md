@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **omim_ids** | **list[str]** |  | [optional] 
 **orientation** | [**V1alpha1Orientation**](V1alpha1Orientation.md) |  | [optional] 
 **proteins** | [**list[V1alpha1Protein]**](V1alpha1Protein.md) |  | [optional] 
+**replaced_gene_id** | **str** |  | [optional] 
 **swiss_prot_accessions** | **list[str]** |  | [optional] 
 **symbol** | **str** |  | [optional] 
 **synonyms** | **list[str]** |  | [optional] 
