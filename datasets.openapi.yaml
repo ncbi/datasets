@@ -1,0 +1,1480 @@
+basePath: /datasets/v1alpha
+consumes:
+- application/json
+definitions:
+  AnnotationForAssemblyType:
+    default: UNKNOWN
+    enum:
+    - UNKNOWN
+    - GENOME_GFF
+    - GENOME_GBFF
+    - RNA_FASTA
+    - PROT_FASTA
+    type: string
+  AssemblyDatasetDescriptorsRequestContentType:
+    default: COMPLETE
+    enum:
+    - COMPLETE
+    - ASSM_ACC
+    type: string
+  AssemblyDatasetRequestResolution:
+    default: FULLY_HYDRATED
+    description: ' - FULLY_HYDRATED: By default, supply a fully hydrated bag.'
+    enum:
+    - FULLY_HYDRATED
+    - DATA_REPORT_ONLY
+    type: string
+  DownloadSummaryDehydrated:
+    properties:
+      cli_download_command_line:
+        type: string
+      cli_rehydrate_command_line:
+        type: string
+      estimated_file_size_mb:
+        format: int64
+        type: integer
+      url:
+        type: string
+    type: object
+  DownloadSummaryError:
+    properties:
+      code:
+        type: string
+      invalid_identifiers:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+      valid_identifiers:
+        items:
+          type: string
+        type: array
+    type: object
+  DownloadSummaryHydrated:
+    properties:
+      cli_download_command_line:
+        type: string
+      estimated_file_size_mb:
+        format: int64
+        type: integer
+      url:
+        type: string
+    type: object
+  GeneDatasetRequestSeqType:
+    default: SEQ_TYPE_UNSPECIFIED
+    enum:
+    - SEQ_TYPE_UNSPECIFIED
+    - SEQ_TYPE_GENE
+    - SEQ_TYPE_RNA
+    - SEQ_TYPE_PROTEIN
+    type: string
+  GeneDescriptorGeneType:
+    default: UNKNOWN
+    enum:
+    - UNKNOWN
+    - tRNA
+    - rRNA
+    - snRNA
+    - scRNA
+    - snoRNA
+    - PROTEIN_CODING
+    - PSEUDO
+    - TRANSPOSON
+    - miscRNA
+    - ncRNA
+    - BIOLOGICAL_REGION
+    - OTHER
+    type: string
+  OrganismCounts:
+    properties:
+      node:
+        format: int64
+        title: The number of assemblies at this node only
+        type: integer
+      subtree:
+        description: The number of assemblies at this node and all children.
+        format: int64
+        type: integer
+    type: object
+  OrganismRankType:
+    default: NO_RANK
+    enum:
+    - NO_RANK
+    - SUPERKINGDOM
+    - KINGDOM
+    - SUBKINGDOM
+    - SUPERPHYLUM
+    - SUBPHYLUM
+    - PHYLUM
+    - SUPERCLASS
+    - CLASS
+    - SUBCLASS
+    - INFRACLASS
+    - COHORT
+    - SUBCOHORT
+    - SUPERORDER
+    - ORDER
+    - SUBORDER
+    - INFRAORDER
+    - PARVORDER
+    - SUPERFAMILY
+    - FAMILY
+    - SUBFAMILY
+    - GENUS
+    - SUBGENUS
+    - SPECIES_GROUP
+    - SPECIES_SUBGROUP
+    - SPECIES
+    - SUBSPECIES
+    - TRIBE
+    - SUBTRIBE
+    - FORMA
+    - VARIETAS
+    type: string
+  TranscriptTranscriptType:
+    default: UNKNOWN
+    enum:
+    - UNKNOWN
+    - PROTEIN_CODING
+    - NON_CODING
+    - PROTEIN_CODING_MODEL
+    - NON_CODING_MODEL
+    type: string
+  v1alpha1AnnotationForAssembly:
+    properties:
+      file:
+        description: List of annotation files available for this assembly.
+        items:
+          $ref: '#/definitions/v1alpha1AnnotationForAssemblyFile'
+        type: array
+      name:
+        title: Annotation name
+        type: string
+      release_date:
+        title: The date the annotation was released
+        type: string
+      release_number:
+        description: NCBI Annotation release number, if one exists.
+        type: string
+      report_url:
+        title: NCBI annotation report website
+        type: string
+      source:
+        description: Source of the annotation.  Possibly from a submitter.
+        type: string
+    type: object
+  v1alpha1AnnotationForAssemblyFile:
+    properties:
+      estimated_size:
+        format: uint64
+        type: string
+      type:
+        $ref: '#/definitions/AnnotationForAssemblyType'
+    type: object
+  v1alpha1AssemblyDatasetAvailability:
+    properties:
+      invalid_assemblies:
+        items:
+          type: string
+        type: array
+      reason:
+        type: string
+      valid_assemblies:
+        items:
+          type: string
+        type: array
+    type: object
+  v1alpha1AssemblyDatasetDescriptor:
+    properties:
+      annotation_metadata:
+        $ref: '#/definitions/v1alpha1AnnotationForAssembly'
+        title: Annotation available for this assembly
+      assembly_accession:
+        title: 'The GenColl assembly accession
+
+          (e.g. GCF_000001405.39)'
+        type: string
+      assembly_category:
+        description: Category of assembly, like reference.
+        type: string
+      assembly_level:
+        title: The level of the assembly, e.g. Chromosome, Scaffold, Contig or Complete
+          Genome
+        type: string
+      chromosomes:
+        description: 'Which chromosomes are included in this dataset.
+
+          NB: Mitochondria is encoded as ''MT''.'
+        items:
+          type: string
+        type: array
+      contig_n50:
+        format: int64
+        title: Minimum contig length needed to cover 50% of the genome
+        type: integer
+      display_name:
+        description: 'The name of the Assembly dataset to be displayed
+
+          in a user interface.'
+        type: string
+      estimated_size:
+        format: uint64
+        title: Estimated size of all annotation and sequence files in download
+        type: string
+      org:
+        $ref: '#/definitions/v1alpha1Organism'
+        title: Organism information
+      seq_length:
+        format: uint64
+        title: Combined length of all sequence data
+        type: string
+      submission_date:
+        title: Date the assembly was provided to NCBI
+        type: string
+    type: object
+  v1alpha1AssemblyDatasetDescriptors:
+    properties:
+      datasets:
+        description: List of all datasets that match the request, up to the provided
+          limit.
+        items:
+          $ref: '#/definitions/v1alpha1AssemblyDatasetDescriptor'
+        type: array
+      total_count:
+        description: The total count of available datasets (ignoring the cutoff parameter).
+        format: int64
+        type: integer
+    type: object
+  v1alpha1AssemblyDatasetDescriptorsFilter:
+    properties:
+      reference_only:
+        format: boolean
+        type: boolean
+      refseq_only:
+        description: If true, only return RefSeq (GCF_) assemblies.
+        format: boolean
+        type: boolean
+    type: object
+  v1alpha1AssemblyDatasetRequest:
+    properties:
+      assembly_accessions:
+        description: Use 'add item' to include multiple assembly accessions.
+        items:
+          type: string
+        type: array
+      chromosomes:
+        description: 'The default setting is all chromosome.
+
+          Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
+
+          Unplaced sequences are treated like their own chromosome (''Un'').
+
+          The filter only applies to fasta sequence.'
+        items:
+          type: string
+        type: array
+      hydrated:
+        $ref: '#/definitions/AssemblyDatasetRequestResolution'
+      include_annotation:
+        format: boolean
+        type: boolean
+      include_annotation_type:
+        items:
+          $ref: '#/definitions/AnnotationForAssemblyType'
+        type: array
+      include_sequence:
+        format: boolean
+        type: boolean
+    type: object
+  v1alpha1DownloadSummary:
+    properties:
+      assembly_count:
+        format: int64
+        title: For backwards compatability with old VirusDatasetSummary
+        type: integer
+      dehydrated:
+        $ref: '#/definitions/DownloadSummaryDehydrated'
+      errors:
+        items:
+          $ref: '#/definitions/DownloadSummaryError'
+        type: array
+      hydrated:
+        $ref: '#/definitions/DownloadSummaryHydrated'
+      record_count:
+        description: The number of records for the requested filter.
+        format: int64
+        type: integer
+      resource_updated_on:
+        description: The latest date on which the resource was updated.
+        format: date-time
+        type: string
+    type: object
+  v1alpha1GeneDatasetRequest:
+    properties:
+      gene_ids:
+        items:
+          format: int64
+          type: integer
+        title: NCBI Gene ID
+        type: array
+      include_sequence_type:
+        items:
+          $ref: '#/definitions/GeneDatasetRequestSeqType'
+        type: array
+      symbol:
+        items:
+          type: string
+        type: array
+      tax_token:
+        type: string
+    type: object
+  v1alpha1GeneDescriptor:
+    properties:
+      chromosome:
+        title: See chromosomes
+        type: string
+      chromosomes:
+        items:
+          type: string
+        type: array
+      common_name:
+        type: string
+      description:
+        type: string
+      ensembl_gene_ids:
+        items:
+          type: string
+        type: array
+      gene_id:
+        format: uint64
+        title: mongo-required
+        type: string
+      genomic_ranges:
+        items:
+          $ref: '#/definitions/v1alpha1SeqRangeSet'
+        type: array
+      nomenclature_authority:
+        $ref: '#/definitions/v1alpha1NomenclatureAuthority'
+      omim_ids:
+        items:
+          type: string
+        type: array
+      orientation:
+        $ref: '#/definitions/v1alpha1Orientation'
+      proteins:
+        items:
+          $ref: '#/definitions/v1alpha1Protein'
+        type: array
+      replaced_gene_id:
+        format: uint64
+        type: string
+      swiss_prot_accessions:
+        items:
+          type: string
+        type: array
+      symbol:
+        type: string
+      synonyms:
+        items:
+          type: string
+        type: array
+      tax_id:
+        format: uint64
+        type: string
+      taxname:
+        type: string
+      transcripts:
+        items:
+          $ref: '#/definitions/v1alpha1Transcript'
+        type: array
+      type:
+        $ref: '#/definitions/GeneDescriptorGeneType'
+    title: Summary of NCBI Gene resource
+    type: object
+  v1alpha1GeneDescriptors:
+    properties:
+      genes:
+        items:
+          $ref: '#/definitions/v1alpha1GeneDescriptor'
+        type: array
+    type: object
+  v1alpha1MaturePeptide:
+    properties:
+      accession_version:
+        type: string
+      length:
+        format: int64
+        type: integer
+      name:
+        type: string
+    title: Mature peptide
+    type: object
+  v1alpha1NomenclatureAuthority:
+    description: The authority and record by which NCBI has named the gene.
+    properties:
+      authority:
+        type: string
+      identifier:
+        type: string
+    type: object
+  v1alpha1Organism:
+    properties:
+      assembly_count:
+        description: The number of assemblies at this node, and all children.
+        format: uint64
+        type: string
+      assembly_counts:
+        $ref: '#/definitions/OrganismCounts'
+      blast_node:
+        format: boolean
+        title: True if a blast nodes
+        type: boolean
+      breed:
+        title: Infraspecies breed
+        type: string
+      children:
+        description: List of all children tax nodes.
+        items:
+          $ref: '#/definitions/v1alpha1Organism'
+        type: array
+      common_name:
+        title: Common Name of the organism
+        type: string
+      cultivar:
+        title: Infraspecies cultivar
+        type: string
+      ecotype:
+        title: Infraspecies ecotype
+        type: string
+      icon:
+        format: boolean
+        type: boolean
+      isolate:
+        title: Infraspecies isolate
+        type: string
+      key:
+        format: uint64
+        type: string
+      max_ord:
+        format: int64
+        type: integer
+      merged:
+        description: List of all merged tax nodes for the pruned taxonomic tree.
+        items:
+          $ref: '#/definitions/v1alpha1Organism'
+        type: array
+      merged_tax_ids:
+        description: List of merged (now deprecated) Taxonomy IDs for the current
+          Organism.
+        items:
+          format: uint64
+          type: string
+        type: array
+      min_ord:
+        format: int64
+        title: 'ordinal values for any node are the full range of the ordinal values
+
+          in the subtree underneath this node, and are used for faster range-based
+          lookups'
+        type: integer
+      parent_tax_id:
+        format: uint64
+        title: The parent taxnode ID
+        type: string
+      rank:
+        $ref: '#/definitions/OrganismRankType'
+        description: The rank of the tax node.
+      sci_name:
+        title: Scientific Name
+        type: string
+      search_text:
+        items:
+          type: string
+        title: May include names from merged nodes
+        type: array
+      sex:
+        title: Infraspecies sex
+        type: string
+      strain:
+        title: Infraspecies strain
+        type: string
+      tax_id:
+        format: uint64
+        title: NCBI Taxonomy ID
+        type: string
+      title:
+        type: string
+    type: object
+  v1alpha1Orientation:
+    default: none
+    enum:
+    - none
+    - plus
+    - minus
+    type: string
+  v1alpha1Protein:
+    properties:
+      accession_version:
+        type: string
+      ensembl_protein:
+        type: string
+      isoform_name:
+        type: string
+      length:
+        format: int64
+        type: integer
+      mature_peptides:
+        items:
+          $ref: '#/definitions/v1alpha1MaturePeptide'
+        type: array
+      name:
+        type: string
+    title: Protein product of a transcript
+    type: object
+  v1alpha1Range:
+    description: A range on a sequence record.
+    properties:
+      begin:
+        format: uint64
+        type: string
+      end:
+        format: uint64
+        type: string
+      order:
+        description: When an ordering is desired, fill out the order in the range.
+        format: int64
+        type: integer
+      orientation:
+        $ref: '#/definitions/v1alpha1Orientation'
+    type: object
+  v1alpha1SeqRangeSet:
+    properties:
+      accession_version:
+        title: NCBI Accession.version of the sequence
+        type: string
+      range:
+        items:
+          $ref: '#/definitions/v1alpha1Range'
+        title: Series of intervals on above accession_version
+        type: array
+    type: object
+  v1alpha1Transcript:
+    properties:
+      accession_version:
+        title: Transcript accession-version
+        type: string
+      cds:
+        $ref: '#/definitions/v1alpha1SeqRangeSet'
+      ensembl_transcript:
+        type: string
+      exons:
+        $ref: '#/definitions/v1alpha1SeqRangeSet'
+      genomic_range:
+        $ref: '#/definitions/v1alpha1SeqRangeSet'
+      length:
+        format: int64
+        type: integer
+      name:
+        type: string
+      protein:
+        $ref: '#/definitions/v1alpha1Protein'
+        title: Protein, if coding transcript
+      type:
+        $ref: '#/definitions/TranscriptTranscriptType'
+    type: object
+externalDocs:
+  description: Interactively explore genome assembly datasets
+  url: https://www.ncbi.nlm.nih.gov/datasets/genomes/
+host: api.ncbi.nlm.nih.gov
+info:
+  description: NCBI service to query and download biological sequence data across
+    all domains of life from NCBI databases.
+  title: NCBI Datasets API
+  version: v1alpha
+paths:
+  /assembly_descriptors/accession/{assembly_accession}:
+    get:
+      operationId: assembly_descriptors_by_accession
+      parameters:
+      - default: GCF_000001405.39
+        description: NCBI Assembly accession
+        in: path
+        name: assembly_accession
+        required: true
+        type: string
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
+      - description: If true, only return RefSeq (GCF_) assemblies.
+        format: boolean
+        in: query
+        name: filters.refseq_only
+        required: false
+        type: boolean
+      - description: 'If true, only return assemblies with the given NCBI Taxonomy
+          ID, or name.
+
+          Otherwise, assemblies from taxonomy subtree are included, too.
+
+          Ignored for assembly_accession request.'
+        format: boolean
+        in: query
+        name: tax_exact_match
+        required: false
+        type: boolean
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - ASSM_ACC
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyDatasetDescriptors'
+      summary: Assembly descriptions by assembly accession
+      tags:
+      - Assembly Dataset Descriptors
+  /assembly_descriptors/organism/{tax_name}:
+    get:
+      operationId: assembly_descriptors_by_organism
+      parameters:
+      - default: human
+        in: path
+        name: tax_name
+        required: true
+        type: string
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
+      - description: If true, only return RefSeq (GCF_) assemblies.
+        format: boolean
+        in: query
+        name: filters.refseq_only
+        required: false
+        type: boolean
+      - description: 'If true, only return assemblies with the given NCBI Taxonomy
+          ID, or name.
+
+          Otherwise, assemblies from taxonomy subtree are included, too.
+
+          Ignored for assembly_accession request.'
+        format: boolean
+        in: query
+        name: tax_exact_match
+        required: false
+        type: boolean
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - ASSM_ACC
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyDatasetDescriptors'
+      summary: Assembly descriptions by taxonomic name (scientific or common name
+        at any tax rank)
+      tags:
+      - Assembly Dataset Descriptors
+  /assembly_descriptors/taxid/{tax_id}:
+    get:
+      operationId: assembly_descriptors_by_taxid
+      parameters:
+      - default: 9606
+        description: NCBI Taxonomy ID
+        format: int64
+        in: path
+        name: tax_id
+        required: true
+        type: integer
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
+      - description: If true, only return RefSeq (GCF_) assemblies.
+        format: boolean
+        in: query
+        name: filters.refseq_only
+        required: false
+        type: boolean
+      - description: 'If true, only return assemblies with the given NCBI Taxonomy
+          ID, or name.
+
+          Otherwise, assemblies from taxonomy subtree are included, too.
+
+          Ignored for assembly_accession request.'
+        format: boolean
+        in: query
+        name: tax_exact_match
+        required: false
+        type: boolean
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - ASSM_ACC
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyDatasetDescriptors'
+      summary: Assembly descriptions by taxonomy ID
+      tags:
+      - Assembly Dataset Descriptors
+  /download/assembly_accession:
+    post:
+      operationId: download_assembly_package_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1AssemblyDatasetRequest'
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve a requested assembly dataset and stream back reply by POST
+      tags:
+      - Download
+  /download/assembly_accession/check:
+    post:
+      operationId: check_assembly_availability_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1AssemblyDatasetRequest'
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyDatasetAvailability'
+      summary: Check assembly data files availability by POST
+      tags:
+      - Download
+  /download/assembly_accession/check/{assembly_accessions}:
+    get:
+      operationId: check_assembly_availability
+      parameters:
+      - collectionFormat: csv
+        default: []
+        description: Use 'add item' to include multiple assembly accessions.
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: assembly_accessions
+        required: true
+        type: array
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyDatasetAvailability'
+      summary: Check assembly data files availability by assembly accession
+      tags:
+      - Download
+  /download/assembly_accession/{assembly_accessions}:
+    get:
+      operationId: download_assembly_package
+      parameters:
+      - collectionFormat: csv
+        default:
+        - GCF_000001405.39
+        description: Use 'add item' to include multiple assembly accessions.
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: assembly_accessions
+        required: true
+        type: array
+      - collectionFormat: multi
+        description: 'The default setting is all chromosome.
+
+          Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
+
+          Unplaced sequences are treated like their own chromosome (''Un'').
+
+          The filter only applies to fasta sequence.'
+        in: query
+        items:
+          type: string
+        name: chromosomes
+        required: false
+        type: array
+      - default: true
+        format: boolean
+        in: query
+        name: include_sequence
+        required: false
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          enum:
+          - GENOME_GFF
+          - GENOME_GBFF
+          - RNA_FASTA
+          - PROT_FASTA
+          type: string
+        name: include_annotation_type
+        required: false
+        type: array
+      - default: FULLY_HYDRATED
+        description: ' - FULLY_HYDRATED: By default, supply a fully hydrated bag.'
+        enum:
+        - FULLY_HYDRATED
+        - DATA_REPORT_ONLY
+        in: query
+        name: hydrated
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve a requested assembly dataset and stream back reply by assembly
+        accession
+      tags:
+      - Download
+  /download/gene:
+    post:
+      operationId: download_gene_package_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1GeneDatasetRequest'
+      - default: ncbi_dataset.zip
+        description: Output file name.
+        in: query
+        name: filename
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve a requested gene dataset and stream back reply by POST
+      tags:
+      - Download
+  /download/gene/id/{gene_ids}:
+    get:
+      operationId: download_gene_package
+      parameters:
+      - collectionFormat: csv
+        default:
+        - 2778
+        description: NCBI Gene ID
+        in: path
+        items:
+          format: int64
+          type: integer
+        minItems: 1
+        name: gene_ids
+        required: true
+        type: array
+      - in: query
+        name: tax_token
+        required: false
+        type: string
+      - collectionFormat: multi
+        in: query
+        items:
+          type: string
+        name: symbol
+        required: false
+        type: array
+      - collectionFormat: multi
+        in: query
+        items:
+          enum:
+          - SEQ_TYPE_UNSPECIFIED
+          - SEQ_TYPE_GENE
+          - SEQ_TYPE_RNA
+          - SEQ_TYPE_PROTEIN
+          type: string
+        name: include_sequence_type
+        required: false
+        type: array
+      - default: ncbi_dataset.zip
+        description: Output file name.
+        in: query
+        name: filename
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve a requested gene dataset and stream back reply by gene ID
+      tags:
+      - Download
+  /download/virus/organism/{tax_name}:
+    get:
+      operationId: GetVirusDatasetStreamByName
+      parameters:
+      - default: sars2
+        description: Common or scientific name at any tax rank for all domains of
+          life
+        in: path
+        name: tax_name
+        required: true
+        type: string
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve Coronavirus genome datasets by taxonomy name
+      tags:
+      - Virus Download
+  /download/virus/sars2:
+    get:
+      operationId: GetVirusDatasetSarsStream
+      parameters:
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve SARS-CoV-2 genome datasets
+      tags:
+      - Virus Download
+  /download/virus/sars2/protein/{proteins}:
+    get:
+      operationId: GetSars2ProteinDataset
+      parameters:
+      - collectionFormat: csv
+        description: Which proteins to retrieve in the data package
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: proteins
+        required: true
+        type: array
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve SARS-CoV-2 protein and CDS datasets by protein name
+      tags:
+      - Virus Download
+  /download/virus/taxid/{tax_id}:
+    get:
+      operationId: GetVirusDatasetStream
+      parameters:
+      - default: 2697049
+        description: NCBI Taxonomy ID
+        format: int64
+        in: path
+        name: tax_id
+        required: true
+        type: integer
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Successful download
+          schema:
+            format: binary
+            type: string
+      summary: Retrieve Coronavirus genome datasets by taxonomy ID
+      tags:
+      - Virus Download
+  /gene/id/{gene_ids}/descriptors:
+    get:
+      operationId: gene_descriptors_by_id
+      parameters:
+      - collectionFormat: csv
+        default:
+        - 2778
+        description: NCBI Gene ID
+        in: path
+        items:
+          format: int64
+          type: integer
+        minItems: 1
+        name: gene_ids
+        required: true
+        type: array
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GeneDescriptors'
+      summary: Retrieve list of descriptions of genes by gene ID
+      tags:
+      - Gene Dataset Descriptors
+  /gene/id/{gene_ids}/summary:
+    get:
+      operationId: gene_summary_by_id
+      parameters:
+      - collectionFormat: csv
+        default:
+        - 2778
+        description: NCBI Gene ID
+        in: path
+        items:
+          format: int64
+          type: integer
+        minItems: 1
+        name: gene_ids
+        required: true
+        type: array
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of gene dataset, including options to download package by gene
+        ID
+      tags:
+      - Gene Dataset Descriptors
+  /gene/symbol/{symbol}/taxonomy/{tax_token}/descriptors:
+    get:
+      operationId: gene_descriptors_by_tax_and_symbol
+      parameters:
+      - collectionFormat: csv
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: symbol
+        required: true
+        type: array
+      - in: path
+        name: tax_token
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GeneDescriptors'
+      summary: Retrieve list of descriptions of genes by taxonomy and gene symbol
+      tags:
+      - Gene Dataset Descriptors
+  /gene/symbol/{symbol}/taxonomy/{tax_token}/summary:
+    get:
+      operationId: gene_summary_by_tax_and_symbol
+      parameters:
+      - collectionFormat: csv
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: symbol
+        required: true
+        type: array
+      - in: path
+        name: tax_token
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of gene dataset, including options to download package by taxonomy
+        and gene symbol
+      tags:
+      - Gene Dataset Descriptors
+  /genome/summary/accession/{assembly_accessions}:
+    get:
+      operationId: genome_summary_by_accession
+      parameters:
+      - collectionFormat: csv
+        default:
+        - GCF_000001405.39
+        description: Use 'add item' to include multiple assembly accessions.
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: assembly_accessions
+        required: true
+        type: array
+      - collectionFormat: multi
+        description: 'The default setting is all chromosome.
+
+          Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
+
+          Unplaced sequences are treated like their own chromosome (''Un'').
+
+          The filter only applies to fasta sequence.'
+        in: query
+        items:
+          type: string
+        name: chromosomes
+        required: false
+        type: array
+      - default: true
+        format: boolean
+        in: query
+        name: include_sequence
+        required: false
+        type: boolean
+      - collectionFormat: multi
+        in: query
+        items:
+          enum:
+          - GENOME_GFF
+          - GENOME_GBFF
+          - RNA_FASTA
+          - PROT_FASTA
+          type: string
+        name: include_annotation_type
+        required: false
+        type: array
+      - default: FULLY_HYDRATED
+        description: ' - FULLY_HYDRATED: By default, supply a fully hydrated bag.'
+        enum:
+        - FULLY_HYDRATED
+        - DATA_REPORT_ONLY
+        in: query
+        name: hydrated
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of assembly dataset, including options to download package
+      tags:
+      - Assembly Dataset Descriptors
+  /tax_tree/taxid/{tax_id}:
+    get:
+      operationId: tax_tree_by_tax_id
+      parameters:
+      - default: '9443'
+        format: uint64
+        in: path
+        name: tax_id
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1Organism'
+      summary: Retrieve tax tree by taxonomy ID
+      tags:
+      - Tax Tree
+  /virus/summary/organism/{tax_name}:
+    get:
+      operationId: GetSummaryByName
+      parameters:
+      - default: sars2
+        description: Common or scientific name at any tax rank for all domains of
+          life
+        in: path
+        name: tax_name
+        required: true
+        type: string
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of Coronavirus genome datasets, including options to download
+        package by taxonomy name
+      tags:
+      - Virus Dataset
+  /virus/summary/sars2/protein/{proteins}:
+    get:
+      operationId: GetSars2Summary
+      parameters:
+      - collectionFormat: csv
+        description: Which proteins to retrieve in the data package
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: proteins
+        required: true
+        type: array
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
+      tags:
+      - Virus Dataset
+  /virus/summary/taxid/{tax_id}:
+    get:
+      operationId: GetSummary
+      parameters:
+      - default: 2697049
+        description: NCBI Taxonomy ID
+        format: int64
+        in: path
+        name: tax_id
+        required: true
+        type: integer
+      - description: The source database is RefSeq.
+        format: boolean
+        in: query
+        name: refseq_only
+        required: false
+        type: boolean
+      - description: Only those assemblies with annotation as asserted by Virus.
+        format: boolean
+        in: query
+        name: annotated_only
+        required: false
+        type: boolean
+      - description: 'Only include viral genomes that have been released after a specified
+          date and time. April 1, 2020 midnight UTC should be formatted as follows:
+          2020-04-01T00:00:00.000Z.'
+        format: date-time
+        in: query
+        name: released_since
+        required: false
+        type: string
+      - description: Assemblies that were taken from this host (tax-id or name) or
+          its taxonomic descendents.
+        in: query
+        name: host
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of Coronavirus genome datasets, including options to download
+        package by taxonomy ID
+      tags:
+      - Virus Dataset
+produces:
+- application/json
+schemes:
+- https
+swagger: '2.0'
+tags:
+- description: Retrieve descriptions of available genome assemblies
+  name: Assembly Dataset Descriptors
+- description: Retrieve metadata of available genes
+  name: Gene Dataset Descriptors
+- description: Retrieve taxonomic subtree by taxonomy ID
+  name: Tax Tree
+- description: Retrieve gene and genome assembly datasets
+  name: Download
+- description: Retrieve SARS-CoV-2 and Coronavirus datasets
+  name: Virus Download
+- description: Retrieve SARS-CoV-2 and Coronavirus dataset summaries
+  name: Virus Dataset
