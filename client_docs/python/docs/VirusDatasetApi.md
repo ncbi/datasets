@@ -22,6 +22,12 @@ import time
 import ncbi.datasets
 from ncbi.datasets.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
 
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient() as api_client:
@@ -84,6 +90,12 @@ import time
 import ncbi.datasets
 from ncbi.datasets.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
 
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient() as api_client:
@@ -146,6 +158,12 @@ import time
 import ncbi.datasets
 from ncbi.datasets.rest import ApiException
 from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
 
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient() as api_client:

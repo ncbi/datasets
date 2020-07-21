@@ -28,14 +28,20 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 from __future__ import print_function
+
 import time
 import ncbi.datasets
 from ncbi.datasets.rest import ApiException
 from pprint import pprint
 
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
 
-# Defining host is optional and default to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
-configuration.host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+
+
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient(configuration) as api_client:
     # Create an instance of the API class
@@ -71,8 +77,10 @@ Class | Method | HTTP request | Description
 *DownloadApi* | [**download_assembly_package_post**](docs/DownloadApi.md#download_assembly_package_post) | **POST** /download/assembly_accession | Retrieve a requested assembly dataset and stream back reply by POST
 *DownloadApi* | [**download_gene_package**](docs/DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene ID
 *DownloadApi* | [**download_gene_package_post**](docs/DownloadApi.md#download_gene_package_post) | **POST** /download/gene | Retrieve a requested gene dataset and stream back reply by POST
-*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_gene_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_gene_id) | **GET** /gene_descriptors/gene/id/{gene_ids} | Retrieve list of descriptions of genes by gene ID
-*GeneDatasetDescriptorsApi* | [**gene_summary_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_id) | **GET** /gene/summary/id/{gene_ids} | Summary of gene dataset, including options to download package
+*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_id) | **GET** /gene/id/{gene_ids}/descriptors | Retrieve list of descriptions of genes by gene ID
+*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/descriptors | Retrieve list of descriptions of genes by taxonomy and gene symbol
+*GeneDatasetDescriptorsApi* | [**gene_summary_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_id) | **GET** /gene/id/{gene_ids}/summary | Summary of gene dataset, including options to download package by gene ID
+*GeneDatasetDescriptorsApi* | [**gene_summary_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/summary | Summary of gene dataset, including options to download package by taxonomy and gene symbol
 *TaxTreeApi* | [**tax_tree_by_tax_id**](docs/TaxTreeApi.md#tax_tree_by_tax_id) | **GET** /tax_tree/taxid/{tax_id} | Retrieve tax tree by taxonomy ID
 *VirusDatasetApi* | [**get_sars2_summary**](docs/VirusDatasetApi.md#get_sars2_summary) | **GET** /virus/summary/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
 *VirusDatasetApi* | [**get_summary**](docs/VirusDatasetApi.md#get_summary) | **GET** /virus/summary/taxid/{tax_id} | Summary of Coronavirus genome datasets, including options to download package by taxonomy ID
@@ -89,7 +97,6 @@ Class | Method | HTTP request | Description
  - [AssemblyDatasetDescriptorsRequestContentType](docs/AssemblyDatasetDescriptorsRequestContentType.md)
  - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
  - [DownloadSummaryDehydrated](docs/DownloadSummaryDehydrated.md)
- - [DownloadSummaryError](docs/DownloadSummaryError.md)
  - [DownloadSummaryHydrated](docs/DownloadSummaryHydrated.md)
  - [GeneDatasetRequestSeqType](docs/GeneDatasetRequestSeqType.md)
  - [GeneDescriptorGeneType](docs/GeneDescriptorGeneType.md)
@@ -104,6 +111,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1AssemblyDatasetDescriptorsFilter](docs/V1alpha1AssemblyDatasetDescriptorsFilter.md)
  - [V1alpha1AssemblyDatasetRequest](docs/V1alpha1AssemblyDatasetRequest.md)
  - [V1alpha1DownloadSummary](docs/V1alpha1DownloadSummary.md)
+ - [V1alpha1Error](docs/V1alpha1Error.md)
  - [V1alpha1GeneDatasetRequest](docs/V1alpha1GeneDatasetRequest.md)
  - [V1alpha1GeneDescriptor](docs/V1alpha1GeneDescriptor.md)
  - [V1alpha1GeneDescriptors](docs/V1alpha1GeneDescriptors.md)
