@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **breed** | **str** |  | [optional] 
 **children** | [**list[V1alpha1Organism]**](V1alpha1Organism.md) | List of all children tax nodes. | [optional] 
 **common_name** | **str** |  | [optional] 
+**counts** | [**list[OrganismCountByType]**](OrganismCountByType.md) |  | [optional] 
 **cultivar** | **str** |  | [optional] 
 **ecotype** | **str** |  | [optional] 
 **icon** | **bool** |  | [optional] 
