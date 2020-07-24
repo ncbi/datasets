@@ -77,10 +77,14 @@ Class | Method | HTTP request | Description
 *DownloadApi* | [**download_assembly_package_post**](docs/DownloadApi.md#download_assembly_package_post) | **POST** /download/assembly_accession | Retrieve a requested assembly dataset and stream back reply by POST
 *DownloadApi* | [**download_gene_package**](docs/DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene ID
 *DownloadApi* | [**download_gene_package_post**](docs/DownloadApi.md#download_gene_package_post) | **POST** /download/gene | Retrieve a requested gene dataset and stream back reply by POST
+*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_accession**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_accession) | **GET** /gene/accessions/{accessions}/descriptors | Retrieve list of descriptions of genes by RefSeq accession
 *GeneDatasetDescriptorsApi* | [**gene_descriptors_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_id) | **GET** /gene/id/{gene_ids}/descriptors | Retrieve list of descriptions of genes by gene ID
 *GeneDatasetDescriptorsApi* | [**gene_descriptors_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/descriptors | Retrieve list of descriptions of genes by taxonomy and gene symbol
+*GeneDatasetDescriptorsApi* | [**gene_descriptors_post**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_post) | **POST** /gene/descriptors | Retrieve list of descriptions of genes by POST
+*GeneDatasetDescriptorsApi* | [**gene_summary_by_accession**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_accession) | **GET** /gene/accessions/{accessions}/summary | Summary of gene dataset, including options to download package by RefSeq accession
 *GeneDatasetDescriptorsApi* | [**gene_summary_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_id) | **GET** /gene/id/{gene_ids}/summary | Summary of gene dataset, including options to download package by gene ID
 *GeneDatasetDescriptorsApi* | [**gene_summary_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/summary | Summary of gene dataset, including options to download package by taxonomy and gene symbol
+*GeneDatasetDescriptorsApi* | [**gene_summary_post**](docs/GeneDatasetDescriptorsApi.md#gene_summary_post) | **POST** /gene/summary | Summary of gene dataset, including options to download package by POST
 *TaxTreeApi* | [**tax_tree_by_tax_id**](docs/TaxTreeApi.md#tax_tree_by_tax_id) | **GET** /tax_tree/taxid/{tax_id} | Retrieve tax tree by taxonomy ID
 *VirusDatasetApi* | [**get_sars2_summary**](docs/VirusDatasetApi.md#get_sars2_summary) | **GET** /virus/summary/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
 *VirusDatasetApi* | [**get_summary**](docs/VirusDatasetApi.md#get_summary) | **GET** /virus/summary/taxid/{tax_id} | Summary of Coronavirus genome datasets, including options to download package by taxonomy ID
@@ -98,8 +102,15 @@ Class | Method | HTTP request | Description
  - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
  - [DownloadSummaryDehydrated](docs/DownloadSummaryDehydrated.md)
  - [DownloadSummaryHydrated](docs/DownloadSummaryHydrated.md)
+ - [ErrorAssemblyErrorCode](docs/ErrorAssemblyErrorCode.md)
+ - [ErrorGeneErrorCode](docs/ErrorGeneErrorCode.md)
+ - [ErrorVirusErrorCode](docs/ErrorVirusErrorCode.md)
  - [GeneDatasetRequestSeqType](docs/GeneDatasetRequestSeqType.md)
  - [GeneDescriptorGeneType](docs/GeneDescriptorGeneType.md)
+ - [GeneDescriptorRnaType](docs/GeneDescriptorRnaType.md)
+ - [GenomicRegionGenomicRegionType](docs/GenomicRegionGenomicRegionType.md)
+ - [OrganismCountByType](docs/OrganismCountByType.md)
+ - [OrganismCountType](docs/OrganismCountType.md)
  - [OrganismCounts](docs/OrganismCounts.md)
  - [OrganismRankType](docs/OrganismRankType.md)
  - [TranscriptTranscriptType](docs/TranscriptTranscriptType.md)
@@ -115,6 +126,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1GeneDatasetRequest](docs/V1alpha1GeneDatasetRequest.md)
  - [V1alpha1GeneDescriptor](docs/V1alpha1GeneDescriptor.md)
  - [V1alpha1GeneDescriptors](docs/V1alpha1GeneDescriptors.md)
+ - [V1alpha1GenomicRegion](docs/V1alpha1GenomicRegion.md)
  - [V1alpha1MaturePeptide](docs/V1alpha1MaturePeptide.md)
  - [V1alpha1NomenclatureAuthority](docs/V1alpha1NomenclatureAuthority.md)
  - [V1alpha1Organism](docs/V1alpha1Organism.md)

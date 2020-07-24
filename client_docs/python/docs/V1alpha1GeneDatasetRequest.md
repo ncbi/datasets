@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**accessions** | **list[str]** | RNA or Protein accessions. | [optional] 
 **gene_ids** | **list[int]** |  | [optional] 
 **include_sequence_type** | [**list[GeneDatasetRequestSeqType]**](GeneDatasetRequestSeqType.md) |  | [optional] 
 **symbol** | **list[str]** |  | [optional] 

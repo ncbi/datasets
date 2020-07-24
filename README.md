@@ -13,7 +13,7 @@ We also offer a [command-line tool](https://www.ncbi.nlm.nih.gov/datasets/docs/c
 
 Gene datasets are available through our API service and command-line tool for a select group of popular organisms, including human, mouse, cattle, dog, rat, chimp and pig.
 
-The NCBI Datasets [github repository](https://github.com/ncbi/datasets/) contains documentation for the python library that interacts with the API and works with the downloaded data. To familiarize yourself with the library functions, we suggest exploring the [Jupyter Notebooks](https://github.com/ncbi/datasets/tree/master/examples/jupyter) in this repository.
+The NCBI Datasets [github repository](https://github.com/ncbi/datasets/) contains documentation for the python library that interacts with the API and works with the downloaded data.  To familiarize yourself with the library functions, we suggest exploring the [Jupyter Notebooks](https://github.com/ncbi/datasets/tree/master/examples/jupyter) in this repository.
 
 Gathering user feedback is central to this project, so we encourage you to [send us any questions, comments, or ideas](mailto:info@ncbi.nlm.nih.gov) that could help us to better serve your research needs.
 

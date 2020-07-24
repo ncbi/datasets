@@ -36,21 +36,6 @@ definitions:
       url:
         type: string
     type: object
-  DownloadSummaryError:
-    properties:
-      code:
-        type: string
-      invalid_identifiers:
-        items:
-          type: string
-        type: array
-      message:
-        type: string
-      valid_identifiers:
-        items:
-          type: string
-        type: array
-    type: object
   DownloadSummaryHydrated:
     properties:
       cli_download_command_line:
@@ -61,6 +46,28 @@ definitions:
       url:
         type: string
     type: object
+  ErrorAssemblyErrorCode:
+    default: UNKNOWN_ASSEMBLY_ERROR_CODE
+    enum:
+    - UNKNOWN_ASSEMBLY_ERROR_CODE
+    type: string
+  ErrorGeneErrorCode:
+    default: UNKNOWN_GENE_ERROR_CODE
+    enum:
+    - UNKNOWN_GENE_ERROR_CODE
+    - REPLACED_GENE_ID
+    - DISCONTINUED_GENE_ID
+    - INVALID_GENE_ID
+    - INVALID_GENE_SYMBOL
+    - INCOMPLETE_LOOKUP_SYMBOL
+    - INVALID_ACCESSIONS
+    - INVALID_TAX_TOKEN
+    type: string
+  ErrorVirusErrorCode:
+    default: UNKNOWN_VIRUS_ERROR_CODE
+    enum:
+    - UNKNOWN_VIRUS_ERROR_CODE
+    type: string
   GeneDatasetRequestSeqType:
     default: SEQ_TYPE_UNSPECIFIED
     enum:
@@ -85,6 +92,36 @@ definitions:
     - ncRNA
     - BIOLOGICAL_REGION
     - OTHER
+    type: string
+  GeneDescriptorRnaType:
+    default: rna_UNKNOWN
+    enum:
+    - rna_UNKNOWN
+    - premsg
+    - tmRna
+    type: string
+  GenomicRegionGenomicRegionType:
+    default: UNKNOWN
+    enum:
+    - UNKNOWN
+    - REFSEQ_GENE
+    - PSUEDOGENE
+    - BIOLOGICAL_REGION
+    - OTHER
+    type: string
+  OrganismCountByType:
+    properties:
+      counts:
+        $ref: '#/definitions/OrganismCounts'
+      type:
+        $ref: '#/definitions/OrganismCountType'
+    type: object
+  OrganismCountType:
+    default: COUNT_TYPE_UNSPECIFIED
+    enum:
+    - COUNT_TYPE_UNSPECIFIED
+    - COUNT_TYPE_ASSEMBLY
+    - COUNT_TYPE_GENE
     type: string
   OrganismCounts:
     properties:
@@ -297,7 +334,7 @@ definitions:
         $ref: '#/definitions/DownloadSummaryDehydrated'
       errors:
         items:
-          $ref: '#/definitions/DownloadSummaryError'
+          $ref: '#/definitions/v1alpha1Error'
         type: array
       hydrated:
         $ref: '#/definitions/DownloadSummaryHydrated'
@@ -310,8 +347,34 @@ definitions:
         format: date-time
         type: string
     type: object
+  v1alpha1Error:
+    properties:
+      assembly_error_code:
+        $ref: '#/definitions/ErrorAssemblyErrorCode'
+      gene_error_code:
+        $ref: '#/definitions/ErrorGeneErrorCode'
+      invalid_identifiers:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+      reason:
+        type: string
+      valid_identifiers:
+        items:
+          type: string
+        type: array
+      virus_error_code:
+        $ref: '#/definitions/ErrorVirusErrorCode'
+    type: object
   v1alpha1GeneDatasetRequest:
     properties:
+      accessions:
+        description: RNA or Protein accessions.
+        items:
+          type: string
+        type: array
       gene_ids:
         items:
           format: int64
@@ -325,6 +388,7 @@ definitions:
       symbol:
         items:
           type: string
+        title: Symbol must also have a tax-token specified
         type: array
       tax_token:
         type: string
@@ -354,6 +418,10 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1SeqRangeSet'
         type: array
+      genomic_regions:
+        items:
+          $ref: '#/definitions/v1alpha1GenomicRegion'
+        type: array
       nomenclature_authority:
         $ref: '#/definitions/v1alpha1NomenclatureAuthority'
       omim_ids:
@@ -366,9 +434,15 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1Protein'
         type: array
+      reference_standards:
+        items:
+          $ref: '#/definitions/v1alpha1GenomicRegion'
+        type: array
       replaced_gene_id:
         format: uint64
         type: string
+      rna_type:
+        $ref: '#/definitions/GeneDescriptorRnaType'
       swiss_prot_accessions:
         items:
           type: string
@@ -394,10 +468,23 @@ definitions:
     type: object
   v1alpha1GeneDescriptors:
     properties:
+      errors:
+        items:
+          $ref: '#/definitions/v1alpha1Error'
+        type: array
       genes:
         items:
           $ref: '#/definitions/v1alpha1GeneDescriptor'
         type: array
+    type: object
+  v1alpha1GenomicRegion:
+    properties:
+      accession_version:
+        type: string
+      genomic_range:
+        $ref: '#/definitions/v1alpha1SeqRangeSet'
+      type:
+        $ref: '#/definitions/GenomicRegionGenomicRegionType'
     type: object
   v1alpha1MaturePeptide:
     properties:
@@ -426,6 +513,7 @@ definitions:
         type: string
       assembly_counts:
         $ref: '#/definitions/OrganismCounts'
+        title: assembly_counts will soon be deprecated
       blast_node:
         format: boolean
         title: True if a blast nodes
@@ -441,6 +529,10 @@ definitions:
       common_name:
         title: Common Name of the organism
         type: string
+      counts:
+        items:
+          $ref: '#/definitions/OrganismCountByType'
+        type: array
       cultivar:
         title: Infraspecies cultivar
         type: string
@@ -919,10 +1011,19 @@ paths:
         required: false
         type: string
       - collectionFormat: multi
+        description: Symbol must also have a tax-token specified.
         in: query
         items:
           type: string
         name: symbol
+        required: false
+        type: array
+      - collectionFormat: multi
+        description: RNA or Protein accessions.
+        in: query
+        items:
+          type: string
+        name: accessions
         required: false
         type: array
       - collectionFormat: multi
@@ -1141,6 +1242,66 @@ paths:
       summary: Retrieve Coronavirus genome datasets by taxonomy ID
       tags:
       - Virus Download
+  /gene/accessions/{accessions}/descriptors:
+    get:
+      operationId: gene_descriptors_by_accession
+      parameters:
+      - collectionFormat: csv
+        description: RNA or Protein accessions.
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: accessions
+        required: true
+        type: array
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GeneDescriptors'
+      summary: Retrieve list of descriptions of genes by RefSeq accession
+      tags:
+      - Gene Dataset Descriptors
+  /gene/accessions/{accessions}/summary:
+    get:
+      operationId: gene_summary_by_accession
+      parameters:
+      - collectionFormat: csv
+        description: RNA or Protein accessions.
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: accessions
+        required: true
+        type: array
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of gene dataset, including options to download package by RefSeq
+        accession
+      tags:
+      - Gene Dataset Descriptors
+  /gene/descriptors:
+    post:
+      operationId: gene_descriptors_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1GeneDatasetRequest'
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GeneDescriptors'
+      summary: Retrieve list of descriptions of genes by POST
+      tags:
+      - Gene Dataset Descriptors
   /gene/id/{gene_ids}/descriptors:
     get:
       operationId: gene_descriptors_by_id
@@ -1190,11 +1351,29 @@ paths:
         ID
       tags:
       - Gene Dataset Descriptors
+  /gene/summary:
+    post:
+      operationId: gene_summary_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1GeneDatasetRequest'
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1DownloadSummary'
+      summary: Summary of gene dataset, including options to download package by POST
+      tags:
+      - Gene Dataset Descriptors
   /gene/symbol/{symbol}/taxonomy/{tax_token}/descriptors:
     get:
       operationId: gene_descriptors_by_tax_and_symbol
       parameters:
       - collectionFormat: csv
+        description: Symbol must also have a tax-token specified
         in: path
         items:
           type: string
@@ -1219,6 +1398,7 @@ paths:
       operationId: gene_summary_by_tax_and_symbol
       parameters:
       - collectionFormat: csv
+        description: Symbol must also have a tax-token specified
         in: path
         items:
           type: string
