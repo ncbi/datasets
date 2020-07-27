@@ -14,5 +14,6 @@ notebook demonstrates retrieval of coronavirus virus-related datasets, including
 | File | Non-interactive | Binder |
 | --- | --- | --- |
 | ncbi-datasets-assembly | [ncbi-datasets-assembly.ipynb](ncbi-datasets-pylib/ncbi-datasets-assembly.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-assembly.ipynb) |
+| ncbi-datasets-gene | [ncbi-datasets-gene.ipynb](ncbi-datasets-pylib/ncbi-datasets-gene.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-gene.ipynb) |
 | ncbi-datasets-gff3 | [ncbi-datasets-gff3.ipynb](ncbi-datasets-pylib/ncbi-datasets-gff3.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-gff3.ipynb) |
 | ncbi-datasets-virus | [ncbi-datasets-virus.ipynb](ncbi-datasets-pylib/ncbi-datasets-virus.ipynb) | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-virus.ipynb) |

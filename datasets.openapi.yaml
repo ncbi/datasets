@@ -105,7 +105,7 @@ definitions:
     enum:
     - UNKNOWN
     - REFSEQ_GENE
-    - PSUEDOGENE
+    - PSEUDOGENE
     - BIOLOGICAL_REGION
     - OTHER
     type: string
@@ -479,10 +479,9 @@ definitions:
     type: object
   v1alpha1GenomicRegion:
     properties:
-      accession_version:
-        type: string
-      genomic_range:
+      gene_range:
         $ref: '#/definitions/v1alpha1SeqRangeSet'
+        description: The range of this Gene record on this genomic region.
       type:
         $ref: '#/definitions/GenomicRegionGenomicRegionType'
     type: object
