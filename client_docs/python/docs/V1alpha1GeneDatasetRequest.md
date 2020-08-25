@@ -5,7 +5,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **accessions** | **list[str]** | RNA or Protein accessions. | [optional] 
 **gene_ids** | **list[int]** |  | [optional] 
-**include_sequence_type** | [**list[GeneDatasetRequestSeqType]**](GeneDatasetRequestSeqType.md) |  | [optional] 
+**include_annotation_type** | [**list[GeneDatasetRequestFasta]**](GeneDatasetRequestFasta.md) |  | [optional] 
+**returned_content** | [**V1alpha1GeneDatasetRequestContentType**](V1alpha1GeneDatasetRequestContentType.md) |  | [optional] 
+**sort_schema** | [**GeneDatasetRequestSort**](GeneDatasetRequestSort.md) |  | [optional] 
 **symbol** | **list[str]** |  | [optional] 
 **tax_token** | **str** |  | [optional] 
 

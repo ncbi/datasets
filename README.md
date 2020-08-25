@@ -11,7 +11,7 @@ These datasets include sequence, annotation and a data report containing isolate
 
 We also offer a [command-line tool](https://www.ncbi.nlm.nih.gov/datasets/docs/command-line-start/), for access to genome data for all taxa, and a [web interface that is focused on eukaryotic genomes.](https://www.ncbi.nlm.nih.gov/datasets/)
 
-Gene datasets are available through our API service and command-line tool for a select group of popular organisms, including human, mouse, cattle, dog, rat, chimp and pig.
+Gene datasets are available through our API service, command-line tool, and our newest web tool, gene [data tables](https://www.ncbi.nlm.nih.gov/datasets/tables/genes/), for all genes available in NCBI Gene (currently >30k organisms).
 
 The NCBI Datasets [github repository](https://github.com/ncbi/datasets/) contains documentation for the python library that interacts with the API and works with the downloaded data.  To familiarize yourself with the library functions, we suggest exploring the [Jupyter Notebooks](https://github.com/ncbi/datasets/tree/master/examples/jupyter) in this repository.
 

@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **tax_tree_by_tax_id**
-> V1alpha1Organism tax_tree_by_tax_id(tax_id)
+> V1alpha1Organism tax_tree_by_tax_id(tax_id, tax_token=tax_token)
 
 Retrieve tax tree by taxonomy ID
 
@@ -32,10 +32,11 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.TaxTreeApi(api_client)
     tax_id = 'tax_id_example' # str | 
+tax_token = 'tax_token_example' # str |  (optional)
 
     try:
         # Retrieve tax tree by taxonomy ID
-        api_response = api_instance.tax_tree_by_tax_id(tax_id)
+        api_response = api_instance.tax_tree_by_tax_id(tax_id, tax_token=tax_token)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling TaxTreeApi->tax_tree_by_tax_id: %s\n" % e)
@@ -46,6 +47,7 @@ with ncbi.datasets.ApiClient() as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tax_id** | **str**|  | 
+ **tax_token** | **str**|  | [optional] 
 
 ### Return type
 

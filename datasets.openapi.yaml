@@ -11,12 +11,6 @@ definitions:
     - RNA_FASTA
     - PROT_FASTA
     type: string
-  AssemblyDatasetDescriptorsRequestContentType:
-    default: COMPLETE
-    enum:
-    - COMPLETE
-    - ASSM_ACC
-    type: string
   AssemblyDatasetRequestResolution:
     default: FULLY_HYDRATED
     description: ' - FULLY_HYDRATED: By default, supply a fully hydrated bag.'
@@ -63,18 +57,48 @@ definitions:
     - INVALID_ACCESSIONS
     - INVALID_TAX_TOKEN
     type: string
+  ErrorReplacedId:
+    properties:
+      current_identifier:
+        type: string
+      former_identifier:
+        type: string
+    type: object
   ErrorVirusErrorCode:
     default: UNKNOWN_VIRUS_ERROR_CODE
     enum:
     - UNKNOWN_VIRUS_ERROR_CODE
     type: string
-  GeneDatasetRequestSeqType:
-    default: SEQ_TYPE_UNSPECIFIED
+  GeneDatasetRequestFasta:
+    default: FASTA_UNSPECIFIED
     enum:
-    - SEQ_TYPE_UNSPECIFIED
-    - SEQ_TYPE_GENE
-    - SEQ_TYPE_RNA
-    - SEQ_TYPE_PROTEIN
+    - FASTA_UNSPECIFIED
+    - FASTA_GENE
+    - FASTA_RNA
+    - FASTA_PROTEIN
+    - FASTA_ALL
+    - FASTA_NONE
+    type: string
+  GeneDatasetRequestSort:
+    properties:
+      direction:
+        $ref: '#/definitions/GeneDatasetRequestSortDirection'
+      field:
+        $ref: '#/definitions/GeneDatasetRequestSortField'
+    type: object
+  GeneDatasetRequestSortDirection:
+    default: SORT_DIRECTION_UNSPECIFIED
+    enum:
+    - SORT_DIRECTION_UNSPECIFIED
+    - SORT_DIRECTION_ASCENDING
+    - SORT_DIRECTION_DESCENDING
+    type: string
+  GeneDatasetRequestSortField:
+    default: SORT_FIELD_UNSPECIFIED
+    enum:
+    - SORT_FIELD_UNSPECIFIED
+    - SORT_FIELD_GENE_ID
+    - SORT_FIELD_GENE_TYPE
     type: string
   GeneDescriptorGeneType:
     default: UNKNOWN
@@ -144,6 +168,7 @@ definitions:
     - SUPERPHYLUM
     - SUBPHYLUM
     - PHYLUM
+    - CLADE
     - SUPERCLASS
     - CLASS
     - SUBCLASS
@@ -169,6 +194,16 @@ definitions:
     - FORMA
     - VARIETAS
     type: string
+  SciNameAndIdsSciNameAndId:
+    properties:
+      sci_name:
+        title: Scientific name
+        type: string
+      tax_id:
+        format: uint64
+        title: NCBI Taxonomy ID
+        type: string
+    type: object
   TranscriptTranscriptType:
     default: UNKNOWN
     enum:
@@ -293,6 +328,12 @@ definitions:
         format: boolean
         type: boolean
     type: object
+  v1alpha1AssemblyDatasetDescriptorsRequestContentType:
+    default: COMPLETE
+    enum:
+    - COMPLETE
+    - ASSM_ACC
+    type: string
   v1alpha1AssemblyDatasetRequest:
     properties:
       assembly_accessions:
@@ -361,6 +402,10 @@ definitions:
         type: string
       reason:
         type: string
+      replaced_ids:
+        items:
+          $ref: '#/definitions/ErrorReplacedId'
+        type: array
       valid_identifiers:
         items:
           type: string
@@ -381,10 +426,14 @@ definitions:
           type: integer
         title: NCBI Gene ID
         type: array
-      include_sequence_type:
+      include_annotation_type:
         items:
-          $ref: '#/definitions/GeneDatasetRequestSeqType'
+          $ref: '#/definitions/GeneDatasetRequestFasta'
         type: array
+      returned_content:
+        $ref: '#/definitions/v1alpha1GeneDatasetRequestContentType'
+      sort_schema:
+        $ref: '#/definitions/GeneDatasetRequestSort'
       symbol:
         items:
           type: string
@@ -393,6 +442,12 @@ definitions:
       tax_token:
         type: string
     type: object
+  v1alpha1GeneDatasetRequestContentType:
+    default: COMPLETE
+    enum:
+    - COMPLETE
+    - IDS_ONLY
+    type: string
   v1alpha1GeneDescriptor:
     properties:
       chromosome:
@@ -638,6 +693,13 @@ definitions:
         type: integer
       orientation:
         $ref: '#/definitions/v1alpha1Orientation'
+    type: object
+  v1alpha1SciNameAndIds:
+    properties:
+      sci_name_and_ids:
+        items:
+          $ref: '#/definitions/SciNameAndIdsSciNameAndId'
+        type: array
     type: object
   v1alpha1SeqRangeSet:
     properties:
@@ -1005,38 +1067,48 @@ paths:
         name: gene_ids
         required: true
         type: array
-      - in: query
-        name: tax_token
-        required: false
-        type: string
       - collectionFormat: multi
-        description: Symbol must also have a tax-token specified.
-        in: query
-        items:
-          type: string
-        name: symbol
-        required: false
-        type: array
-      - collectionFormat: multi
-        description: RNA or Protein accessions.
-        in: query
-        items:
-          type: string
-        name: accessions
-        required: false
-        type: array
-      - collectionFormat: multi
+        default:
+        - FASTA_ALL
         in: query
         items:
           enum:
-          - SEQ_TYPE_UNSPECIFIED
-          - SEQ_TYPE_GENE
-          - SEQ_TYPE_RNA
-          - SEQ_TYPE_PROTEIN
+          - FASTA_UNSPECIFIED
+          - FASTA_GENE
+          - FASTA_RNA
+          - FASTA_PROTEIN
+          - FASTA_ALL
+          - FASTA_NONE
           type: string
-        name: include_sequence_type
+        name: include_annotation_type
         required: false
         type: array
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       - default: ncbi_dataset.zip
         description: Output file name.
         in: query
@@ -1254,6 +1326,32 @@ paths:
         name: accessions
         required: true
         type: array
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1275,6 +1373,32 @@ paths:
         name: accessions
         required: true
         type: array
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1317,6 +1441,32 @@ paths:
         name: gene_ids
         required: true
         type: array
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1341,6 +1491,32 @@ paths:
         name: gene_ids
         required: true
         type: array
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1384,6 +1560,32 @@ paths:
         name: tax_token
         required: true
         type: string
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1409,6 +1611,32 @@ paths:
         name: tax_token
         required: true
         type: string
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - default: SORT_FIELD_UNSPECIFIED
+        enum:
+        - SORT_FIELD_UNSPECIFIED
+        - SORT_FIELD_GENE_ID
+        - SORT_FIELD_GENE_TYPE
+        in: query
+        name: sort_schema.field
+        required: false
+        type: string
+      - default: SORT_DIRECTION_UNSPECIFIED
+        enum:
+        - SORT_DIRECTION_UNSPECIFIED
+        - SORT_DIRECTION_ASCENDING
+        - SORT_DIRECTION_DESCENDING
+        in: query
+        name: sort_schema.direction
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1416,6 +1644,40 @@ paths:
             $ref: '#/definitions/v1alpha1DownloadSummary'
       summary: Summary of gene dataset, including options to download package by taxonomy
         and gene symbol
+      tags:
+      - Gene Dataset Descriptors
+  /gene/tax_name_query/{organism_query}/names:
+    get:
+      operationId: gene_tax_name_query
+      parameters:
+      - description: Prefix of organism name (common or scientific) to search
+        in: path
+        name: organism_query
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1SciNameAndIds'
+      summary: Retrieve list of taxonomy names and is for OrganismQuery
+      tags:
+      - Gene Dataset Descriptors
+  /gene/taxonomy/{tax_token}/tree:
+    get:
+      operationId: gene_tax_tree
+      parameters:
+      - default: human
+        in: path
+        name: tax_token
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1Organism'
+      summary: Retrieve tax tree
       tags:
       - Gene Dataset Descriptors
   /genome/summary/accession/{assembly_accessions}:
@@ -1482,6 +1744,40 @@ paths:
       summary: Summary of assembly dataset, including options to download package
       tags:
       - Assembly Dataset Descriptors
+  /genome/tax_name_query/{organism_query}/names:
+    get:
+      operationId: genome_tax_name_query
+      parameters:
+      - description: Prefix of organism name (common or scientific) to search
+        in: path
+        name: organism_query
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1SciNameAndIds'
+      summary: Retrieve list of taxonomy names and is for OrganismQuery
+      tags:
+      - Assembly Dataset Descriptors
+  /genome/taxonomy/{tax_token}/tree:
+    get:
+      operationId: genome_tax_tree
+      parameters:
+      - default: human
+        in: path
+        name: tax_token
+        required: true
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1Organism'
+      summary: Retrieve tax tree
+      tags:
+      - Assembly Dataset Descriptors
   /tax_tree/taxid/{tax_id}:
     get:
       operationId: tax_tree_by_tax_id
@@ -1491,6 +1787,10 @@ paths:
         in: path
         name: tax_id
         required: true
+        type: string
+      - in: query
+        name: tax_token
+        required: false
         type: string
       responses:
         '200':
