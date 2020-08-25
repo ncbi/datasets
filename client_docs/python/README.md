@@ -71,6 +71,8 @@ Class | Method | HTTP request | Description
 *AssemblyDatasetDescriptorsApi* | [**assembly_descriptors_by_organism**](docs/AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_organism) | **GET** /assembly_descriptors/organism/{tax_name} | Assembly descriptions by taxonomic name (scientific or common name at any tax rank)
 *AssemblyDatasetDescriptorsApi* | [**assembly_descriptors_by_taxid**](docs/AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_taxid) | **GET** /assembly_descriptors/taxid/{tax_id} | Assembly descriptions by taxonomy ID
 *AssemblyDatasetDescriptorsApi* | [**genome_summary_by_accession**](docs/AssemblyDatasetDescriptorsApi.md#genome_summary_by_accession) | **GET** /genome/summary/accession/{assembly_accessions} | Summary of assembly dataset, including options to download package
+*AssemblyDatasetDescriptorsApi* | [**genome_tax_name_query**](docs/AssemblyDatasetDescriptorsApi.md#genome_tax_name_query) | **GET** /genome/tax_name_query/{organism_query}/names | Retrieve list of taxonomy names and is for OrganismQuery
+*AssemblyDatasetDescriptorsApi* | [**genome_tax_tree**](docs/AssemblyDatasetDescriptorsApi.md#genome_tax_tree) | **GET** /genome/taxonomy/{tax_token}/tree | Retrieve tax tree
 *DownloadApi* | [**check_assembly_availability**](docs/DownloadApi.md#check_assembly_availability) | **GET** /download/assembly_accession/check/{assembly_accessions} | Check assembly data files availability by assembly accession
 *DownloadApi* | [**check_assembly_availability_post**](docs/DownloadApi.md#check_assembly_availability_post) | **POST** /download/assembly_accession/check | Check assembly data files availability by POST
 *DownloadApi* | [**download_assembly_package**](docs/DownloadApi.md#download_assembly_package) | **GET** /download/assembly_accession/{assembly_accessions} | Retrieve a requested assembly dataset and stream back reply by assembly accession
@@ -85,6 +87,8 @@ Class | Method | HTTP request | Description
 *GeneDatasetDescriptorsApi* | [**gene_summary_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_id) | **GET** /gene/id/{gene_ids}/summary | Summary of gene dataset, including options to download package by gene ID
 *GeneDatasetDescriptorsApi* | [**gene_summary_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/summary | Summary of gene dataset, including options to download package by taxonomy and gene symbol
 *GeneDatasetDescriptorsApi* | [**gene_summary_post**](docs/GeneDatasetDescriptorsApi.md#gene_summary_post) | **POST** /gene/summary | Summary of gene dataset, including options to download package by POST
+*GeneDatasetDescriptorsApi* | [**gene_tax_name_query**](docs/GeneDatasetDescriptorsApi.md#gene_tax_name_query) | **GET** /gene/tax_name_query/{organism_query}/names | Retrieve list of taxonomy names and is for OrganismQuery
+*GeneDatasetDescriptorsApi* | [**gene_tax_tree**](docs/GeneDatasetDescriptorsApi.md#gene_tax_tree) | **GET** /gene/taxonomy/{tax_token}/tree | Retrieve tax tree
 *TaxTreeApi* | [**tax_tree_by_tax_id**](docs/TaxTreeApi.md#tax_tree_by_tax_id) | **GET** /tax_tree/taxid/{tax_id} | Retrieve tax tree by taxonomy ID
 *VirusDatasetApi* | [**get_sars2_summary**](docs/VirusDatasetApi.md#get_sars2_summary) | **GET** /virus/summary/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
 *VirusDatasetApi* | [**get_summary**](docs/VirusDatasetApi.md#get_summary) | **GET** /virus/summary/taxid/{tax_id} | Summary of Coronavirus genome datasets, including options to download package by taxonomy ID
@@ -98,14 +102,17 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AnnotationForAssemblyType](docs/AnnotationForAssemblyType.md)
- - [AssemblyDatasetDescriptorsRequestContentType](docs/AssemblyDatasetDescriptorsRequestContentType.md)
  - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
  - [DownloadSummaryDehydrated](docs/DownloadSummaryDehydrated.md)
  - [DownloadSummaryHydrated](docs/DownloadSummaryHydrated.md)
  - [ErrorAssemblyErrorCode](docs/ErrorAssemblyErrorCode.md)
  - [ErrorGeneErrorCode](docs/ErrorGeneErrorCode.md)
+ - [ErrorReplacedId](docs/ErrorReplacedId.md)
  - [ErrorVirusErrorCode](docs/ErrorVirusErrorCode.md)
- - [GeneDatasetRequestSeqType](docs/GeneDatasetRequestSeqType.md)
+ - [GeneDatasetRequestFasta](docs/GeneDatasetRequestFasta.md)
+ - [GeneDatasetRequestSort](docs/GeneDatasetRequestSort.md)
+ - [GeneDatasetRequestSortDirection](docs/GeneDatasetRequestSortDirection.md)
+ - [GeneDatasetRequestSortField](docs/GeneDatasetRequestSortField.md)
  - [GeneDescriptorGeneType](docs/GeneDescriptorGeneType.md)
  - [GeneDescriptorRnaType](docs/GeneDescriptorRnaType.md)
  - [GenomicRegionGenomicRegionType](docs/GenomicRegionGenomicRegionType.md)
@@ -113,6 +120,7 @@ Class | Method | HTTP request | Description
  - [OrganismCountType](docs/OrganismCountType.md)
  - [OrganismCounts](docs/OrganismCounts.md)
  - [OrganismRankType](docs/OrganismRankType.md)
+ - [SciNameAndIdsSciNameAndId](docs/SciNameAndIdsSciNameAndId.md)
  - [TranscriptTranscriptType](docs/TranscriptTranscriptType.md)
  - [V1alpha1AnnotationForAssembly](docs/V1alpha1AnnotationForAssembly.md)
  - [V1alpha1AnnotationForAssemblyFile](docs/V1alpha1AnnotationForAssemblyFile.md)
@@ -120,10 +128,12 @@ Class | Method | HTTP request | Description
  - [V1alpha1AssemblyDatasetDescriptor](docs/V1alpha1AssemblyDatasetDescriptor.md)
  - [V1alpha1AssemblyDatasetDescriptors](docs/V1alpha1AssemblyDatasetDescriptors.md)
  - [V1alpha1AssemblyDatasetDescriptorsFilter](docs/V1alpha1AssemblyDatasetDescriptorsFilter.md)
+ - [V1alpha1AssemblyDatasetDescriptorsRequestContentType](docs/V1alpha1AssemblyDatasetDescriptorsRequestContentType.md)
  - [V1alpha1AssemblyDatasetRequest](docs/V1alpha1AssemblyDatasetRequest.md)
  - [V1alpha1DownloadSummary](docs/V1alpha1DownloadSummary.md)
  - [V1alpha1Error](docs/V1alpha1Error.md)
  - [V1alpha1GeneDatasetRequest](docs/V1alpha1GeneDatasetRequest.md)
+ - [V1alpha1GeneDatasetRequestContentType](docs/V1alpha1GeneDatasetRequestContentType.md)
  - [V1alpha1GeneDescriptor](docs/V1alpha1GeneDescriptor.md)
  - [V1alpha1GeneDescriptors](docs/V1alpha1GeneDescriptors.md)
  - [V1alpha1GenomicRegion](docs/V1alpha1GenomicRegion.md)
@@ -133,6 +143,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1Orientation](docs/V1alpha1Orientation.md)
  - [V1alpha1Protein](docs/V1alpha1Protein.md)
  - [V1alpha1Range](docs/V1alpha1Range.md)
+ - [V1alpha1SciNameAndIds](docs/V1alpha1SciNameAndIds.md)
  - [V1alpha1SeqRangeSet](docs/V1alpha1SeqRangeSet.md)
  - [V1alpha1Transcript](docs/V1alpha1Transcript.md)
 

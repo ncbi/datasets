@@ -8,6 +8,8 @@ Method | HTTP request | Description
 [**assembly_descriptors_by_organism**](AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_organism) | **GET** /assembly_descriptors/organism/{tax_name} | Assembly descriptions by taxonomic name (scientific or common name at any tax rank)
 [**assembly_descriptors_by_taxid**](AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_taxid) | **GET** /assembly_descriptors/taxid/{tax_id} | Assembly descriptions by taxonomy ID
 [**genome_summary_by_accession**](AssemblyDatasetDescriptorsApi.md#genome_summary_by_accession) | **GET** /genome/summary/accession/{assembly_accessions} | Summary of assembly dataset, including options to download package
+[**genome_tax_name_query**](AssemblyDatasetDescriptorsApi.md#genome_tax_name_query) | **GET** /genome/tax_name_query/{organism_query}/names | Retrieve list of taxonomy names and is for OrganismQuery
+[**genome_tax_tree**](AssemblyDatasetDescriptorsApi.md#genome_tax_tree) | **GET** /genome/taxonomy/{tax_token}/tree | Retrieve tax tree
 
 
 # **assembly_descriptors_by_accession**
@@ -265,6 +267,126 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**V1alpha1DownloadSummary**](V1alpha1DownloadSummary.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **genome_tax_name_query**
+> V1alpha1SciNameAndIds genome_tax_name_query(organism_query)
+
+Retrieve list of taxonomy names and is for OrganismQuery
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.AssemblyDatasetDescriptorsApi(api_client)
+    organism_query = 'organism_query_example' # str | Prefix of organism name (common or scientific) to search
+
+    try:
+        # Retrieve list of taxonomy names and is for OrganismQuery
+        api_response = api_instance.genome_tax_name_query(organism_query)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling AssemblyDatasetDescriptorsApi->genome_tax_name_query: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **organism_query** | **str**| Prefix of organism name (common or scientific) to search | 
+
+### Return type
+
+[**V1alpha1SciNameAndIds**](V1alpha1SciNameAndIds.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **genome_tax_tree**
+> V1alpha1Organism genome_tax_tree(tax_token)
+
+Retrieve tax tree
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.AssemblyDatasetDescriptorsApi(api_client)
+    tax_token = 'tax_token_example' # str | 
+
+    try:
+        # Retrieve tax tree
+        api_response = api_instance.genome_tax_tree(tax_token)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling AssemblyDatasetDescriptorsApi->genome_tax_tree: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tax_token** | **str**|  | 
+
+### Return type
+
+[**V1alpha1Organism**](V1alpha1Organism.md)
 
 ### Authorization
 
