@@ -1,6 +1,5 @@
 # AssemblyDatasetRequestResolution
 
- - FULLY_HYDRATED: By default, supply a fully hydrated bag.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

@@ -17,7 +17,7 @@ Python 2.7 and 3.4+
 To install the pre-built python package, create a virtualenv and use pip:
 
 ```sh
-python3 -m venv ve/
+python3.8 -m venv ve/
 source ve/bin/activate
 pip install ncbi-datasets-pylib
 ```
@@ -45,19 +45,19 @@ configuration = ncbi.datasets.Configuration(
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.AssemblyDatasetDescriptorsApi(api_client)
-    assembly_accession = 'assembly_accession_example' # str | NCBI Assembly accession
-limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
-filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
-tax_exact_match = True # bool | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. (optional)
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
+    api_instance = ncbi.datasets.GeneApi(api_client)
+    gene_ids = [56] # list[int] | 
+include_annotation_type = ['include_annotation_type_example'] # list[str] |  (optional)
+sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
+sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
-        # Assembly descriptions by assembly accession
-        api_response = api_instance.assembly_descriptors_by_accession(assembly_accession, limit=limit, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
+        # Get a gene dataset by gene ID
+        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, filename=filename)
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling AssemblyDatasetDescriptorsApi->assembly_descriptors_by_accession: %s\n" % e)
+        print("Exception when calling GeneApi->download_gene_package: %s\n" % e)
     
 ```
 
@@ -67,42 +67,40 @@ All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AssemblyDatasetDescriptorsApi* | [**assembly_descriptors_by_accession**](docs/AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_accession) | **GET** /assembly_descriptors/accession/{assembly_accession} | Assembly descriptions by assembly accession
-*AssemblyDatasetDescriptorsApi* | [**assembly_descriptors_by_organism**](docs/AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_organism) | **GET** /assembly_descriptors/organism/{tax_name} | Assembly descriptions by taxonomic name (scientific or common name at any tax rank)
-*AssemblyDatasetDescriptorsApi* | [**assembly_descriptors_by_taxid**](docs/AssemblyDatasetDescriptorsApi.md#assembly_descriptors_by_taxid) | **GET** /assembly_descriptors/taxid/{tax_id} | Assembly descriptions by taxonomy ID
-*AssemblyDatasetDescriptorsApi* | [**genome_summary_by_accession**](docs/AssemblyDatasetDescriptorsApi.md#genome_summary_by_accession) | **GET** /genome/summary/accession/{assembly_accessions} | Summary of assembly dataset, including options to download package
-*AssemblyDatasetDescriptorsApi* | [**genome_tax_name_query**](docs/AssemblyDatasetDescriptorsApi.md#genome_tax_name_query) | **GET** /genome/tax_name_query/{organism_query}/names | Retrieve list of taxonomy names and is for OrganismQuery
-*AssemblyDatasetDescriptorsApi* | [**genome_tax_tree**](docs/AssemblyDatasetDescriptorsApi.md#genome_tax_tree) | **GET** /genome/taxonomy/{tax_token}/tree | Retrieve tax tree
-*DownloadApi* | [**check_assembly_availability**](docs/DownloadApi.md#check_assembly_availability) | **GET** /download/assembly_accession/check/{assembly_accessions} | Check assembly data files availability by assembly accession
-*DownloadApi* | [**check_assembly_availability_post**](docs/DownloadApi.md#check_assembly_availability_post) | **POST** /download/assembly_accession/check | Check assembly data files availability by POST
-*DownloadApi* | [**download_assembly_package**](docs/DownloadApi.md#download_assembly_package) | **GET** /download/assembly_accession/{assembly_accessions} | Retrieve a requested assembly dataset and stream back reply by assembly accession
-*DownloadApi* | [**download_assembly_package_post**](docs/DownloadApi.md#download_assembly_package_post) | **POST** /download/assembly_accession | Retrieve a requested assembly dataset and stream back reply by POST
-*DownloadApi* | [**download_gene_package**](docs/DownloadApi.md#download_gene_package) | **GET** /download/gene/id/{gene_ids} | Retrieve a requested gene dataset and stream back reply by gene ID
-*DownloadApi* | [**download_gene_package_post**](docs/DownloadApi.md#download_gene_package_post) | **POST** /download/gene | Retrieve a requested gene dataset and stream back reply by POST
-*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_accession**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_accession) | **GET** /gene/accessions/{accessions}/descriptors | Retrieve list of descriptions of genes by RefSeq accession
-*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_id) | **GET** /gene/id/{gene_ids}/descriptors | Retrieve list of descriptions of genes by gene ID
-*GeneDatasetDescriptorsApi* | [**gene_descriptors_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/descriptors | Retrieve list of descriptions of genes by taxonomy and gene symbol
-*GeneDatasetDescriptorsApi* | [**gene_descriptors_post**](docs/GeneDatasetDescriptorsApi.md#gene_descriptors_post) | **POST** /gene/descriptors | Retrieve list of descriptions of genes by POST
-*GeneDatasetDescriptorsApi* | [**gene_summary_by_accession**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_accession) | **GET** /gene/accessions/{accessions}/summary | Summary of gene dataset, including options to download package by RefSeq accession
-*GeneDatasetDescriptorsApi* | [**gene_summary_by_id**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_id) | **GET** /gene/id/{gene_ids}/summary | Summary of gene dataset, including options to download package by gene ID
-*GeneDatasetDescriptorsApi* | [**gene_summary_by_tax_and_symbol**](docs/GeneDatasetDescriptorsApi.md#gene_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbol}/taxonomy/{tax_token}/summary | Summary of gene dataset, including options to download package by taxonomy and gene symbol
-*GeneDatasetDescriptorsApi* | [**gene_summary_post**](docs/GeneDatasetDescriptorsApi.md#gene_summary_post) | **POST** /gene/summary | Summary of gene dataset, including options to download package by POST
-*GeneDatasetDescriptorsApi* | [**gene_tax_name_query**](docs/GeneDatasetDescriptorsApi.md#gene_tax_name_query) | **GET** /gene/tax_name_query/{organism_query}/names | Retrieve list of taxonomy names and is for OrganismQuery
-*GeneDatasetDescriptorsApi* | [**gene_tax_tree**](docs/GeneDatasetDescriptorsApi.md#gene_tax_tree) | **GET** /gene/taxonomy/{tax_token}/tree | Retrieve tax tree
-*TaxTreeApi* | [**tax_tree_by_tax_id**](docs/TaxTreeApi.md#tax_tree_by_tax_id) | **GET** /tax_tree/taxid/{tax_id} | Retrieve tax tree by taxonomy ID
-*VirusDatasetApi* | [**get_sars2_summary**](docs/VirusDatasetApi.md#get_sars2_summary) | **GET** /virus/summary/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
-*VirusDatasetApi* | [**get_summary**](docs/VirusDatasetApi.md#get_summary) | **GET** /virus/summary/taxid/{tax_id} | Summary of Coronavirus genome datasets, including options to download package by taxonomy ID
-*VirusDatasetApi* | [**get_summary_by_name**](docs/VirusDatasetApi.md#get_summary_by_name) | **GET** /virus/summary/organism/{tax_name} | Summary of Coronavirus genome datasets, including options to download package by taxonomy name
-*VirusDownloadApi* | [**get_sars2_protein_dataset**](docs/VirusDownloadApi.md#get_sars2_protein_dataset) | **GET** /download/virus/sars2/protein/{proteins} | Retrieve SARS-CoV-2 protein and CDS datasets by protein name
-*VirusDownloadApi* | [**get_virus_dataset_sars_stream**](docs/VirusDownloadApi.md#get_virus_dataset_sars_stream) | **GET** /download/virus/sars2 | Retrieve SARS-CoV-2 genome datasets
-*VirusDownloadApi* | [**get_virus_dataset_stream**](docs/VirusDownloadApi.md#get_virus_dataset_stream) | **GET** /download/virus/taxid/{tax_id} | Retrieve Coronavirus genome datasets by taxonomy ID
-*VirusDownloadApi* | [**get_virus_dataset_stream_by_name**](docs/VirusDownloadApi.md#get_virus_dataset_stream_by_name) | **GET** /download/virus/organism/{tax_name} | Retrieve Coronavirus genome datasets by taxonomy name
+*GeneApi* | [**download_gene_package**](docs/GeneApi.md#download_gene_package) | **GET** /gene/id/{gene_ids}/download | Get a gene dataset by gene ID
+*GeneApi* | [**download_gene_package_post**](docs/GeneApi.md#download_gene_package_post) | **POST** /gene/download | Get a gene dataset by POST
+*GeneApi* | [**gene_download_summary_by_accession**](docs/GeneApi.md#gene_download_summary_by_accession) | **GET** /gene/accession/{accessions}/download_summary | Get gene download summary by RefSeq Accession
+*GeneApi* | [**gene_download_summary_by_id**](docs/GeneApi.md#gene_download_summary_by_id) | **GET** /gene/id/{gene_ids}/download_summary | Get gene download summary by GeneID
+*GeneApi* | [**gene_download_summary_by_post**](docs/GeneApi.md#gene_download_summary_by_post) | **POST** /gene/download_summary | Get gene download summary
+*GeneApi* | [**gene_download_summary_by_tax_and_symbol**](docs/GeneApi.md#gene_download_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon}/download_summary | Get gene download summary by gene symbol.
+*GeneApi* | [**gene_metadata_by_accession**](docs/GeneApi.md#gene_metadata_by_accession) | **GET** /gene/accession/{accessions} | Get gene metadata by RefSeq Accession
+*GeneApi* | [**gene_metadata_by_id**](docs/GeneApi.md#gene_metadata_by_id) | **GET** /gene/id/{gene_ids} | Get gene metadata by GeneID
+*GeneApi* | [**gene_metadata_by_post**](docs/GeneApi.md#gene_metadata_by_post) | **POST** /gene | Get gene metadata
+*GeneApi* | [**gene_metadata_by_tax_and_symbol**](docs/GeneApi.md#gene_metadata_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon} | Get gene metadata by gene symbol.
+*GeneApi* | [**gene_tax_name_query**](docs/GeneApi.md#gene_tax_name_query) | **GET** /gene/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the gene dataset given a partial taxonomic name.
+*GeneApi* | [**gene_tax_tree**](docs/GeneApi.md#gene_tax_tree) | **GET** /gene/taxon/{taxon}/tree | Retrieve tax tree
+*GenomeApi* | [**assembly_descriptors_by_accessions**](docs/GenomeApi.md#assembly_descriptors_by_accessions) | **GET** /genome/accession/{accessions} | Get genome metadata by accession
+*GenomeApi* | [**assembly_descriptors_by_taxon**](docs/GenomeApi.md#assembly_descriptors_by_taxon) | **GET** /genome/taxon/{taxon} | Get genome metadata by taxonomic identifier
+*GenomeApi* | [**check_assembly_availability**](docs/GenomeApi.md#check_assembly_availability) | **GET** /genome/accession/{accessions}/check | Check the validity of genome accessions
+*GenomeApi* | [**check_assembly_availability_post**](docs/GenomeApi.md#check_assembly_availability_post) | **POST** /genome/check | Check the validity of many genome accessions in a single request
+*GenomeApi* | [**download_assembly_package**](docs/GenomeApi.md#download_assembly_package) | **GET** /genome/accession/{accessions}/download | Get a genome dataset by accession
+*GenomeApi* | [**download_assembly_package_post**](docs/GenomeApi.md#download_assembly_package_post) | **POST** /genome/download | Get a genome dataset by post
+*GenomeApi* | [**genome_download_summary**](docs/GenomeApi.md#genome_download_summary) | **GET** /genome/accession/{accessions}/download_summary | Preview genome dataset download
+*GenomeApi* | [**genome_download_summary_by_post**](docs/GenomeApi.md#genome_download_summary_by_post) | **POST** /genome/download_summary | Preview genome dataset download by POST
+*GenomeApi* | [**genome_tax_name_query**](docs/GenomeApi.md#genome_tax_name_query) | **GET** /genome/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the assembly dataset given a partial taxonomic name.
+*GenomeApi* | [**genome_tax_tree**](docs/GenomeApi.md#genome_tax_tree) | **GET** /genome/taxon/{taxon}/tree | Get a taxonomic subtree by taxonomic identifier
+*VirusApi* | [**sars2_protein_download**](docs/VirusApi.md#sars2_protein_download) | **GET** /virus/taxon/sars2/protein/{proteins}/download | Download SARS-CoV-2 protein and CDS datasets by protein name
+*VirusApi* | [**sars2_protein_summary**](docs/VirusApi.md#sars2_protein_summary) | **GET** /virus/taxon/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
+*VirusApi* | [**sars2_protein_table**](docs/VirusApi.md#sars2_protein_table) | **GET** /virus/taxon/sars2/protein/{proteins}/table | Get SARS-CoV-2 protein metadata in a tabular format.
+*VirusApi* | [**virus_genome_download**](docs/VirusApi.md#virus_genome_download) | **GET** /virus/taxon/{taxon}/genome/download | Download Coronavirus genome datasets by taxon
+*VirusApi* | [**virus_genome_summary**](docs/VirusApi.md#virus_genome_summary) | **GET** /virus/taxon/{taxon}/genome | Get summary data for Coronaviridae genomes by taxon
+*VirusApi* | [**virus_genome_table**](docs/VirusApi.md#virus_genome_table) | **GET** /virus/taxon/{taxon}/genome/table | Get viral genomic metadata in a tabular format.
 
 
 ## Documentation For Models
 
- - [AnnotationForAssemblyType](docs/AnnotationForAssemblyType.md)
  - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
+ - [AssemblyMetadataRequestAccessions](docs/AssemblyMetadataRequestAccessions.md)
  - [DownloadSummaryDehydrated](docs/DownloadSummaryDehydrated.md)
  - [DownloadSummaryHydrated](docs/DownloadSummaryHydrated.md)
  - [ErrorAssemblyErrorCode](docs/ErrorAssemblyErrorCode.md)
@@ -113,6 +111,7 @@ Class | Method | HTTP request | Description
  - [GeneDatasetRequestSort](docs/GeneDatasetRequestSort.md)
  - [GeneDatasetRequestSortDirection](docs/GeneDatasetRequestSortDirection.md)
  - [GeneDatasetRequestSortField](docs/GeneDatasetRequestSortField.md)
+ - [GeneDatasetRequestSymbolsForTaxon](docs/GeneDatasetRequestSymbolsForTaxon.md)
  - [GeneDescriptorGeneType](docs/GeneDescriptorGeneType.md)
  - [GeneDescriptorRnaType](docs/GeneDescriptorRnaType.md)
  - [GenomicRegionGenomicRegionType](docs/GenomicRegionGenomicRegionType.md)
@@ -120,24 +119,35 @@ Class | Method | HTTP request | Description
  - [OrganismCountType](docs/OrganismCountType.md)
  - [OrganismCounts](docs/OrganismCounts.md)
  - [OrganismRankType](docs/OrganismRankType.md)
+ - [ProtobufAny](docs/ProtobufAny.md)
+ - [RuntimeStreamError](docs/RuntimeStreamError.md)
  - [SciNameAndIdsSciNameAndId](docs/SciNameAndIdsSciNameAndId.md)
+ - [StreamResultOfV1alpha1TabularOutput](docs/StreamResultOfV1alpha1TabularOutput.md)
  - [TranscriptTranscriptType](docs/TranscriptTranscriptType.md)
  - [V1alpha1AnnotationForAssembly](docs/V1alpha1AnnotationForAssembly.md)
  - [V1alpha1AnnotationForAssemblyFile](docs/V1alpha1AnnotationForAssemblyFile.md)
+ - [V1alpha1AnnotationForAssemblyType](docs/V1alpha1AnnotationForAssemblyType.md)
+ - [V1alpha1AnnotationForVirusType](docs/V1alpha1AnnotationForVirusType.md)
  - [V1alpha1AssemblyDatasetAvailability](docs/V1alpha1AssemblyDatasetAvailability.md)
  - [V1alpha1AssemblyDatasetDescriptor](docs/V1alpha1AssemblyDatasetDescriptor.md)
  - [V1alpha1AssemblyDatasetDescriptors](docs/V1alpha1AssemblyDatasetDescriptors.md)
  - [V1alpha1AssemblyDatasetDescriptorsFilter](docs/V1alpha1AssemblyDatasetDescriptorsFilter.md)
  - [V1alpha1AssemblyDatasetDescriptorsRequestContentType](docs/V1alpha1AssemblyDatasetDescriptorsRequestContentType.md)
  - [V1alpha1AssemblyDatasetRequest](docs/V1alpha1AssemblyDatasetRequest.md)
+ - [V1alpha1AssemblyMatch](docs/V1alpha1AssemblyMatch.md)
+ - [V1alpha1AssemblyMetadata](docs/V1alpha1AssemblyMetadata.md)
+ - [V1alpha1AssemblyMetadataRequestContentType](docs/V1alpha1AssemblyMetadataRequestContentType.md)
  - [V1alpha1DownloadSummary](docs/V1alpha1DownloadSummary.md)
  - [V1alpha1Error](docs/V1alpha1Error.md)
  - [V1alpha1GeneDatasetRequest](docs/V1alpha1GeneDatasetRequest.md)
  - [V1alpha1GeneDatasetRequestContentType](docs/V1alpha1GeneDatasetRequestContentType.md)
  - [V1alpha1GeneDescriptor](docs/V1alpha1GeneDescriptor.md)
  - [V1alpha1GeneDescriptors](docs/V1alpha1GeneDescriptors.md)
+ - [V1alpha1GeneMatch](docs/V1alpha1GeneMatch.md)
+ - [V1alpha1GeneMetadata](docs/V1alpha1GeneMetadata.md)
  - [V1alpha1GenomicRegion](docs/V1alpha1GenomicRegion.md)
  - [V1alpha1MaturePeptide](docs/V1alpha1MaturePeptide.md)
+ - [V1alpha1Message](docs/V1alpha1Message.md)
  - [V1alpha1NomenclatureAuthority](docs/V1alpha1NomenclatureAuthority.md)
  - [V1alpha1Organism](docs/V1alpha1Organism.md)
  - [V1alpha1Orientation](docs/V1alpha1Orientation.md)
@@ -145,7 +155,9 @@ Class | Method | HTTP request | Description
  - [V1alpha1Range](docs/V1alpha1Range.md)
  - [V1alpha1SciNameAndIds](docs/V1alpha1SciNameAndIds.md)
  - [V1alpha1SeqRangeSet](docs/V1alpha1SeqRangeSet.md)
+ - [V1alpha1TabularOutput](docs/V1alpha1TabularOutput.md)
  - [V1alpha1Transcript](docs/V1alpha1Transcript.md)
+ - [V1alpha1VirusTableField](docs/V1alpha1VirusTableField.md)
 
 
 ## Documentation For Authorization

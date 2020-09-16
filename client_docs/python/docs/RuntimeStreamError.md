@@ -1,10 +1,13 @@
-# V1alpha1AnnotationForAssemblyFile
+# RuntimeStreamError
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**estimated_size** | **str** |  | [optional] 
-**type** | [**V1alpha1AnnotationForAssemblyType**](V1alpha1AnnotationForAssemblyType.md) |  | [optional] 
+**details** | [**list[ProtobufAny]**](ProtobufAny.md) |  | [optional] 
+**grpc_code** | **int** |  | [optional] 
+**http_code** | **int** |  | [optional] 
+**http_status** | **str** |  | [optional] 
+**message** | **str** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
