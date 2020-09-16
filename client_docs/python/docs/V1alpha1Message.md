@@ -1,10 +1,9 @@
-# V1alpha1AnnotationForAssemblyFile
+# V1alpha1Message
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**estimated_size** | **str** |  | [optional] 
-**type** | [**V1alpha1AnnotationForAssemblyType**](V1alpha1AnnotationForAssemblyType.md) |  | [optional] 
+**error** | [**V1alpha1Error**](V1alpha1Error.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **dehydrated** | [**DownloadSummaryDehydrated**](DownloadSummaryDehydrated.md) |  | [optional] 
 **errors** | [**list[V1alpha1Error]**](V1alpha1Error.md) |  | [optional] 
 **hydrated** | [**DownloadSummaryHydrated**](DownloadSummaryHydrated.md) |  | [optional] 
+**messages** | [**list[V1alpha1Message]**](V1alpha1Message.md) |  | [optional] 
 **record_count** | **int** | The number of records for the requested filter. | [optional] 
 **resource_updated_on** | **datetime** | The latest date on which the resource was updated. | [optional] 
 

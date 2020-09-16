@@ -4,7 +4,7 @@ NCBI Datasets is a new resource that lets you easily gather data from across NCB
 
 NCBI Datasets uses an iterative software development approach based on user research and interviews, with the goal of helping users to find the data they want more quickly and easily, in file formats that can be used with common bioinformatics workflows.
 
-Use this python package with our [RESTful API](https://api.ncbi.nlm.nih.gov/datasets/v1alpha/) to get genome datasets including sequence, annotation and a data report containing detailed metadata, for organisms representing all domains of life.
+Use this python package with our [RESTful API](https://www.ncbi.nlm.nih.gov/datasets/docs/datasets-api/) to get genome datasets including sequence, annotation and a data report containing detailed metadata, for organisms representing all domains of life.
 
 We have recently added viral genome and protein datasets for SARS-CoV-2.
 These datasets include sequence, annotation and a data report containing isolate, host, collection date and other metadata. Viral genome datasets are also available for other viruses in the coronavirus family.
