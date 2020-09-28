@@ -1,4 +1,4 @@
-# V1alpha1Error
+# Datasetsv1alpha1Error
 
 ## Properties
 Name | Type | Description | Notes
