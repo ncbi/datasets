@@ -140,6 +140,13 @@ definitions:
     - BIOLOGICAL_REGION
     - OTHER
     type: string
+  MicroBiggeDatasetRequestElementFlankConfig:
+    properties:
+      length:
+        format: int64
+        type: integer
+    title: configuration options for gene file output
+    type: object
   OrganismCountByType:
     properties:
       counts:
@@ -220,6 +227,45 @@ definitions:
     - PROTEIN_CODING_MODEL
     - NON_CODING_MODEL
     type: string
+  datasetsv1alpha1Error:
+    properties:
+      assembly_error_code:
+        $ref: '#/definitions/ErrorAssemblyErrorCode'
+      gene_error_code:
+        $ref: '#/definitions/ErrorGeneErrorCode'
+      invalid_identifiers:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+      reason:
+        type: string
+      replaced_ids:
+        items:
+          $ref: '#/definitions/ErrorReplacedId'
+        type: array
+      valid_identifiers:
+        items:
+          type: string
+        type: array
+      virus_error_code:
+        $ref: '#/definitions/ErrorVirusErrorCode'
+    type: object
+  gatewayruntimeError:
+    properties:
+      code:
+        format: int32
+        type: integer
+      details:
+        items:
+          $ref: '#/definitions/protobufAny'
+        type: array
+      error:
+        type: string
+      message:
+        type: string
+    type: object
   protobufAny:
     properties:
       type_url:
@@ -285,6 +331,7 @@ definitions:
     - GENOME_GB
     - RNA_FASTA
     - PROT_FASTA
+    - GENOME_GTF
     type: string
   v1alpha1AnnotationForVirusType:
     default: DEFAULT
@@ -373,11 +420,9 @@ definitions:
   v1alpha1AssemblyDatasetDescriptorsFilter:
     properties:
       reference_only:
-        format: boolean
         type: boolean
       refseq_only:
         description: If true, only return RefSeq (GCF_) assemblies.
-        format: boolean
         type: boolean
     type: object
   v1alpha1AssemblyDatasetDescriptorsRequestContentType:
@@ -412,12 +457,10 @@ definitions:
         type: array
       exclude_sequence:
         description: Set to true to omit the genomic sequence.
-        format: boolean
         type: boolean
       hydrated:
         $ref: '#/definitions/AssemblyDatasetRequestResolution'
       include_annotation:
-        format: boolean
         type: boolean
       include_annotation_type:
         items:
@@ -465,7 +508,7 @@ definitions:
         $ref: '#/definitions/DownloadSummaryDehydrated'
       errors:
         items:
-          $ref: '#/definitions/v1alpha1Error'
+          $ref: '#/definitions/datasetsv1alpha1Error'
         type: array
       hydrated:
         $ref: '#/definitions/DownloadSummaryHydrated'
@@ -481,31 +524,6 @@ definitions:
         description: The latest date on which the resource was updated.
         format: date-time
         type: string
-    type: object
-  v1alpha1Error:
-    properties:
-      assembly_error_code:
-        $ref: '#/definitions/ErrorAssemblyErrorCode'
-      gene_error_code:
-        $ref: '#/definitions/ErrorGeneErrorCode'
-      invalid_identifiers:
-        items:
-          type: string
-        type: array
-      message:
-        type: string
-      reason:
-        type: string
-      replaced_ids:
-        items:
-          $ref: '#/definitions/ErrorReplacedId'
-        type: array
-      valid_identifiers:
-        items:
-          type: string
-        type: array
-      virus_error_code:
-        $ref: '#/definitions/ErrorVirusErrorCode'
     type: object
   v1alpha1GeneDatasetRequest:
     properties:
@@ -613,7 +631,7 @@ definitions:
     properties:
       errors:
         items:
-          $ref: '#/definitions/v1alpha1Error'
+          $ref: '#/definitions/datasetsv1alpha1Error'
         type: array
       genes:
         items:
@@ -666,8 +684,17 @@ definitions:
   v1alpha1Message:
     properties:
       error:
-        $ref: '#/definitions/v1alpha1Error'
+        $ref: '#/definitions/datasetsv1alpha1Error'
     type: object
+  v1alpha1MicroBiggeDatasetRequestFileType:
+    default: FILE_TYPE_UNSPECIFIED
+    enum:
+    - FILE_TYPE_UNSPECIFIED
+    - element_fasta
+    - element_flank_fasta
+    - contig_fasta
+    - protein_fasta
+    type: string
   v1alpha1NomenclatureAuthority:
     description: The authority and record by which NCBI has named the gene.
     properties:
@@ -686,7 +713,6 @@ definitions:
         $ref: '#/definitions/OrganismCounts'
         title: assembly_counts will soon be deprecated
       blast_node:
-        format: boolean
         title: True if a blast nodes
         type: boolean
       breed:
@@ -711,7 +737,6 @@ definitions:
         title: Infraspecies ecotype
         type: string
       icon:
-        format: boolean
         type: boolean
       isolate:
         title: Infraspecies isolate
@@ -908,6 +933,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1GeneMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene metadata
       tags:
       - Gene
@@ -958,6 +987,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1GeneMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene metadata by RefSeq Accession
       tags:
       - Gene
@@ -1008,6 +1041,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene download summary by RefSeq Accession
       tags:
       - Gene
@@ -1055,6 +1092,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene download summary
       tags:
       - Gene
@@ -1106,6 +1147,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1GeneMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene metadata by GeneID
       tags:
       - Gene
@@ -1226,6 +1271,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene download summary by GeneID
       tags:
       - Gene
@@ -1280,6 +1329,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1GeneMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene metadata by gene symbol.
       tags:
       - Gene
@@ -1334,6 +1387,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get gene download summary by gene symbol.
       tags:
       - Gene
@@ -1353,6 +1410,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1Organism'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Retrieve tax tree
       tags:
       - Gene
@@ -1374,6 +1435,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1SciNameAndIds'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get a list of taxonomy names and IDs found in the gene dataset given
         a partial taxonomic name.
       tags:
@@ -1400,7 +1465,6 @@ paths:
         required: false
         type: string
       - description: If true, only return RefSeq (GCF_) assemblies.
-        format: boolean
         in: query
         name: filters.refseq_only
         required: false
@@ -1418,6 +1482,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1AssemblyMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get genome metadata by accession
       tags:
       - Genome
@@ -1482,7 +1550,6 @@ paths:
         required: false
         type: array
       - description: Set to true to omit the genomic sequence.
-        format: boolean
         in: query
         name: exclude_sequence
         required: false
@@ -1497,6 +1564,7 @@ paths:
           - GENOME_GBFF
           - RNA_FASTA
           - PROT_FASTA
+          - GENOME_GTF
           type: string
         name: include_annotation_type
         required: false
@@ -1559,7 +1627,6 @@ paths:
         required: false
         type: array
       - description: Set to true to omit the genomic sequence.
-        format: boolean
         in: query
         name: exclude_sequence
         required: false
@@ -1574,6 +1641,7 @@ paths:
           - GENOME_GBFF
           - RNA_FASTA
           - PROT_FASTA
+          - GENOME_GTF
           type: string
         name: include_annotation_type
         required: false
@@ -1593,6 +1661,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Preview genome dataset download
       tags:
       - Genome
@@ -1671,6 +1743,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Preview genome dataset download by POST
       tags:
       - Genome
@@ -1694,7 +1770,6 @@ paths:
         required: false
         type: string
       - description: If true, only return RefSeq (GCF_) assemblies.
-        format: boolean
         in: query
         name: filters.refseq_only
         required: false
@@ -1705,7 +1780,6 @@ paths:
           Otherwise, assemblies from taxonomy subtree are included, too.
 
           Ignored for assembly_accession request.'
-        format: boolean
         in: query
         name: tax_exact_match
         required: false
@@ -1723,6 +1797,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1AssemblyMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get genome metadata by taxonomic identifier
       tags:
       - Genome
@@ -1743,6 +1821,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1Organism'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get a taxonomic subtree by taxonomic identifier
       tags:
       - Genome
@@ -1764,6 +1846,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1SciNameAndIds'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get a list of taxonomy names and IDs found in the assembly dataset
         given a partial taxonomic name.
       tags:
@@ -1783,13 +1869,11 @@ paths:
         required: true
         type: array
       - description: If true, limit results to RefSeq genomes.
-        format: boolean
         in: query
         name: refseq_only
         required: false
         type: boolean
       - description: If true, limit results to annotated genomes.
-        format: boolean
         in: query
         name: annotated_only
         required: false
@@ -1814,15 +1898,8 @@ paths:
         required: false
         type: string
       - description: only include complete genomes.
-        format: boolean
         in: query
         name: complete_only
-        required: false
-        type: boolean
-      - description: Set to true to omit the genomic sequence.
-        format: boolean
-        in: query
-        name: exclude_sequence
         required: false
         type: boolean
       - collectionFormat: multi
@@ -1831,10 +1908,8 @@ paths:
         in: query
         items:
           enum:
-          - DEFAULT
           - CDS_FASTA
           - PROT_FASTA
-          - GENOME_GBFF
           - GENOME_GPFF
           - PDB_FILES
           type: string
@@ -1848,6 +1923,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
       tags:
       - Virus
@@ -1866,13 +1945,11 @@ paths:
         required: true
         type: array
       - description: If true, limit results to RefSeq genomes.
-        format: boolean
         in: query
         name: refseq_only
         required: false
         type: boolean
       - description: If true, limit results to annotated genomes.
-        format: boolean
         in: query
         name: annotated_only
         required: false
@@ -1897,15 +1974,8 @@ paths:
         required: false
         type: string
       - description: only include complete genomes.
-        format: boolean
         in: query
         name: complete_only
-        required: false
-        type: boolean
-      - description: Set to true to omit the genomic sequence.
-        format: boolean
-        in: query
-        name: exclude_sequence
         required: false
         type: boolean
       - collectionFormat: multi
@@ -1914,10 +1984,8 @@ paths:
         in: query
         items:
           enum:
-          - DEFAULT
           - CDS_FASTA
           - PROT_FASTA
-          - GENOME_GBFF
           - GENOME_GPFF
           - PDB_FILES
           type: string
@@ -1958,13 +2026,11 @@ paths:
         required: true
         type: array
       - description: If true, limit results to RefSeq genomes.
-        format: boolean
         in: query
         name: refseq_only
         required: false
         type: boolean
       - description: If true, limit results to annotated genomes.
-        format: boolean
         in: query
         name: annotated_only
         required: false
@@ -1989,7 +2055,6 @@ paths:
         required: false
         type: string
       - description: only include complete genomes.
-        format: boolean
         in: query
         name: complete_only
         required: false
@@ -2024,28 +2089,6 @@ paths:
         name: table_fields
         required: false
         type: array
-      - description: Set to true to omit the genomic sequence.
-        format: boolean
-        in: query
-        name: exclude_sequence
-        required: false
-        type: boolean
-      - collectionFormat: multi
-        description: Select additional types of annotation to include in the data
-          package.
-        in: query
-        items:
-          enum:
-          - DEFAULT
-          - CDS_FASTA
-          - PROT_FASTA
-          - GENOME_GBFF
-          - GENOME_GPFF
-          - PDB_FILES
-          type: string
-        name: include_annotation_type
-        required: false
-        type: array
       produces:
       - application/tsv
       responses:
@@ -2059,6 +2102,10 @@ paths:
                 $ref: '#/definitions/v1alpha1TabularOutput'
             title: Stream result of v1alpha1TabularOutput
             type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get SARS-CoV-2 protein metadata in a tabular format.
       tags:
       - Virus
@@ -2075,13 +2122,11 @@ paths:
         required: true
         type: string
       - description: If true, limit results to RefSeq genomes.
-        format: boolean
         in: query
         name: refseq_only
         required: false
         type: boolean
       - description: If true, limit results to annotated genomes.
-        format: boolean
         in: query
         name: annotated_only
         required: false
@@ -2106,13 +2151,11 @@ paths:
         required: false
         type: string
       - description: only include complete genomes.
-        format: boolean
         in: query
         name: complete_only
         required: false
         type: boolean
       - description: Set to true to omit the genomic sequence.
-        format: boolean
         in: query
         name: exclude_sequence
         required: false
@@ -2138,6 +2181,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1DownloadSummary'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get summary data for Coronaviridae genomes by taxon
       tags:
       - Virus
@@ -2153,13 +2200,11 @@ paths:
         required: true
         type: string
       - description: If true, limit results to RefSeq genomes.
-        format: boolean
         in: query
         name: refseq_only
         required: false
         type: boolean
       - description: If true, limit results to annotated genomes.
-        format: boolean
         in: query
         name: annotated_only
         required: false
@@ -2184,13 +2229,11 @@ paths:
         required: false
         type: string
       - description: only include complete genomes.
-        format: boolean
         in: query
         name: complete_only
         required: false
         type: boolean
       - description: Set to true to omit the genomic sequence.
-        format: boolean
         in: query
         name: exclude_sequence
         required: false
@@ -2243,13 +2286,11 @@ paths:
         required: true
         type: string
       - description: If true, limit results to RefSeq genomes.
-        format: boolean
         in: query
         name: refseq_only
         required: false
         type: boolean
       - description: If true, limit results to annotated genomes.
-        format: boolean
         in: query
         name: annotated_only
         required: false
@@ -2274,7 +2315,6 @@ paths:
         required: false
         type: string
       - description: only include complete genomes.
-        format: boolean
         in: query
         name: complete_only
         required: false
@@ -2310,7 +2350,6 @@ paths:
         required: false
         type: array
       - description: Set to true to omit the genomic sequence.
-        format: boolean
         in: query
         name: exclude_sequence
         required: false
@@ -2344,6 +2383,10 @@ paths:
                 $ref: '#/definitions/v1alpha1TabularOutput'
             title: Stream result of v1alpha1TabularOutput
             type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Get viral genomic metadata in a tabular format.
       tags:
       - Virus

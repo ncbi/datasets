@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **sars2_protein_download**
-> file sars2_protein_download(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
+> file sars2_protein_download(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type, filename=filename)
 
 Download SARS-CoV-2 protein and CDS datasets by protein name
 
@@ -45,13 +45,12 @@ released_since = '2013-10-20T19:20:30+01:00' # datetime | If set, limit results 
 host = 'host_example' # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. (optional)
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
-exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
         # Download SARS-CoV-2 protein and CDS datasets by protein name
-        api_response = api_instance.sars2_protein_download(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
+        api_response = api_instance.sars2_protein_download(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_download: %s\n" % e)
@@ -68,7 +67,6 @@ Name | Type | Description  | Notes
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. | [optional] 
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
- **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
@@ -93,7 +91,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **sars2_protein_summary**
-> V1alpha1DownloadSummary sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+> V1alpha1DownloadSummary sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type)
 
 Summary of SARS-CoV-2 protein and CDS datasets by protein name
 
@@ -125,12 +123,11 @@ released_since = '2013-10-20T19:20:30+01:00' # datetime | If set, limit results 
 host = 'host_example' # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. (optional)
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
-exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
 
     try:
         # Summary of SARS-CoV-2 protein and CDS datasets by protein name
-        api_response = api_instance.sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+        api_response = api_instance.sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_summary: %s\n" % e)
@@ -147,7 +144,6 @@ Name | Type | Description  | Notes
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. | [optional] 
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
- **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
 
 ### Return type
@@ -167,11 +163,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **sars2_protein_table**
-> StreamResultOfV1alpha1TabularOutput sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+> StreamResultOfV1alpha1TabularOutput sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields)
 
 Get SARS-CoV-2 protein metadata in a tabular format.
 
@@ -204,12 +201,10 @@ host = 'host_example' # str | If set, limit results to genomes extracted from th
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
 table_fields = ['table_fields_example'] # list[str] | Specify which fields to include in the tabular report. (optional)
-exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
 
     try:
         # Get SARS-CoV-2 protein metadata in a tabular format.
-        api_response = api_instance.sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+        api_response = api_instance.sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_table: %s\n" % e)
@@ -227,8 +222,6 @@ Name | Type | Description  | Notes
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **table_fields** | [**list[str]**](str.md)| Specify which fields to include in the tabular report. | [optional] 
- **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
 
 ### Return type
 
@@ -247,6 +240,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response.(streaming responses) |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -405,6 +399,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -485,6 +480,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response.(streaming responses) |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
