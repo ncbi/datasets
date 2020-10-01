@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **exclude_sequence** | **bool** | Set to true to omit the genomic sequence. | [optional] 
 **hydrated** | [**AssemblyDatasetRequestResolution**](AssemblyDatasetRequestResolution.md) |  | [optional] 
 **include_annotation** | **bool** |  | [optional] 
-**include_annotation_type** | [**list[V1alpha1AnnotationForAssemblyType]**](V1alpha1AnnotationForAssemblyType.md) |  | [optional] 
+**include_annotation_type** | [**list[V1alpha1AnnotationForAssemblyType]**](V1alpha1AnnotationForAssemblyType.md) | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -45,7 +45,7 @@ released_since = '2013-10-20T19:20:30+01:00' # datetime | If set, limit results 
 host = 'host_example' # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. (optional)
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. | [optional] 
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
@@ -123,7 +123,7 @@ released_since = '2013-10-20T19:20:30+01:00' # datetime | If set, limit results 
 host = 'host_example' # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. (optional)
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 
     try:
         # Summary of SARS-CoV-2 protein and CDS datasets by protein name
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) or its taxonomic descendants. | [optional] 
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 
 ### Return type
 
@@ -278,7 +278,7 @@ host = 'host_example' # str | If set, limit results to genomes extracted from th
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
@@ -301,7 +301,7 @@ Name | Type | Description  | Notes
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
@@ -358,7 +358,7 @@ host = 'host_example' # str | If set, limit results to genomes extracted from th
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 
     try:
         # Get summary data for Coronaviridae genomes by taxon
@@ -380,7 +380,7 @@ Name | Type | Description  | Notes
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 
 ### Return type
 
@@ -438,7 +438,7 @@ geo_location = 'geo_location_example' # str | Assemblies from this location (cou
 complete_only = True # bool | only include complete genomes. (optional)
 table_fields = ['table_fields_example'] # list[str] | Specify which fields to include in the tabular report. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 
     try:
         # Get viral genomic metadata in a tabular format.
@@ -461,7 +461,7 @@ Name | Type | Description  | Notes
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **table_fields** | [**list[str]**](str.md)| Specify which fields to include in the tabular report. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 
 ### Return type
 

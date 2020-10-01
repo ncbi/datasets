@@ -73,8 +73,6 @@ definitions:
     - FASTA_GENE
     - FASTA_RNA
     - FASTA_PROTEIN
-    - FASTA_ALL
-    - FASTA_NONE
     type: string
   GeneDatasetRequestSort:
     properties:
@@ -463,9 +461,10 @@ definitions:
       include_annotation:
         type: boolean
       include_annotation_type:
+        description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
         items:
           $ref: '#/definitions/v1alpha1AnnotationForAssemblyType'
-        title: Select additional types of annotation to include in the data package
         type: array
     type: object
   v1alpha1AssemblyMatch:
@@ -538,6 +537,8 @@ definitions:
           type: integer
         type: array
       include_annotation_type:
+        description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
         items:
           $ref: '#/definitions/GeneDatasetRequestFasta'
         type: array
@@ -1173,15 +1174,15 @@ paths:
         type: array
       - collectionFormat: multi
         default:
-        - FASTA_ALL
+        - FASTA_GENE
+        description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
           - FASTA_GENE
           - FASTA_RNA
           - FASTA_PROTEIN
-          - FASTA_ALL
-          - FASTA_NONE
           type: string
         name: include_annotation_type
         required: false
@@ -1556,7 +1557,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
@@ -1633,7 +1634,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
@@ -1904,7 +1905,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
@@ -1980,7 +1981,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
@@ -2162,7 +2163,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
@@ -2240,7 +2241,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
@@ -2356,7 +2357,7 @@ paths:
         type: boolean
       - collectionFormat: multi
         description: Select additional types of annotation to include in the data
-          package.
+          package.  If unset, no annotation is provided.
         in: query
         items:
           enum:

@@ -309,7 +309,7 @@ with ncbi.datasets.ApiClient() as api_client:
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
 chromosomes = ['chromosomes_example'] # list[str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 hydrated = 'FULLY_HYDRATED' # str |  (optional) (default to 'FULLY_HYDRATED')
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
@@ -328,7 +328,7 @@ Name | Type | Description  | Notes
  **accessions** | [**list[str]**](str.md)| NCBI genome assembly accessions | 
  **chromosomes** | [**list[str]**](str.md)| The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **hydrated** | **str**|  | [optional] [default to &#39;FULLY_HYDRATED&#39;]
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
@@ -445,7 +445,7 @@ with ncbi.datasets.ApiClient() as api_client:
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
 chromosomes = ['chromosomes_example'] # list[str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package. (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 hydrated = 'FULLY_HYDRATED' # str |  (optional) (default to 'FULLY_HYDRATED')
 
     try:
@@ -463,7 +463,7 @@ Name | Type | Description  | Notes
  **accessions** | [**list[str]**](str.md)| NCBI genome assembly accessions | 
  **chromosomes** | [**list[str]**](str.md)| The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package. | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **hydrated** | **str**|  | [optional] [default to &#39;FULLY_HYDRATED&#39;]
 
 ### Return type
