@@ -47,7 +47,7 @@ with ncbi.datasets.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     gene_ids = [56] # list[int] | 
-include_annotation_type = ['include_annotation_type_example'] # list[str] |  (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')

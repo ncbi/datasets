@@ -45,7 +45,7 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     gene_ids = [56] # list[int] | 
-include_annotation_type = ['include_annotation_type_example'] # list[str] |  (optional)
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
@@ -63,7 +63,7 @@ filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to '
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)|  | 
- **include_annotation_type** | [**list[str]**](str.md)|  | [optional] 
+ **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
  **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]

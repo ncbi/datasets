@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **accessions** | **list[str]** | RNA or Protein accessions. | [optional] 
 **gene_ids** | **list[int]** |  | [optional] 
-**include_annotation_type** | [**list[GeneDatasetRequestFasta]**](GeneDatasetRequestFasta.md) |  | [optional] 
+**include_annotation_type** | [**list[GeneDatasetRequestFasta]**](GeneDatasetRequestFasta.md) | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 **returned_content** | [**V1alpha1GeneDatasetRequestContentType**](V1alpha1GeneDatasetRequestContentType.md) |  | [optional] 
 **sort_schema** | [**GeneDatasetRequestSort**](GeneDatasetRequestSort.md) |  | [optional] 
 **symbols_for_taxon** | [**GeneDatasetRequestSymbolsForTaxon**](GeneDatasetRequestSymbolsForTaxon.md) |  | [optional] 
