@@ -77,17 +77,10 @@ definitions:
   GeneDatasetRequestSort:
     properties:
       direction:
-        $ref: '#/definitions/GeneDatasetRequestSortDirection'
+        $ref: '#/definitions/v1alpha1SortDirection'
       field:
         $ref: '#/definitions/GeneDatasetRequestSortField'
     type: object
-  GeneDatasetRequestSortDirection:
-    default: SORT_DIRECTION_UNSPECIFIED
-    enum:
-    - SORT_DIRECTION_UNSPECIFIED
-    - SORT_DIRECTION_ASCENDING
-    - SORT_DIRECTION_DESCENDING
-    type: string
   GeneDatasetRequestSortField:
     default: SORT_FIELD_UNSPECIFIED
     enum:
@@ -855,6 +848,13 @@ definitions:
         title: Series of intervals on above accession_version
         type: array
     type: object
+  v1alpha1SortDirection:
+    default: SORT_DIRECTION_UNSPECIFIED
+    enum:
+    - SORT_DIRECTION_UNSPECIFIED
+    - SORT_DIRECTION_ASCENDING
+    - SORT_DIRECTION_DESCENDING
+    type: string
   v1alpha1TabularOutput:
     properties:
       data:
@@ -908,6 +908,7 @@ definitions:
     - protein_name
     - protein_accession
     - protein_synonym
+    - cds_span
     type: string
 externalDocs:
   description: Interactively explore genome assembly datasets
@@ -2065,7 +2066,6 @@ paths:
         in: query
         items:
           enum:
-          - unspecified
           - nucleotide_accession
           - species_tax_id
           - species_name
@@ -2086,6 +2086,7 @@ paths:
           - protein_name
           - protein_accession
           - protein_synonym
+          - cds_span
           type: string
         name: table_fields
         required: false
@@ -2325,7 +2326,6 @@ paths:
         in: query
         items:
           enum:
-          - unspecified
           - nucleotide_accession
           - species_tax_id
           - species_name
@@ -2346,29 +2346,9 @@ paths:
           - protein_name
           - protein_accession
           - protein_synonym
+          - cds_span
           type: string
         name: table_fields
-        required: false
-        type: array
-      - description: Set to true to omit the genomic sequence.
-        in: query
-        name: exclude_sequence
-        required: false
-        type: boolean
-      - collectionFormat: multi
-        description: Select additional types of annotation to include in the data
-          package.  If unset, no annotation is provided.
-        in: query
-        items:
-          enum:
-          - DEFAULT
-          - CDS_FASTA
-          - PROT_FASTA
-          - GENOME_GBFF
-          - GENOME_GPFF
-          - PDB_FILES
-          type: string
-        name: include_annotation_type
         required: false
         type: array
       produces:

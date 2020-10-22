@@ -404,7 +404,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **virus_genome_table**
-> StreamResultOfV1alpha1TabularOutput virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+> StreamResultOfV1alpha1TabularOutput virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields)
 
 Get viral genomic metadata in a tabular format.
 
@@ -437,12 +437,10 @@ host = 'host_example' # str | If set, limit results to genomes extracted from th
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
 table_fields = ['table_fields_example'] # list[str] | Specify which fields to include in the tabular report. (optional)
-exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 
     try:
         # Get viral genomic metadata in a tabular format.
-        api_response = api_instance.virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+        api_response = api_instance.virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->virus_genome_table: %s\n" % e)
@@ -460,8 +458,6 @@ Name | Type | Description  | Notes
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **table_fields** | [**list[str]**](str.md)| Specify which fields to include in the tabular report. | [optional] 
- **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
- **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 
 ### Return type
 
