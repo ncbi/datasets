@@ -5,6 +5,7 @@ All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**assembly_descriptors_by_accessions**](GenomeApi.md#assembly_descriptors_by_accessions) | **GET** /genome/accession/{accessions} | Get genome metadata by accession
+[**assembly_descriptors_by_bioproject**](GenomeApi.md#assembly_descriptors_by_bioproject) | **GET** /genome/bioproject/{accessions} | Get genome metadata by bioproject accession
 [**assembly_descriptors_by_taxon**](GenomeApi.md#assembly_descriptors_by_taxon) | **GET** /genome/taxon/{taxon} | Get genome metadata by taxonomic identifier
 [**check_assembly_availability**](GenomeApi.md#check_assembly_availability) | **GET** /genome/accession/{accessions}/check | Check the validity of genome accessions
 [**check_assembly_availability_post**](GenomeApi.md#check_assembly_availability_post) | **POST** /genome/check | Check the validity of many genome accessions in a single request
@@ -53,6 +54,75 @@ returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_accessions: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **accessions** | [**list[str]**](str.md)|  | 
+ **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
+ **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
+ **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
+
+### Return type
+
+[**V1alpha1AssemblyMetadata**](V1alpha1AssemblyMetadata.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **assembly_descriptors_by_bioproject**
+> V1alpha1AssemblyMetadata assembly_descriptors_by_bioproject(accessions, limit=limit, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+
+Get genome metadata by bioproject accession
+
+Get detailed metadata for assembled genomes by bioproject accession in a JSON output format.
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.GenomeApi(api_client)
+    accessions = ['accessions_example'] # list[str] | 
+limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
+filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
+returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
+
+    try:
+        # Get genome metadata by bioproject accession
+        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, limit=limit, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling GenomeApi->assembly_descriptors_by_bioproject: %s\n" % e)
 ```
 
 ### Parameters
@@ -157,7 +227,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **check_assembly_availability**
-> V1alpha1AssemblyDatasetAvailability check_assembly_availability(accessions)
+> V1alpha1AssemblyDatasetAvailability check_assembly_availability(accessions, include_tsv=include_tsv)
 
 Check the validity of genome accessions
 
@@ -183,10 +253,11 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
+include_tsv = True # bool |  (optional)
 
     try:
         # Check the validity of genome accessions
-        api_response = api_instance.check_assembly_availability(accessions)
+        api_response = api_instance.check_assembly_availability(accessions, include_tsv=include_tsv)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->check_assembly_availability: %s\n" % e)
@@ -197,6 +268,7 @@ with ncbi.datasets.ApiClient() as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)| NCBI genome assembly accessions | 
+ **include_tsv** | **bool**|  | [optional] 
 
 ### Return type
 
@@ -215,6 +287,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -277,6 +350,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -349,6 +423,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file. |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -413,11 +488,12 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file. |  -  |
+**0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **genome_download_summary**
-> V1alpha1DownloadSummary genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated)
+> V1alpha1DownloadSummary genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated, include_tsv=include_tsv)
 
 Preview genome dataset download
 
@@ -447,10 +523,11 @@ chromosomes = ['chromosomes_example'] # list[str] | The default setting is all c
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 hydrated = 'FULLY_HYDRATED' # str |  (optional) (default to 'FULLY_HYDRATED')
+include_tsv = True # bool |  (optional)
 
     try:
         # Preview genome dataset download
-        api_response = api_instance.genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated)
+        api_response = api_instance.genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated, include_tsv=include_tsv)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->genome_download_summary: %s\n" % e)
@@ -465,6 +542,7 @@ Name | Type | Description  | Notes
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **hydrated** | **str**|  | [optional] [default to &#39;FULLY_HYDRATED&#39;]
+ **include_tsv** | **bool**|  | [optional] 
 
 ### Return type
 

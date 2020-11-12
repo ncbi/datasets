@@ -80,6 +80,7 @@ Class | Method | HTTP request | Description
 *GeneApi* | [**gene_tax_name_query**](docs/GeneApi.md#gene_tax_name_query) | **GET** /gene/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the gene dataset given a partial taxonomic name.
 *GeneApi* | [**gene_tax_tree**](docs/GeneApi.md#gene_tax_tree) | **GET** /gene/taxon/{taxon}/tree | Retrieve tax tree
 *GenomeApi* | [**assembly_descriptors_by_accessions**](docs/GenomeApi.md#assembly_descriptors_by_accessions) | **GET** /genome/accession/{accessions} | Get genome metadata by accession
+*GenomeApi* | [**assembly_descriptors_by_bioproject**](docs/GenomeApi.md#assembly_descriptors_by_bioproject) | **GET** /genome/bioproject/{accessions} | Get genome metadata by bioproject accession
 *GenomeApi* | [**assembly_descriptors_by_taxon**](docs/GenomeApi.md#assembly_descriptors_by_taxon) | **GET** /genome/taxon/{taxon} | Get genome metadata by taxonomic identifier
 *GenomeApi* | [**check_assembly_availability**](docs/GenomeApi.md#check_assembly_availability) | **GET** /genome/accession/{accessions}/check | Check the validity of genome accessions
 *GenomeApi* | [**check_assembly_availability_post**](docs/GenomeApi.md#check_assembly_availability_post) | **POST** /genome/check | Check the validity of many genome accessions in a single request
@@ -101,6 +102,7 @@ Class | Method | HTTP request | Description
 
  - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
  - [AssemblyMetadataRequestAccessions](docs/AssemblyMetadataRequestAccessions.md)
+ - [AssemblyMetadataRequestBioprojects](docs/AssemblyMetadataRequestBioprojects.md)
  - [Datasetsv1alpha1Error](docs/Datasetsv1alpha1Error.md)
  - [DownloadSummaryDehydrated](docs/DownloadSummaryDehydrated.md)
  - [DownloadSummaryHydrated](docs/DownloadSummaryHydrated.md)
@@ -139,6 +141,8 @@ Class | Method | HTTP request | Description
  - [V1alpha1AssemblyMatch](docs/V1alpha1AssemblyMatch.md)
  - [V1alpha1AssemblyMetadata](docs/V1alpha1AssemblyMetadata.md)
  - [V1alpha1AssemblyMetadataRequestContentType](docs/V1alpha1AssemblyMetadataRequestContentType.md)
+ - [V1alpha1BioProject](docs/V1alpha1BioProject.md)
+ - [V1alpha1BioProjectLineage](docs/V1alpha1BioProjectLineage.md)
  - [V1alpha1DownloadSummary](docs/V1alpha1DownloadSummary.md)
  - [V1alpha1GeneDatasetRequest](docs/V1alpha1GeneDatasetRequest.md)
  - [V1alpha1GeneDatasetRequestContentType](docs/V1alpha1GeneDatasetRequestContentType.md)
@@ -158,6 +162,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1SciNameAndIds](docs/V1alpha1SciNameAndIds.md)
  - [V1alpha1SeqRangeSet](docs/V1alpha1SeqRangeSet.md)
  - [V1alpha1SortDirection](docs/V1alpha1SortDirection.md)
+ - [V1alpha1TableFormat](docs/V1alpha1TableFormat.md)
  - [V1alpha1TabularOutput](docs/V1alpha1TabularOutput.md)
  - [V1alpha1Transcript](docs/V1alpha1Transcript.md)
  - [V1alpha1VirusTableField](docs/V1alpha1VirusTableField.md)
