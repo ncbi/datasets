@@ -15,6 +15,13 @@ definitions:
           type: string
         type: array
     type: object
+  AssemblyMetadataRequestBioprojects:
+    properties:
+      accessions:
+        items:
+          type: string
+        type: array
+    type: object
   DownloadSummaryDehydrated:
     properties:
       cli_download_command_line:
@@ -364,6 +371,11 @@ definitions:
         title: The level of the assembly, e.g. Chromosome, Scaffold, Contig or Complete
           Genome
         type: string
+      bioproject_lineages:
+        items:
+          $ref: '#/definitions/v1alpha1BioProjectLineage'
+        title: The bioproject(s) associated with this assembly
+        type: array
       chromosomes:
         description: 'Which chromosomes are included in this dataset.
 
@@ -459,6 +471,8 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1AnnotationForAssemblyType'
         type: array
+      include_tsv:
+        type: boolean
     type: object
   v1alpha1AssemblyMatch:
     properties:
@@ -490,6 +504,23 @@ definitions:
     - COMPLETE
     - ASSM_ACC
     type: string
+  v1alpha1BioProject:
+    properties:
+      accession:
+        type: string
+      parent_accession:
+        type: string
+      title:
+        type: string
+    type: object
+  v1alpha1BioProjectLineage:
+    properties:
+      bioprojects:
+        description: In order, from most specific, up to the root.
+        items:
+          $ref: '#/definitions/v1alpha1BioProject'
+        type: array
+    type: object
   v1alpha1DownloadSummary:
     properties:
       assembly_count:
@@ -855,6 +886,13 @@ definitions:
     - SORT_DIRECTION_ASCENDING
     - SORT_DIRECTION_DESCENDING
     type: string
+  v1alpha1TableFormat:
+    default: tsv
+    enum:
+    - tsv
+    - csv
+    - jsonl
+    type: string
   v1alpha1TabularOutput:
     properties:
       data:
@@ -1076,6 +1114,10 @@ paths:
             description: Zip compressed stream
             format: binary
             type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/runtimeStreamError'
       summary: Get a gene dataset by POST
       tags:
       - Gene
@@ -1222,6 +1264,10 @@ paths:
             description: Zip compressed stream
             format: binary
             type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/runtimeStreamError'
       summary: Get a gene dataset by gene ID
       tags:
       - Gene
@@ -1510,6 +1556,10 @@ paths:
         name: accessions
         required: true
         type: array
+      - in: query
+        name: include_tsv
+        required: false
+        type: boolean
       produces:
       - application/json
       responses:
@@ -1517,6 +1567,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1AssemblyDatasetAvailability'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Check the validity of genome accessions
       tags:
       - Genome
@@ -1595,6 +1649,10 @@ paths:
             description: Zip compressed stream
             format: binary
             type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/runtimeStreamError'
       summary: Get a genome dataset by accession
       tags:
       - Genome
@@ -1656,6 +1714,10 @@ paths:
         name: hydrated
         required: false
         type: string
+      - in: query
+        name: include_tsv
+        required: false
+        type: boolean
       produces:
       - application/json
       responses:
@@ -1668,6 +1730,52 @@ paths:
           schema:
             $ref: '#/definitions/gatewayruntimeError'
       summary: Preview genome dataset download
+      tags:
+      - Genome
+  /genome/bioproject/{accessions}:
+    get:
+      description: Get detailed metadata for assembled genomes by bioproject accession
+        in a JSON output format.
+      operationId: assembly_descriptors_by_bioproject
+      parameters:
+      - collectionFormat: csv
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: accessions
+        required: true
+        type: array
+      - default: all
+        description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
+      - description: If true, only return RefSeq (GCF_) assemblies.
+        in: query
+        name: filters.refseq_only
+        required: false
+        type: boolean
+      - default: COMPLETE
+        enum:
+        - COMPLETE
+        - ASSM_ACC
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
+      summary: Get genome metadata by bioproject accession
       tags:
       - Genome
   /genome/check:
@@ -1690,6 +1798,10 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/v1alpha1AssemblyDatasetAvailability'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
       summary: Check the validity of many genome accessions in a single request
       tags:
       - Genome
@@ -1722,6 +1834,10 @@ paths:
             description: Zip compressed stream
             format: binary
             type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/runtimeStreamError'
       summary: Get a genome dataset by post
       tags:
       - Genome
@@ -1918,6 +2034,16 @@ paths:
         name: include_annotation_type
         required: false
         type: array
+      - default: tsv
+        description: Choose download format.
+        enum:
+        - tsv
+        - csv
+        - jsonl
+        in: query
+        name: format
+        required: false
+        type: string
       produces:
       - application/json
       responses:
@@ -2010,6 +2136,10 @@ paths:
             description: Zip compressed stream
             format: binary
             type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/runtimeStreamError'
       summary: Download SARS-CoV-2 protein and CDS datasets by protein name
       tags:
       - Virus
@@ -2091,6 +2221,22 @@ paths:
         name: table_fields
         required: false
         type: array
+      - default: tsv
+        description: Choose download format.
+        enum:
+        - tsv
+        - csv
+        - jsonl
+        in: query
+        name: format
+        required: false
+        type: string
+      - default: ncbi_dataset.zip
+        description: Output file name.
+        in: query
+        name: filename
+        required: false
+        type: string
       produces:
       - application/tsv
       responses:
@@ -2134,8 +2280,8 @@ paths:
         required: false
         type: boolean
       - description: 'If set, limit results to viral genomes that have been released
-          after a specified date and time. April 1, 2020 midnight UTC should be formatted
-          as follows: 2020-04-01T00:00:00.000Z.'
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
         in: query
         name: released_since
@@ -2212,8 +2358,8 @@ paths:
         required: false
         type: boolean
       - description: 'If set, limit results to viral genomes that have been released
-          after a specified date and time. April 1, 2020 midnight UTC should be formatted
-          as follows: 2020-04-01T00:00:00.000Z.'
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
         in: query
         name: released_since
@@ -2272,6 +2418,10 @@ paths:
             description: Zip compressed stream
             format: binary
             type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/runtimeStreamError'
       summary: Download Coronavirus genome datasets by taxon
       tags:
       - Virus
@@ -2298,8 +2448,8 @@ paths:
         required: false
         type: boolean
       - description: 'If set, limit results to viral genomes that have been released
-          after a specified date and time. April 1, 2020 midnight UTC should be formatted
-          as follows: 2020-04-01T00:00:00.000Z.'
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
         in: query
         name: released_since
@@ -2351,6 +2501,22 @@ paths:
         name: table_fields
         required: false
         type: array
+      - default: tsv
+        description: Choose download format (tsv, csv or jsonl).
+        enum:
+        - tsv
+        - csv
+        - jsonl
+        in: query
+        name: format
+        required: false
+        type: string
+      - default: ncbi_dataset.zip
+        description: Output file name.
+        in: query
+        name: filename
+        required: false
+        type: string
       produces:
       - application/tsv
       responses:
