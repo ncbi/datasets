@@ -205,6 +205,19 @@ definitions:
     - SUBTRIBE
     - FORMA
     - VARIETAS
+    - STRAIN
+    - SECTION
+    - SUBSECTION
+    - PATHOGROUP
+    - SUBVARIETY
+    - GENOTYPE
+    - SEROTYPE
+    - ISOLATE
+    - MORPH
+    - SERIES
+    - FORMA_SPECIALIS
+    - SEROGROUP
+    - BIOTYPE
     type: string
   SciNameAndIdsSciNameAndId:
     properties:
@@ -423,6 +436,8 @@ definitions:
   v1alpha1AssemblyDatasetDescriptorsFilter:
     properties:
       reference_only:
+        description: If true, only return reference and representative (GCF_ and GCA_)
+          assemblies.
         type: boolean
       refseq_only:
         description: If true, only return RefSeq (GCF_) assemblies.
@@ -921,6 +936,20 @@ definitions:
         title: Protein, if coding transcript
       type:
         $ref: '#/definitions/TranscriptTranscriptType'
+    type: object
+  v1alpha1VersionReply:
+    properties:
+      major_ver:
+        format: int64
+        type: integer
+      minor_ver:
+        format: int64
+        type: integer
+      patch_ver:
+        format: int64
+        type: integer
+      version:
+        type: string
     type: object
   v1alpha1VirusTableField:
     default: unspecified
@@ -1512,6 +1541,12 @@ paths:
         name: limit
         required: false
         type: string
+      - description: If true, only return reference and representative (GCF_ and GCA_)
+          assemblies.
+        in: query
+        name: filters.reference_only
+        required: false
+        type: boolean
       - description: If true, only return RefSeq (GCF_) assemblies.
         in: query
         name: filters.refseq_only
@@ -1753,6 +1788,12 @@ paths:
         name: limit
         required: false
         type: string
+      - description: If true, only return reference and representative (GCF_ and GCA_)
+          assemblies.
+        in: query
+        name: filters.reference_only
+        required: false
+        type: boolean
       - description: If true, only return RefSeq (GCF_) assemblies.
         in: query
         name: filters.refseq_only
@@ -1887,6 +1928,12 @@ paths:
         name: limit
         required: false
         type: string
+      - description: If true, only return reference and representative (GCF_ and GCA_)
+          assemblies.
+        in: query
+        name: filters.reference_only
+        required: false
+        type: boolean
       - description: If true, only return RefSeq (GCF_) assemblies.
         in: query
         name: filters.refseq_only
@@ -1972,6 +2019,21 @@ paths:
         given a partial taxonomic name.
       tags:
       - Genome
+  /version:
+    get:
+      operationId: DatasetDownload_Version
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1VersionReply'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
+      summary: Retrieve service version
+      tags:
+      - DatasetDownload
   /virus/taxon/sars2/protein/{proteins}:
     get:
       description: Download a summary of available SARS-CoV-2 protein datasets

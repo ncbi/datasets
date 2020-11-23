@@ -1,4 +1,4 @@
-ncbi-datasets-pylib ~= 9.0
+ncbi-datasets-pylib ~= 10.0
 pandas
 gffutils
 pyfaidx

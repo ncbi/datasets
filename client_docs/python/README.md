@@ -45,19 +45,14 @@ configuration = ncbi.datasets.Configuration(
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
-    gene_ids = [56] # list[int] | 
-include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
-filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
-
+    api_instance = ncbi.datasets.DatasetDownloadApi(api_client)
+    
     try:
-        # Get a gene dataset by gene ID
-        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, filename=filename)
+        # Retrieve service version
+        api_response = api_instance.dataset_download_version()
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling GeneApi->download_gene_package: %s\n" % e)
+        print("Exception when calling DatasetDownloadApi->dataset_download_version: %s\n" % e)
     
 ```
 
@@ -67,6 +62,7 @@ All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DatasetDownloadApi* | [**dataset_download_version**](docs/DatasetDownloadApi.md#dataset_download_version) | **GET** /version | Retrieve service version
 *GeneApi* | [**download_gene_package**](docs/GeneApi.md#download_gene_package) | **GET** /gene/id/{gene_ids}/download | Get a gene dataset by gene ID
 *GeneApi* | [**download_gene_package_post**](docs/GeneApi.md#download_gene_package_post) | **POST** /gene/download | Get a gene dataset by POST
 *GeneApi* | [**gene_download_summary_by_accession**](docs/GeneApi.md#gene_download_summary_by_accession) | **GET** /gene/accession/{accessions}/download_summary | Get gene download summary by RefSeq Accession
@@ -165,6 +161,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1TableFormat](docs/V1alpha1TableFormat.md)
  - [V1alpha1TabularOutput](docs/V1alpha1TabularOutput.md)
  - [V1alpha1Transcript](docs/V1alpha1Transcript.md)
+ - [V1alpha1VersionReply](docs/V1alpha1VersionReply.md)
  - [V1alpha1VirusTableField](docs/V1alpha1VirusTableField.md)
 
 

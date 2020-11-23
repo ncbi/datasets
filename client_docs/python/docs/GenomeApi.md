@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 
 # **assembly_descriptors_by_accessions**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_accessions(accessions, limit=limit, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
 
 Get genome metadata by accession
 
@@ -45,12 +45,13 @@ with ncbi.datasets.ApiClient() as api_client:
     api_instance = ncbi.datasets.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | 
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
+filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
 returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by accession
-        api_response = api_instance.assembly_descriptors_by_accessions(accessions, limit=limit, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+        api_response = api_instance.assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_accessions: %s\n" % e)
@@ -62,6 +63,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)|  | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
+ **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
  **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
 
@@ -87,7 +89,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **assembly_descriptors_by_bioproject**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_bioproject(accessions, limit=limit, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_bioproject(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
 
 Get genome metadata by bioproject accession
 
@@ -114,12 +116,13 @@ with ncbi.datasets.ApiClient() as api_client:
     api_instance = ncbi.datasets.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | 
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
+filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
 returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by bioproject accession
-        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, limit=limit, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_bioproject: %s\n" % e)
@@ -131,6 +134,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)|  | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
+ **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
  **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
 
@@ -156,7 +160,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **assembly_descriptors_by_taxon**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_taxon(taxon, limit=limit, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_taxon(taxon, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
 
 Get genome metadata by taxonomic identifier
 
@@ -183,13 +187,14 @@ with ncbi.datasets.ApiClient() as api_client:
     api_instance = ncbi.datasets.GenomeApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
+filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
 tax_exact_match = True # bool | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. (optional)
 returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by taxonomic identifier
-        api_response = api_instance.assembly_descriptors_by_taxon(taxon, limit=limit, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
+        api_response = api_instance.assembly_descriptors_by_taxon(taxon, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_taxon: %s\n" % e)
@@ -201,6 +206,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **taxon** | **str**| NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
+ **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
  **tax_exact_match** | **bool**| If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. | [optional] 
  **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
