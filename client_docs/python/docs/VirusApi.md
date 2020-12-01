@@ -92,7 +92,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **sars2_protein_summary**
-> V1alpha1DownloadSummary sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type, format=format)
+> V1alpha1DownloadSummary sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type)
 
 Summary of SARS-CoV-2 protein and CDS datasets by protein name
 
@@ -125,11 +125,10 @@ host = 'host_example' # str | If set, limit results to genomes extracted from th
 geo_location = 'geo_location_example' # str | Assemblies from this location (country and state, or continent). (optional)
 complete_only = True # bool | only include complete genomes. (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
-format = 'tsv' # str | Choose download format. (optional) (default to 'tsv')
 
     try:
         # Summary of SARS-CoV-2 protein and CDS datasets by protein name
-        api_response = api_instance.sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type, format=format)
+        api_response = api_instance.sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_summary: %s\n" % e)
@@ -147,7 +146,6 @@ Name | Type | Description  | Notes
  **geo_location** | **str**| Assemblies from this location (country and state, or continent). | [optional] 
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
- **format** | **str**| Choose download format. | [optional] [default to &#39;tsv&#39;]
 
 ### Return type
 
@@ -171,7 +169,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **sars2_protein_table**
-> StreamResultOfV1alpha1TabularOutput sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format, filename=filename)
+> StreamResultOfV1alpha1TabularOutput sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
 
 Get SARS-CoV-2 protein metadata in a tabular format.
 
@@ -205,11 +203,10 @@ geo_location = 'geo_location_example' # str | Assemblies from this location (cou
 complete_only = True # bool | only include complete genomes. (optional)
 table_fields = ['table_fields_example'] # list[str] | Specify which fields to include in the tabular report. (optional)
 format = 'tsv' # str | Choose download format. (optional) (default to 'tsv')
-filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
         # Get SARS-CoV-2 protein metadata in a tabular format.
-        api_response = api_instance.sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format, filename=filename)
+        api_response = api_instance.sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_table: %s\n" % e)
@@ -228,7 +225,6 @@ Name | Type | Description  | Notes
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **table_fields** | [**list[str]**](str.md)| Specify which fields to include in the tabular report. | [optional] 
  **format** | **str**| Choose download format. | [optional] [default to &#39;tsv&#39;]
- **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
 
@@ -412,7 +408,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **virus_genome_table**
-> StreamResultOfV1alpha1TabularOutput virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format, filename=filename)
+> StreamResultOfV1alpha1TabularOutput virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
 
 Get viral genomic metadata in a tabular format.
 
@@ -446,11 +442,10 @@ geo_location = 'geo_location_example' # str | Assemblies from this location (cou
 complete_only = True # bool | only include complete genomes. (optional)
 table_fields = ['table_fields_example'] # list[str] | Specify which fields to include in the tabular report. (optional)
 format = 'tsv' # str | Choose download format (tsv, csv or jsonl). (optional) (default to 'tsv')
-filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
         # Get viral genomic metadata in a tabular format.
-        api_response = api_instance.virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format, filename=filename)
+        api_response = api_instance.virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling VirusApi->virus_genome_table: %s\n" % e)
@@ -469,7 +464,6 @@ Name | Type | Description  | Notes
  **complete_only** | **bool**| only include complete genomes. | [optional] 
  **table_fields** | [**list[str]**](str.md)| Specify which fields to include in the tabular report. | [optional] 
  **format** | **str**| Choose download format (tsv, csv or jsonl). | [optional] [default to &#39;tsv&#39;]
- **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
 

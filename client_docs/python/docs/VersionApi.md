@@ -1,16 +1,18 @@
-# ncbi.datasets.DatasetDownloadApi
+# ncbi.datasets.VersionApi
 
 All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**dataset_download_version**](DatasetDownloadApi.md#dataset_download_version) | **GET** /version | Retrieve service version
+[**version**](VersionApi.md#version) | **GET** /version | Retrieve service version
 
 
-# **dataset_download_version**
-> V1alpha1VersionReply dataset_download_version()
+# **version**
+> V1alpha1VersionReply version()
 
 Retrieve service version
+
+Retrieve the latest version of the Datasets services.
 
 ### Example
 
@@ -30,14 +32,14 @@ configuration = ncbi.datasets.Configuration(
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.DatasetDownloadApi(api_client)
+    api_instance = ncbi.datasets.VersionApi(api_client)
     
     try:
         # Retrieve service version
-        api_response = api_instance.dataset_download_version()
+        api_response = api_instance.version()
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling DatasetDownloadApi->dataset_download_version: %s\n" % e)
+        print("Exception when calling VersionApi->version: %s\n" % e)
 ```
 
 ### Parameters

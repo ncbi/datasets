@@ -47,7 +47,7 @@ with ncbi.datasets.ApiClient() as api_client:
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
+returned_content = 'COMPLETE' # str | Return either assembly accessions, or entire assembly-metadata records. (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by accession
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
+ **returned_content** | **str**| Return either assembly accessions, or entire assembly-metadata records. | [optional] [default to &#39;COMPLETE&#39;]
 
 ### Return type
 
@@ -118,7 +118,7 @@ with ncbi.datasets.ApiClient() as api_client:
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
+returned_content = 'COMPLETE' # str | Return either assembly accessions, or entire assembly-metadata records. (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by bioproject accession
@@ -136,7 +136,7 @@ Name | Type | Description  | Notes
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
+ **returned_content** | **str**| Return either assembly accessions, or entire assembly-metadata records. | [optional] [default to &#39;COMPLETE&#39;]
 
 ### Return type
 
@@ -190,7 +190,7 @@ limit = 'limit_example' # str | Limit the number of returned results (\"all\", \
 filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
 tax_exact_match = True # bool | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. (optional)
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
+returned_content = 'COMPLETE' # str | Return either assembly accessions, or entire assembly-metadata records. (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by taxonomic identifier
@@ -209,7 +209,7 @@ Name | Type | Description  | Notes
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
  **tax_exact_match** | **bool**| If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. | [optional] 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
+ **returned_content** | **str**| Return either assembly accessions, or entire assembly-metadata records. | [optional] [default to &#39;COMPLETE&#39;]
 
 ### Return type
 
@@ -233,7 +233,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **check_assembly_availability**
-> V1alpha1AssemblyDatasetAvailability check_assembly_availability(accessions, include_tsv=include_tsv)
+> V1alpha1AssemblyDatasetAvailability check_assembly_availability(accessions)
 
 Check the validity of genome accessions
 
@@ -259,11 +259,10 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
-include_tsv = True # bool |  (optional)
 
     try:
         # Check the validity of genome accessions
-        api_response = api_instance.check_assembly_availability(accessions, include_tsv=include_tsv)
+        api_response = api_instance.check_assembly_availability(accessions)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->check_assembly_availability: %s\n" % e)
@@ -274,7 +273,6 @@ include_tsv = True # bool |  (optional)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)| NCBI genome assembly accessions | 
- **include_tsv** | **bool**|  | [optional] 
 
 ### Return type
 
@@ -390,7 +388,7 @@ with ncbi.datasets.ApiClient() as api_client:
 chromosomes = ['chromosomes_example'] # list[str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
-hydrated = 'FULLY_HYDRATED' # str |  (optional) (default to 'FULLY_HYDRATED')
+hydrated = 'FULLY_HYDRATED' # str | Set to DATA_REPORT_ONLY, to only retrieve data-reports. (optional) (default to 'FULLY_HYDRATED')
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
@@ -409,7 +407,7 @@ Name | Type | Description  | Notes
  **chromosomes** | [**list[str]**](str.md)| The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
- **hydrated** | **str**|  | [optional] [default to &#39;FULLY_HYDRATED&#39;]
+ **hydrated** | **str**| Set to DATA_REPORT_ONLY, to only retrieve data-reports. | [optional] [default to &#39;FULLY_HYDRATED&#39;]
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
@@ -499,7 +497,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **genome_download_summary**
-> V1alpha1DownloadSummary genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated, include_tsv=include_tsv)
+> V1alpha1DownloadSummary genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
 
 Preview genome dataset download
 
@@ -528,12 +526,10 @@ with ncbi.datasets.ApiClient() as api_client:
 chromosomes = ['chromosomes_example'] # list[str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
 exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional)
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
-hydrated = 'FULLY_HYDRATED' # str |  (optional) (default to 'FULLY_HYDRATED')
-include_tsv = True # bool |  (optional)
 
     try:
         # Preview genome dataset download
-        api_response = api_instance.genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, hydrated=hydrated, include_tsv=include_tsv)
+        api_response = api_instance.genome_download_summary(accessions, chromosomes=chromosomes, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->genome_download_summary: %s\n" % e)
@@ -547,8 +543,6 @@ Name | Type | Description  | Notes
  **chromosomes** | [**list[str]**](str.md)| The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence. | [optional] 
  **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
- **hydrated** | **str**|  | [optional] [default to &#39;FULLY_HYDRATED&#39;]
- **include_tsv** | **bool**|  | [optional] 
 
 ### Return type
 
