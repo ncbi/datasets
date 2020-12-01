@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 
 # **download_gene_package**
-> file download_gene_package(gene_ids, include_annotation_type=include_annotation_type, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, filename=filename)
+> file download_gene_package(gene_ids, include_annotation_type=include_annotation_type, filename=filename)
 
 Get a gene dataset by gene ID
 
@@ -46,13 +46,11 @@ with ncbi.datasets.ApiClient() as api_client:
     api_instance = ncbi.datasets.GeneApi(api_client)
     gene_ids = [56] # list[int] | 
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
         # Get a gene dataset by gene ID
-        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, filename=filename)
+        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->download_gene_package: %s\n" % e)
@@ -64,8 +62,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)|  | 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
@@ -155,7 +151,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_accession**
-> V1alpha1DownloadSummary gene_download_summary_by_accession(accessions, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+> V1alpha1DownloadSummary gene_download_summary_by_accession(accessions)
 
 Get gene download summary by RefSeq Accession
 
@@ -181,13 +177,10 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 
     try:
         # Get gene download summary by RefSeq Accession
-        api_response = api_instance.gene_download_summary_by_accession(accessions, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+        api_response = api_instance.gene_download_summary_by_accession(accessions)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_accession: %s\n" % e)
@@ -198,9 +191,6 @@ sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (defaul
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
 
 ### Return type
 
@@ -224,7 +214,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_id**
-> V1alpha1DownloadSummary gene_download_summary_by_id(gene_ids, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+> V1alpha1DownloadSummary gene_download_summary_by_id(gene_ids)
 
 Get gene download summary by GeneID
 
@@ -250,13 +240,10 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     gene_ids = [56] # list[int] | 
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 
     try:
         # Get gene download summary by GeneID
-        api_response = api_instance.gene_download_summary_by_id(gene_ids, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+        api_response = api_instance.gene_download_summary_by_id(gene_ids)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_id: %s\n" % e)
@@ -267,9 +254,6 @@ sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (defaul
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)|  | 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
 
 ### Return type
 
@@ -356,7 +340,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_tax_and_symbol**
-> V1alpha1DownloadSummary gene_download_summary_by_tax_and_symbol(symbols, taxon, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+> V1alpha1DownloadSummary gene_download_summary_by_tax_and_symbol(symbols, taxon)
 
 Get gene download summary by gene symbol.
 
@@ -383,13 +367,10 @@ with ncbi.datasets.ApiClient() as api_client:
     api_instance = ncbi.datasets.GeneApi(api_client)
     symbols = ['symbols_example'] # list[str] | 
 taxon = 'taxon_example' # str | 
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 
     try:
         # Get gene download summary by gene symbol.
-        api_response = api_instance.gene_download_summary_by_tax_and_symbol(symbols, taxon, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+        api_response = api_instance.gene_download_summary_by_tax_and_symbol(symbols, taxon)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_tax_and_symbol: %s\n" % e)
@@ -401,9 +382,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **symbols** | [**list[str]**](str.md)|  | 
  **taxon** | **str**|  | 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
 
 ### Return type
 
@@ -453,9 +431,9 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
+sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
+sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 
     try:
         # Get gene metadata by RefSeq Accession
@@ -470,9 +448,9 @@ sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (defaul
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
+ **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
+ **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
+ **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
 
 ### Return type
 
@@ -522,9 +500,9 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     gene_ids = [56] # list[int] | 
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
+sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
+sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 
     try:
         # Get gene metadata by GeneID
@@ -539,9 +517,9 @@ sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (defaul
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)|  | 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
+ **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
+ **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
+ **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
 
 ### Return type
 
@@ -655,9 +633,9 @@ with ncbi.datasets.ApiClient() as api_client:
     api_instance = ncbi.datasets.GeneApi(api_client)
     symbols = ['symbols_example'] # list[str] | 
 taxon = 'taxon_example' # str | 
-returned_content = 'COMPLETE' # str |  (optional) (default to 'COMPLETE')
-sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str |  (optional) (default to 'SORT_FIELD_UNSPECIFIED')
-sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str |  (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
+sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
+sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
 
     try:
         # Get gene metadata by gene symbol.
@@ -673,9 +651,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **symbols** | [**list[str]**](str.md)|  | 
  **taxon** | **str**|  | 
- **returned_content** | **str**|  | [optional] [default to &#39;COMPLETE&#39;]
- **sort_schema_field** | **str**|  | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
- **sort_schema_direction** | **str**|  | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
+ **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
+ **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
+ **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
 
 ### Return type
 

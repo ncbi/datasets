@@ -45,14 +45,17 @@ configuration = ncbi.datasets.Configuration(
 # Enter a context with an instance of the API client
 with ncbi.datasets.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.DatasetDownloadApi(api_client)
-    
+    api_instance = ncbi.datasets.GeneApi(api_client)
+    gene_ids = [56] # list[int] | 
+include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
+filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
+
     try:
-        # Retrieve service version
-        api_response = api_instance.dataset_download_version()
+        # Get a gene dataset by gene ID
+        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling DatasetDownloadApi->dataset_download_version: %s\n" % e)
+        print("Exception when calling GeneApi->download_gene_package: %s\n" % e)
     
 ```
 
@@ -62,7 +65,6 @@ All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DatasetDownloadApi* | [**dataset_download_version**](docs/DatasetDownloadApi.md#dataset_download_version) | **GET** /version | Retrieve service version
 *GeneApi* | [**download_gene_package**](docs/GeneApi.md#download_gene_package) | **GET** /gene/id/{gene_ids}/download | Get a gene dataset by gene ID
 *GeneApi* | [**download_gene_package_post**](docs/GeneApi.md#download_gene_package_post) | **POST** /gene/download | Get a gene dataset by POST
 *GeneApi* | [**gene_download_summary_by_accession**](docs/GeneApi.md#gene_download_summary_by_accession) | **GET** /gene/accession/{accessions}/download_summary | Get gene download summary by RefSeq Accession
@@ -86,6 +88,7 @@ Class | Method | HTTP request | Description
 *GenomeApi* | [**genome_download_summary_by_post**](docs/GenomeApi.md#genome_download_summary_by_post) | **POST** /genome/download_summary | Preview genome dataset download by POST
 *GenomeApi* | [**genome_tax_name_query**](docs/GenomeApi.md#genome_tax_name_query) | **GET** /genome/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the assembly dataset given a partial taxonomic name.
 *GenomeApi* | [**genome_tax_tree**](docs/GenomeApi.md#genome_tax_tree) | **GET** /genome/taxon/{taxon}/tree | Get a taxonomic subtree by taxonomic identifier
+*VersionApi* | [**version**](docs/VersionApi.md#version) | **GET** /version | Retrieve service version
 *VirusApi* | [**sars2_protein_download**](docs/VirusApi.md#sars2_protein_download) | **GET** /virus/taxon/sars2/protein/{proteins}/download | Download SARS-CoV-2 protein and CDS datasets by protein name
 *VirusApi* | [**sars2_protein_summary**](docs/VirusApi.md#sars2_protein_summary) | **GET** /virus/taxon/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
 *VirusApi* | [**sars2_protein_table**](docs/VirusApi.md#sars2_protein_table) | **GET** /virus/taxon/sars2/protein/{proteins}/table | Get SARS-CoV-2 protein metadata in a tabular format.

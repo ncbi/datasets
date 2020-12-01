@@ -48,6 +48,8 @@ definitions:
     default: UNKNOWN_ASSEMBLY_ERROR_CODE
     enum:
     - UNKNOWN_ASSEMBLY_ERROR_CODE
+    - INVALID_BIOPROJECT_IDS
+    - NO_ASSEMBLIES_FOR_BIOPROJECTS
     type: string
   ErrorGeneErrorCode:
     default: UNKNOWN_GENE_ERROR_CODE
@@ -85,8 +87,10 @@ definitions:
     properties:
       direction:
         $ref: '#/definitions/v1alpha1SortDirection'
+        description: Select a direction for the sort.
       field:
         $ref: '#/definitions/GeneDatasetRequestSortField'
+        description: Select a field to sort on.
     type: object
   GeneDatasetRequestSortField:
     default: SORT_FIELD_UNSPECIFIED
@@ -478,6 +482,7 @@ definitions:
         type: boolean
       hydrated:
         $ref: '#/definitions/AssemblyDatasetRequestResolution'
+        description: Set to DATA_REPORT_ONLY, to only retrieve data-reports.
       include_annotation:
         type: boolean
       include_annotation_type:
@@ -487,6 +492,7 @@ definitions:
           $ref: '#/definitions/v1alpha1AnnotationForAssemblyType'
         type: array
       include_tsv:
+        description: Set to true to include a TSV represention of the data-report.
         type: boolean
     type: object
   v1alpha1AssemblyMatch:
@@ -583,6 +589,7 @@ definitions:
         type: array
       returned_content:
         $ref: '#/definitions/v1alpha1GeneDatasetRequestContentType'
+        title: Return either gene-ids, or entire gene metadata
       sort_schema:
         $ref: '#/definitions/GeneDatasetRequestSort'
       symbols_for_taxon:
@@ -1025,6 +1032,7 @@ paths:
         required: true
         type: array
       - default: COMPLETE
+        description: Return either gene-ids, or entire gene metadata.
         enum:
         - COMPLETE
         - IDS_ONLY
@@ -1033,6 +1041,7 @@ paths:
         required: false
         type: string
       - default: SORT_FIELD_UNSPECIFIED
+        description: Select a field to sort on.
         enum:
         - SORT_FIELD_UNSPECIFIED
         - SORT_FIELD_GENE_ID
@@ -1043,6 +1052,7 @@ paths:
         required: false
         type: string
       - default: SORT_DIRECTION_UNSPECIFIED
+        description: Select a direction for the sort.
         enum:
         - SORT_DIRECTION_UNSPECIFIED
         - SORT_DIRECTION_ASCENDING
@@ -1078,33 +1088,6 @@ paths:
         name: accessions
         required: true
         type: array
-      - default: COMPLETE
-        enum:
-        - COMPLETE
-        - IDS_ONLY
-        in: query
-        name: returned_content
-        required: false
-        type: string
-      - default: SORT_FIELD_UNSPECIFIED
-        enum:
-        - SORT_FIELD_UNSPECIFIED
-        - SORT_FIELD_GENE_ID
-        - SORT_FIELD_GENE_TYPE
-        - SORT_FIELD_GENE_SYMBOL
-        in: query
-        name: sort_schema.field
-        required: false
-        type: string
-      - default: SORT_DIRECTION_UNSPECIFIED
-        enum:
-        - SORT_DIRECTION_UNSPECIFIED
-        - SORT_DIRECTION_ASCENDING
-        - SORT_DIRECTION_DESCENDING
-        in: query
-        name: sort_schema.direction
-        required: false
-        type: string
       responses:
         '200':
           description: A successful response.
@@ -1178,8 +1161,6 @@ paths:
       operationId: gene_metadata_by_id
       parameters:
       - collectionFormat: csv
-        default:
-        - 2778
         in: path
         items:
           format: int64
@@ -1189,6 +1170,7 @@ paths:
         required: true
         type: array
       - default: COMPLETE
+        description: Return either gene-ids, or entire gene metadata.
         enum:
         - COMPLETE
         - IDS_ONLY
@@ -1197,6 +1179,7 @@ paths:
         required: false
         type: string
       - default: SORT_FIELD_UNSPECIFIED
+        description: Select a field to sort on.
         enum:
         - SORT_FIELD_UNSPECIFIED
         - SORT_FIELD_GENE_ID
@@ -1207,6 +1190,7 @@ paths:
         required: false
         type: string
       - default: SORT_DIRECTION_UNSPECIFIED
+        description: Select a direction for the sort.
         enum:
         - SORT_DIRECTION_UNSPECIFIED
         - SORT_DIRECTION_ASCENDING
@@ -1234,8 +1218,6 @@ paths:
       operationId: download_gene_package
       parameters:
       - collectionFormat: csv
-        default:
-        - 2778
         in: path
         items:
           format: int64
@@ -1245,8 +1227,6 @@ paths:
         required: true
         type: array
       - collectionFormat: multi
-        default:
-        - FASTA_GENE
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
         in: query
@@ -1259,25 +1239,6 @@ paths:
         name: include_annotation_type
         required: false
         type: array
-      - default: SORT_FIELD_UNSPECIFIED
-        enum:
-        - SORT_FIELD_UNSPECIFIED
-        - SORT_FIELD_GENE_ID
-        - SORT_FIELD_GENE_TYPE
-        - SORT_FIELD_GENE_SYMBOL
-        in: query
-        name: sort_schema.field
-        required: false
-        type: string
-      - default: SORT_DIRECTION_UNSPECIFIED
-        enum:
-        - SORT_DIRECTION_UNSPECIFIED
-        - SORT_DIRECTION_ASCENDING
-        - SORT_DIRECTION_DESCENDING
-        in: query
-        name: sort_schema.direction
-        required: false
-        type: string
       - default: ncbi_dataset.zip
         description: Output file name.
         in: query
@@ -1306,8 +1267,6 @@ paths:
       operationId: gene_download_summary_by_id
       parameters:
       - collectionFormat: csv
-        default:
-        - 2778
         in: path
         items:
           format: int64
@@ -1316,33 +1275,6 @@ paths:
         name: gene_ids
         required: true
         type: array
-      - default: COMPLETE
-        enum:
-        - COMPLETE
-        - IDS_ONLY
-        in: query
-        name: returned_content
-        required: false
-        type: string
-      - default: SORT_FIELD_UNSPECIFIED
-        enum:
-        - SORT_FIELD_UNSPECIFIED
-        - SORT_FIELD_GENE_ID
-        - SORT_FIELD_GENE_TYPE
-        - SORT_FIELD_GENE_SYMBOL
-        in: query
-        name: sort_schema.field
-        required: false
-        type: string
-      - default: SORT_DIRECTION_UNSPECIFIED
-        enum:
-        - SORT_DIRECTION_UNSPECIFIED
-        - SORT_DIRECTION_ASCENDING
-        - SORT_DIRECTION_DESCENDING
-        in: query
-        name: sort_schema.direction
-        required: false
-        type: string
       responses:
         '200':
           description: A successful response.
@@ -1368,13 +1300,12 @@ paths:
         name: symbols
         required: true
         type: array
-      - default:
-        - human
-        in: path
+      - in: path
         name: taxon
         required: true
         type: string
       - default: COMPLETE
+        description: Return either gene-ids, or entire gene metadata.
         enum:
         - COMPLETE
         - IDS_ONLY
@@ -1383,6 +1314,7 @@ paths:
         required: false
         type: string
       - default: SORT_FIELD_UNSPECIFIED
+        description: Select a field to sort on.
         enum:
         - SORT_FIELD_UNSPECIFIED
         - SORT_FIELD_GENE_ID
@@ -1393,6 +1325,7 @@ paths:
         required: false
         type: string
       - default: SORT_DIRECTION_UNSPECIFIED
+        description: Select a direction for the sort.
         enum:
         - SORT_DIRECTION_UNSPECIFIED
         - SORT_DIRECTION_ASCENDING
@@ -1426,38 +1359,9 @@ paths:
         name: symbols
         required: true
         type: array
-      - default:
-        - human
-        in: path
+      - in: path
         name: taxon
         required: true
-        type: string
-      - default: COMPLETE
-        enum:
-        - COMPLETE
-        - IDS_ONLY
-        in: query
-        name: returned_content
-        required: false
-        type: string
-      - default: SORT_FIELD_UNSPECIFIED
-        enum:
-        - SORT_FIELD_UNSPECIFIED
-        - SORT_FIELD_GENE_ID
-        - SORT_FIELD_GENE_TYPE
-        - SORT_FIELD_GENE_SYMBOL
-        in: query
-        name: sort_schema.field
-        required: false
-        type: string
-      - default: SORT_DIRECTION_UNSPECIFIED
-        enum:
-        - SORT_DIRECTION_UNSPECIFIED
-        - SORT_DIRECTION_ASCENDING
-        - SORT_DIRECTION_DESCENDING
-        in: query
-        name: sort_schema.direction
-        required: false
         type: string
       responses:
         '200':
@@ -1475,8 +1379,7 @@ paths:
     get:
       operationId: gene_tax_tree
       parameters:
-      - default: human
-        description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
+      - description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
           rank
         in: path
         name: taxon
@@ -1500,8 +1403,7 @@ paths:
         in the gene dataset given a partial taxonomic name of any rank.
       operationId: gene_tax_name_query
       parameters:
-      - default: hum
-        description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
+      - description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
           rank
         in: path
         name: taxon_query
@@ -1541,18 +1443,22 @@ paths:
         name: limit
         required: false
         type: string
-      - description: If true, only return reference and representative (GCF_ and GCA_)
+      - default: False, do not filter
+        description: If true, only return reference and representative (GCF_ and GCA_)
           assemblies.
         in: query
         name: filters.reference_only
         required: false
         type: boolean
-      - description: If true, only return RefSeq (GCF_) assemblies.
+      - default: False, do not filter
+        description: If true, only return RefSeq (GCF_) assemblies.
         in: query
         name: filters.refseq_only
         required: false
         type: boolean
       - default: COMPLETE
+        description: Return either assembly accessions, or entire assembly-metadata
+          records.
         enum:
         - COMPLETE
         - ASSM_ACC
@@ -1581,8 +1487,6 @@ paths:
       operationId: check_assembly_availability
       parameters:
       - collectionFormat: csv
-        default:
-        - GCF_000001405.39
         description: NCBI genome assembly accessions
         in: path
         items:
@@ -1591,10 +1495,6 @@ paths:
         name: accessions
         required: true
         type: array
-      - in: query
-        name: include_tsv
-        required: false
-        type: boolean
       produces:
       - application/json
       responses:
@@ -1616,8 +1516,6 @@ paths:
       operationId: download_assembly_package
       parameters:
       - collectionFormat: csv
-        default:
-        - GCF_000001405.39
         description: NCBI genome assembly accessions
         in: path
         items:
@@ -1627,6 +1525,7 @@ paths:
         required: true
         type: array
       - collectionFormat: multi
+        default: Empty, for all chromosomes
         description: 'The default setting is all chromosome.
 
           Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
@@ -1640,7 +1539,8 @@ paths:
         name: chromosomes
         required: false
         type: array
-      - description: Set to true to omit the genomic sequence.
+      - default: False, thus including genomic sequence
+        description: Set to true to omit the genomic sequence.
         in: query
         name: exclude_sequence
         required: false
@@ -1661,6 +1561,7 @@ paths:
         required: false
         type: array
       - default: FULLY_HYDRATED
+        description: Set to DATA_REPORT_ONLY, to only retrieve data-reports.
         enum:
         - FULLY_HYDRATED
         - DATA_REPORT_ONLY
@@ -1697,8 +1598,6 @@ paths:
       operationId: genome_download_summary
       parameters:
       - collectionFormat: csv
-        default:
-        - GCF_000001405.39
         description: NCBI genome assembly accessions
         in: path
         items:
@@ -1708,6 +1607,7 @@ paths:
         required: true
         type: array
       - collectionFormat: multi
+        default: Empty, for all chromosomes
         description: 'The default setting is all chromosome.
 
           Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
@@ -1721,7 +1621,8 @@ paths:
         name: chromosomes
         required: false
         type: array
-      - description: Set to true to omit the genomic sequence.
+      - default: False, thus including genomic sequence
+        description: Set to true to omit the genomic sequence.
         in: query
         name: exclude_sequence
         required: false
@@ -1741,18 +1642,6 @@ paths:
         name: include_annotation_type
         required: false
         type: array
-      - default: FULLY_HYDRATED
-        enum:
-        - FULLY_HYDRATED
-        - DATA_REPORT_ONLY
-        in: query
-        name: hydrated
-        required: false
-        type: string
-      - in: query
-        name: include_tsv
-        required: false
-        type: boolean
       produces:
       - application/json
       responses:
@@ -1788,18 +1677,22 @@ paths:
         name: limit
         required: false
         type: string
-      - description: If true, only return reference and representative (GCF_ and GCA_)
+      - default: False, do not filter
+        description: If true, only return reference and representative (GCF_ and GCA_)
           assemblies.
         in: query
         name: filters.reference_only
         required: false
         type: boolean
-      - description: If true, only return RefSeq (GCF_) assemblies.
+      - default: False, do not filter
+        description: If true, only return RefSeq (GCF_) assemblies.
         in: query
         name: filters.refseq_only
         required: false
         type: boolean
       - default: COMPLETE
+        description: Return either assembly accessions, or entire assembly-metadata
+          records.
         enum:
         - COMPLETE
         - ASSM_ACC
@@ -1928,18 +1821,21 @@ paths:
         name: limit
         required: false
         type: string
-      - description: If true, only return reference and representative (GCF_ and GCA_)
+      - default: False, do not filter
+        description: If true, only return reference and representative (GCF_ and GCA_)
           assemblies.
         in: query
         name: filters.reference_only
         required: false
         type: boolean
-      - description: If true, only return RefSeq (GCF_) assemblies.
+      - default: False, do not filter
+        description: If true, only return RefSeq (GCF_) assemblies.
         in: query
         name: filters.refseq_only
         required: false
         type: boolean
-      - description: 'If true, only return assemblies with the given NCBI Taxonomy
+      - default: False, include all taxonomy children
+        description: 'If true, only return assemblies with the given NCBI Taxonomy
           ID, or name.
 
           Otherwise, assemblies from taxonomy subtree are included, too.
@@ -1950,6 +1846,8 @@ paths:
         required: false
         type: boolean
       - default: COMPLETE
+        description: Return either assembly accessions, or entire assembly-metadata
+          records.
         enum:
         - COMPLETE
         - ASSM_ACC
@@ -1999,8 +1897,7 @@ paths:
         in the assembly dataset given a partial taxonomic name of any rank.
       operationId: genome_tax_name_query
       parameters:
-      - default: hum
-        description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
+      - description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
           rank
         in: path
         name: taxon_query
@@ -2021,7 +1918,8 @@ paths:
       - Genome
   /version:
     get:
-      operationId: DatasetDownload_Version
+      description: Retrieve the latest version of the Datasets services.
+      operationId: version
       responses:
         '200':
           description: A successful response.
@@ -2033,7 +1931,7 @@ paths:
             $ref: '#/definitions/gatewayruntimeError'
       summary: Retrieve service version
       tags:
-      - DatasetDownload
+      - Version
   /virus/taxon/sars2/protein/{proteins}:
     get:
       description: Download a summary of available SARS-CoV-2 protein datasets
@@ -2048,17 +1946,20 @@ paths:
         name: proteins
         required: true
         type: array
-      - description: If true, limit results to RefSeq genomes.
+      - default: False, do not filter
+        description: If true, limit results to RefSeq genomes.
         in: query
         name: refseq_only
         required: false
         type: boolean
-      - description: If true, limit results to annotated genomes.
+      - default: False, do not filter
+        description: If true, limit results to annotated genomes.
         in: query
         name: annotated_only
         required: false
         type: boolean
-      - description: 'If set, limit results to viral genomes that have been released
+      - default: From the beginning of the archive
+        description: 'If set, limit results to viral genomes that have been released
           after a specified date and time. April 1, 2020 midnight UTC should be formatted
           as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
@@ -2066,23 +1967,27 @@ paths:
         name: released_since
         required: false
         type: string
-      - description: If set, limit results to genomes extracted from this host (Taxonomy
+      - default: All hosts
+        description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) or its taxonomic descendants.
         in: query
         name: host
         required: false
         type: string
-      - description: Assemblies from this location (country and state, or continent).
+      - default: Empty, for no filtering
+        description: Assemblies from this location (country and state, or continent).
         in: query
         name: geo_location
         required: false
         type: string
-      - description: only include complete genomes.
+      - default: False, do not filter
+        description: only include complete genomes.
         in: query
         name: complete_only
         required: false
         type: boolean
       - collectionFormat: multi
+        default: No annotation
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
         in: query
@@ -2096,16 +2001,6 @@ paths:
         name: include_annotation_type
         required: false
         type: array
-      - default: tsv
-        description: Choose download format.
-        enum:
-        - tsv
-        - csv
-        - jsonl
-        in: query
-        name: format
-        required: false
-        type: string
       produces:
       - application/json
       responses:
@@ -2134,17 +2029,20 @@ paths:
         name: proteins
         required: true
         type: array
-      - description: If true, limit results to RefSeq genomes.
+      - default: False, do not filter
+        description: If true, limit results to RefSeq genomes.
         in: query
         name: refseq_only
         required: false
         type: boolean
-      - description: If true, limit results to annotated genomes.
+      - default: False, do not filter
+        description: If true, limit results to annotated genomes.
         in: query
         name: annotated_only
         required: false
         type: boolean
-      - description: 'If set, limit results to viral genomes that have been released
+      - default: From the beginning of the archive
+        description: 'If set, limit results to viral genomes that have been released
           after a specified date and time. April 1, 2020 midnight UTC should be formatted
           as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
@@ -2152,18 +2050,21 @@ paths:
         name: released_since
         required: false
         type: string
-      - description: If set, limit results to genomes extracted from this host (Taxonomy
+      - default: All hosts
+        description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) or its taxonomic descendants.
         in: query
         name: host
         required: false
         type: string
-      - description: Assemblies from this location (country and state, or continent).
+      - default: Empty, for no filtering
+        description: Assemblies from this location (country and state, or continent).
         in: query
         name: geo_location
         required: false
         type: string
-      - description: only include complete genomes.
+      - default: False, do not filter
+        description: only include complete genomes.
         in: query
         name: complete_only
         required: false
@@ -2219,17 +2120,20 @@ paths:
         name: proteins
         required: true
         type: array
-      - description: If true, limit results to RefSeq genomes.
+      - default: False, do not filter
+        description: If true, limit results to RefSeq genomes.
         in: query
         name: refseq_only
         required: false
         type: boolean
-      - description: If true, limit results to annotated genomes.
+      - default: False, do not filter
+        description: If true, limit results to annotated genomes.
         in: query
         name: annotated_only
         required: false
         type: boolean
-      - description: 'If set, limit results to viral genomes that have been released
+      - default: From the beginning of the archive
+        description: 'If set, limit results to viral genomes that have been released
           after a specified date and time. April 1, 2020 midnight UTC should be formatted
           as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
@@ -2237,18 +2141,21 @@ paths:
         name: released_since
         required: false
         type: string
-      - description: If set, limit results to genomes extracted from this host (Taxonomy
+      - default: All hosts
+        description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) or its taxonomic descendants.
         in: query
         name: host
         required: false
         type: string
-      - description: Assemblies from this location (country and state, or continent).
+      - default: Empty, for no filtering
+        description: Assemblies from this location (country and state, or continent).
         in: query
         name: geo_location
         required: false
         type: string
-      - description: only include complete genomes.
+      - default: False, do not filter
+        description: only include complete genomes.
         in: query
         name: complete_only
         required: false
@@ -2293,12 +2200,6 @@ paths:
         name: format
         required: false
         type: string
-      - default: ncbi_dataset.zip
-        description: Output file name.
-        in: query
-        name: filename
-        required: false
-        type: string
       produces:
       - application/tsv
       responses:
@@ -2331,17 +2232,20 @@ paths:
         name: taxon
         required: true
         type: string
-      - description: If true, limit results to RefSeq genomes.
+      - default: False, do not filter
+        description: If true, limit results to RefSeq genomes.
         in: query
         name: refseq_only
         required: false
         type: boolean
-      - description: If true, limit results to annotated genomes.
+      - default: False, do not filter
+        description: If true, limit results to annotated genomes.
         in: query
         name: annotated_only
         required: false
         type: boolean
-      - description: 'If set, limit results to viral genomes that have been released
+      - default: From the beginning of the archive
+        description: 'If set, limit results to viral genomes that have been released
           after a specified date (and optionally, time). April 1, 2020 midnight UTC
           should be formatted as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
@@ -2349,34 +2253,38 @@ paths:
         name: released_since
         required: false
         type: string
-      - description: If set, limit results to genomes extracted from this host (Taxonomy
+      - default: All hosts
+        description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) or its taxonomic descendants.
         in: query
         name: host
         required: false
         type: string
-      - description: Assemblies from this location (country and state, or continent).
+      - default: Empty, for no filtering
+        description: Assemblies from this location (country and state, or continent).
         in: query
         name: geo_location
         required: false
         type: string
-      - description: only include complete genomes.
+      - default: False, do not filter
+        description: only include complete genomes.
         in: query
         name: complete_only
         required: false
         type: boolean
-      - description: Set to true to omit the genomic sequence.
+      - default: False, thus including genomic sequence
+        description: Set to true to omit the genomic sequence.
         in: query
         name: exclude_sequence
         required: false
         type: boolean
       - collectionFormat: multi
+        default: No annotation
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
-          - DEFAULT
           - CDS_FASTA
           - PROT_FASTA
           - GENOME_GBFF
@@ -2409,17 +2317,20 @@ paths:
         name: taxon
         required: true
         type: string
-      - description: If true, limit results to RefSeq genomes.
+      - default: False, do not filter
+        description: If true, limit results to RefSeq genomes.
         in: query
         name: refseq_only
         required: false
         type: boolean
-      - description: If true, limit results to annotated genomes.
+      - default: False, do not filter
+        description: If true, limit results to annotated genomes.
         in: query
         name: annotated_only
         required: false
         type: boolean
-      - description: 'If set, limit results to viral genomes that have been released
+      - default: From the beginning of the archive
+        description: 'If set, limit results to viral genomes that have been released
           after a specified date (and optionally, time). April 1, 2020 midnight UTC
           should be formatted as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
@@ -2427,34 +2338,38 @@ paths:
         name: released_since
         required: false
         type: string
-      - description: If set, limit results to genomes extracted from this host (Taxonomy
+      - default: All hosts
+        description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) or its taxonomic descendants.
         in: query
         name: host
         required: false
         type: string
-      - description: Assemblies from this location (country and state, or continent).
+      - default: Empty, for no filtering
+        description: Assemblies from this location (country and state, or continent).
         in: query
         name: geo_location
         required: false
         type: string
-      - description: only include complete genomes.
+      - default: False, do not filter
+        description: only include complete genomes.
         in: query
         name: complete_only
         required: false
         type: boolean
-      - description: Set to true to omit the genomic sequence.
+      - default: False, thus including genomic sequence
+        description: Set to true to omit the genomic sequence.
         in: query
         name: exclude_sequence
         required: false
         type: boolean
       - collectionFormat: multi
+        default: No annotation
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
         in: query
         items:
           enum:
-          - DEFAULT
           - CDS_FASTA
           - PROT_FASTA
           - GENOME_GBFF
@@ -2499,17 +2414,20 @@ paths:
         name: taxon
         required: true
         type: string
-      - description: If true, limit results to RefSeq genomes.
+      - default: False, do not filter
+        description: If true, limit results to RefSeq genomes.
         in: query
         name: refseq_only
         required: false
         type: boolean
-      - description: If true, limit results to annotated genomes.
+      - default: False, do not filter
+        description: If true, limit results to annotated genomes.
         in: query
         name: annotated_only
         required: false
         type: boolean
-      - description: 'If set, limit results to viral genomes that have been released
+      - default: From the beginning of the archive
+        description: 'If set, limit results to viral genomes that have been released
           after a specified date (and optionally, time). April 1, 2020 midnight UTC
           should be formatted as follows: 2020-04-01T00:00:00.000Z.'
         format: date-time
@@ -2517,18 +2435,21 @@ paths:
         name: released_since
         required: false
         type: string
-      - description: If set, limit results to genomes extracted from this host (Taxonomy
+      - default: All hosts
+        description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) or its taxonomic descendants.
         in: query
         name: host
         required: false
         type: string
-      - description: Assemblies from this location (country and state, or continent).
+      - default: Empty, for no filtering
+        description: Assemblies from this location (country and state, or continent).
         in: query
         name: geo_location
         required: false
         type: string
-      - description: only include complete genomes.
+      - default: False, do not filter
+        description: only include complete genomes.
         in: query
         name: complete_only
         required: false
@@ -2571,12 +2492,6 @@ paths:
         - jsonl
         in: query
         name: format
-        required: false
-        type: string
-      - default: ncbi_dataset.zip
-        description: Output file name.
-        in: query
-        name: filename
         required: false
         type: string
       produces:
