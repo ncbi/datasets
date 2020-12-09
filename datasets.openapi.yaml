@@ -377,9 +377,7 @@ definitions:
         $ref: '#/definitions/v1alpha1AnnotationForAssembly'
         title: Annotation available for this assembly
       assembly_accession:
-        title: 'The GenColl assembly accession
-
-          (e.g. GCF_000001405.39)'
+        title: The GenColl assembly accession (e.g. GCF_000001405.39)
         type: string
       assembly_category:
         description: Category of assembly, like reference.
@@ -394,9 +392,8 @@ definitions:
         title: The bioproject(s) associated with this assembly
         type: array
       chromosomes:
-        description: 'Which chromosomes are included in this dataset.
-
-          NB: Mitochondria is encoded as ''MT''.'
+        description: 'Which chromosomes are included in this dataset. NB: Mitochondria
+          is encoded as ''MT''.'
         items:
           type: string
         type: array
@@ -405,9 +402,7 @@ definitions:
         title: Minimum contig length needed to cover 50% of the genome
         type: integer
       display_name:
-        description: 'The name of the Assembly dataset to be displayed
-
-          in a user interface.'
+        description: The name of the Assembly dataset to be displayed in a user interface.
         type: string
       estimated_size:
         format: uint64
@@ -467,13 +462,9 @@ definitions:
         title: NCBI genome assembly accessions
         type: array
       chromosomes:
-        description: 'The default setting is all chromosome.
-
-          Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
-
-          Unplaced sequences are treated like their own chromosome (''Un'').
-
-          The filter only applies to fasta sequence.'
+        description: The default setting is all chromosome. Specify individual chromosome
+          by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like
+          their own chromosome ('Un'). The filter only applies to fasta sequence.
         items:
           type: string
         type: array
@@ -808,10 +799,9 @@ definitions:
         type: array
       min_ord:
         format: int64
-        title: 'ordinal values for any node are the full range of the ordinal values
-
+        title: ordinal values for any node are the full range of the ordinal values
           in the subtree underneath this node, and are used for faster range-based
-          lookups'
+          lookups
         type: integer
       parent_tax_id:
         format: uint64
@@ -1526,13 +1516,9 @@ paths:
         type: array
       - collectionFormat: multi
         default: Empty, for all chromosomes
-        description: 'The default setting is all chromosome.
-
-          Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
-
-          Unplaced sequences are treated like their own chromosome (''Un'').
-
-          The filter only applies to fasta sequence.'
+        description: The default setting is all chromosome. Specify individual chromosome
+          by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like
+          their own chromosome ('Un'). The filter only applies to fasta sequence.
         in: query
         items:
           type: string
@@ -1608,13 +1594,9 @@ paths:
         type: array
       - collectionFormat: multi
         default: Empty, for all chromosomes
-        description: 'The default setting is all chromosome.
-
-          Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT).
-
-          Unplaced sequences are treated like their own chromosome (''Un'').
-
-          The filter only applies to fasta sequence.'
+        description: The default setting is all chromosome. Specify individual chromosome
+          by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like
+          their own chromosome ('Un'). The filter only applies to fasta sequence.
         in: query
         items:
           type: string
@@ -1835,12 +1817,9 @@ paths:
         required: false
         type: boolean
       - default: False, include all taxonomy children
-        description: 'If true, only return assemblies with the given NCBI Taxonomy
-          ID, or name.
-
-          Otherwise, assemblies from taxonomy subtree are included, too.
-
-          Ignored for assembly_accession request.'
+        description: If true, only return assemblies with the given NCBI Taxonomy
+          ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.
+          Ignored for assembly_accession request.
         in: query
         name: tax_exact_match
         required: false
