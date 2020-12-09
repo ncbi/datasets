@@ -1,0 +1,226 @@
+---
+title: "R Notebook for ncbi.datasets Package"
+output:
+  html_notebook: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+The objective of this notebook is to use **ncbi.datasets R** package to extract gene information and sequence for a list of gene symbols.
+In this example. we will show you how to get information for a list of Drosophila
+melanogaster genes cited in 
+  [A single-cell survey of Drosophila blood](https://pubmed.ncbi.nlm.nih.gov/32396065/).
+  
+#### Citation
+Tattikota SG, Cho B, Liu Y, Hu Y, Barrera V, Steinbaugh MJ, Yoon SH, Comjean A, 
+   Li F, Dervis F, Hung RJ, Nam JW, Ho Sui S, Shim J, Perrimon N. A single-cell
+   survey of *Drosophila* blood. Elife. 2020 May 12;9:e54818. 
+   doi: 10.7554/eLife.54818. PMID: [32396065](https://pubmed.ncbi.nlm.nih.gov/32396065/); PMCID: [PMC7237219](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7237219/).
+   
+# Installation
+To start, we install the ncbi.datasets R package from ftp.
+
+```{r}
+local({r <- getOption("repos")
+       r["CRAN"] <- "http://cran.r-project.org"
+       options(repos=r)
+})
+if (!require(httr)) {
+  install.packages("httr")
+  library(httr)
+}
+if (!require(caTools)) {
+  install.packages("caTools")
+  library(caTools)
+}
+if (!require(knitr)) {
+  install.packages("knitr")
+  library(knitr)
+}
+if (!require(ncbi.datasets)) {
+  install.packages("https://ftp.ncbi.nlm.nih.gov/pub/datasets/r_client_lib/ncbi.datasets_LATEST.tar.gz", repos = NULL)
+  library(ncbi.datasets)
+}
+if (!require(DT)) {
+  install.packages("DT")
+  library(DT)
+}
+```
+# Create GeneApi instance, that manages the http1 service calls to NCBI
+
+```{r}
+api.gene_instance <- GeneApi$new()
+```
+
+# Retrieve metadata for a list of D. meanogaster gene symbols
+
+First we'll get metadata for a list of *Drosophila melanogaster* gene symbols by entering the gene symbol list combined with the organism scientific name (common name and NCBI Taxonomy ID are also acceptable).
+
+First we'll get metadata for a list of *Drosophila melanogaster* gene symbols by entering the gene symbol list combined with the organism common or scientific name. The extensive metadata report includes information on gene nomenclature,  gene type, transcript and protein lengths and coordinates for the genes transcripts and coding regions.
+In this example we'll generate a table including
+
+*    gene symbol
+*    gene name
+*    gene id
+*    Fly Base id
+*    chromosome location
+
+
+```{r}
+gene_symbols = c(
+'Ac76E',
+'Ac78C',
+'Acbp1',
+'Acbp2',
+'Acbp3',
+'Acbp4',
+'Acbp5',
+'Acbp6',
+'ACC',
+'AcCoAS',
+'Ace',
+'Acer',
+'Acf',
+'achi',
+'acj6',
+'Ack')
+result <- api.gene_instance$GeneMetadataByTaxAndSymbol(
+  paste(gene_symbols, collapse = ','),
+  'Drosophila melanogaster')
+```
+
+# Organize the metadata as a table
+
+Using the metadata we retrieved in the previous step (and stored in `result`), let's organize it into a table. The extensive metadata report includes information on gene nomenclature,  gene type, transcript and protein lengths and coordinates for the genes transcripts and coding regions.
+
+In this example we'll generate a table including  
+
+* gene symbol
+* gene name
+* gene id
+* Ensembl id
+* Fly Base id
+* gene type
+* chromosome location
+* gene range 
+
+```{r}
+metadata_tbl <- t(sapply(result$genes ,
+    function(g) { c(
+        g$gene$symbol,
+        g$gene$description,
+        g$gene$gene_id,
+        ifelse(g$gene$nomenclature_authority$authority == "FLYBASE",
+            g$gene$nomenclature_authority$identifier,'-'),
+        gsub("\"", "", result$genes[[1]]$gene$type$toJSON()),
+        paste(g$gene$chromosome, ":",
+              g$gene$genomic_ranges[[1]]$range[[1]]$begin, "..",
+              g$gene$genomic_ranges[[1]]$range[[1]]$end,
+              sep = '') 
+    )}))
+colnames(metadata_tbl) <- c('Gene Symbol',
+                            'Gene Name',
+                            'Gene ID',
+                            'Fly Base id',
+                            'Gene Type',
+                            'Chromosome location')
+if (require(DT)) {
+  datatable(metadata_tbl)
+} else {
+  print(metadata_tbl)
+}
+```
+
+# Report on a representative transcript and protein for each protein-coding gene in the list
+
+In this example we'll generate a table the following information for the transcript encoding the longest protein for each gene.
+
+*    gene symbol
+*    gene id
+*    transcript accession
+*    transcript length
+*    transcript coordinates on the genome
+*    protein accession
+*    protein length
+*    CDS start and stop on the transcript
+
+```{r}
+range_format <- function(range) {
+  paste0(range$accession_version, " (", range$range[[1]]$begin, "..", range$range[[1]]$end, ")")
+}
+transcript_tbl <- t(sapply(result$genes ,
+    function(g) {
+      max_idx = which.max(lapply(g$gene$transcripts, function(tr) {tr$length}))
+        c(
+        g$gene$symbol,
+        g$gene$gene_id,
+        g$gene$transcripts[[max_idx]]$accession_version,
+        g$gene$transcripts[[max_idx]]$length,
+        range_format(g$gene$transcripts[[max_idx]]$genomic_range),
+        g$gene$transcripts[[max_idx]]$protein$accession_version,
+        g$gene$transcripts[[max_idx]]$protein$length,
+        range_format(g$gene$transcripts[[max_idx]]$cds)
+        
+    )}))
+colnames(transcript_tbl) <- c('gene symbol',
+                            'gene id',
+                            'transcript accession',
+                            'transcript length',
+                            'transcript coordinates on the genome',
+                            'protein accession',
+                            'protein length',
+                            'CDS start and stop on the transcript')
+if (require(DT)) {
+  datatable(transcript_tbl)
+} else {
+  print(transcript_tbl)
+}
+```
+
+# Calculate data for regions of the transcripts
+
+In this example, we'll retrieve the length and coordinates of the cds and exons.
+
+* gene symbol
+* gene id
+* transcript accession
+* CDS Range
+* Transcript Length
+* Genomic Sequence Accession
+* Exon Positions
+* Exon Count
+
+```{r}
+metadata_tbl_2 <- t(do.call(cbind,
+    sapply(result$genes, 
+        function(g) sapply(g$gene$transcripts,
+            function(t) {
+                c(g$gene$symbol,
+                  g$gene$gene_id,
+                  t$accession_version,
+                  paste(t$cds$range[[1]]$begin, "..",
+                        t$cds$range[[1]]$end,
+                        sep = ''),
+                  t$length,
+                  t$exons$accession_version,
+                  paste(sapply(t$exons$range, function(r) 
+                      {paste(r$begin, r$end, sep='-')}), collapse=','),
+                  length(t$exons$range)
+                  )}))))
+colnames(metadata_tbl_2) <- c('Gene Symbol',
+                            'Gene ID',
+                            'Transcript Accession',
+                            'CDS Range',
+                            'Transcript Length',
+                            'Genomic Sequence Accession',
+                            'Exon Positions',
+                            'Exon Count'
+                            )
+if (require(DT)) {
+  datatable(metadata_tbl_2)
+} else {
+  print(metadata_tbl_2)
+}
+```
+
