@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 
 # **assembly_descriptors_by_accessions**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only)
 
 Get genome metadata by accession
 
@@ -47,11 +47,10 @@ with ncbi.datasets.ApiClient() as api_client:
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
 filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
-returned_content = 'COMPLETE' # str | Return either assembly accessions, or entire assembly-metadata records. (optional) (default to 'COMPLETE')
 
     try:
         # Get genome metadata by accession
-        api_response = api_instance.assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+        api_response = api_instance.assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_accessions: %s\n" % e)
@@ -65,7 +64,6 @@ Name | Type | Description  | Notes
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
  **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
- **returned_content** | **str**| Return either assembly accessions, or entire assembly-metadata records. | [optional] [default to &#39;COMPLETE&#39;]
 
 ### Return type
 
