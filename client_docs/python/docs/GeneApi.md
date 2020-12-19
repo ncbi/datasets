@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**gene_metadata_by_id**](GeneApi.md#gene_metadata_by_id) | **GET** /gene/id/{gene_ids} | Get gene metadata by GeneID
 [**gene_metadata_by_post**](GeneApi.md#gene_metadata_by_post) | **POST** /gene | Get gene metadata
 [**gene_metadata_by_tax_and_symbol**](GeneApi.md#gene_metadata_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon} | Get gene metadata by gene symbol.
+[**gene_orthologs_by_id**](GeneApi.md#gene_orthologs_by_id) | **GET** /gene/id/{gene_id}/orthologs | Get gene orthologs by gene ID
 [**gene_tax_name_query**](GeneApi.md#gene_tax_name_query) | **GET** /gene/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the gene dataset given a partial taxonomic name.
 [**gene_tax_tree**](GeneApi.md#gene_tax_tree) | **GET** /gene/taxon/{taxon}/tree | Retrieve tax tree
 
@@ -658,6 +659,73 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**V1alpha1GeneMetadata**](V1alpha1GeneMetadata.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gene_orthologs_by_id**
+> V1alpha1OrthologSet gene_orthologs_by_id(gene_id, returned_content=returned_content, taxon_filter=taxon_filter)
+
+Get gene orthologs by gene ID
+
+Get detailed gene metadata for an ortholog set by gene ID in a JSON output format.
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.GeneApi(api_client)
+    gene_id = 56 # int | 
+returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
+taxon_filter = ['taxon_filter_example'] # list[str] | Filter genes by taxa. (optional)
+
+    try:
+        # Get gene orthologs by gene ID
+        api_response = api_instance.gene_orthologs_by_id(gene_id, returned_content=returned_content, taxon_filter=taxon_filter)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling GeneApi->gene_orthologs_by_id: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **gene_id** | **int**|  | 
+ **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
+ **taxon_filter** | [**list[str]**](str.md)| Filter genes by taxa. | [optional] 
+
+### Return type
+
+[**V1alpha1OrthologSet**](V1alpha1OrthologSet.md)
 
 ### Authorization
 

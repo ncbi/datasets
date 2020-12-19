@@ -838,6 +838,22 @@ definitions:
     - plus
     - minus
     type: string
+  v1alpha1OrthologRequestContentType:
+    default: COMPLETE
+    enum:
+    - COMPLETE
+    - IDS_ONLY
+    type: string
+  v1alpha1OrthologSet:
+    properties:
+      genes:
+        $ref: '#/definitions/v1alpha1GeneMetadata'
+      method:
+        type: string
+      ortholog_set_id:
+        format: int64
+        type: integer
+    type: object
   v1alpha1Protein:
     properties:
       accession_version:
@@ -1277,6 +1293,48 @@ paths:
       summary: Get gene download summary by GeneID
       tags:
       - Gene
+  /gene/id/{gene_id}/orthologs:
+    get:
+      description: Get detailed gene metadata for an ortholog set by gene ID in a
+        JSON output format.
+      operationId: gene_orthologs_by_id
+      parameters:
+      - format: int64
+        in: path
+        name: gene_id
+        required: true
+        type: integer
+      - default: COMPLETE
+        description: Return either gene-ids, or entire gene metadata.
+        enum:
+        - COMPLETE
+        - IDS_ONLY
+        in: query
+        name: returned_content
+        required: false
+        type: string
+      - collectionFormat: multi
+        description: Filter genes by taxa.
+        in: query
+        items:
+          type: string
+        name: taxon_filter
+        required: false
+        type: array
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1OrthologSet'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
+      summary: Get gene orthologs by gene ID
+      tags:
+      - Gene
   /gene/symbol/{symbols}/taxon/{taxon}:
     get:
       description: Get detailed gene metadata by gene symbol in a JSON output format.
@@ -1446,16 +1504,6 @@ paths:
         name: filters.refseq_only
         required: false
         type: boolean
-      - default: COMPLETE
-        description: Return either assembly accessions, or entire assembly-metadata
-          records.
-        enum:
-        - COMPLETE
-        - ASSM_ACC
-        in: query
-        name: returned_content
-        required: false
-        type: string
       responses:
         '200':
           description: A successful response.

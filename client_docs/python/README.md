@@ -75,6 +75,7 @@ Class | Method | HTTP request | Description
 *GeneApi* | [**gene_metadata_by_id**](docs/GeneApi.md#gene_metadata_by_id) | **GET** /gene/id/{gene_ids} | Get gene metadata by GeneID
 *GeneApi* | [**gene_metadata_by_post**](docs/GeneApi.md#gene_metadata_by_post) | **POST** /gene | Get gene metadata
 *GeneApi* | [**gene_metadata_by_tax_and_symbol**](docs/GeneApi.md#gene_metadata_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon} | Get gene metadata by gene symbol.
+*GeneApi* | [**gene_orthologs_by_id**](docs/GeneApi.md#gene_orthologs_by_id) | **GET** /gene/id/{gene_id}/orthologs | Get gene orthologs by gene ID
 *GeneApi* | [**gene_tax_name_query**](docs/GeneApi.md#gene_tax_name_query) | **GET** /gene/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the gene dataset given a partial taxonomic name.
 *GeneApi* | [**gene_tax_tree**](docs/GeneApi.md#gene_tax_tree) | **GET** /gene/taxon/{taxon}/tree | Retrieve tax tree
 *GenomeApi* | [**assembly_descriptors_by_accessions**](docs/GenomeApi.md#assembly_descriptors_by_accessions) | **GET** /genome/accession/{accessions} | Get genome metadata by accession
@@ -156,6 +157,8 @@ Class | Method | HTTP request | Description
  - [V1alpha1NomenclatureAuthority](docs/V1alpha1NomenclatureAuthority.md)
  - [V1alpha1Organism](docs/V1alpha1Organism.md)
  - [V1alpha1Orientation](docs/V1alpha1Orientation.md)
+ - [V1alpha1OrthologRequestContentType](docs/V1alpha1OrthologRequestContentType.md)
+ - [V1alpha1OrthologSet](docs/V1alpha1OrthologSet.md)
  - [V1alpha1Protein](docs/V1alpha1Protein.md)
  - [V1alpha1Range](docs/V1alpha1Range.md)
  - [V1alpha1SciNameAndIds](docs/V1alpha1SciNameAndIds.md)
