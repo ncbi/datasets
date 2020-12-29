@@ -522,6 +522,10 @@ definitions:
         type: string
       parent_accession:
         type: string
+      parent_accessions:
+        items:
+          type: string
+        type: array
       title:
         type: string
     type: object
