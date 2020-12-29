@@ -1,4 +1,4 @@
-# Example Jupyter Notebooks to demo the use of `ncbi-datasets` python library
+# Example Jupyter Notebooks to demo the use of `ncbi-datasets` R library
 
 These Jupyter Notebooks demonstrate how you can use the `ncbi-datasets` R  library to query and download data using NCBI Datasets.  They can also be run on binder as an RStudio markdown file.
 
