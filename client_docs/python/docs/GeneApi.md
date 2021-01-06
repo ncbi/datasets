@@ -12,8 +12,8 @@ Method | HTTP request | Description
 [**gene_download_summary_by_tax_and_symbol**](GeneApi.md#gene_download_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon}/download_summary | Get gene download summary by gene symbol.
 [**gene_metadata_by_accession**](GeneApi.md#gene_metadata_by_accession) | **GET** /gene/accession/{accessions} | Get gene metadata by RefSeq Accession
 [**gene_metadata_by_id**](GeneApi.md#gene_metadata_by_id) | **GET** /gene/id/{gene_ids} | Get gene metadata by GeneID
-[**gene_metadata_by_post**](GeneApi.md#gene_metadata_by_post) | **POST** /gene | Get gene metadata
 [**gene_metadata_by_tax_and_symbol**](GeneApi.md#gene_metadata_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon} | Get gene metadata by gene symbol.
+[**gene_metadata_stream_by_post**](GeneApi.md#gene_metadata_stream_by_post) | **POST** /gene/stream | Get gene metadata
 [**gene_orthologs_by_id**](GeneApi.md#gene_orthologs_by_id) | **GET** /gene/id/{gene_id}/orthologs | Get gene orthologs by gene ID
 [**gene_tax_name_query**](GeneApi.md#gene_tax_name_query) | **GET** /gene/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the gene dataset given a partial taxonomic name.
 [**gene_tax_tree**](GeneApi.md#gene_tax_tree) | **GET** /gene/taxon/{taxon}/tree | Retrieve tax tree
@@ -152,7 +152,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_accession**
-> V1alpha1DownloadSummary gene_download_summary_by_accession(accessions)
+> V1alpha1DownloadSummary gene_download_summary_by_accession(accessions, limit=limit)
 
 Get gene download summary by RefSeq Accession
 
@@ -177,11 +177,12 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
+    accessions = ['accessions_example'] # list[str] | 
+limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
         # Get gene download summary by RefSeq Accession
-        api_response = api_instance.gene_download_summary_by_accession(accessions)
+        api_response = api_instance.gene_download_summary_by_accession(accessions, limit=limit)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_accession: %s\n" % e)
@@ -191,7 +192,8 @@ with ncbi.datasets.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
+ **accessions** | [**list[str]**](str.md)|  | 
+ **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
 
@@ -215,7 +217,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_id**
-> V1alpha1DownloadSummary gene_download_summary_by_id(gene_ids)
+> V1alpha1DownloadSummary gene_download_summary_by_id(gene_ids, limit=limit)
 
 Get gene download summary by GeneID
 
@@ -241,10 +243,11 @@ with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
     gene_ids = [56] # list[int] | 
+limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
         # Get gene download summary by GeneID
-        api_response = api_instance.gene_download_summary_by_id(gene_ids)
+        api_response = api_instance.gene_download_summary_by_id(gene_ids, limit=limit)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_id: %s\n" % e)
@@ -255,6 +258,7 @@ with ncbi.datasets.ApiClient() as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)|  | 
+ **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
 
@@ -406,7 +410,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_metadata_by_accession**
-> V1alpha1GeneMetadata gene_metadata_by_accession(accessions, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+> V1alpha1GeneMetadata gene_metadata_by_accession(accessions, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, limit=limit)
 
 Get gene metadata by RefSeq Accession
 
@@ -431,14 +435,15 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
+    accessions = ['accessions_example'] # list[str] | 
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
         # Get gene metadata by RefSeq Accession
-        api_response = api_instance.gene_metadata_by_accession(accessions, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+        api_response = api_instance.gene_metadata_by_accession(accessions, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, limit=limit)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_metadata_by_accession: %s\n" % e)
@@ -448,10 +453,11 @@ sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
+ **accessions** | [**list[str]**](str.md)|  | 
  **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
  **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
  **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
+ **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
 
@@ -475,7 +481,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_metadata_by_id**
-> V1alpha1GeneMetadata gene_metadata_by_id(gene_ids, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+> V1alpha1GeneMetadata gene_metadata_by_id(gene_ids, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, limit=limit)
 
 Get gene metadata by GeneID
 
@@ -504,10 +510,11 @@ with ncbi.datasets.ApiClient() as api_client:
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
         # Get gene metadata by GeneID
-        api_response = api_instance.gene_metadata_by_id(gene_ids, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+        api_response = api_instance.gene_metadata_by_id(gene_ids, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, limit=limit)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_metadata_by_id: %s\n" % e)
@@ -521,6 +528,7 @@ Name | Type | Description  | Notes
  **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
  **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
  **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
+ **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
 
@@ -543,71 +551,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **gene_metadata_by_post**
-> V1alpha1GeneMetadata gene_metadata_by_post(body)
-
-Get gene metadata
-
-Get detailed gene metadata in a JSON output format.
-
-### Example
-
-```python
-from __future__ import print_function
-import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
-from pprint import pprint
-# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
-# See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
-    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
-)
-
-
-# Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
-    # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
-    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
-
-    try:
-        # Get gene metadata
-        api_response = api_instance.gene_metadata_by_post(body)
-        pprint(api_response)
-    except ApiException as e:
-        print("Exception when calling GeneApi->gene_metadata_by_post: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**V1alpha1GeneDatasetRequest**](V1alpha1GeneDatasetRequest.md)|  | 
-
-### Return type
-
-[**V1alpha1GeneMetadata**](V1alpha1GeneMetadata.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | A successful response. |  -  |
-**0** | An unexpected error response. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **gene_metadata_by_tax_and_symbol**
-> V1alpha1GeneMetadata gene_metadata_by_tax_and_symbol(symbols, taxon, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+> V1alpha1GeneMetadata gene_metadata_by_tax_and_symbol(symbols, taxon, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, limit=limit)
 
 Get gene metadata by gene symbol.
 
@@ -637,10 +582,11 @@ taxon = 'taxon_example' # str |
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
+limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
         # Get gene metadata by gene symbol.
-        api_response = api_instance.gene_metadata_by_tax_and_symbol(symbols, taxon, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction)
+        api_response = api_instance.gene_metadata_by_tax_and_symbol(symbols, taxon, returned_content=returned_content, sort_schema_field=sort_schema_field, sort_schema_direction=sort_schema_direction, limit=limit)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_metadata_by_tax_and_symbol: %s\n" % e)
@@ -655,6 +601,7 @@ Name | Type | Description  | Notes
  **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
  **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
  **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
+ **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
 
@@ -673,6 +620,69 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gene_metadata_stream_by_post**
+> V1alpha1GeneMatch gene_metadata_stream_by_post(body)
+
+Get gene metadata
+
+Get detailed gene metadata in a streaming, JSON-lines output format.
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.GeneApi(api_client)
+    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+
+    try:
+        # Get gene metadata
+        api_response = api_instance.gene_metadata_stream_by_post(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling GeneApi->gene_metadata_stream_by_post: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**V1alpha1GeneDatasetRequest**](V1alpha1GeneDatasetRequest.md)|  | 
+
+### Return type
+
+[**V1alpha1GeneMatch**](V1alpha1GeneMatch.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/x-ndjson
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful request, returning a stream of individual JSON Text payloads. |  * Transfer-Encoding - chunked <br>  |
 **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -8,13 +8,6 @@ definitions:
     - FULLY_HYDRATED
     - DATA_REPORT_ONLY
     type: string
-  AssemblyMetadataRequestAccessions:
-    properties:
-      accessions:
-        items:
-          type: string
-        type: array
-    type: object
   AssemblyMetadataRequestBioprojects:
     properties:
       accessions:
@@ -50,6 +43,7 @@ definitions:
     - UNKNOWN_ASSEMBLY_ERROR_CODE
     - INVALID_BIOPROJECT_IDS
     - NO_ASSEMBLIES_FOR_BIOPROJECTS
+    - INVALID_TAXON
     type: string
   ErrorGeneErrorCode:
     default: UNKNOWN_GENE_ERROR_CODE
@@ -83,6 +77,14 @@ definitions:
     - FASTA_RNA
     - FASTA_PROTEIN
     type: string
+  GeneDatasetRequestGeneIds:
+    properties:
+      gene_ids:
+        items:
+          format: int64
+          type: integer
+        type: array
+    type: object
   GeneDatasetRequestSort:
     properties:
       direction:
@@ -242,6 +244,13 @@ definitions:
     - PROTEIN_CODING_MODEL
     - NON_CODING_MODEL
     type: string
+  datasetsv1alpha1Accessions:
+    properties:
+      accessions:
+        items:
+          type: string
+        type: array
+    type: object
   datasetsv1alpha1Error:
     properties:
       assembly_error_code:
@@ -567,21 +576,21 @@ definitions:
   v1alpha1GeneDatasetRequest:
     properties:
       accessions:
+        $ref: '#/definitions/v1alpha1GeneDatasetRequestAccessions'
         description: RNA or Protein accessions.
-        items:
-          type: string
-        type: array
       gene_ids:
-        items:
-          format: int64
-          type: integer
-        type: array
+        $ref: '#/definitions/GeneDatasetRequestGeneIds'
+        title: NCBI gene ids
       include_annotation_type:
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
         items:
           $ref: '#/definitions/GeneDatasetRequestFasta'
         type: array
+      limit:
+        title: Limit the number of returned results ("all", "none", otherwise an integer
+          value)
+        type: string
       returned_content:
         $ref: '#/definitions/v1alpha1GeneDatasetRequestContentType'
         title: Return either gene-ids, or entire gene metadata
@@ -589,6 +598,17 @@ definitions:
         $ref: '#/definitions/GeneDatasetRequestSort'
       symbols_for_taxon:
         $ref: '#/definitions/GeneDatasetRequestSymbolsForTaxon'
+      taxon:
+        title: NCBI Taxonomy ID or name (common or scientific) that the genes are
+          annotated at
+        type: string
+    type: object
+  v1alpha1GeneDatasetRequestAccessions:
+    properties:
+      accessions:
+        items:
+          type: string
+        type: array
     type: object
   v1alpha1GeneDatasetRequestContentType:
     default: COMPLETE
@@ -606,6 +626,7 @@ definitions:
           type: string
         type: array
       common_name:
+        title: Species common-name
         type: string
       description:
         type: string
@@ -1004,28 +1025,6 @@ info:
   title: NCBI Datasets API
   version: v1alpha
 paths:
-  /gene:
-    post:
-      description: Get detailed gene metadata in a JSON output format.
-      operationId: gene_metadata_by_post
-      parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/v1alpha1GeneDatasetRequest'
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1alpha1GeneMetadata'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/gatewayruntimeError'
-      summary: Get gene metadata
-      tags:
-      - Gene
   /gene/accession/{accessions}:
     get:
       description: Get detailed gene metadata by RefSeq Accession in a JSON output
@@ -1033,7 +1032,6 @@ paths:
       operationId: gene_metadata_by_accession
       parameters:
       - collectionFormat: csv
-        description: RNA or Protein accessions.
         in: path
         items:
           type: string
@@ -1071,6 +1069,12 @@ paths:
         name: sort_schema.direction
         required: false
         type: string
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1090,7 +1094,6 @@ paths:
       operationId: gene_download_summary_by_accession
       parameters:
       - collectionFormat: csv
-        description: RNA or Protein accessions.
         in: path
         items:
           type: string
@@ -1098,6 +1101,12 @@ paths:
         name: accessions
         required: true
         type: array
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1209,6 +1218,12 @@ paths:
         name: sort_schema.direction
         required: false
         type: string
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1285,6 +1300,12 @@ paths:
         name: gene_ids
         required: true
         type: array
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1339,6 +1360,36 @@ paths:
       summary: Get gene orthologs by gene ID
       tags:
       - Gene
+  /gene/stream:
+    post:
+      description: Get detailed gene metadata in a streaming, JSON-lines output format.
+      operationId: gene_metadata_stream_by_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1GeneDatasetRequest'
+      produces:
+      - application/x-ndjson
+      responses:
+        '200':
+          description: Successful request, returning a stream of individual JSON Text
+            payloads.
+          headers:
+            Transfer-Encoding:
+              description: chunked
+              schema:
+                type: string
+          schema:
+            $ref: '#/definitions/v1alpha1GeneMatch '
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/gatewayruntimeError'
+      summary: Get gene metadata
+      tags:
+      - Gene
   /gene/symbol/{symbols}/taxon/{taxon}:
     get:
       description: Get detailed gene metadata by gene symbol in a JSON output format.
@@ -1384,6 +1435,12 @@ paths:
         - SORT_DIRECTION_DESCENDING
         in: query
         name: sort_schema.direction
+        required: false
+        type: string
+      - description: Limit the number of returned results ("all", "none", otherwise
+          an integer value).
+        in: query
+        name: limit
         required: false
         type: string
       responses:

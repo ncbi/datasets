@@ -73,8 +73,8 @@ Class | Method | HTTP request | Description
 *GeneApi* | [**gene_download_summary_by_tax_and_symbol**](docs/GeneApi.md#gene_download_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon}/download_summary | Get gene download summary by gene symbol.
 *GeneApi* | [**gene_metadata_by_accession**](docs/GeneApi.md#gene_metadata_by_accession) | **GET** /gene/accession/{accessions} | Get gene metadata by RefSeq Accession
 *GeneApi* | [**gene_metadata_by_id**](docs/GeneApi.md#gene_metadata_by_id) | **GET** /gene/id/{gene_ids} | Get gene metadata by GeneID
-*GeneApi* | [**gene_metadata_by_post**](docs/GeneApi.md#gene_metadata_by_post) | **POST** /gene | Get gene metadata
 *GeneApi* | [**gene_metadata_by_tax_and_symbol**](docs/GeneApi.md#gene_metadata_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon} | Get gene metadata by gene symbol.
+*GeneApi* | [**gene_metadata_stream_by_post**](docs/GeneApi.md#gene_metadata_stream_by_post) | **POST** /gene/stream | Get gene metadata
 *GeneApi* | [**gene_orthologs_by_id**](docs/GeneApi.md#gene_orthologs_by_id) | **GET** /gene/id/{gene_id}/orthologs | Get gene orthologs by gene ID
 *GeneApi* | [**gene_tax_name_query**](docs/GeneApi.md#gene_tax_name_query) | **GET** /gene/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the gene dataset given a partial taxonomic name.
 *GeneApi* | [**gene_tax_tree**](docs/GeneApi.md#gene_tax_tree) | **GET** /gene/taxon/{taxon}/tree | Retrieve tax tree
@@ -101,8 +101,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AssemblyDatasetRequestResolution](docs/AssemblyDatasetRequestResolution.md)
- - [AssemblyMetadataRequestAccessions](docs/AssemblyMetadataRequestAccessions.md)
  - [AssemblyMetadataRequestBioprojects](docs/AssemblyMetadataRequestBioprojects.md)
+ - [Datasetsv1alpha1Accessions](docs/Datasetsv1alpha1Accessions.md)
  - [Datasetsv1alpha1Error](docs/Datasetsv1alpha1Error.md)
  - [DownloadSummaryDehydrated](docs/DownloadSummaryDehydrated.md)
  - [DownloadSummaryHydrated](docs/DownloadSummaryHydrated.md)
@@ -112,6 +112,7 @@ Class | Method | HTTP request | Description
  - [ErrorVirusErrorCode](docs/ErrorVirusErrorCode.md)
  - [GatewayruntimeError](docs/GatewayruntimeError.md)
  - [GeneDatasetRequestFasta](docs/GeneDatasetRequestFasta.md)
+ - [GeneDatasetRequestGeneIds](docs/GeneDatasetRequestGeneIds.md)
  - [GeneDatasetRequestSort](docs/GeneDatasetRequestSort.md)
  - [GeneDatasetRequestSortField](docs/GeneDatasetRequestSortField.md)
  - [GeneDatasetRequestSymbolsForTaxon](docs/GeneDatasetRequestSymbolsForTaxon.md)
@@ -145,6 +146,7 @@ Class | Method | HTTP request | Description
  - [V1alpha1BioProjectLineage](docs/V1alpha1BioProjectLineage.md)
  - [V1alpha1DownloadSummary](docs/V1alpha1DownloadSummary.md)
  - [V1alpha1GeneDatasetRequest](docs/V1alpha1GeneDatasetRequest.md)
+ - [V1alpha1GeneDatasetRequestAccessions](docs/V1alpha1GeneDatasetRequestAccessions.md)
  - [V1alpha1GeneDatasetRequestContentType](docs/V1alpha1GeneDatasetRequestContentType.md)
  - [V1alpha1GeneDescriptor](docs/V1alpha1GeneDescriptor.md)
  - [V1alpha1GeneDescriptors](docs/V1alpha1GeneDescriptors.md)
