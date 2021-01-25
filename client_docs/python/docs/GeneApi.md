@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**gene_download_summary_by_tax_and_symbol**](GeneApi.md#gene_download_summary_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon}/download_summary | Get gene download summary by gene symbol.
 [**gene_metadata_by_accession**](GeneApi.md#gene_metadata_by_accession) | **GET** /gene/accession/{accessions} | Get gene metadata by RefSeq Accession
 [**gene_metadata_by_id**](GeneApi.md#gene_metadata_by_id) | **GET** /gene/id/{gene_ids} | Get gene metadata by GeneID
+[**gene_metadata_by_post**](GeneApi.md#gene_metadata_by_post) | **POST** /gene | Get gene metadata as JSON
 [**gene_metadata_by_tax_and_symbol**](GeneApi.md#gene_metadata_by_tax_and_symbol) | **GET** /gene/symbol/{symbols}/taxon/{taxon} | Get gene metadata by gene symbol.
 [**gene_metadata_stream_by_post**](GeneApi.md#gene_metadata_stream_by_post) | **POST** /gene/stream | Get gene metadata
 [**gene_orthologs_by_id**](GeneApi.md#gene_orthologs_by_id) | **GET** /gene/id/{gene_id}/orthologs | Get gene orthologs by gene ID
@@ -45,7 +46,7 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    gene_ids = [56] # list[int] | 
+    gene_ids = [56] # list[int] | NCBI gene ids
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
@@ -61,7 +62,7 @@ filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to '
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **gene_ids** | [**list[int]**](int.md)|  | 
+ **gene_ids** | [**list[int]**](int.md)| NCBI gene ids | 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
@@ -177,7 +178,7 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    accessions = ['accessions_example'] # list[str] | 
+    accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
@@ -192,7 +193,7 @@ limit = 'limit_example' # str | Limit the number of returned results (\"all\", \
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accessions** | [**list[str]**](str.md)|  | 
+ **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
@@ -242,7 +243,7 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    gene_ids = [56] # list[int] | 
+    gene_ids = [56] # list[int] | NCBI gene ids
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
 
     try:
@@ -257,7 +258,7 @@ limit = 'limit_example' # str | Limit the number of returned results (\"all\", \
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **gene_ids** | [**list[int]**](int.md)|  | 
+ **gene_ids** | [**list[int]**](int.md)| NCBI gene ids | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
 
 ### Return type
@@ -435,7 +436,7 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    accessions = ['accessions_example'] # list[str] | 
+    accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
@@ -453,7 +454,7 @@ limit = 'limit_example' # str | Limit the number of returned results (\"all\", \
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **accessions** | [**list[str]**](str.md)|  | 
+ **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
  **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
  **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
  **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
@@ -506,7 +507,7 @@ configuration = ncbi.datasets.Configuration(
 with ncbi.datasets.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.GeneApi(api_client)
-    gene_ids = [56] # list[int] | 
+    gene_ids = [56] # list[int] | NCBI gene ids
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
 sort_schema_direction = 'SORT_DIRECTION_UNSPECIFIED' # str | Select a direction for the sort. (optional) (default to 'SORT_DIRECTION_UNSPECIFIED')
@@ -524,7 +525,7 @@ limit = 'limit_example' # str | Limit the number of returned results (\"all\", \
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **gene_ids** | [**list[int]**](int.md)|  | 
+ **gene_ids** | [**list[int]**](int.md)| NCBI gene ids | 
  **returned_content** | **str**| Return either gene-ids, or entire gene metadata. | [optional] [default to &#39;COMPLETE&#39;]
  **sort_schema_field** | **str**| Select a field to sort on. | [optional] [default to &#39;SORT_FIELD_UNSPECIFIED&#39;]
  **sort_schema_direction** | **str**| Select a direction for the sort. | [optional] [default to &#39;SORT_DIRECTION_UNSPECIFIED&#39;]
@@ -541,6 +542,69 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **gene_metadata_by_post**
+> V1alpha1GeneMetadata gene_metadata_by_post(body)
+
+Get gene metadata as JSON
+
+Get detailed gene metadata in a JSON output format.
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets
+from ncbi.datasets.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.GeneApi(api_client)
+    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+
+    try:
+        # Get gene metadata as JSON
+        api_response = api_instance.gene_metadata_by_post(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling GeneApi->gene_metadata_by_post: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**V1alpha1GeneDatasetRequest**](V1alpha1GeneDatasetRequest.md)|  | 
+
+### Return type
+
+[**V1alpha1GeneMetadata**](V1alpha1GeneMetadata.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details

@@ -1,4 +1,4 @@
-# Datasetsv1alpha1Error
+# V1alpha1Error
 
 ## Properties
 Name | Type | Description | Notes
@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **invalid_identifiers** | **list[str]** |  | [optional] 
 **message** | **str** |  | [optional] 
 **reason** | **str** |  | [optional] 
-**replaced_ids** | [**list[ErrorReplacedId]**](ErrorReplacedId.md) |  | [optional] 
+**replaced_ids** | [**list[V1alpha1ErrorReplacedId]**](V1alpha1ErrorReplacedId.md) |  | [optional] 
 **valid_identifiers** | **list[str]** |  | [optional] 
 **virus_error_code** | [**ErrorVirusErrorCode**](ErrorVirusErrorCode.md) |  | [optional] 
 
