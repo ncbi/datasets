@@ -57,13 +57,6 @@ definitions:
     - INVALID_ACCESSIONS
     - INVALID_TAX_TOKEN
     type: string
-  ErrorReplacedId:
-    properties:
-      current_identifier:
-        type: string
-      former_identifier:
-        type: string
-    type: object
   ErrorVirusErrorCode:
     default: UNKNOWN_VIRUS_ERROR_CODE
     enum:
@@ -77,14 +70,6 @@ definitions:
     - FASTA_RNA
     - FASTA_PROTEIN
     type: string
-  GeneDatasetRequestGeneIds:
-    properties:
-      gene_ids:
-        items:
-          format: int64
-          type: integer
-        type: array
-    type: object
   GeneDatasetRequestSort:
     properties:
       direction:
@@ -244,51 +229,18 @@ definitions:
     - PROTEIN_CODING_MODEL
     - NON_CODING_MODEL
     type: string
+  WarningGeneWarningCode:
+    default: UNKNOWN_GENE_WARNING_CODE
+    enum:
+    - UNKNOWN_GENE_WARNING_CODE
+    - ACCESSION_VERSION_MISMATCH
+    type: string
   datasetsv1alpha1Accessions:
     properties:
       accessions:
         items:
           type: string
         type: array
-    type: object
-  datasetsv1alpha1Error:
-    properties:
-      assembly_error_code:
-        $ref: '#/definitions/ErrorAssemblyErrorCode'
-      gene_error_code:
-        $ref: '#/definitions/ErrorGeneErrorCode'
-      invalid_identifiers:
-        items:
-          type: string
-        type: array
-      message:
-        type: string
-      reason:
-        type: string
-      replaced_ids:
-        items:
-          $ref: '#/definitions/ErrorReplacedId'
-        type: array
-      valid_identifiers:
-        items:
-          type: string
-        type: array
-      virus_error_code:
-        $ref: '#/definitions/ErrorVirusErrorCode'
-    type: object
-  gatewayruntimeError:
-    properties:
-      code:
-        format: int32
-        type: integer
-      details:
-        items:
-          $ref: '#/definitions/protobufAny'
-        type: array
-      error:
-        type: string
-      message:
-        type: string
     type: object
   protobufAny:
     properties:
@@ -298,20 +250,15 @@ definitions:
         format: byte
         type: string
     type: object
-  runtimeStreamError:
+  rpcStatus:
     properties:
+      code:
+        format: int32
+        type: integer
       details:
         items:
           $ref: '#/definitions/protobufAny'
         type: array
-      grpc_code:
-        format: int32
-        type: integer
-      http_code:
-        format: int32
-        type: integer
-      http_status:
-        type: string
       message:
         type: string
     type: object
@@ -556,7 +503,7 @@ definitions:
         $ref: '#/definitions/DownloadSummaryDehydrated'
       errors:
         items:
-          $ref: '#/definitions/datasetsv1alpha1Error'
+          $ref: '#/definitions/v1alpha1Error'
         type: array
       hydrated:
         $ref: '#/definitions/DownloadSummaryHydrated'
@@ -573,14 +520,51 @@ definitions:
         format: date-time
         type: string
     type: object
+  v1alpha1Error:
+    properties:
+      assembly_error_code:
+        $ref: '#/definitions/ErrorAssemblyErrorCode'
+      gene_error_code:
+        $ref: '#/definitions/ErrorGeneErrorCode'
+      invalid_identifiers:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+      reason:
+        type: string
+      replaced_ids:
+        items:
+          $ref: '#/definitions/v1alpha1ErrorReplacedId'
+        type: array
+      valid_identifiers:
+        items:
+          type: string
+        type: array
+      virus_error_code:
+        $ref: '#/definitions/ErrorVirusErrorCode'
+    type: object
+  v1alpha1ErrorReplacedId:
+    properties:
+      current_identifier:
+        type: string
+      former_identifier:
+        type: string
+    type: object
   v1alpha1GeneDatasetRequest:
     properties:
       accessions:
-        $ref: '#/definitions/v1alpha1GeneDatasetRequestAccessions'
         description: RNA or Protein accessions.
+        items:
+          type: string
+        type: array
       gene_ids:
-        $ref: '#/definitions/GeneDatasetRequestGeneIds'
+        items:
+          format: int64
+          type: integer
         title: NCBI gene ids
+        type: array
       include_annotation_type:
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
@@ -602,13 +586,6 @@ definitions:
         title: NCBI Taxonomy ID or name (common or scientific) that the genes are
           annotated at
         type: string
-    type: object
-  v1alpha1GeneDatasetRequestAccessions:
-    properties:
-      accessions:
-        items:
-          type: string
-        type: array
     type: object
   v1alpha1GeneDatasetRequestContentType:
     default: COMPLETE
@@ -658,6 +635,10 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1Protein'
         type: array
+      query_accessions:
+        items:
+          type: string
+        type: array
       reference_standards:
         items:
           $ref: '#/definitions/v1alpha1GenomicRegion'
@@ -694,7 +675,7 @@ definitions:
     properties:
       errors:
         items:
-          $ref: '#/definitions/datasetsv1alpha1Error'
+          $ref: '#/definitions/v1alpha1Error'
         type: array
       genes:
         items:
@@ -708,6 +689,14 @@ definitions:
       messages:
         items:
           $ref: '#/definitions/v1alpha1Message'
+        type: array
+      query:
+        items:
+          type: string
+        type: array
+      warnings:
+        items:
+          $ref: '#/definitions/v1alpha1Warning'
         type: array
     type: object
   v1alpha1GeneMetadata:
@@ -747,7 +736,9 @@ definitions:
   v1alpha1Message:
     properties:
       error:
-        $ref: '#/definitions/datasetsv1alpha1Error'
+        $ref: '#/definitions/v1alpha1Error'
+      warning:
+        $ref: '#/definitions/v1alpha1Warning'
     type: object
   v1alpha1MicroBiggeDatasetRequestFileType:
     default: FILE_TYPE_UNSPECIFIED
@@ -1015,6 +1006,24 @@ definitions:
     - protein_synonym
     - cds_span
     type: string
+  v1alpha1Warning:
+    properties:
+      gene_warning_code:
+        $ref: '#/definitions/WarningGeneWarningCode'
+      message:
+        type: string
+      reason:
+        type: string
+      replaced_id:
+        $ref: '#/definitions/v1alpha1WarningReplacedId'
+    type: object
+  v1alpha1WarningReplacedId:
+    properties:
+      requested:
+        type: string
+      returned:
+        type: string
+    type: object
 externalDocs:
   description: Interactively explore genome assembly datasets
   url: https://www.ncbi.nlm.nih.gov/datasets/genomes/
@@ -1025,6 +1034,28 @@ info:
   title: NCBI Datasets API
   version: v1alpha
 paths:
+  /gene:
+    post:
+      description: Get detailed gene metadata in a JSON output format.
+      operationId: gene_metadata_by_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1GeneDatasetRequest'
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1GeneMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      summary: Get gene metadata as JSON
+      tags:
+      - Gene
   /gene/accession/{accessions}:
     get:
       description: Get detailed gene metadata by RefSeq Accession in a JSON output
@@ -1032,6 +1063,7 @@ paths:
       operationId: gene_metadata_by_accession
       parameters:
       - collectionFormat: csv
+        description: RNA or Protein accessions.
         in: path
         items:
           type: string
@@ -1083,7 +1115,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene metadata by RefSeq Accession
       tags:
       - Gene
@@ -1094,6 +1126,7 @@ paths:
       operationId: gene_download_summary_by_accession
       parameters:
       - collectionFormat: csv
+        description: RNA or Protein accessions.
         in: path
         items:
           type: string
@@ -1115,7 +1148,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene download summary by RefSeq Accession
       tags:
       - Gene
@@ -1148,7 +1181,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/runtimeStreamError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a gene dataset by POST
       tags:
       - Gene
@@ -1170,7 +1203,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene download summary
       tags:
       - Gene
@@ -1180,6 +1213,7 @@ paths:
       operationId: gene_metadata_by_id
       parameters:
       - collectionFormat: csv
+        description: NCBI gene ids
         in: path
         items:
           format: int64
@@ -1232,7 +1266,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene metadata by GeneID
       tags:
       - Gene
@@ -1243,6 +1277,7 @@ paths:
       operationId: download_gene_package
       parameters:
       - collectionFormat: csv
+        description: NCBI gene ids
         in: path
         items:
           format: int64
@@ -1282,7 +1317,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/runtimeStreamError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a gene dataset by gene ID
       tags:
       - Gene
@@ -1292,6 +1327,7 @@ paths:
       operationId: gene_download_summary_by_id
       parameters:
       - collectionFormat: csv
+        description: NCBI gene ids
         in: path
         items:
           format: int64
@@ -1314,7 +1350,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene download summary by GeneID
       tags:
       - Gene
@@ -1356,7 +1392,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene orthologs by gene ID
       tags:
       - Gene
@@ -1382,11 +1418,11 @@ paths:
               schema:
                 type: string
           schema:
-            $ref: '#/definitions/v1alpha1GeneMatch '
+            $ref: '#/definitions/v1alpha1GeneMatch'
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene metadata
       tags:
       - Gene
@@ -1451,7 +1487,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene metadata by gene symbol.
       tags:
       - Gene
@@ -1480,7 +1516,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get gene download summary by gene symbol.
       tags:
       - Gene
@@ -1502,7 +1538,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Retrieve tax tree
       tags:
       - Gene
@@ -1526,7 +1562,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a list of taxonomy names and IDs found in the gene dataset given
         a partial taxonomic name.
       tags:
@@ -1573,7 +1609,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get genome metadata by accession
       tags:
       - Genome
@@ -1604,7 +1640,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Check the validity of genome accessions
       tags:
       - Genome
@@ -1683,7 +1719,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/runtimeStreamError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a genome dataset by accession
       tags:
       - Genome
@@ -1743,7 +1779,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Preview genome dataset download
       tags:
       - Genome
@@ -1799,7 +1835,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get genome metadata by bioproject accession
       tags:
       - Genome
@@ -1826,7 +1862,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Check the validity of many genome accessions in a single request
       tags:
       - Genome
@@ -1862,7 +1898,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/runtimeStreamError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a genome dataset by post
       tags:
       - Genome
@@ -1889,7 +1925,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Preview genome dataset download by POST
       tags:
       - Genome
@@ -1951,7 +1987,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get genome metadata by taxonomic identifier
       tags:
       - Genome
@@ -1975,7 +2011,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a taxonomic subtree by taxonomic identifier
       tags:
       - Genome
@@ -1999,7 +2035,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get a list of taxonomy names and IDs found in the assembly dataset
         given a partial taxonomic name.
       tags:
@@ -2016,7 +2052,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Retrieve service version
       tags:
       - Version
@@ -2099,7 +2135,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
       tags:
       - Virus
@@ -2190,7 +2226,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/runtimeStreamError'
+            $ref: '#/definitions/rpcStatus'
       summary: Download SARS-CoV-2 protein and CDS datasets by protein name
       tags:
       - Virus
@@ -2296,7 +2332,7 @@ paths:
           schema:
             properties:
               error:
-                $ref: '#/definitions/runtimeStreamError'
+                $ref: '#/definitions/rpcStatus'
               result:
                 $ref: '#/definitions/v1alpha1TabularOutput'
             title: Stream result of v1alpha1TabularOutput
@@ -2304,7 +2340,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get SARS-CoV-2 protein metadata in a tabular format.
       tags:
       - Virus
@@ -2390,7 +2426,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get summary data for Coronaviridae genomes by taxon
       tags:
       - Virus
@@ -2486,7 +2522,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/runtimeStreamError'
+            $ref: '#/definitions/rpcStatus'
       summary: Download Coronavirus genome datasets by taxon
       tags:
       - Virus
@@ -2590,7 +2626,7 @@ paths:
           schema:
             properties:
               error:
-                $ref: '#/definitions/runtimeStreamError'
+                $ref: '#/definitions/rpcStatus'
               result:
                 $ref: '#/definitions/v1alpha1TabularOutput'
             title: Stream result of v1alpha1TabularOutput
@@ -2598,7 +2634,7 @@ paths:
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/gatewayruntimeError'
+            $ref: '#/definitions/rpcStatus'
       summary: Get viral genomic metadata in a tabular format.
       tags:
       - Virus
