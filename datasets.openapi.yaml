@@ -635,10 +635,6 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1Protein'
         type: array
-      query_accessions:
-        items:
-          type: string
-        type: array
       reference_standards:
         items:
           $ref: '#/definitions/v1alpha1GenomicRegion'

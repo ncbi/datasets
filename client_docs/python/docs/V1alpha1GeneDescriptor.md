@@ -15,7 +15,6 @@ Name | Type | Description | Notes
 **omim_ids** | **list[str]** |  | [optional] 
 **orientation** | [**V1alpha1Orientation**](V1alpha1Orientation.md) |  | [optional] 
 **proteins** | [**list[V1alpha1Protein]**](V1alpha1Protein.md) |  | [optional] 
-**query_accessions** | **list[str]** |  | [optional] 
 **reference_standards** | [**list[V1alpha1GenomicRegion]**](V1alpha1GenomicRegion.md) |  | [optional] 
 **replaced_gene_id** | **str** |  | [optional] 
 **rna_type** | [**GeneDescriptorRnaType**](GeneDescriptorRnaType.md) |  | [optional] 
