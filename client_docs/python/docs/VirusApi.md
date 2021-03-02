@@ -1,4 +1,4 @@
-# ncbi.datasets.VirusApi
+# ncbi.datasets.openapi.VirusApi
 
 All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
@@ -24,20 +24,20 @@ Download a SARS-CoV-2 protein datasets
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.VirusApi(api_client)
+    api_instance = ncbi.datasets.openapi.VirusApi(api_client)
     proteins = ['proteins_example'] # list[str] | Which proteins to retrieve in the data package
 refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional)
 annotated_only = True # bool | If true, limit results to annotated genomes. (optional)
@@ -103,20 +103,20 @@ Download a summary of available SARS-CoV-2 protein datasets
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.VirusApi(api_client)
+    api_instance = ncbi.datasets.openapi.VirusApi(api_client)
     proteins = ['proteins_example'] # list[str] | Which proteins to retrieve in the data package
 refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional)
 annotated_only = True # bool | If true, limit results to annotated genomes. (optional)
@@ -180,20 +180,20 @@ Get protein metadata in tabular format for SARS-CoV-2 genomes.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.VirusApi(api_client)
+    api_instance = ncbi.datasets.openapi.VirusApi(api_client)
     proteins = ['proteins_example'] # list[str] | Which proteins to retrieve in the data package
 refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional)
 annotated_only = True # bool | If true, limit results to annotated genomes. (optional)
@@ -259,20 +259,20 @@ Download a Coronavirus genome datasets by taxon
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.VirusApi(api_client)
+    api_instance = ncbi.datasets.openapi.VirusApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
 refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional)
 annotated_only = True # bool | If true, limit results to annotated genomes. (optional)
@@ -340,20 +340,20 @@ Get summary data and download by command line instructions for Coronaviridae gen
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.VirusApi(api_client)
+    api_instance = ncbi.datasets.openapi.VirusApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
 refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional)
 annotated_only = True # bool | If true, limit results to annotated genomes. (optional)
@@ -419,20 +419,20 @@ Get viral genomic metadata in tabular format for Coronaviridae genomes by taxon.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.VirusApi(api_client)
+    api_instance = ncbi.datasets.openapi.VirusApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
 refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional)
 annotated_only = True # bool | If true, limit results to annotated genomes. (optional)

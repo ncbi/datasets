@@ -4,8 +4,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **accessions** | **list[str]** | RNA or Protein accessions. | [optional] 
+**fasta_filter** | **list[str]** |  | [optional] 
 **gene_ids** | **list[int]** |  | [optional] 
-**include_annotation_type** | [**list[GeneDatasetRequestFasta]**](GeneDatasetRequestFasta.md) | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
+**include_annotation_type** | [**list[V1alpha1Fasta]**](V1alpha1Fasta.md) | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
 **limit** | **str** |  | [optional] 
 **returned_content** | [**V1alpha1GeneDatasetRequestContentType**](V1alpha1GeneDatasetRequestContentType.md) |  | [optional] 
 **sort_schema** | [**GeneDatasetRequestSort**](GeneDatasetRequestSort.md) |  | [optional] 

@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**errors** | [**list[V1alpha1Error]**](V1alpha1Error.md) |  | [optional] 
 **gene** | [**V1alpha1GeneDescriptor**](V1alpha1GeneDescriptor.md) |  | [optional] 
 **messages** | [**list[V1alpha1Message]**](V1alpha1Message.md) |  | [optional] 
 **query** | **list[str]** |  | [optional] 
