@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **cds** | [**V1alpha1SeqRangeSet**](V1alpha1SeqRangeSet.md) |  | [optional] 
 **ensembl_transcript** | **str** |  | [optional] 
 **exons** | [**V1alpha1SeqRangeSet**](V1alpha1SeqRangeSet.md) |  | [optional] 
+**genomic_locations** | [**list[V1alpha1GenomicLocation]**](V1alpha1GenomicLocation.md) |  | [optional] 
 **genomic_range** | [**V1alpha1SeqRangeSet**](V1alpha1SeqRangeSet.md) |  | [optional] 
 **length** | **int** |  | [optional] 
 **name** | **str** |  | [optional] 

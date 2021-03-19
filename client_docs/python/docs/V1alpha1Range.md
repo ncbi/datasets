@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **end** | **str** |  | [optional] 
 **order** | **int** | When an ordering is desired, fill out the order in the range. | [optional] 
 **orientation** | [**V1alpha1Orientation**](V1alpha1Orientation.md) |  | [optional] 
+**ribosomal_slippage** | **int** | When ribosomal slippage is desired, fill out slippage amount between this and previous range. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

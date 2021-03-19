@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**annotations** | [**list[Datasetsv1alpha1Annotation]**](Datasetsv1alpha1Annotation.md) |  | [optional] 
 **chromosome** | **str** |  | [optional] 
 **chromosomes** | **list[str]** |  | [optional] 
 **common_name** | **str** |  | [optional] 

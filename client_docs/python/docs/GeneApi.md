@@ -1,4 +1,4 @@
-# ncbi.datasets.GeneApi
+# ncbi.datasets.openapi.GeneApi
 
 All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 
 # **download_gene_package**
-> file download_gene_package(gene_ids, include_annotation_type=include_annotation_type, filename=filename)
+> file download_gene_package(gene_ids, include_annotation_type=include_annotation_type, fasta_filter=fasta_filter, filename=filename)
 
 Get a gene dataset by gene ID
 
@@ -32,27 +32,28 @@ Get a gene dataset including gene, transcript and protein fasta sequence, annota
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_ids = [56] # list[int] | NCBI gene ids
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
+fasta_filter = ['fasta_filter_example'] # list[str] | Limit the FASTA sequences in the datasets package to these transcript and protein accessions. (optional)
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
         # Get a gene dataset by gene ID
-        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, filename=filename)
+        api_response = api_instance.download_gene_package(gene_ids, include_annotation_type=include_annotation_type, fasta_filter=fasta_filter, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->download_gene_package: %s\n" % e)
@@ -64,6 +65,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)| NCBI gene ids | 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
+ **fasta_filter** | [**list[str]**](str.md)| Limit the FASTA sequences in the datasets package to these transcript and protein accessions. | [optional] 
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
@@ -99,21 +101,21 @@ Get a gene dataset including gene, transcript and protein fasta sequence, annota
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
-    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
+    body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
@@ -153,7 +155,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_accession**
-> V1alpha1DownloadSummary gene_download_summary_by_accession(accessions, limit=limit)
+> V1alpha1DownloadSummary gene_download_summary_by_accession(accessions, limit=limit, fasta_filter=fasta_filter)
 
 Get gene download summary by RefSeq Accession
 
@@ -164,26 +166,27 @@ Get gene download summary by RefSeq Accession in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
+fasta_filter = ['fasta_filter_example'] # list[str] | Limit the FASTA sequences in the datasets package to these transcript and protein accessions. (optional)
 
     try:
         # Get gene download summary by RefSeq Accession
-        api_response = api_instance.gene_download_summary_by_accession(accessions, limit=limit)
+        api_response = api_instance.gene_download_summary_by_accession(accessions, limit=limit, fasta_filter=fasta_filter)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_accession: %s\n" % e)
@@ -195,6 +198,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)| RNA or Protein accessions. | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
+ **fasta_filter** | [**list[str]**](str.md)| Limit the FASTA sequences in the datasets package to these transcript and protein accessions. | [optional] 
 
 ### Return type
 
@@ -218,7 +222,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_id**
-> V1alpha1DownloadSummary gene_download_summary_by_id(gene_ids, limit=limit)
+> V1alpha1DownloadSummary gene_download_summary_by_id(gene_ids, limit=limit, fasta_filter=fasta_filter)
 
 Get gene download summary by GeneID
 
@@ -229,26 +233,27 @@ Get a download summary by GeneID in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_ids = [56] # list[int] | NCBI gene ids
 limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
+fasta_filter = ['fasta_filter_example'] # list[str] | Limit the FASTA sequences in the datasets package to these transcript and protein accessions. (optional)
 
     try:
         # Get gene download summary by GeneID
-        api_response = api_instance.gene_download_summary_by_id(gene_ids, limit=limit)
+        api_response = api_instance.gene_download_summary_by_id(gene_ids, limit=limit, fasta_filter=fasta_filter)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_id: %s\n" % e)
@@ -260,6 +265,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gene_ids** | [**list[int]**](int.md)| NCBI gene ids | 
  **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
+ **fasta_filter** | [**list[str]**](str.md)| Limit the FASTA sequences in the datasets package to these transcript and protein accessions. | [optional] 
 
 ### Return type
 
@@ -294,21 +300,21 @@ Get gene download summary in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
-    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
+    body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
 
     try:
         # Get gene download summary
@@ -346,7 +352,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **gene_download_summary_by_tax_and_symbol**
-> V1alpha1DownloadSummary gene_download_summary_by_tax_and_symbol(symbols, taxon)
+> V1alpha1DownloadSummary gene_download_summary_by_tax_and_symbol(symbols, taxon, fasta_filter=fasta_filter)
 
 Get gene download summary by gene symbol.
 
@@ -357,26 +363,27 @@ Get gene download summary by gene symbol in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     symbols = ['symbols_example'] # list[str] | 
 taxon = 'taxon_example' # str | 
+fasta_filter = ['fasta_filter_example'] # list[str] | Limit the FASTA sequences in the datasets package to these transcript and protein accessions. (optional)
 
     try:
         # Get gene download summary by gene symbol.
-        api_response = api_instance.gene_download_summary_by_tax_and_symbol(symbols, taxon)
+        api_response = api_instance.gene_download_summary_by_tax_and_symbol(symbols, taxon, fasta_filter=fasta_filter)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GeneApi->gene_download_summary_by_tax_and_symbol: %s\n" % e)
@@ -388,6 +395,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **symbols** | [**list[str]**](str.md)|  | 
  **taxon** | **str**|  | 
+ **fasta_filter** | [**list[str]**](str.md)| Limit the FASTA sequences in the datasets package to these transcript and protein accessions. | [optional] 
 
 ### Return type
 
@@ -422,20 +430,20 @@ Get detailed gene metadata by RefSeq Accession in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
@@ -493,20 +501,20 @@ Get detailed gene metadata by GeneID in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_ids = [56] # list[int] | NCBI gene ids
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 sort_schema_field = 'SORT_FIELD_UNSPECIFIED' # str | Select a field to sort on. (optional) (default to 'SORT_FIELD_UNSPECIFIED')
@@ -564,21 +572,21 @@ Get detailed gene metadata in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
-    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
+    body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
 
     try:
         # Get gene metadata as JSON
@@ -627,20 +635,20 @@ Get detailed gene metadata by gene symbol in a JSON output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     symbols = ['symbols_example'] # list[str] | 
 taxon = 'taxon_example' # str | 
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
@@ -700,21 +708,21 @@ Get detailed gene metadata in a streaming, JSON-lines output format.
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
-    body = ncbi.datasets.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
+    body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
 
     try:
         # Get gene metadata
@@ -763,20 +771,20 @@ Get detailed gene metadata for an ortholog set by gene ID in a JSON output forma
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_id = 56 # int | 
 returned_content = 'COMPLETE' # str | Return either gene-ids, or entire gene metadata. (optional) (default to 'COMPLETE')
 taxon_filter = ['taxon_filter_example'] # list[str] | Filter genes by taxa. (optional)
@@ -830,20 +838,20 @@ This endpoint retrieves a list of taxonomy names and IDs found in the gene datas
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     taxon_query = 'taxon_query_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
 
     try:
@@ -891,20 +899,20 @@ Retrieve tax tree
 ```python
 from __future__ import print_function
 import time
-import ncbi.datasets
-from ncbi.datasets.rest import ApiException
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
 # See configuration.py for a list of all supported configuration parameters.
-configuration = ncbi.datasets.Configuration(
+configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.GeneApi(api_client)
+    api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
 
     try:
