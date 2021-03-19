@@ -929,6 +929,10 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1Fasta'
         type: array
+      taxon:
+        title: NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
+          When specified, return data from this taxon and its subtree
+        type: string
     type: object
   v1alpha1Protein:
     properties:
@@ -2200,6 +2204,12 @@ paths:
         name: gene_flank_config.length
         required: false
         type: integer
+      - description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
+          rank When specified, return data from this taxon and its subtree.
+        in: query
+        name: taxon
+        required: false
+        type: string
       - default: ncbi_dataset.zip
         description: Output file name.
         in: query

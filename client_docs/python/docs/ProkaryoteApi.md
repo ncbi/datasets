@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **download_prokaryote_gene_package**
-> file download_prokaryote_gene_package(accessions, include_annotation_type=include_annotation_type, gene_flank_config_length=gene_flank_config_length, filename=filename)
+> file download_prokaryote_gene_package(accessions, include_annotation_type=include_annotation_type, gene_flank_config_length=gene_flank_config_length, taxon=taxon, filename=filename)
 
 Get a prokaryote gene dataset by RefSeq protein accession
 
@@ -36,11 +36,12 @@ with ncbi.datasets.openapi.ApiClient() as api_client:
     accessions = ['accessions_example'] # list[str] | WP prokaryote protein accession
 include_annotation_type = ['include_annotation_type_example'] # list[str] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 gene_flank_config_length = 56 # int |  (optional)
+taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank When specified, return data from this taxon and its subtree. (optional)
 filename = 'ncbi_dataset.zip' # str | Output file name. (optional) (default to 'ncbi_dataset.zip')
 
     try:
         # Get a prokaryote gene dataset by RefSeq protein accession
-        api_response = api_instance.download_prokaryote_gene_package(accessions, include_annotation_type=include_annotation_type, gene_flank_config_length=gene_flank_config_length, filename=filename)
+        api_response = api_instance.download_prokaryote_gene_package(accessions, include_annotation_type=include_annotation_type, gene_flank_config_length=gene_flank_config_length, taxon=taxon, filename=filename)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling ProkaryoteApi->download_prokaryote_gene_package: %s\n" % e)
@@ -53,6 +54,7 @@ Name | Type | Description  | Notes
  **accessions** | [**list[str]**](str.md)| WP prokaryote protein accession | 
  **include_annotation_type** | [**list[str]**](str.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional] 
  **gene_flank_config_length** | **int**|  | [optional] 
+ **taxon** | **str**| NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank When specified, return data from this taxon and its subtree. | [optional] 
  **filename** | **str**| Output file name. | [optional] [default to &#39;ncbi_dataset.zip&#39;]
 
 ### Return type
