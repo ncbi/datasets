@@ -1,18 +1,16 @@
-# ncbi.datasets.openapi.VersionApi
+# ncbi.datasets.openapi.DatasetDownloadApi
 
 All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**version**](VersionApi.md#version) | **GET** /version | Retrieve service version
+[**dataset_download_get_prokaryote_gene_dataset_stream2**](DatasetDownloadApi.md#dataset_download_get_prokaryote_gene_dataset_stream2) | **POST** /protein/accession/download | Retrieve Prokaryote Gene data package.
 
 
-# **version**
-> V1alpha1VersionReply version()
+# **dataset_download_get_prokaryote_gene_dataset_stream2**
+> StreamResultOfProtobufBytesValue dataset_download_get_prokaryote_gene_dataset_stream2(body)
 
-Retrieve service version
-
-Retrieve the latest version of the Datasets services.
+Retrieve Prokaryote Gene data package.
 
 ### Example
 
@@ -32,22 +30,26 @@ configuration = ncbi.datasets.openapi.Configuration(
 # Enter a context with an instance of the API client
 with ncbi.datasets.openapi.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = ncbi.datasets.openapi.VersionApi(api_client)
-    
+    api_instance = ncbi.datasets.openapi.DatasetDownloadApi(api_client)
+    body = ncbi.datasets.openapi.V1alpha1ProkaryoteGeneRequest() # V1alpha1ProkaryoteGeneRequest | 
+
     try:
-        # Retrieve service version
-        api_response = api_instance.version()
+        # Retrieve Prokaryote Gene data package.
+        api_response = api_instance.dataset_download_get_prokaryote_gene_dataset_stream2(body)
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling VersionApi->version: %s\n" % e)
+        print("Exception when calling DatasetDownloadApi->dataset_download_get_prokaryote_gene_dataset_stream2: %s\n" % e)
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**V1alpha1ProkaryoteGeneRequest**](V1alpha1ProkaryoteGeneRequest.md)|  | 
 
 ### Return type
 
-[**V1alpha1VersionReply**](V1alpha1VersionReply.md)
+[**StreamResultOfProtobufBytesValue**](StreamResultOfProtobufBytesValue.md)
 
 ### Authorization
 
@@ -55,13 +57,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | A successful response. |  -  |
+**200** | A successful response.(streaming responses) |  -  |
 **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

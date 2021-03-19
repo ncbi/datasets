@@ -49,26 +49,12 @@ definitions:
     default: UNKNOWN_GENE_ERROR_CODE
     enum:
     - UNKNOWN_GENE_ERROR_CODE
-    - REPLACED_GENE_ID
-    - DISCONTINUED_GENE_ID
-    - INVALID_GENE_ID
-    - INVALID_GENE_SYMBOL
     - INCOMPLETE_LOOKUP_SYMBOL
-    - INVALID_ACCESSIONS
-    - INVALID_TAX_TOKEN
     type: string
   ErrorVirusErrorCode:
     default: UNKNOWN_VIRUS_ERROR_CODE
     enum:
     - UNKNOWN_VIRUS_ERROR_CODE
-    type: string
-  GeneDatasetRequestFasta:
-    default: FASTA_UNSPECIFIED
-    enum:
-    - FASTA_UNSPECIFIED
-    - FASTA_GENE
-    - FASTA_RNA
-    - FASTA_PROTEIN
     type: string
   GeneDatasetRequestSort:
     properties:
@@ -210,6 +196,12 @@ definitions:
     - SEROGROUP
     - BIOTYPE
     type: string
+  ProkaryoteGeneRequestGeneFlankConfig:
+    properties:
+      length:
+        format: int64
+        type: integer
+    type: object
   SciNameAndIdsSciNameAndId:
     properties:
       sci_name:
@@ -234,13 +226,37 @@ definitions:
     enum:
     - UNKNOWN_GENE_WARNING_CODE
     - ACCESSION_VERSION_MISMATCH
+    - REPLACED_GENE_ID
+    - DISCONTINUED_GENE_ID
+    - UNRECOGNIZED_GENE_ID
+    - UNRECOGNIZED_GENE_SYMBOL
+    - UNRECOGNIZED_ACCESSION
+    - UNRECOGNIZED_TAX_TOKEN
     type: string
+  WarningReplacedId:
+    properties:
+      requested:
+        type: string
+      returned:
+        type: string
+    type: object
   datasetsv1alpha1Accessions:
     properties:
       accessions:
         items:
           type: string
         type: array
+    type: object
+  datasetsv1alpha1Annotation:
+    properties:
+      assemblies_in_scope:
+        items:
+          $ref: '#/definitions/v1alpha1AnnotatedAssemblies'
+        type: array
+      release_date:
+        type: string
+      release_name:
+        type: string
     type: object
   protobufAny:
     properties:
@@ -260,6 +276,13 @@ definitions:
           $ref: '#/definitions/protobufAny'
         type: array
       message:
+        type: string
+    type: object
+  v1alpha1AnnotatedAssemblies:
+    properties:
+      accession:
+        type: string
+      name:
         type: string
     type: object
   v1alpha1AnnotationForAssembly:
@@ -534,10 +557,6 @@ definitions:
         type: string
       reason:
         type: string
-      replaced_ids:
-        items:
-          $ref: '#/definitions/v1alpha1ErrorReplacedId'
-        type: array
       valid_identifiers:
         items:
           type: string
@@ -545,19 +564,27 @@ definitions:
       virus_error_code:
         $ref: '#/definitions/ErrorVirusErrorCode'
     type: object
-  v1alpha1ErrorReplacedId:
-    properties:
-      current_identifier:
-        type: string
-      former_identifier:
-        type: string
-    type: object
+  v1alpha1Fasta:
+    default: FASTA_UNSPECIFIED
+    enum:
+    - FASTA_UNSPECIFIED
+    - FASTA_GENE
+    - FASTA_RNA
+    - FASTA_PROTEIN
+    - FASTA_GENE_FLANK
+    type: string
   v1alpha1GeneDatasetRequest:
     properties:
       accessions:
         description: RNA or Protein accessions.
         items:
           type: string
+        type: array
+      fasta_filter:
+        items:
+          type: string
+        title: Limit the FASTA sequences in the datasets package to these transcript
+          and protein accessions
         type: array
       gene_ids:
         items:
@@ -569,7 +596,7 @@ definitions:
         description: Select additional types of annotation to include in the data
           package.  If unset, no annotation is provided.
         items:
-          $ref: '#/definitions/GeneDatasetRequestFasta'
+          $ref: '#/definitions/v1alpha1Fasta'
         type: array
       limit:
         title: Limit the number of returned results ("all", "none", otherwise an integer
@@ -595,6 +622,10 @@ definitions:
     type: string
   v1alpha1GeneDescriptor:
     properties:
+      annotations:
+        items:
+          $ref: '#/definitions/datasetsv1alpha1Annotation'
+        type: array
       chromosome:
         title: See chromosomes
         type: string
@@ -680,6 +711,10 @@ definitions:
     type: object
   v1alpha1GeneMatch:
     properties:
+      errors:
+        items:
+          $ref: '#/definitions/v1alpha1Error'
+        type: array
       gene:
         $ref: '#/definitions/v1alpha1GeneDescriptor'
       messages:
@@ -709,6 +744,19 @@ definitions:
         description: The total count of available datasets (ignoring the cutoff parameter).
         format: int64
         type: integer
+    type: object
+  v1alpha1GenomicLocation:
+    properties:
+      exons:
+        items:
+          $ref: '#/definitions/v1alpha1Range'
+        type: array
+      genomic_accession_version:
+        type: string
+      genomic_range:
+        $ref: '#/definitions/v1alpha1Range'
+      sequence_name:
+        type: string
     type: object
   v1alpha1GenomicRegion:
     properties:
@@ -866,6 +914,22 @@ definitions:
         format: int64
         type: integer
     type: object
+  v1alpha1ProkaryoteGeneRequest:
+    properties:
+      accessions:
+        items:
+          type: string
+        title: WP prokaryote protein accession
+        type: array
+      gene_flank_config:
+        $ref: '#/definitions/ProkaryoteGeneRequestGeneFlankConfig'
+      include_annotation_type:
+        description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
+        items:
+          $ref: '#/definitions/v1alpha1Fasta'
+        type: array
+    type: object
   v1alpha1Protein:
     properties:
       accession_version:
@@ -900,6 +964,11 @@ definitions:
         type: integer
       orientation:
         $ref: '#/definitions/v1alpha1Orientation'
+      ribosomal_slippage:
+        description: When ribosomal slippage is desired, fill out slippage amount
+          between this and previous range.
+        format: int32
+        type: integer
     type: object
   v1alpha1SciNameAndIds:
     properties:
@@ -949,6 +1018,10 @@ definitions:
         type: string
       exons:
         $ref: '#/definitions/v1alpha1SeqRangeSet'
+      genomic_locations:
+        items:
+          $ref: '#/definitions/v1alpha1GenomicLocation'
+        type: array
       genomic_range:
         $ref: '#/definitions/v1alpha1SeqRangeSet'
       length:
@@ -1011,13 +1084,8 @@ definitions:
       reason:
         type: string
       replaced_id:
-        $ref: '#/definitions/v1alpha1WarningReplacedId'
-    type: object
-  v1alpha1WarningReplacedId:
-    properties:
-      requested:
-        type: string
-      returned:
+        $ref: '#/definitions/WarningReplacedId'
+      unrecognized_identifier:
         type: string
     type: object
 externalDocs:
@@ -1136,6 +1204,15 @@ paths:
         name: limit
         required: false
         type: string
+      - collectionFormat: multi
+        description: Limit the FASTA sequences in the datasets package to these transcript
+          and protein accessions.
+        in: query
+        items:
+          type: string
+        name: fasta_filter
+        required: false
+        type: array
       responses:
         '200':
           description: A successful response.
@@ -1295,6 +1372,15 @@ paths:
         name: include_annotation_type
         required: false
         type: array
+      - collectionFormat: multi
+        description: Limit the FASTA sequences in the datasets package to these transcript
+          and protein accessions.
+        in: query
+        items:
+          type: string
+        name: fasta_filter
+        required: false
+        type: array
       - default: ncbi_dataset.zip
         description: Output file name.
         in: query
@@ -1338,6 +1424,15 @@ paths:
         name: limit
         required: false
         type: string
+      - collectionFormat: multi
+        description: Limit the FASTA sequences in the datasets package to these transcript
+          and protein accessions.
+        in: query
+        items:
+          type: string
+        name: fasta_filter
+        required: false
+        type: array
       responses:
         '200':
           description: A successful response.
@@ -1504,6 +1599,15 @@ paths:
         name: taxon
         required: true
         type: string
+      - collectionFormat: multi
+        description: Limit the FASTA sequences in the datasets package to these transcript
+          and protein accessions.
+        in: query
+        items:
+          type: string
+        name: fasta_filter
+        required: false
+        type: array
       responses:
         '200':
           description: A successful response.
@@ -2036,6 +2140,88 @@ paths:
         given a partial taxonomic name.
       tags:
       - Genome
+  /protein/accession/download:
+    post:
+      operationId: DatasetDownload_GetProkaryoteGeneDatasetStream2
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1ProkaryoteGeneRequest'
+      responses:
+        '200':
+          description: A successful response.(streaming responses)
+          schema:
+            format: byte
+            properties:
+              error:
+                $ref: '#/definitions/rpcStatus'
+              result: {}
+            title: Stream result of protobufBytesValue
+            type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      summary: Retrieve Prokaryote Gene data package.
+      tags:
+      - DatasetDownload
+  /protein/accession/{accessions}/download:
+    get:
+      description: Get a prokaryote gene dataset including gene and protein fasta
+        sequence, annotation and metadata by prokaryote protein accession.
+      operationId: download_prokaryote_gene_package
+      parameters:
+      - collectionFormat: csv
+        description: WP prokaryote protein accession
+        in: path
+        items:
+          type: string
+        minItems: 1
+        name: accessions
+        required: true
+        type: array
+      - collectionFormat: multi
+        description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
+        in: query
+        items:
+          enum:
+          - FASTA_GENE
+          - FASTA_PROTEIN
+          - FASTA_GENE_FLANK
+          type: string
+        name: include_annotation_type
+        required: false
+        type: array
+      - format: int64
+        in: query
+        name: gene_flank_config.length
+        required: false
+        type: integer
+      - default: ncbi_dataset.zip
+        description: Output file name.
+        in: query
+        name: filename
+        required: false
+        type: string
+      produces:
+      - application/zip
+      responses:
+        '200':
+          description: Download selected prokaryote gene data as a zip file.
+          schema:
+            description: Zip compressed stream
+            format: binary
+            type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      summary: Get a prokaryote gene dataset by RefSeq protein accession
+      tags:
+      - Prokaryote
   /version:
     get:
       description: Retrieve the latest version of the Datasets services.
@@ -2646,6 +2832,9 @@ tags:
 - description: Options to explore, summarize and download sequences and metadata for
     genes and their associated transcripts and proteins.
   name: Gene
+- description: Options to explore, summarize and download sequences and metadata for
+    prokaryote genes and their associated proteins.
+  name: Prokaryote
 - description: Options to summarize and download sequences SARS-CoV-2 and coronavirus
     genome and protein sequence, annotation and metadata.
   name: Virus
