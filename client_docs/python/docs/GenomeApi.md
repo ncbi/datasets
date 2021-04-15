@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**download_assembly_package_post**](GenomeApi.md#download_assembly_package_post) | **POST** /genome/download | Get a genome dataset by post
 [**genome_download_summary**](GenomeApi.md#genome_download_summary) | **GET** /genome/accession/{accessions}/download_summary | Preview genome dataset download
 [**genome_download_summary_by_post**](GenomeApi.md#genome_download_summary_by_post) | **POST** /genome/download_summary | Preview genome dataset download by POST
+[**genome_metadata_by_post**](GenomeApi.md#genome_metadata_by_post) | **POST** /genome | Get genome metadata by accession
 [**genome_tax_name_query**](GenomeApi.md#genome_tax_name_query) | **GET** /genome/taxon_suggest/{taxon_query} | Get a list of taxonomy names and IDs found in the assembly dataset given a partial taxonomic name.
 [**genome_tax_tree**](GenomeApi.md#genome_tax_tree) | **GET** /genome/taxon/{taxon}/tree | Get a taxonomic subtree by taxonomic identifier
 
@@ -608,6 +609,69 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**V1alpha1DownloadSummary**](V1alpha1DownloadSummary.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response. |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **genome_metadata_by_post**
+> V1alpha1AssemblyMetadata genome_metadata_by_post(body)
+
+Get genome metadata by accession
+
+Get detailed metadata for assembled genomes by accession in a JSON output format.
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.rest import ApiException
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1alpha
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
+)
+
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.openapi.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
+    body = ncbi.datasets.openapi.V1alpha1AssemblyMetadataRequest() # V1alpha1AssemblyMetadataRequest | 
+
+    try:
+        # Get genome metadata by accession
+        api_response = api_instance.genome_metadata_by_post(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling GenomeApi->genome_metadata_by_post: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**V1alpha1AssemblyMetadataRequest**](V1alpha1AssemblyMetadataRequest.md)|  | 
+
+### Return type
+
+[**V1alpha1AssemblyMetadata**](V1alpha1AssemblyMetadata.md)
 
 ### Authorization
 

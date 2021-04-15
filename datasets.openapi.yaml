@@ -489,6 +489,32 @@ definitions:
         format: int64
         type: integer
     type: object
+  v1alpha1AssemblyMetadataRequest:
+    properties:
+      accessions:
+        $ref: '#/definitions/datasetsv1alpha1Accessions'
+        title: NCBI assembly accession
+      bioprojects:
+        $ref: '#/definitions/AssemblyMetadataRequestBioprojects'
+        title: NCBI bioproject accessions
+      filters:
+        $ref: '#/definitions/v1alpha1AssemblyDatasetDescriptorsFilter'
+      limit:
+        title: Limit the number of returned results ("all", "none", otherwise an integer
+          value)
+        type: string
+      returned_content:
+        $ref: '#/definitions/v1alpha1AssemblyMetadataRequestContentType'
+        title: Return either assembly accessions, or entire assembly-metadata records
+      tax_exact_match:
+        description: If true, only return assemblies with the given NCBI Taxonomy
+          ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.
+          Ignored for assembly_accession request.
+        type: boolean
+      taxon:
+        title: NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
+        type: string
+    type: object
   v1alpha1AssemblyMetadataRequestContentType:
     default: COMPLETE
     enum:
@@ -1671,6 +1697,29 @@ paths:
         a partial taxonomic name.
       tags:
       - Gene
+  /genome:
+    post:
+      description: Get detailed metadata for assembled genomes by accession in a JSON
+        output format.
+      operationId: genome_metadata_by_post
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/v1alpha1AssemblyMetadataRequest'
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1alpha1AssemblyMetadata'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      summary: Get genome metadata by accession
+      tags:
+      - Genome
   /genome/accession/{accessions}:
     get:
       description: Get detailed metadata for assembled genomes by accession in a JSON
@@ -2146,31 +2195,37 @@ paths:
       - Genome
   /protein/accession/download:
     post:
-      operationId: DatasetDownload_GetProkaryoteGeneDatasetStream2
+      description: Get a prokaryote gene dataset including gene and protein fasta
+        sequence, annotation and metadata by prokaryote protein accession by POST.
+      operationId: download_prokaryote_gene_package_post
       parameters:
       - in: body
         name: body
         required: true
         schema:
           $ref: '#/definitions/v1alpha1ProkaryoteGeneRequest'
+      - default: ncbi_dataset.zip
+        description: Output file name.
+        in: query
+        name: filename
+        required: false
+        type: string
+      produces:
+      - application/zip
       responses:
         '200':
-          description: A successful response.(streaming responses)
+          description: Download selected prokaryote gene data as a zip file.
           schema:
-            format: byte
-            properties:
-              error:
-                $ref: '#/definitions/rpcStatus'
-              result: {}
-            title: Stream result of protobufBytesValue
-            type: object
+            description: Zip compressed stream
+            format: binary
+            type: string
         default:
           description: An unexpected error response.
           schema:
             $ref: '#/definitions/rpcStatus'
-      summary: Retrieve Prokaryote Gene data package.
+      summary: Get a prokaryote gene dataset by RefSeq protein accession by POST
       tags:
-      - DatasetDownload
+      - Prokaryote
   /protein/accession/{accessions}/download:
     get:
       description: Get a prokaryote gene dataset including gene and protein fasta
@@ -2285,7 +2340,7 @@ paths:
         type: string
       - default: All hosts
         description: If set, limit results to genomes extracted from this host (Taxonomy
-          ID or name) or its taxonomic descendants.
+          ID or name).
         in: query
         name: host
         required: false
@@ -2368,7 +2423,7 @@ paths:
         type: string
       - default: All hosts
         description: If set, limit results to genomes extracted from this host (Taxonomy
-          ID or name) or its taxonomic descendants.
+          ID or name).
         in: query
         name: host
         required: false
@@ -2459,7 +2514,7 @@ paths:
         type: string
       - default: All hosts
         description: If set, limit results to genomes extracted from this host (Taxonomy
-          ID or name) or its taxonomic descendants.
+          ID or name).
         in: query
         name: host
         required: false
@@ -2571,9 +2626,15 @@ paths:
         type: string
       - default: All hosts
         description: If set, limit results to genomes extracted from this host (Taxonomy
-          ID or name) or its taxonomic descendants.
+          ID or name).
         in: query
         name: host
+        required: false
+        type: string
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        in: query
+        name: pangolin_classification
         required: false
         type: string
       - default: Empty, for no filtering
@@ -2656,9 +2717,15 @@ paths:
         type: string
       - default: All hosts
         description: If set, limit results to genomes extracted from this host (Taxonomy
-          ID or name) or its taxonomic descendants.
+          ID or name).
         in: query
         name: host
+        required: false
+        type: string
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        in: query
+        name: pangolin_classification
         required: false
         type: string
       - default: Empty, for no filtering
@@ -2753,9 +2820,15 @@ paths:
         type: string
       - default: All hosts
         description: If set, limit results to genomes extracted from this host (Taxonomy
-          ID or name) or its taxonomic descendants.
+          ID or name).
         in: query
         name: host
+        required: false
+        type: string
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        in: query
+        name: pangolin_classification
         required: false
         type: string
       - default: Empty, for no filtering
