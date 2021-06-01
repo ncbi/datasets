@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 
 # **assembly_descriptors_by_accessions**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_accessions(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, page_size=page_size, page_token=page_token)
 
 Get genome metadata by accession
 
@@ -27,6 +27,7 @@ Get detailed metadata for assembled genomes by accession in a JSON output format
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -39,19 +40,39 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | 
-limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
-filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
-filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
+filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional)
+filters_assembly_source = 'all' # str | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies. (optional) (default to 'all')
+filters_has_annotation = True # bool | Return only annotated genome assemblies. (optional)
+filters_assembly_level = ['filters_assembly_level_example'] # list[str] | Only return genome assemblies that have one of the specified assembly levels. (optional)
+filters_first_release_date = '2013-10-20T19:20:30+01:00' # datetime | Only return genome assemblies that were released on or after the specified date. (optional)
+filters_last_release_date = '2013-10-20T19:20:30+01:00' # datetime | Only return genome assemblies that were released on or before to the specified date. (optional)
+filters_search_text = ['filters_search_text_example'] # list[str] | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields. (optional)
+page_size = 56 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional)
+page_token = 'page_token_example' # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     try:
         # Get genome metadata by accession
-        api_response = api_instance.assembly_descriptors_by_accessions(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only)
+        api_response = api_instance.assembly_descriptors_by_accessions(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_accessions: %s\n" % e)
@@ -62,9 +83,15 @@ filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblie
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)|  | 
- **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
- **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
- **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
+ **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [optional] 
+ **filters_assembly_source** | **str**| Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies. | [optional] [default to &#39;all&#39;]
+ **filters_has_annotation** | **bool**| Return only annotated genome assemblies. | [optional] 
+ **filters_assembly_level** | [**list[str]**](str.md)| Only return genome assemblies that have one of the specified assembly levels. | [optional] 
+ **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date. | [optional] 
+ **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date. | [optional] 
+ **filters_search_text** | [**list[str]**](str.md)| Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields. | [optional] 
+ **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] 
+ **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional] 
 
 ### Return type
 
@@ -72,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -88,7 +115,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **assembly_descriptors_by_bioproject**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_bioproject(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_bioproject(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, returned_content=returned_content, page_size=page_size, page_token=page_token)
 
 Get genome metadata by bioproject accession
 
@@ -96,6 +123,7 @@ Get detailed metadata for assembled genomes by bioproject accession in a JSON ou
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -108,20 +136,40 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | 
-limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
-filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
-filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
+filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional)
+filters_assembly_source = 'all' # str | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies. (optional) (default to 'all')
+filters_has_annotation = True # bool | Return only annotated genome assemblies. (optional)
+filters_assembly_level = ['filters_assembly_level_example'] # list[str] | Only return genome assemblies that have one of the specified assembly levels. (optional)
+filters_first_release_date = '2013-10-20T19:20:30+01:00' # datetime | Only return genome assemblies that were released on or after the specified date. (optional)
+filters_last_release_date = '2013-10-20T19:20:30+01:00' # datetime | Only return genome assemblies that were released on or before to the specified date. (optional)
+filters_search_text = ['filters_search_text_example'] # list[str] | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields. (optional)
 returned_content = 'COMPLETE' # str | Return either assembly accessions, or entire assembly-metadata records. (optional) (default to 'COMPLETE')
+page_size = 56 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional)
+page_token = 'page_token_example' # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     try:
         # Get genome metadata by bioproject accession
-        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, returned_content=returned_content)
+        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, returned_content=returned_content, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_bioproject: %s\n" % e)
@@ -132,10 +180,16 @@ returned_content = 'COMPLETE' # str | Return either assembly accessions, or enti
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accessions** | [**list[str]**](str.md)|  | 
- **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
- **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
- **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
+ **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [optional] 
+ **filters_assembly_source** | **str**| Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies. | [optional] [default to &#39;all&#39;]
+ **filters_has_annotation** | **bool**| Return only annotated genome assemblies. | [optional] 
+ **filters_assembly_level** | [**list[str]**](str.md)| Only return genome assemblies that have one of the specified assembly levels. | [optional] 
+ **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date. | [optional] 
+ **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date. | [optional] 
+ **filters_search_text** | [**list[str]**](str.md)| Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields. | [optional] 
  **returned_content** | **str**| Return either assembly accessions, or entire assembly-metadata records. | [optional] [default to &#39;COMPLETE&#39;]
+ **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] 
+ **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional] 
 
 ### Return type
 
@@ -143,7 +197,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -159,7 +213,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **assembly_descriptors_by_taxon**
-> V1alpha1AssemblyMetadata assembly_descriptors_by_taxon(taxon, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
+> V1alpha1AssemblyMetadata assembly_descriptors_by_taxon(taxon, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, tax_exact_match=tax_exact_match, returned_content=returned_content, page_size=page_size, page_token=page_token)
 
 Get genome metadata by taxonomic identifier
 
@@ -167,6 +221,7 @@ Get detailed metadata on all assembled genomes for a specified NCBI Taxonomy ID 
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -179,21 +234,41 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
-limit = 'limit_example' # str | Limit the number of returned results (\"all\", \"none\", otherwise an integer value). (optional)
-filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) assemblies. (optional)
-filters_refseq_only = True # bool | If true, only return RefSeq (GCF_) assemblies. (optional)
+filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional)
+filters_assembly_source = 'all' # str | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies. (optional) (default to 'all')
+filters_has_annotation = True # bool | Return only annotated genome assemblies. (optional)
+filters_assembly_level = ['filters_assembly_level_example'] # list[str] | Only return genome assemblies that have one of the specified assembly levels. (optional)
+filters_first_release_date = '2013-10-20T19:20:30+01:00' # datetime | Only return genome assemblies that were released on or after the specified date. (optional)
+filters_last_release_date = '2013-10-20T19:20:30+01:00' # datetime | Only return genome assemblies that were released on or before to the specified date. (optional)
+filters_search_text = ['filters_search_text_example'] # list[str] | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields. (optional)
 tax_exact_match = True # bool | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. (optional)
 returned_content = 'COMPLETE' # str | Return either assembly accessions, or entire assembly-metadata records. (optional) (default to 'COMPLETE')
+page_size = 56 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional)
+page_token = 'page_token_example' # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     try:
         # Get genome metadata by taxonomic identifier
-        api_response = api_instance.assembly_descriptors_by_taxon(taxon, limit=limit, filters_reference_only=filters_reference_only, filters_refseq_only=filters_refseq_only, tax_exact_match=tax_exact_match, returned_content=returned_content)
+        api_response = api_instance.assembly_descriptors_by_taxon(taxon, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, tax_exact_match=tax_exact_match, returned_content=returned_content, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_taxon: %s\n" % e)
@@ -204,11 +279,17 @@ returned_content = 'COMPLETE' # str | Return either assembly accessions, or enti
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **taxon** | **str**| NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank | 
- **limit** | **str**| Limit the number of returned results (\&quot;all\&quot;, \&quot;none\&quot;, otherwise an integer value). | [optional] 
- **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) assemblies. | [optional] 
- **filters_refseq_only** | **bool**| If true, only return RefSeq (GCF_) assemblies. | [optional] 
+ **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [optional] 
+ **filters_assembly_source** | **str**| Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies. | [optional] [default to &#39;all&#39;]
+ **filters_has_annotation** | **bool**| Return only annotated genome assemblies. | [optional] 
+ **filters_assembly_level** | [**list[str]**](str.md)| Only return genome assemblies that have one of the specified assembly levels. | [optional] 
+ **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date. | [optional] 
+ **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date. | [optional] 
+ **filters_search_text** | [**list[str]**](str.md)| Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields. | [optional] 
  **tax_exact_match** | **bool**| If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. | [optional] 
  **returned_content** | **str**| Return either assembly accessions, or entire assembly-metadata records. | [optional] [default to &#39;COMPLETE&#39;]
+ **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] 
+ **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional] 
 
 ### Return type
 
@@ -216,7 +297,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -240,6 +321,7 @@ The 'GET' version of check is limited by the size of the GET URL (2KB, which wor
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -252,9 +334,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
@@ -279,7 +375,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -303,6 +399,7 @@ The 'GET' version of check is limited by the size of the GET URL (2KB, which wor
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -315,9 +412,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1AssemblyDatasetRequest() # V1alpha1AssemblyDatasetRequest | 
@@ -342,7 +453,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -366,6 +477,7 @@ Download a genome dataset including fasta sequence, annotation and a detailed da
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -378,9 +490,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
@@ -415,7 +541,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -439,6 +565,7 @@ The 'GET' version of download is limited by the size of the GET URL (2KB, which 
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -451,9 +578,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1AssemblyDatasetRequest() # V1alpha1AssemblyDatasetRequest | 
@@ -480,7 +621,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -504,6 +645,7 @@ Get a download summary by accession in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -516,9 +658,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     accessions = ['accessions_example'] # list[str] | NCBI genome assembly accessions
@@ -549,7 +705,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -573,6 +729,7 @@ The 'GET' version of download summary is limited by the size of the GET URL (2KB
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -585,9 +742,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1AssemblyDatasetRequest() # V1alpha1AssemblyDatasetRequest | 
@@ -612,7 +783,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -636,6 +807,7 @@ Get detailed metadata for assembled genomes by accession in a JSON output format
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -648,9 +820,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1AssemblyMetadataRequest() # V1alpha1AssemblyMetadataRequest | 
@@ -675,7 +861,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -699,6 +885,7 @@ This endpoint retrieves a list of taxonomy names and IDs found in the assembly d
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -711,9 +898,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     taxon_query = 'taxon_query_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
@@ -738,7 +939,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -762,6 +963,7 @@ Using a NCBI Taxonomy ID or name (common or scientific) at any rank, get a subtr
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -774,9 +976,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GenomeApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
@@ -801,7 +1017,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 

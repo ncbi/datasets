@@ -29,6 +29,7 @@ Get a gene dataset including gene, transcript and protein fasta sequence, annota
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -41,9 +42,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_ids = [56] # list[int] | NCBI gene ids
@@ -74,7 +89,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -98,6 +113,7 @@ Get a gene dataset including gene, transcript and protein fasta sequence, annota
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -110,9 +126,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
@@ -139,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -163,6 +193,7 @@ Get gene download summary by RefSeq Accession in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -175,9 +206,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
@@ -206,7 +251,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -230,6 +275,7 @@ Get a download summary by GeneID in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -242,9 +288,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_ids = [56] # list[int] | NCBI gene ids
@@ -273,7 +333,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -297,6 +357,7 @@ Get gene download summary in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -309,9 +370,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
@@ -336,7 +411,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -360,6 +435,7 @@ Get gene download summary by gene symbol in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -372,9 +448,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     symbols = ['symbols_example'] # list[str] | 
@@ -403,7 +493,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -427,6 +517,7 @@ Get detailed gene metadata by RefSeq Accession in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -439,9 +530,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     accessions = ['accessions_example'] # list[str] | RNA or Protein accessions.
@@ -474,7 +579,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -498,6 +603,7 @@ Get detailed gene metadata by GeneID in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -510,9 +616,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_ids = [56] # list[int] | NCBI gene ids
@@ -545,7 +665,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -569,6 +689,7 @@ Get detailed gene metadata in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -581,9 +702,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
@@ -608,7 +743,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -632,6 +767,7 @@ Get detailed gene metadata by gene symbol in a JSON output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -644,9 +780,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     symbols = ['symbols_example'] # list[str] | 
@@ -681,7 +831,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -705,6 +855,7 @@ Get detailed gene metadata in a streaming, JSON-lines output format.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -717,9 +868,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1GeneDatasetRequest() # V1alpha1GeneDatasetRequest | 
@@ -744,7 +909,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -768,6 +933,7 @@ Get detailed gene metadata for an ortholog set by gene ID in a JSON output forma
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -780,9 +946,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     gene_id = 56 # int | 
@@ -811,7 +991,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -835,6 +1015,7 @@ This endpoint retrieves a list of taxonomy names and IDs found in the gene datas
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -847,9 +1028,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     taxon_query = 'taxon_query_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
@@ -874,7 +1069,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -896,6 +1091,7 @@ Retrieve tax tree
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -908,9 +1104,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.GeneApi(api_client)
     taxon = 'taxon_example' # str | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
@@ -935,7 +1145,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 

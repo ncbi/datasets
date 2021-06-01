@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **release_number** | **str** | NCBI Annotation release number, if one exists. | [optional] 
 **report_url** | **str** |  | [optional] 
 **source** | **str** | Source of the annotation.  Possibly from a submitter. | [optional] 
+**stats** | [**V1alpha1FeatureCounts**](V1alpha1FeatureCounts.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,0 +1,39 @@
+workspace(name = "ncbi_datasets_cli")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+#### Rules Go for Bazel
+RULES_GO_VERSION = "0.27.0"
+RULES_GO_SHA256 = "8a9bcbd7663c994b96faea2518f61737571959f0b7aa5c626559ffff788efdb0"
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = RULES_GO_SHA256,
+    strip_prefix = "rules_go-%s" % RULES_GO_VERSION,
+    urls = ["https://github.com/bazelbuild/rules_go/archive/v%s.tar.gz" % RULES_GO_VERSION],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains(go_version = "1.16.2")
+
+#### Gazelle Rules for Bazel
+BAZEL_GAZELLE_VERSION = "0.23.0"
+BAZEL_GAZELLE_SHA256 = "0ba1c56b5df496c07b8d258fb97193668baa0b3a93e4dbb0a1559a6dcbd7d057"
+
+http_archive(
+    name = "bazel_gazelle",
+    sha256 = BAZEL_GAZELLE_SHA256,
+    strip_prefix = "bazel-gazelle-%s" % BAZEL_GAZELLE_VERSION,
+    urls = ["https://github.com/bazelbuild/bazel-gazelle/archive/v%s.tar.gz" % BAZEL_GAZELLE_VERSION],
+)
+
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+gazelle_dependencies()
+
+load("//requirements:repositories.bzl", "go_repositories")
+
+# gazelle:repository_macro requirements/repositories.bzl%go_repositories
+go_repositories()
