@@ -1,0 +1,129 @@
+VERSION = "11.25.1"
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
+
+go_library(
+    name = "datasets_util",
+    srcs = glob(["datasets/util/*.go"],),
+    importpath = "main/datasets/util",
+    deps = [
+        "//src/generated:openapi_go_lib",
+
+        "@com_github_antihax_optional//:go_default_library",
+        "@com_github_docker_go_units//:go_default_library",
+        "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_pflag//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)
+
+go_library(
+    name = "datasets_util_command",
+    srcs = glob(["datasets/util/command/*.go"],),
+    importpath = "main/datasets/util/command",
+    deps = [
+        "//src/generated:openapi_go_lib",
+
+        "@com_github_antihax_optional//:go_default_library",
+        "@com_github_docker_go_units//:go_default_library",
+        "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_pflag//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)
+
+go_library(
+    name = "datasets_lib",
+    srcs = glob(["datasets/datasets/*.go"],),
+    importpath = "main/datasets/datasets",
+    deps = [
+        "//src/generated:openapi_go_lib",
+        "//src/generated:ncbi_datasets_go_lib",
+        ":datasets_util",
+        ":datasets_util_command",
+
+        "@com_github_antihax_optional//:go_default_library",
+        "@com_github_docker_go_units//:go_default_library",
+        "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_pflag//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+        "@com_github_hashicorp_go_retryablehttp//:go_default_library",
+        "@com_github_hashicorp_go_cleanhttp//:go_default_library",
+    ],
+)
+
+go_library(
+    name = "dataformat_lib",
+    srcs = glob(["datasets/dataformat/*.go"],),
+    importpath = "main/datasets/dataformat",
+    deps = [
+        "//src/generated:ncbi_datasets_go_lib",
+        "//src/generated:ncbi_datasets_reports_go_lib",
+        ":datasets_util",
+        ":datasets_util_command",
+
+        "@com_github_antihax_optional//:go_default_library",
+        "@com_github_tealeg_xlsx_v3//:go_default_library",
+        "@com_github_docker_go_units//:go_default_library",
+        "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_pflag//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+
+        "@org_golang_google_protobuf//proto:go_default_library",
+        "@org_golang_google_protobuf//reflect/protoreflect:go_default_library",
+        "@org_golang_google_protobuf//encoding/protojson:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "datasets",
+    srcs = [
+        "cmd/datasets/main.go",
+    ],
+    x_defs = {
+        "main/datasets/datasets.AppVersion": VERSION,
+    },
+    deps = [
+        ":datasets_lib",
+        ":datasets_util",
+        ":datasets_util_command",
+
+        "@com_github_antihax_optional//:go_default_library",
+        "@com_github_docker_go_units//:go_default_library",
+        "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_pflag//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "dataformat",
+    srcs = [
+        "cmd/dataformat/main.go",
+    ],
+    x_defs = {
+        "main/datasets/dataformat.AppVersion": VERSION,
+    },
+    deps = [
+        ":dataformat_lib",
+        ":datasets_util",
+        ":datasets_util_command",
+
+        "@com_github_antihax_optional//:go_default_library",
+        "@com_github_docker_go_units//:go_default_library",
+        "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_pflag//:go_default_library",
+        "@com_github_stretchr_testify//require:go_default_library",
+    ],
+)

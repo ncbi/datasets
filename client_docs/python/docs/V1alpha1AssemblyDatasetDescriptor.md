@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **assembly_category** | **str** | Category of assembly, like reference. | [optional] 
 **assembly_level** | **str** |  | [optional] 
 **bioproject_lineages** | [**list[V1alpha1BioProjectLineage]**](V1alpha1BioProjectLineage.md) |  | [optional] 
+**biosample_accession** | **str** | NCBI BioSample Accession for the BioSample from which the sequences in the genome assembly were obtained. | [optional] 
 **chromosomes** | **list[str]** | Which chromosomes are included in this dataset. NB: Mitochondria is encoded as &#39;MT&#39;. | [optional] 
 **contig_n50** | **int** |  | [optional] 
 **display_name** | **str** | The name of the Assembly dataset to be displayed in a user interface. | [optional] 
@@ -15,6 +16,7 @@ Name | Type | Description | Notes
 **org** | [**V1alpha1Organism**](V1alpha1Organism.md) |  | [optional] 
 **seq_length** | **str** |  | [optional] 
 **submission_date** | **str** |  | [optional] 
+**submitter** | **str** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -2,6 +2,23 @@ basePath: /datasets/v1alpha
 consumes:
 - application/json
 definitions:
+  AssemblyDatasetDescriptorsFilterAssemblyLevel:
+    default: chromosome
+    enum:
+    - chromosome
+    - scaffold
+    - contig
+    - complete_genome
+    title: 'The level of the genome assembly: Chromosome, Scaffold, Contig or Complete
+      Genome'
+    type: string
+  AssemblyDatasetDescriptorsFilterAssemblySource:
+    default: all
+    enum:
+    - all
+    - refseq
+    - genbank
+    type: string
   AssemblyDatasetRequestResolution:
     default: FULLY_HYDRATED
     enum:
@@ -307,6 +324,9 @@ definitions:
       source:
         description: Source of the annotation.  Possibly from a submitter.
         type: string
+      stats:
+        $ref: '#/definitions/v1alpha1FeatureCounts'
+        title: Feature statistics
     type: object
   v1alpha1AnnotationForAssemblyFile:
     properties:
@@ -370,6 +390,10 @@ definitions:
           $ref: '#/definitions/v1alpha1BioProjectLineage'
         title: The bioproject(s) associated with this assembly
         type: array
+      biosample_accession:
+        description: NCBI BioSample Accession for the BioSample from which the sequences
+          in the genome assembly were obtained.
+        type: string
       chromosomes:
         description: 'Which chromosomes are included in this dataset. NB: Mitochondria
           is encoded as ''MT''.'
@@ -397,6 +421,10 @@ definitions:
       submission_date:
         title: Date the assembly was provided to NCBI
         type: string
+      submitter:
+        title: The submitting consortium or organization. Full submitter information
+          is available in the BioProject
+        type: string
     type: object
   v1alpha1AssemblyDatasetDescriptors:
     properties:
@@ -413,13 +441,42 @@ definitions:
     type: object
   v1alpha1AssemblyDatasetDescriptorsFilter:
     properties:
+      assembly_level:
+        items:
+          $ref: '#/definitions/AssemblyDatasetDescriptorsFilterAssemblyLevel'
+        title: Only return genome assemblies that have one of the specified assembly
+          levels
+        type: array
+      assembly_source:
+        $ref: '#/definitions/AssemblyDatasetDescriptorsFilterAssemblySource'
+        title: Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies
+      first_release_date:
+        format: date-time
+        title: Only return genome assemblies that were released on or after the specified
+          date
+        type: string
+      has_annotation:
+        title: Return only annotated genome assemblies
+        type: boolean
+      last_release_date:
+        format: date-time
+        title: Only return genome assemblies that were released on or before to the
+          specified date
+        type: string
       reference_only:
         description: If true, only return reference and representative (GCF_ and GCA_)
-          assemblies.
+          genome assemblies.
         type: boolean
       refseq_only:
-        description: If true, only return RefSeq (GCF_) assemblies.
+        description: If true, only return RefSeq (GCF_) genome assemblies. Deprecated
+          - use assembly_type instead.
         type: boolean
+      search_text:
+        items:
+          type: string
+        title: Only return results whose fields contain the specified search terms
+          in their taxon, infraspecific, assembly name or submitter fields
+        type: array
     type: object
   v1alpha1AssemblyDatasetDescriptorsRequestContentType:
     default: COMPLETE
@@ -484,8 +541,14 @@ definitions:
         items:
           $ref: '#/definitions/v1alpha1Message'
         type: array
+      next_page_token:
+        description: A token that can be sent as `page_token` to retrieve the next
+          page. If this field is omitted, there are no subsequent pages.
+        type: string
       total_count:
         description: The total count of available datasets (ignoring the cutoff parameter).
+          Only provided for the first page of results (when `page_token` is empty
+          in the request).
         format: int64
         type: integer
     type: object
@@ -500,8 +563,20 @@ definitions:
       filters:
         $ref: '#/definitions/v1alpha1AssemblyDatasetDescriptorsFilter'
       limit:
-        title: Limit the number of returned results ("all", "none", otherwise an integer
-          value)
+        title: Deprecated - Limit the number of returned results ("all", "none", otherwise
+          an integer value)
+        type: string
+      page_size:
+        description: The maximum number of genome assemblies to return. Default is
+          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
+          can be used to retrieve the remaining results.
+        format: int32
+        type: integer
+      page_token:
+        description: A page token is returned from an `AssemblyMetadataRequest` call
+          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
+          parameters, to retrieve the next page of results. When `page_token` is empty,
+          all results have been retrieved.
         type: string
       returned_content:
         $ref: '#/definitions/v1alpha1AssemblyMetadataRequestContentType'
@@ -599,6 +674,23 @@ definitions:
     - FASTA_PROTEIN
     - FASTA_GENE_FLANK
     type: string
+  v1alpha1FeatureCounts:
+    properties:
+      gene_counts:
+        $ref: '#/definitions/v1alpha1GeneCounts'
+        title: Counts of gene types
+    type: object
+  v1alpha1GeneCounts:
+    properties:
+      protein_coding:
+        format: int64
+        title: Count of annotated genes that encode a protein
+        type: integer
+      total:
+        format: int64
+        title: Total number of annotated genes
+        type: integer
+    type: object
   v1alpha1GeneDatasetRequest:
     properties:
       accessions:
@@ -1017,6 +1109,11 @@ definitions:
           $ref: '#/definitions/v1alpha1Range'
         title: Series of intervals on above accession_version
         type: array
+    type: object
+  v1alpha1SleepReply:
+    properties:
+      reply:
+        type: string
     type: object
   v1alpha1SortDirection:
     default: SORT_DIRECTION_UNSPECIFIED
@@ -1734,26 +1831,87 @@ paths:
         name: accessions
         required: true
         type: array
-      - default: all
-        description: Limit the number of returned results ("all", "none", otherwise
-          an integer value).
-        in: query
-        name: limit
-        required: false
-        type: string
       - default: False, do not filter
         description: If true, only return reference and representative (GCF_ and GCA_)
-          assemblies.
+          genome assemblies.
         in: query
         name: filters.reference_only
         required: false
         type: boolean
-      - default: False, do not filter
-        description: If true, only return RefSeq (GCF_) assemblies.
+      - default: All, do not filter
+        description: Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies.
+        enum:
+        - all
+        - refseq
+        - genbank
         in: query
-        name: filters.refseq_only
+        name: filters.assembly_source
+        required: false
+        type: string
+      - default: False, do not filter
+        description: Return only annotated genome assemblies.
+        in: query
+        name: filters.has_annotation
         required: false
         type: boolean
+      - collectionFormat: multi
+        default: Empty, do not filter
+        description: Only return genome assemblies that have one of the specified
+          assembly levels.
+        in: query
+        items:
+          enum:
+          - chromosome
+          - scaffold
+          - contig
+          - complete_genome
+          type: string
+        name: filters.assembly_level
+        required: false
+        type: array
+      - default: Empty, do not filter
+        description: Only return genome assemblies that were released on or after
+          the specified date.
+        format: date-time
+        in: query
+        name: filters.first_release_date
+        required: false
+        type: string
+      - default: Empty, do not filter
+        description: Only return genome assemblies that were released on or before
+          to the specified date.
+        format: date-time
+        in: query
+        name: filters.last_release_date
+        required: false
+        type: string
+      - collectionFormat: multi
+        default: Empty, do not filter
+        description: Only return results whose fields contain the specified search
+          terms in their taxon, infraspecific, assembly name or submitter fields.
+        in: query
+        items:
+          type: string
+        name: filters.search_text
+        required: false
+        type: array
+      - default: 20
+        description: The maximum number of genome assemblies to return. Default is
+          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
+          can be used to retrieve the remaining results.
+        format: int32
+        in: query
+        name: page_size
+        required: false
+        type: integer
+      - description: A page token is returned from an `AssemblyMetadataRequest` call
+          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
+          parameters, to retrieve the next page of results. When `page_token` is empty,
+          all results have been retrieved.
+        in: query
+        name: page_token
+        required: false
+        type: string
       responses:
         '200':
           description: A successful response.
@@ -1950,26 +2108,70 @@ paths:
         name: accessions
         required: true
         type: array
-      - default: all
-        description: Limit the number of returned results ("all", "none", otherwise
-          an integer value).
-        in: query
-        name: limit
-        required: false
-        type: string
       - default: False, do not filter
         description: If true, only return reference and representative (GCF_ and GCA_)
-          assemblies.
+          genome assemblies.
         in: query
         name: filters.reference_only
         required: false
         type: boolean
-      - default: False, do not filter
-        description: If true, only return RefSeq (GCF_) assemblies.
+      - default: All, do not filter
+        description: Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies.
+        enum:
+        - all
+        - refseq
+        - genbank
         in: query
-        name: filters.refseq_only
+        name: filters.assembly_source
+        required: false
+        type: string
+      - default: False, do not filter
+        description: Return only annotated genome assemblies.
+        in: query
+        name: filters.has_annotation
         required: false
         type: boolean
+      - collectionFormat: multi
+        default: Empty, do not filter
+        description: Only return genome assemblies that have one of the specified
+          assembly levels.
+        in: query
+        items:
+          enum:
+          - chromosome
+          - scaffold
+          - contig
+          - complete_genome
+          type: string
+        name: filters.assembly_level
+        required: false
+        type: array
+      - default: Empty, do not filter
+        description: Only return genome assemblies that were released on or after
+          the specified date.
+        format: date-time
+        in: query
+        name: filters.first_release_date
+        required: false
+        type: string
+      - default: Empty, do not filter
+        description: Only return genome assemblies that were released on or before
+          to the specified date.
+        format: date-time
+        in: query
+        name: filters.last_release_date
+        required: false
+        type: string
+      - collectionFormat: multi
+        default: Empty, do not filter
+        description: Only return results whose fields contain the specified search
+          terms in their taxon, infraspecific, assembly name or submitter fields.
+        in: query
+        items:
+          type: string
+        name: filters.search_text
+        required: false
+        type: array
       - default: COMPLETE
         description: Return either assembly accessions, or entire assembly-metadata
           records.
@@ -1978,6 +2180,23 @@ paths:
         - ASSM_ACC
         in: query
         name: returned_content
+        required: false
+        type: string
+      - default: 20
+        description: The maximum number of genome assemblies to return. Default is
+          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
+          can be used to retrieve the remaining results.
+        format: int32
+        in: query
+        name: page_size
+        required: false
+        type: integer
+      - description: A page token is returned from an `AssemblyMetadataRequest` call
+          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
+          parameters, to retrieve the next page of results. When `page_token` is empty,
+          all results have been retrieved.
+        in: query
+        name: page_token
         required: false
         type: string
       responses:
@@ -2094,26 +2313,70 @@ paths:
         name: taxon
         required: true
         type: string
-      - default: all
-        description: Limit the number of returned results ("all", "none", otherwise
-          an integer value).
-        in: query
-        name: limit
-        required: false
-        type: string
       - default: False, do not filter
         description: If true, only return reference and representative (GCF_ and GCA_)
-          assemblies.
+          genome assemblies.
         in: query
         name: filters.reference_only
         required: false
         type: boolean
-      - default: False, do not filter
-        description: If true, only return RefSeq (GCF_) assemblies.
+      - default: All, do not filter
+        description: Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies.
+        enum:
+        - all
+        - refseq
+        - genbank
         in: query
-        name: filters.refseq_only
+        name: filters.assembly_source
+        required: false
+        type: string
+      - default: False, do not filter
+        description: Return only annotated genome assemblies.
+        in: query
+        name: filters.has_annotation
         required: false
         type: boolean
+      - collectionFormat: multi
+        default: Empty, do not filter
+        description: Only return genome assemblies that have one of the specified
+          assembly levels.
+        in: query
+        items:
+          enum:
+          - chromosome
+          - scaffold
+          - contig
+          - complete_genome
+          type: string
+        name: filters.assembly_level
+        required: false
+        type: array
+      - default: Empty, do not filter
+        description: Only return genome assemblies that were released on or after
+          the specified date.
+        format: date-time
+        in: query
+        name: filters.first_release_date
+        required: false
+        type: string
+      - default: Empty, do not filter
+        description: Only return genome assemblies that were released on or before
+          to the specified date.
+        format: date-time
+        in: query
+        name: filters.last_release_date
+        required: false
+        type: string
+      - collectionFormat: multi
+        default: Empty, do not filter
+        description: Only return results whose fields contain the specified search
+          terms in their taxon, infraspecific, assembly name or submitter fields.
+        in: query
+        items:
+          type: string
+        name: filters.search_text
+        required: false
+        type: array
       - default: False, include all taxonomy children
         description: If true, only return assemblies with the given NCBI Taxonomy
           ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.
@@ -2130,6 +2393,23 @@ paths:
         - ASSM_ACC
         in: query
         name: returned_content
+        required: false
+        type: string
+      - default: 20
+        description: The maximum number of genome assemblies to return. Default is
+          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
+          can be used to retrieve the remaining results.
+        format: int32
+        in: query
+        name: page_size
+        required: false
+        type: integer
+      - description: A page token is returned from an `AssemblyMetadataRequest` call
+          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
+          parameters, to retrieve the next page of results. When `page_token` is empty,
+          all results have been retrieved.
+        in: query
+        name: page_token
         required: false
         type: string
       responses:
@@ -2907,6 +3187,17 @@ produces:
 - application/json
 schemes:
 - https
+security:
+- ApiKeyAuthHeader: []
+securityDefinitions:
+  ApiKeyAuth:
+    in: query
+    name: api_key
+    type: apiKey
+  ApiKeyAuthHeader:
+    in: header
+    name: api-key
+    type: apiKey
 swagger: '2.0'
 tags:
 - description: Options to explore, summarize and download assembled genomes, including

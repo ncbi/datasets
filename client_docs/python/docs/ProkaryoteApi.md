@@ -17,6 +17,7 @@ Get a prokaryote gene dataset including gene and protein fasta sequence, annotat
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -29,9 +30,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.ProkaryoteApi(api_client)
     accessions = ['accessions_example'] # list[str] | WP prokaryote protein accession
@@ -64,7 +79,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
@@ -88,6 +103,7 @@ Get a prokaryote gene dataset including gene and protein fasta sequence, annotat
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuthHeader):
 ```python
 from __future__ import print_function
 import time
@@ -100,9 +116,23 @@ configuration = ncbi.datasets.openapi.Configuration(
     host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1alpha",
+    api_key = {
+        'api-key': 'YOUR_API_KEY'
+    }
+)
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with ncbi.datasets.openapi.ApiClient() as api_client:
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = ncbi.datasets.openapi.ProkaryoteApi(api_client)
     body = ncbi.datasets.openapi.V1alpha1ProkaryoteGeneRequest() # V1alpha1ProkaryoteGeneRequest | 
@@ -129,7 +159,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
 
 ### HTTP request headers
 
