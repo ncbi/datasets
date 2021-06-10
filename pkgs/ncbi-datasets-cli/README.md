@@ -13,7 +13,7 @@ The executable should be at bazel-bin/src/datasets_/datasets
 
 Build only dataformat command-line client
 ```bash
-bazel build src:datasets
+bazel build src:dataformat
 ```
 The executable should be at bazel-bin/src/dataformat_/dataformat
 
