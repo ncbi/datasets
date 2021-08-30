@@ -1,16 +1,31 @@
+{% set name = "ncbi-datasets-cli" %}
+{% set version = "11.25.1" %}
+
 package:
-  name: ncbi-datasets-cli
-  version: 11.25.1
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ncbi/datasets/archive/release/{{ version }}.tar.gz
+  sha256: 1c287f140dc55f0d0186f6a656de3b26a72cfd22154806802b078a7624a5d84f
 
 requirements:
   build:
     - bazel<4.0.0
     - go>=1.16.4
 
-source:
-  path: ../
-
 test:
   commands:
     - datasets version
     - dataformat version
+
+about:
+  home: https://github.com/ncbi/datasets/tree/master/pkgs/ncbi-datasets-cli
+  license_file: LICENSE.md
+  summary: 'NCBI Datasets command-line clients'
+  description: |
+    NCBI Datasets is a new resource that lets you easily gather data from across NCBI databases.
+
+extra:
+  recipe-maintainers:
+    - wra3
