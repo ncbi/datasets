@@ -35,7 +35,7 @@ func (xlw *ExcelWriter) close() {
 	}
 }
 
-func (xlw *ExcelWriter) emitTableHeader(rspec *ReportSpec, fields []string) {
+func (xlw *ExcelWriter) EmitTableHeader(rspec *ReportSpec, fields []string) {
 	row := xlw.worksheet.AddRow()
 	for _, f := range fields {
 		colSpec := rspec.getColumn(f)
@@ -44,7 +44,7 @@ func (xlw *ExcelWriter) emitTableHeader(rspec *ReportSpec, fields []string) {
 	}
 }
 
-func (xlw *ExcelWriter) emitTableRow(objIter *ObjIter, rspec *ReportSpec, fields []string) {
+func (xlw *ExcelWriter) EmitTableRow(objIter *ObjIter, rspec *ReportSpec, fields []string) {
 	row := xlw.worksheet.AddRow()
 	for _, fldMnemonic := range fields {
 		colSpec := rspec.getColumn(fldMnemonic)

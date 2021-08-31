@@ -21,8 +21,8 @@ var (
 )
 
 type ITableWriter interface {
-	emitTableHeader(rspec *ReportSpec, fields []string)
-	emitTableRow(objIter *ObjIter, rspec *ReportSpec, fields []string)
+	EmitTableHeader(rspec *ReportSpec, fields []string)
+	EmitTableRow(objIter *ObjIter, rspec *ReportSpec, fields []string)
 }
 
 type TableWriter struct {
@@ -101,7 +101,7 @@ func emitTable(writer ITableWriter, obj protoreflect.Message, rspec *ReportSpec,
 	}
 
 	if !elideHeader {
-		writer.emitTableHeader(rspec, fields)
+		writer.EmitTableHeader(rspec, fields)
 	}
 	scanner := bufio.NewScanner(file)
 	const BUFFER_SIZE = 4e6
@@ -115,9 +115,9 @@ func emitTable(writer ITableWriter, obj protoreflect.Message, rspec *ReportSpec,
 		if err = pb_opts.Unmarshal(line, obj.Interface()); err != nil {
 			return
 		}
-		objIter := makeObjIter(obj)
-		for ok := true; ok; ok = objIter.next() {
-			writer.emitTableRow(objIter, rspec, fields)
+		objIter := MakeObjIter(obj)
+		for ok := true; ok; ok = objIter.Next() {
+			writer.EmitTableRow(objIter, rspec, fields)
 		}
 	}
 	err = scanner.Err()

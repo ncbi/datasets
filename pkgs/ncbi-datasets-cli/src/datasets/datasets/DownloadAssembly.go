@@ -34,7 +34,7 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 			cmd.Println(warning)
 		}
 		downloadOpts := getDownloadRequest(validAccList)
-		err = downloadAssembly(downloadOpts, argAssmFilename)
+		err = downloadAssembly(downloadOpts, argDownloadFilename)
 		return nil
 	},
 }
@@ -42,7 +42,6 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 func init() {
 	assemblyCmd.AddCommand(downloadAssmTaxonCmd)
 
-	assemblyCmd.PersistentFlags().StringVar(&argAssmFilename, "filename", "ncbi_dataset.zip", "Name of output file")
 	assemblyCmd.PersistentFlags().StringVar(&argInputFile, "inputfile", "", "file to read list of assembly accessions")
 	assemblyCmd.PersistentFlags().StringSliceVarP(&argChromosomes, "chromosomes", "c", []string{"all"}, "limit to a specified, comma-delimited list of chromosomes")
 

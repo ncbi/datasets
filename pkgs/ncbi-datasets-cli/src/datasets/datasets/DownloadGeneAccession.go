@@ -2,9 +2,10 @@ package datasets
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
 	"strings"
+
+	"github.com/spf13/cobra"
 
 	openapi "main/openapi_client"
 )
@@ -61,11 +62,11 @@ func isProkaryoteAcc(acc_list []string) bool {
 	return true
 }
 
-func downloadProkaryoteGeneForRequest(req *openapi.V1alpha1ProkaryoteGeneRequest) (err error) {
+func downloadProkaryoteGene(accessions []string) (err error) {
 
-	f, e := os.Create(argGeneFilename)
+	f, e := os.Create(argDownloadFilename)
 	if e != nil {
-		err = fmt.Errorf("'%s' opening output file: %s", e, argGeneFilename)
+		err = fmt.Errorf("'%s' opening output file: %s", e, argDownloadFilename)
 		return
 	}
 	defer f.Close()
@@ -75,40 +76,45 @@ func downloadProkaryoteGeneForRequest(req *openapi.V1alpha1ProkaryoteGeneRequest
 		return
 	}
 
-	if !argExcludeGene {
-		req.IncludeAnnotationType = append(req.IncludeAnnotationType, openapi.V1ALPHA1FASTA_GENE)
-	}
-	if !argExcludeProtein {
-		req.IncludeAnnotationType = append(req.IncludeAnnotationType, openapi.V1ALPHA1FASTA_PROTEIN)
-	}
+	request := cli.ProkaryoteApi.DownloadProkaryoteGenePackage(nil, accessions)
 
-	flank_length := int64(argFlank)
-	if flank_length > 0 {
-		req.GeneFlankConfig.Length = flank_length
-		req.IncludeAnnotationType = append(req.IncludeAnnotationType, openapi.V1ALPHA1FASTA_GENE_FLANK)
+	if argFlank > 0 {
+		request.GeneFlankConfigLength(int32(argFlank))
 	}
+	annotations := make([]openapi.V1Fasta, 0)
+	possible_annotations := []struct {
+		flag      bool
+		type_enum openapi.V1Fasta
+	}{
+		{!argExcludeGene, openapi.V1FASTA_GENE},
+		{!argExcludeProtein, openapi.V1FASTA_PROTEIN},
+		{argFlank > 0, openapi.V1FASTA_GENE_FLANK},
+	}
+	for _, annot := range possible_annotations {
+		if annot.flag {
+			annotations = append(annotations, annot.type_enum)
+		}
+	}
+	request.IncludeAnnotationType(annotations)
 
 	if argTaxonFilter != "" {
-		req.Taxon = argTaxonFilter
+		request.Taxon(argTaxonFilter)
 	}
-
-	_, resp, err := cli.ProkaryoteApi.DownloadProkaryoteGenePackagePost(nil, *req, nil)
+	_, resp, err := request.Execute()
 	if err = handleHTTPResponse(resp, err); err != nil {
 		return
 	}
 	length := int64(-1) // unknown length
-	err = downloadData(f, resp, err, argGeneFilename, length)
+	err = downloadData(f, resp, err, argDownloadFilename, length)
 	return
 }
 
 func cmdDownloadGeneAccession(cmd *cobra.Command, args []string) error {
 	if isProkaryoteAcc(argIDArgs) {
-		req := new(openapi.V1alpha1ProkaryoteGeneRequest)
-		req.Accessions = argIDArgs
-		return downloadProkaryoteGeneForRequest(req)
+		return downloadProkaryoteGene(argIDArgs)
 	} else {
-		req := new(openapi.V1alpha1GeneDatasetRequest)
-		req.Accessions = argIDArgs
+		req := openapi.NewV1GeneDatasetRequest()
+		req.SetAccessions(argIDArgs)
 		return downloadGeneForRequest(req)
 	}
 }

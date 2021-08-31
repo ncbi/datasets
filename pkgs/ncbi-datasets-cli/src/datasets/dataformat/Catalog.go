@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"google.golang.org/protobuf/encoding/protojson"
-	pb_datasets "main/ncbi/datasets/v1alpha1"
+	pb_datasets "ncbi/datasets/v1"
 )
 
 const DATASET_CATALOG = "ncbi_dataset/data/dataset_catalog.json"

@@ -25,7 +25,7 @@ func HandleHttpResponse(resp *http.Response, inError error) (err error) {
 	return
 }
 
-func MessagesToError(messages []openapi.V1alpha1Message) (err error) {
+func MessagesToError(messages []openapi.V1Message) (err error) {
 	if len(messages) > 0 {
 		var errorMsg bytes.Buffer
 		MessagesToErrorBuf(messages, &errorMsg)
@@ -36,10 +36,10 @@ func MessagesToError(messages []openapi.V1alpha1Message) (err error) {
 	return
 }
 
-func MessagesToErrorBuf(messages []openapi.V1alpha1Message, errors *bytes.Buffer) {
+func MessagesToErrorBuf(messages []openapi.V1Message, errors *bytes.Buffer) {
 	if len(messages) > 0 {
 		for _, message := range messages {
-			fmt.Fprintf(errors, "%s\n", message.Error.Message)
+			fmt.Fprintf(errors, "%s\n", message.Error.GetMessage())
 		}
 	}
 }

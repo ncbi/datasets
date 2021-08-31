@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
 
 	openapi "main/openapi_client"
@@ -15,21 +14,21 @@ var (
 	taxonFilter []string
 )
 
-func fetchOrthologByGeneId(geneID int64, contentType openapi.V1alpha1OrthologRequestContentType) (orthologs *openapi.V1alpha1OrthologSet, err error) {
+func fetchOrthologByGeneId(geneID int32, contentType openapi.V1OrthologRequestContentType) (orthologs *openapi.V1OrthologSet, err error) {
 	cli, err := createOAClient()
 	if err != nil {
 		return
 	}
-	opts := new(openapi.GeneOrthologsByIdOpts)
-	opts.ReturnedContent = optional.NewString(string(contentType))
+	request := cli.GeneApi.GeneOrthologsById(nil, geneID)
+	request.ReturnedContent(contentType)
 	if len(taxonFilter) > 0 {
-		opts.TaxonFilter = optional.NewInterface(taxonFilter)
+		request.TaxonFilter(taxonFilter)
 	}
 
 	const retry_count = 3
 	var retry_delay = time.Duration(10)
 	for i := 1; i <= retry_count; i++ {
-		result, resp, retry_err := cli.GeneApi.GeneOrthologsById(nil, geneID, opts)
+		result, resp, retry_err := request.Execute()
 		err = handleHTTPResponse(resp, retry_err)
 		if err == nil {
 			orthologs = &result
@@ -44,9 +43,9 @@ func fetchOrthologByGeneId(geneID int64, contentType openapi.V1alpha1OrthologReq
 	return
 }
 
-func streamOrthologs(geneInts []int64, contentType openapi.V1alpha1OrthologRequestContentType, sp streamProcessorOrtholog) error {
+func streamOrthologs(geneInts []int32, contentType openapi.V1OrthologRequestContentType, sp streamProcessorOrtholog) error {
 	firstLine := true
-	orthologSets := map[int64]bool{}
+	orthologSets := map[int32]bool{}
 	sp.insertRecordBegin()
 	for _, gene_id := range geneInts {
 		orthologs, err := fetchOrthologByGeneId(gene_id, contentType)
@@ -54,21 +53,21 @@ func streamOrthologs(geneInts []int64, contentType openapi.V1alpha1OrthologReque
 			return err
 		}
 
-		if orthologs.OrthologSetId == 0 {
+		if orthologs.GetOrthologSetId() == 0 {
 			// If the input gene id was invalid, the message will be stored in first gene of the returned OrthologSet
 			// If the gene id was valid, but there was no related ortholog set, an empty ortholog struct is returned
-			if len(orthologs.Genes.Genes) > 0 {
-				printMessage(&orthologs.Genes.Genes[0])
+			if len(orthologs.Genes.GetGenes()) > 0 {
+				printMessage(&orthologs.Genes.GetGenes()[0])
 			}
 			continue
 		}
 
 		// Skip ortholog sets that have already been added
-		if orthologSets[orthologs.OrthologSetId] {
+		if orthologSets[orthologs.GetOrthologSetId()] {
 			continue
 		}
 
-		orthologSets[orthologs.OrthologSetId] = true
+		orthologSets[orthologs.GetOrthologSetId()] = true
 
 		if !firstLine {
 			sp.insertRecordDelimiter()

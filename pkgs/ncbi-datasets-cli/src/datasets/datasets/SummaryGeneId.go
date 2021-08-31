@@ -6,10 +6,10 @@ import (
 )
 
 func cmdRunSummaryGeneID(cmd *cobra.Command, args []string) (err error) {
-	geneInts := strToInt64List(argIDArgs)
+	geneInts := strToInt32List(argIDArgs)
 
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.GeneIds = geneInts
+	req := openapi.NewV1GeneDatasetRequest()
+	req.SetGeneIds(geneInts)
 	if argJsonLinesFormat {
 		err = streamGeneMatch(req, &JsonLinesStreamProcessor{})
 	} else {

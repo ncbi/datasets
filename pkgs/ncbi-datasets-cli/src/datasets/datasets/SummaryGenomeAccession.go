@@ -14,26 +14,29 @@ import (
 	openapi "main/openapi_client"
 )
 
-func updateAssemblyMetadataRequestOption(request *openapi.V1alpha1AssemblyMetadataRequest) (err error) {
-	request.Filters.ReferenceOnly = argReferenceOnly
-	request.Filters.SearchText = argSearchText
-	request.Filters.HasAnnotation = argAnnotatedGenomesOnly
+func updateAssemblyMetadataRequestOption(request *openapi.V1AssemblyMetadataRequest) (err error) {
+	filter := openapi.NewV1AssemblyDatasetDescriptorsFilter()
+	filter.SetReferenceOnly(argReferenceOnly)
+	filter.SetSearchText(argSearchText)
+	filter.SetHasAnnotation(argAnnotatedGenomesOnly)
 	AssemblySource, source_err := getAssemblySource()
 	if source_err != nil {
 		return source_err
 	} else {
-		request.Filters.AssemblySource = openapi.AssemblyDatasetDescriptorsFilterAssemblySource(AssemblySource)
+		filter.SetAssemblySource(openapi.V1AssemblyDatasetDescriptorsFilterAssemblySource(AssemblySource))
 	}
-	request.Filters.AssemblyLevel, err = getAssemblyLevels()
+	assembly_level := []openapi.V1AssemblyDatasetDescriptorsFilterAssemblyLevel{}
+	assembly_level, err = getAssemblyLevels()
 	if err != nil {
 		return
 	}
+	filter.SetAssemblyLevel(assembly_level)
 	date_since, date_since_err := getDate(argGenomeReleasedSince)
 	if date_since_err != nil {
 		return date_since_err
 	} else {
 		if date_since.IsSet() {
-			request.Filters.FirstReleaseDate = date_since.Value()
+			filter.SetFirstReleaseDate(date_since.Value())
 		}
 	}
 	date_until, date_until_err := getDate(argGenomeReleasedUntil)
@@ -41,31 +44,31 @@ func updateAssemblyMetadataRequestOption(request *openapi.V1alpha1AssemblyMetada
 		return date_until_err
 	} else {
 		if date_until.IsSet() {
-			request.Filters.LastReleaseDate = date_until.Value()
+			filter.SetLastReleaseDate(date_until.Value())
 		}
 	}
-	request.PageSize = 1000
+	request.SetFilters(*filter)
+	request.SetPageSize(1000)
 
-	request.TaxExactMatch = argTaxExactMatch
+	request.SetTaxExactMatch(argTaxExactMatch)
 
 	if argAssmAccsOnly {
-		request.ReturnedContent = openapi.V1ALPHA1ASSEMBLYMETADATAREQUESTCONTENTTYPE_ASSM_ACC
+		request.SetReturnedContent(openapi.V1ASSEMBLYMETADATAREQUESTCONTENTTYPE_ASSM_ACC)
 	}
 
 	return nil
-
 }
 
-func getAssemblyMetadataPage(cli *openapi.APIClient, request *openapi.V1alpha1AssemblyMetadataRequest, page_size int32) (openapi.V1alpha1AssemblyMetadata, *_nethttp.Response, error) {
-	request.PageSize = page_size
-	return cli.GenomeApi.GenomeMetadataByPost(nil, *request)
+func getAssemblyMetadataPage(cli *openapi.APIClient, request *openapi.V1AssemblyMetadataRequest, page_size int32) (openapi.V1AssemblyMetadata, *_nethttp.Response, error) {
+	request.SetPageSize(page_size)
+	return cli.GenomeApi.GenomeMetadataByPost(nil, request).Execute()
 }
 
-func SetPageToken(request *openapi.V1alpha1AssemblyMetadataRequest, token string) {
-	request.PageToken = token
+func SetPageToken(request *openapi.V1AssemblyMetadataRequest, token string) {
+	request.SetPageToken(token)
 }
 
-func getAssemblyMetadataWithPost(request *openapi.V1alpha1AssemblyMetadataRequest, ignore_limit bool) (result openapi.V1alpha1AssemblyMetadata, err error) {
+func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, ignore_limit bool) (result openapi.V1AssemblyMetadata, err error) {
 	cli, cli_err := createOAClient()
 	if cli_err != nil {
 		return result, cli_err
@@ -95,7 +98,7 @@ func getAssemblyMetadataWithPost(request *openapi.V1alpha1AssemblyMetadataReques
 		var retry_delay = time.Duration(10)
 
 		const retry_count = 3
-		var result_page *openapi.V1alpha1AssemblyMetadata
+		var result_page *openapi.V1AssemblyMetadata
 		for i := 1; i <= retry_count; i++ {
 			page, resp, api_err := getAssemblyMetadataPage(cli, request, page_size)
 			err = handleHTTPResponse(resp, api_err)
@@ -111,23 +114,23 @@ func getAssemblyMetadataWithPost(request *openapi.V1alpha1AssemblyMetadataReques
 		}
 
 		if err != nil {
-			result = openapi.V1alpha1AssemblyMetadata{}
+			result = openapi.V1AssemblyMetadata{}
 			return
 		}
-		if result.TotalCount == 0 {
-			result.TotalCount = result_page.TotalCount
+		if result.GetTotalCount() == 0 {
+			result.SetTotalCount(result_page.GetTotalCount())
 		}
 		if countOnly {
 			return
 		}
 
-		retrievalCount += len(result_page.Assemblies)
-		result.Assemblies = append(result.Assemblies, result_page.Assemblies...)
-		result.Messages = append(result.Messages, result_page.Messages...)
-		if result_page.NextPageToken == "" || retrievalCount >= maxRetrieval {
+		retrievalCount += len(result_page.GetAssemblies())
+		result.SetAssemblies(append(result.GetAssemblies(), result_page.GetAssemblies()...))
+		result.SetMessages(append(result.GetMessages(), result_page.GetMessages()...))
+		if result_page.GetNextPageToken() == "" || retrievalCount >= maxRetrieval {
 			break
 		}
-		SetPageToken(request, result_page.NextPageToken)
+		SetPageToken(request, result_page.GetNextPageToken())
 	}
 	return
 }
@@ -160,8 +163,11 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 		if len(accs) == 0 {
 			return errors.New("no assemblies found for specified accessions")
 		}
-		request := new(openapi.V1alpha1AssemblyMetadataRequest)
-		request.Accessions.Accessions = accs
+		request := openapi.NewV1AssemblyMetadataRequest()
+		accessions := openapi.NewV1Accessions()
+		accessions.SetAccessions(accs)
+		request.SetAccessions(*accessions)
+
 		err = updateAssemblyMetadataRequestOption(request)
 		if err != nil {
 			return err

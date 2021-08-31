@@ -32,21 +32,21 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 	},
 }
 
-func downloadOrthologsByGeneId(geneInts []int64) error {
+func downloadOrthologsByGeneId(geneInts []int32) error {
 	geneIdSet := map[string]bool{}
 	orthoGenes := []string{}
 	for _, gene_id := range geneInts {
-		orthologs, err := fetchOrthologByGeneId(gene_id, openapi.V1ALPHA1ORTHOLOGREQUESTCONTENTTYPE_IDS_ONLY)
+		orthologs, err := fetchOrthologByGeneId(gene_id, openapi.V1ORTHOLOGREQUESTCONTENTTYPE_IDS_ONLY)
 		if err != nil {
 			return err
 		}
-		for _, g := range orthologs.Genes.Genes {
+		for _, g := range orthologs.Genes.GetGenes() {
 			if err := printMessage(&g); err != nil {
 				return err
 			}
-			if len(g.Gene.GeneId) > 0 && !geneIdSet[g.Gene.GeneId] {
-				geneIdSet[g.Gene.GeneId] = true
-				orthoGenes = append(orthoGenes, g.Gene.GeneId)
+			if len(g.Gene.GetGeneId()) > 0 && !geneIdSet[g.Gene.GetGeneId()] {
+				geneIdSet[g.Gene.GetGeneId()] = true
+				orthoGenes = append(orthoGenes, g.Gene.GetGeneId())
 			}
 		}
 	}
@@ -54,14 +54,14 @@ func downloadOrthologsByGeneId(geneInts []int64) error {
 	if len(orthoGenes) == 0 {
 		return errors.New("no valid NCBI gene identifiers, exiting")
 	}
-	orthoGeneInts := strToInt64List(orthoGenes)
+	orthoGeneInts := strToInt32List(orthoGenes)
 	fmt.Printf("Found %d genes in set\n", len(orthoGenes))
-	err := downloadGeneByIDs(orthoGeneInts, argExcludeGene, argExcludeRna, argExcludeProtein, argGeneFilename)
+	err := downloadGeneByIDs(orthoGeneInts, argExcludeGene, argExcludeRna, argExcludeProtein, argIncludeCds, argInclude5putr, argInclude3putr, argDownloadFilename)
 	return err
 }
 
-func downloadOrthologByGeneReq(req *openapi.V1alpha1GeneDatasetRequest) (err error) {
-	var geneInts []int64
+func downloadOrthologByGeneReq(req *openapi.V1GeneDatasetRequest) (err error) {
+	var geneInts []int32
 	geneInts, err = allGeneIdForRequest(req)
 	if err != nil {
 		return
@@ -76,10 +76,13 @@ func init() {
 	downloadOrthologCmd.AddCommand(downloadOrthologAccessionCmd)
 
 	flags := downloadOrthologCmd.PersistentFlags()
-	registerHiddenStringPair(flags, &argGeneFilename, "filename", "f", "ncbi_dataset.zip", "specify a custom file name for the downloaded dataset")
 
 	registerHiddenBoolPair(flags, &argExcludeGene, "exclude-gene", "g", false, "exclude gene.fna (gene sequence file)")
 	registerHiddenBoolPair(flags, &argExcludeRna, "exclude-rna", "r", false, "exclude rna.fna (transcript sequence file)")
 	registerHiddenBoolPair(flags, &argExcludeProtein, "exclude-protein", "p", false, "exclude protein.faa (protein sequence file)")
 	flags.StringSliceVar(&taxonFilter, "taxon-filter", []string{}, "limit results to ortholog data for a specified taxonomic group")
+
+	registerHiddenBoolPair(flags, &argIncludeCds, "include-cds", "c", false, "include cds.fna (CDS sequence file)")
+	registerHiddenBoolPair(flags, &argInclude5putr, "include-5p-utr", "5", false, "include 5p_utr.fna (5'-UTR sequence file)")
+	registerHiddenBoolPair(flags, &argInclude3putr, "include-3p-utr", "3", false, "include 3p_utr.fna (3'-UTR sequence file)")
 }

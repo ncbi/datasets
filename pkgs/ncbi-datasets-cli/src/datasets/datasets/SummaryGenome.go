@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	pb_datasets "main/ncbi/datasets/v1alpha1"
+	pb_datasets "ncbi/datasets/v1"
 
 	"github.com/antihax/optional"
 	"github.com/metakeule/fmtdate"
@@ -49,7 +49,7 @@ func checkAssemblyLevel(requestLevel string) (*string, error) {
 	return nil, err
 }
 
-func getAssemblyLevels() (assemblyLevels []openapi.AssemblyDatasetDescriptorsFilterAssemblyLevel, err error) {
+func getAssemblyLevels() (assemblyLevels []openapi.V1AssemblyDatasetDescriptorsFilterAssemblyLevel, err error) {
 	if argAssemblyLevel != "" {
 		levels := strings.Split(argAssemblyLevel, ",")
 		for _, level := range levels {
@@ -57,7 +57,7 @@ func getAssemblyLevels() (assemblyLevels []openapi.AssemblyDatasetDescriptorsFil
 			if level_err != nil {
 				return assemblyLevels, level_err
 			}
-			assemblyLevels = append(assemblyLevels, openapi.AssemblyDatasetDescriptorsFilterAssemblyLevel(*checkedLevel))
+			assemblyLevels = append(assemblyLevels, openapi.V1AssemblyDatasetDescriptorsFilterAssemblyLevel(*checkedLevel))
 		}
 		if len(assemblyLevels) > 0 {
 			return assemblyLevels, nil
@@ -89,10 +89,10 @@ func getAssemblySource() (string, error) {
 		err := fmt.Errorf("Source %s is not valid assembly source.", argAssemblySource)
 		return "", err
 	} else if argRefseqOnly {
-		return string(openapi.ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_REFSEQ), nil
+		return string(openapi.V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_REFSEQ), nil
 	}
 
-	return string(openapi.ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_ALL), nil
+	return string(openapi.V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_ALL), nil
 }
 
 func getDate(argDate string) (optional.Time, error) {

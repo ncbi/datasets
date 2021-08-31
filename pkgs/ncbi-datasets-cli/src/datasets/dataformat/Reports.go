@@ -10,7 +10,8 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	pb_reports "main/ncbi/datasets/v1alpha1/reports"
+	pb_reports "ncbi/datasets/v1/reports"
+	pb_options "ncbi/datasets/options"
 )
 
 type FieldDesc struct {
@@ -43,7 +44,7 @@ type ObjIter struct {
 	simpleFields map[string]SimpleVal
 }
 
-func makeObjIter(obj protoreflect.Message) *ObjIter {
+func MakeObjIter(obj protoreflect.Message) *ObjIter {
 	return &ObjIter{
 		obj:          obj,
 		iters:        []string{},
@@ -237,7 +238,7 @@ func (c *ColSpec) getDotname() string {
 	return c.dotname
 }
 
-func (it *ObjIter) next() bool {
+func (it *ObjIter) Next() bool {
 	for true {
 		if it.iters == nil || len(it.iters) == 0 {
 			return false
@@ -455,14 +456,14 @@ func (rpt *ReportSpec) populateMappingForObj(
 			}
 			continue
 		}
-		extTab := proto.GetExtension(opts.Interface(), pb_reports.E_Tabular)
+		extTab := proto.GetExtension(opts.Interface(), pb_options.E_Tabular)
 		if extTab == nil {
 			if debug {
 				fmt.Println("tabular field options not found for", objDesc.Name(), fld.Name(), "skipping")
 			}
 			continue
 		}
-		tbl_opts := extTab.(*pb_reports.TabularOptions)
+		tbl_opts := extTab.(*pb_options.TabularOptions)
 		if tbl_opts == nil {
 			if debug {
 				fmt.Println("TabularOptions not found for", objDesc.Name(), fld.Name(), "skipping")

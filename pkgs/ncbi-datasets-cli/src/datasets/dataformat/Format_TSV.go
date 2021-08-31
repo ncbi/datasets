@@ -11,31 +11,58 @@ var (
 	format string
 )
 
+type IStringWriter interface {
+	Println(s string)
+}
+
+type StringWriter struct {
+	IStringWriter
+}
+
+func (sw* StringWriter) Println(s string) {
+	fmt.Println(s)
+}
+
 type DelimTableWriter struct {
 	TableWriter
-	delim string
+	Out IStringWriter
+	Delim string
 }
 
 func newDelimWriter(delim string) *DelimTableWriter {
+	sw := StringWriter{}
 	writer := DelimTableWriter{
-		delim: delim,
+		Delim: delim,
+		Out: &sw,
 	}
 	return &writer
 }
 
-func (t *DelimTableWriter) emitTableHeader(rspec *ReportSpec, fields []string) {
+func (t *DelimTableWriter) EmitTableHeader(rspec *ReportSpec, fields []string) {
 	headerFields := make([]string, 0)
 	for _, f := range fields {
+		if ! rspec.hasColumn(f) {
+			// How do we report back to the user there was an error?
+			// should DelimTableWriter have an error collection?
+			fmt.Println("Unrecognized mnemonic: ", f)
+			continue
+		}
 		colspec := rspec.getColumn(f)
 		headerFields = append(headerFields, colspec.Name)
 	}
-	fmt.Printf("%s\n", strings.Join(headerFields, t.delim))
+	t.Out.Println(strings.Join(headerFields, t.Delim))
 }
 
-func (t *DelimTableWriter) emitTableRow(objIter *ObjIter, rspec *ReportSpec, fields []string) {
+func (t *DelimTableWriter) EmitTableRow(objIter *ObjIter, rspec *ReportSpec, fields []string) {
 	var vals []string
-	for _, fldMnemonic := range fields {
-		colspec := rspec.getColumn(fldMnemonic)
+
+	for _, f := range fields {
+		if ! rspec.hasColumn(f) {
+			// How do we report back to the user there was an error?
+			// should DelimTableWriter have an error collection?
+			continue
+		}
+		colspec := rspec.getColumn(f)
 		val, _ := colspec.getValue(objIter)
 		if val.IsValid() {
 			vals = append(vals, val.String())
@@ -43,7 +70,7 @@ func (t *DelimTableWriter) emitTableRow(objIter *ObjIter, rspec *ReportSpec, fie
 			vals = append(vals, "")
 		}
 	}
-	fmt.Printf("%s\n", strings.Join(vals, t.delim))
+	t.Out.Println(strings.Join(vals, t.Delim))
 }
 
 func getTSVCmd() *cobra.Command {

@@ -25,8 +25,8 @@ The default ortholog dataset includes the following files:
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools. `,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		request := new(openapi.V1alpha1GeneDatasetRequest)
-		request.Accessions = argIDArgs
+		request := openapi.NewV1GeneDatasetRequest()
+		request.SetAccessions(argIDArgs)
 		return downloadOrthologByGeneReq(request)
 	},
 }

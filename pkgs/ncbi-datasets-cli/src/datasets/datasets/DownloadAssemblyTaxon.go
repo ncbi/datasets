@@ -22,14 +22,14 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 	Args: cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		request := new(openapi.V1alpha1AssemblyMetadataRequest)
-		request.Taxon = args[0]
+		request := openapi.NewV1AssemblyMetadataRequest()
+		request.SetTaxon(args[0])
 		err := updateAssemblyMetadataRequestOption(request)
 		if err != nil {
 			return err
 		}
 
-		request.ReturnedContent = openapi.V1ALPHA1ASSEMBLYMETADATAREQUESTCONTENTTYPE_ASSM_ACC
+		request.SetReturnedContent(openapi.V1ASSEMBLYMETADATAREQUESTCONTENTTYPE_ASSM_ACC)
 
 		assemblyMetadata, post_err := getAssemblyMetadataWithPost(request, false)
 		if post_err != nil {
@@ -38,8 +38,8 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 
 		var accessions []string
 		i := 0
-		for _, assemblyMatch := range assemblyMetadata.Assemblies {
-			accessions = append(accessions, assemblyMatch.Assembly.AssemblyAccession)
+		for _, assemblyMatch := range assemblyMetadata.GetAssemblies() {
+			accessions = append(accessions, assemblyMatch.Assembly.GetAssemblyAccession())
 			i++
 		}
 		if len(accessions) == 0 {
@@ -48,7 +48,7 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 		}
 
 		req := getDownloadRequest(accessions)
-		return downloadAssembly(req, argAssmFilename)
+		return downloadAssembly(req, argDownloadFilename)
 	},
 }
 

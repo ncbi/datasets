@@ -38,7 +38,7 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 			return errors.New("Input accessions not specified")
 		}
 		downloadOpts := getDownloadRequest(validAssmAccs)
-		return downloadAssembly(downloadOpts, argAssmFilename)
+		return downloadAssembly(downloadOpts, argDownloadFilename)
 	},
 }
 

@@ -1,6 +1,6 @@
 # \VersionApi
 
-All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
+All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -10,19 +10,50 @@ Method | HTTP request | Description
 
 ## Version
 
-> V1alpha1VersionReply Version(ctx, )
+> V1VersionReply Version(ctx).Execute()
 
 Retrieve service version
 
-Retrieve the latest version of the Datasets services.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.VersionApi.Version(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `VersionApi.Version``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `Version`: V1VersionReply
+    fmt.Fprintf(os.Stdout, "Response from `VersionApi.Version`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 This endpoint does not need any parameter.
 
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVersionRequest struct via the builder pattern
+
+
 ### Return type
 
-[**V1alpha1VersionReply**](v1alpha1VersionReply.md)
+[**V1VersionReply**](V1VersionReply.md)
 
 ### Authorization
 

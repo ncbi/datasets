@@ -30,9 +30,11 @@ Refer to [NCBI Datasets Gene Package](https://www.ncbi.nlm.nih.gov/datasets/docs
 		if len(argIDArgs) == 0 {
 			return errors.New("Input symbols not specified")
 		}
-		req := new(openapi.V1alpha1GeneDatasetRequest)
-		req.SymbolsForTaxon.Symbols = argIDArgs
-		req.SymbolsForTaxon.Taxon = argTaxon
+		req := openapi.NewV1GeneDatasetRequest()
+		symbols_taxon := openapi.NewV1GeneDatasetRequestSymbolsForTaxon()
+		symbols_taxon.SetSymbols(argIDArgs)
+		symbols_taxon.SetTaxon(argTaxon)
+		req.SetSymbolsForTaxon(*symbols_taxon)
 		return downloadGeneForRequest(req)
 	},
 }

@@ -1,0 +1,21 @@
+# V1Sars2ProteinDatasetRequest
+
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**proteins** | **[str]** |  | [optional] 
+**refseq_only** | **bool** |  | [optional] 
+**annotated_only** | **bool** |  | [optional] 
+**released_since** | **datetime** |  | [optional] 
+**host** | **str** |  | [optional] 
+**geo_location** | **str** |  | [optional] 
+**complete_only** | **bool** |  | [optional] 
+**table_fields** | [**[V1VirusTableField]**](V1VirusTableField.md) |  | [optional] 
+**exclude_sequence** | **bool** |  | [optional] 
+**include_annotation_type** | [**[V1AnnotationForVirusType]**](V1AnnotationForVirusType.md) |  | [optional] 
+**format** | [**V1TableFormat**](V1TableFormat.md) |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

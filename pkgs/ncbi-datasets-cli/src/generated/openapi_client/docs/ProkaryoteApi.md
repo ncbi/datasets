@@ -1,6 +1,6 @@
 # \ProkaryoteApi
 
-All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1alpha*
+All URIs are relative to *https://api.ncbi.nlm.nih.gov/datasets/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,33 +11,63 @@ Method | HTTP request | Description
 
 ## DownloadProkaryoteGenePackage
 
-> *os.File DownloadProkaryoteGenePackage(ctx, accessions, optional)
+> *os.File DownloadProkaryoteGenePackage(ctx, accessions).IncludeAnnotationType(includeAnnotationType).GeneFlankConfigLength(geneFlankConfigLength).Taxon(taxon).Filename(filename).Execute()
 
 Get a prokaryote gene dataset by RefSeq protein accession
 
-Get a prokaryote gene dataset including gene and protein fasta sequence, annotation and metadata by prokaryote protein accession.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    accessions := []string{"Inner_example"} // []string | WP prokaryote protein accession
+    includeAnnotationType := []openapiclient.V1Fasta{openapiclient.v1Fasta("FASTA_UNSPECIFIED")} // []V1Fasta | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
+    geneFlankConfigLength := int32(56) // int32 |  (optional)
+    taxon := "taxon_example" // string | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank When specified, return data from this taxon and its subtree (optional)
+    filename := "filename_example" // string | Output file name. (optional) (default to "ncbi_dataset.zip")
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ProkaryoteApi.DownloadProkaryoteGenePackage(context.Background(), accessions).IncludeAnnotationType(includeAnnotationType).GeneFlankConfigLength(geneFlankConfigLength).Taxon(taxon).Filename(filename).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProkaryoteApi.DownloadProkaryoteGenePackage``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `DownloadProkaryoteGenePackage`: *os.File
+    fmt.Fprintf(os.Stdout, "Response from `ProkaryoteApi.DownloadProkaryoteGenePackage`: %v\n", resp)
+}
+```
+
+### Path Parameters
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**accessions** | [**[]string**](string.md)| WP prokaryote protein accession | 
- **optional** | ***DownloadProkaryoteGenePackageOpts** | optional parameters | nil if no parameters
+**accessions** | [**[]string**](string.md) | WP prokaryote protein accession | 
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a DownloadProkaryoteGenePackageOpts struct
+Other parameters are passed through a pointer to a apiDownloadProkaryoteGenePackageRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **includeAnnotationType** | [**optional.Interface of []string**](string.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | 
- **geneFlankConfigLength** | **optional.Int64**|  | 
- **taxon** | **optional.String**| NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank When specified, return data from this taxon and its subtree. | 
- **filename** | **optional.String**| Output file name. | [default to ncbi_dataset.zip]
+ **includeAnnotationType** | [**[]V1Fasta**](V1Fasta.md) | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | 
+ **geneFlankConfigLength** | **int32** |  | 
+ **taxon** | **string** | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank When specified, return data from this taxon and its subtree | 
+ **filename** | **string** | Output file name. | [default to &quot;ncbi_dataset.zip&quot;]
 
 ### Return type
 
@@ -50,7 +80,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/zip
+- **Accept**: application/zip, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -59,30 +89,53 @@ Name | Type | Description  | Notes
 
 ## DownloadProkaryoteGenePackagePost
 
-> *os.File DownloadProkaryoteGenePackagePost(ctx, body, optional)
+> *os.File DownloadProkaryoteGenePackagePost(ctx).V1ProkaryoteGeneRequest(v1ProkaryoteGeneRequest).Filename(filename).Execute()
 
 Get a prokaryote gene dataset by RefSeq protein accession by POST
 
-Get a prokaryote gene dataset including gene and protein fasta sequence, annotation and metadata by prokaryote protein accession by POST.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    v1ProkaryoteGeneRequest := *openapiclient.NewV1ProkaryoteGeneRequest() // V1ProkaryoteGeneRequest | 
+    filename := "filename_example" // string | Output file name. (optional) (default to "ncbi_dataset.zip")
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.ProkaryoteApi.DownloadProkaryoteGenePackagePost(context.Background()).V1ProkaryoteGeneRequest(v1ProkaryoteGeneRequest).Filename(filename).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ProkaryoteApi.DownloadProkaryoteGenePackagePost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `DownloadProkaryoteGenePackagePost`: *os.File
+    fmt.Fprintf(os.Stdout, "Response from `ProkaryoteApi.DownloadProkaryoteGenePackagePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDownloadProkaryoteGenePackagePostRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**V1alpha1ProkaryoteGeneRequest**](V1alpha1ProkaryoteGeneRequest.md)|  | 
- **optional** | ***DownloadProkaryoteGenePackagePostOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a DownloadProkaryoteGenePackagePostOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **filename** | **optional.String**| Output file name. | [default to ncbi_dataset.zip]
+ **v1ProkaryoteGeneRequest** | [**V1ProkaryoteGeneRequest**](V1ProkaryoteGeneRequest.md) |  | 
+ **filename** | **string** | Output file name. | [default to &quot;ncbi_dataset.zip&quot;]
 
 ### Return type
 
@@ -95,7 +148,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/zip
+- **Accept**: application/zip, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

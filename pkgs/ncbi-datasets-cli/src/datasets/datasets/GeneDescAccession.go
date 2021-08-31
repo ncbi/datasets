@@ -17,8 +17,8 @@ var geneDescrAccCmd = &cobra.Command{
 		if len(argIDArgs) == 0 {
 			return errors.New("Input accessions not specified")
 		}
-		req := new(openapi.V1alpha1GeneDatasetRequest)
-		req.Accessions = argIDArgs
+		req := openapi.NewV1GeneDatasetRequest()
+		req.SetAccessions(argIDArgs)
 		return streamGeneMatch(req, &JsonStreamProcessor{wrapperName: "genes"})
 	},
 }

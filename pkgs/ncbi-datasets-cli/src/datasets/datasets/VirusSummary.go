@@ -1,37 +1,30 @@
 package datasets
 
 import (
-	"os"
-
-	"github.com/antihax/optional"
 	"github.com/metakeule/fmtdate"
 	"github.com/spf13/cobra"
-
-	openapi "main/openapi_client"
+	"time"
 )
 
-func virusGenomeSummaryOpts(cmd *cobra.Command) *openapi.VirusGenomeSummaryOpts {
-	opts := new(openapi.VirusGenomeSummaryOpts)
-	opts.RefseqOnly = optional.NewBool(argRefseqOnly)
-	opts.AnnotatedOnly = optional.NewBool(argAnnotatedOnly)
-	if argReleasedSince != "" {
-		date, err := fmtdate.Parse(dateFormat, argReleasedSince)
-		if err != nil {
-			cmd.PrintErr("\nError: ", err, "\n")
-			os.Exit(1)
-		}
-		opts.ReleasedSince = optional.NewTime(date)
-	}
-	opts.Host = optional.NewString(argHost)
-	return opts
-}
-
-func getVirusSummaryByName(opts *openapi.VirusGenomeSummaryOpts, taxon string, cmd *cobra.Command) (err error) {
+func getVirusSummaryByName(cmd *cobra.Command, taxon string) (err error) {
 	cli, err := createOAClient()
 	if err != nil {
 		return
 	}
-	result, resp, err := cli.VirusApi.VirusGenomeSummary(nil, taxon, opts)
+	request := cli.VirusApi.VirusGenomeSummary(nil, taxon)
+	request.RefseqOnly(argRefseqOnly)
+	request.AnnotatedOnly(argAnnotatedOnly)
+	if argReleasedSince != "" {
+		date := time.Time{}
+		date, err = fmtdate.Parse(dateFormat, argReleasedSince)
+		if err != nil {
+			return
+		}
+		request.ReleasedSince(date)
+	}
+	request.Host(argHost)
+
+	result, resp, err := request.Execute()
 	if err = handleHTTPResponse(resp, err); err != nil {
 		return
 	}
@@ -53,9 +46,8 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 	Args: cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		opts := virusGenomeSummaryOpts(cmd)
 		taxon := args[0]
-		return getVirusSummaryByName(opts, taxon, cmd)
+		return getVirusSummaryByName(cmd, taxon)
 	},
 }
 

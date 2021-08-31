@@ -2,7 +2,6 @@ package datasets
 
 import (
 	"bufio"
-	"encoding/json"
 	"errors"
 	"fmt"
 	openapi "main/openapi_client"
@@ -18,15 +17,15 @@ type streamProcessor interface {
 	processor(b []byte) error
 }
 
-func bytesToGeneConvert(b []byte) (*openapi.V1alpha1GeneMatch, error) {
-	geneMatchObj := new(openapi.V1alpha1GeneMatch)
-	if err := json.Unmarshal(b, geneMatchObj); err != nil {
+func bytesToGeneConvert(b []byte) (*openapi.V1GeneMatch, error) {
+	geneMatchObj := new(openapi.NullableV1GeneMatch)
+	if err := geneMatchObj.UnmarshalJSON(b); err != nil {
 		return nil, fmt.Errorf("Failure to parse JSON: %s. %w", string(b), err)
 	}
 	if argDebug {
-		//fmt.Println("Parsed object: ", geneMatchObj)
+		fmt.Println("Parsed object: ", geneMatchObj.Get())
 	}
-	return geneMatchObj, nil
+	return geneMatchObj.Get(), nil
 }
 
 type JsonLinesStreamProcessor struct{}
@@ -52,12 +51,12 @@ func (j *JsonStreamProcessor) insertRecordBegin()     { fmt.Printf("{\"%s\":[", 
 func (j *JsonStreamProcessor) insertRecordEnd()       { fmt.Print("]}\n") }
 func (j *JsonStreamProcessor) insertRecordDelimiter() { fmt.Print(",") }
 
-func streamGeneMatch(req *openapi.V1alpha1GeneDatasetRequest, sp streamProcessor) error {
+func streamGeneMatch(req *openapi.V1GeneDatasetRequest, sp streamProcessor) error {
 	cli, err := createOAClient()
 	if err != nil {
 		return err
 	}
-	_, resp, err := cli.GeneApi.GeneMetadataStreamByPost(nil, *req)
+	_, resp, err := cli.GeneApi.GeneMetadataStreamByPost(nil, req).Execute()
 	if err != nil {
 		return err
 	}
@@ -83,7 +82,7 @@ func streamGeneMatch(req *openapi.V1alpha1GeneDatasetRequest, sp streamProcessor
 }
 
 type GeneIdStreamProcessor struct {
-	GeneIds []int64
+	GeneIds []int32
 }
 
 func printInfo(reason string, identifiers []string, message string) {
@@ -94,12 +93,12 @@ func printInfo(reason string, identifiers []string, message string) {
 	}
 }
 
-func printMessage(geneMatchObj *openapi.V1alpha1GeneMatch) error {
-	geneIdStr := geneMatchObj.Gene.GeneId
-	if len(geneMatchObj.Errors) > 0 {
-		printInfo(geneMatchObj.Errors[0].Reason, geneMatchObj.Errors[0].InvalidIdentifiers, geneMatchObj.Errors[0].Message)
-	} else if len(geneMatchObj.Warnings) > 0 {
-		printInfo(geneMatchObj.Warnings[0].Reason, geneMatchObj.Query, geneMatchObj.Warnings[0].Message)
+func printMessage(geneMatchObj *openapi.V1GeneMatch) error {
+	geneIdStr := geneMatchObj.Gene.GetGeneId()
+	if len(geneMatchObj.GetErrors()) > 0 {
+		printInfo(geneMatchObj.GetErrors()[0].GetReason(), geneMatchObj.GetErrors()[0].GetInvalidIdentifiers(), geneMatchObj.GetErrors()[0].GetMessage())
+	} else if len(geneMatchObj.GetWarnings()) > 0 {
+		printInfo(geneMatchObj.GetWarnings()[0].GetReason(), geneMatchObj.GetQuery(), geneMatchObj.GetWarnings()[0].GetMessage())
 	} else if len(geneIdStr) == 0 {
 		return errors.New("Records is missing a gene-id")
 	}
@@ -116,11 +115,11 @@ func (g *GeneIdStreamProcessor) processor(b []byte) error {
 		if err := printMessage(geneMatchObj); err != nil {
 			return err
 		}
-		if len(geneMatchObj.Gene.GeneId) == 0 {
+		if len(geneMatchObj.Gene.GetGeneId()) == 0 {
 			return nil
 		}
-		if geneId, e := strconv.ParseInt(geneMatchObj.Gene.GeneId, 10, 64); e == nil {
-			g.GeneIds = append(g.GeneIds, geneId)
+		if geneId, e := strconv.ParseInt(geneMatchObj.Gene.GetGeneId(), 10, 32); e == nil {
+			g.GeneIds = append(g.GeneIds, int32(geneId))
 		} else {
 			fmt.Println("Failure to parse integer: ", e)
 			return e
