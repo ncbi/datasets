@@ -7,9 +7,12 @@ import (
 )
 
 func cmdRunSummaryGeneSymbol(cmd *cobra.Command, args []string) (err error) {
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.SymbolsForTaxon.Symbols = argIDArgs
-	req.SymbolsForTaxon.Taxon = argTaxon
+	req := openapi.NewV1GeneDatasetRequest()
+	symbols_taxon := openapi.NewV1GeneDatasetRequestSymbolsForTaxon()
+	symbols_taxon.SetSymbols(argIDArgs)
+	symbols_taxon.SetTaxon(argTaxon)
+	req.SetSymbolsForTaxon(*symbols_taxon)
+
 	if argJsonLinesFormat {
 		err = streamGeneMatch(req, &JsonLinesStreamProcessor{})
 	} else {

@@ -183,6 +183,7 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 				req.Header.Set(k, v)
 			}
 			client := newRetryHttpClient(10)
+			client.Transport = LoggingRoundTripper{Proxied: http.DefaultTransport}
 			resp, err := processHTTPRequest(client, req)
 			if hasError(err) {
 				return

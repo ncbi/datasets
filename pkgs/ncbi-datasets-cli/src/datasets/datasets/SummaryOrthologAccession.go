@@ -9,9 +9,9 @@ import (
 )
 
 func cmdRunSummaryOrthologAccession(cmd *cobra.Command, args []string) (err error) {
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.Accessions = argIDArgs
-	var geneInts []int64
+	req := openapi.NewV1GeneDatasetRequest()
+	req.SetAccessions(argIDArgs)
+	var geneInts []int32
 	geneInts, err = allGeneIdForRequest(req)
 	if err != nil {
 		return
@@ -21,9 +21,9 @@ func cmdRunSummaryOrthologAccession(cmd *cobra.Command, args []string) (err erro
 		return
 	}
 	if !argJsonFormat {
-		err = streamOrthologs(geneInts, openapi.V1ALPHA1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonLinesStreamProcessor{})
+		err = streamOrthologs(geneInts, openapi.V1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonLinesStreamProcessor{})
 	} else {
-		err = streamOrthologs(geneInts, openapi.V1ALPHA1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonStreamProcessor{wrapperName: "orthologs"})
+		err = streamOrthologs(geneInts, openapi.V1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonStreamProcessor{wrapperName: "orthologs"})
 	}
 
 	return

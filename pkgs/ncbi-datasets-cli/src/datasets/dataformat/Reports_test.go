@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	pb_reports "main/ncbi/datasets/v1alpha1/reports"
+	pb_reports "ncbi/datasets/v1/reports"
 )
 
 func TestReport(t *testing.T) {
@@ -112,8 +112,8 @@ func reportTester(t *testing.T, rspec *ReportSpec, rptObj protoreflect.ProtoMess
 	require.NotNil(t, rptObj)
 	require.False(t, rspec.hasColumn("a"))
 
-	objIter := makeObjIter(rptObj.ProtoReflect())
-	for ok := true; ok; ok = objIter.next() {
+	objIter := MakeObjIter(rptObj.ProtoReflect())
+	for ok := true; ok; ok = objIter.Next() {
 		for _, testField := range testCols {
 			if !rspec.hasColumn(testField.Mnemonic) {
 				require.Equal(t, testField.Mnemonic, "unrecognized field mnemonic")

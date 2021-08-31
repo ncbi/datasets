@@ -27,7 +27,7 @@ Refer to [NCBI Datasets Gene Package](https://www.ncbi.nlm.nih.gov/datasets/docs
 }
 
 func cmdDownloadGeneTaxon(cmd *cobra.Command, args []string) error {
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.Taxon = argIDArgs[0]
+	req := openapi.NewV1GeneDatasetRequest()
+	req.SetTaxon(argIDArgs[0])
 	return downloadGeneForRequest(req)
 }

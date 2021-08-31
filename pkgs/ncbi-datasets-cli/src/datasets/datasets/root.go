@@ -4,17 +4,18 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"crypto/rand"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	cleanhttp "github.com/hashicorp/go-cleanhttp"
@@ -38,6 +39,7 @@ var (
 
 	// various command-line args
 	argDebug           bool
+	argSynMon          bool
 	argApiKey          string
 	argProxyURL        string
 	argRefseqOnly      bool
@@ -57,6 +59,9 @@ var (
 
 	// defaultLogger is the logger provided with defaultClient
 	defaultLogger = log.New(io.Discard, "", log.LstdFlags)
+
+	request_count    uint64
+	request_count_mu sync.Mutex
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -126,7 +131,7 @@ var versionCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		_, resp, err := cli.VersionApi.Version(nil)
+		_, resp, err := cli.VersionApi.Version(nil).Execute()
 		return handleHTTPResponse(resp, err)
 	},
 }
@@ -213,10 +218,16 @@ func createOAClient() (cli *openapi.APIClient, err error) {
 	cfg := openapi.NewConfiguration()
 
 	cfg.HTTPClient = newRetryHttpClient(10)
+	cfg.HTTPClient.Transport = LoggingRoundTripper{Proxied: http.DefaultTransport}
 
 	for k, v := range clientHeaders {
 		cfg.AddDefaultHeader(k, v)
 	}
+
+	if argSynMon {
+		cfg.UserAgent = "synmon/datasets/datasets_cli"
+	}
+
 	err = updateOATransportConfig(cfg, argProxyURL)
 	if err != nil {
 		return
@@ -232,18 +243,13 @@ func updateOATransportConfig(cfg *openapi.Configuration, proxyURL string) (err e
 	if proxyURL == "" {
 		return
 	}
-	url, e := url.Parse(proxyURL)
-	if e != nil {
-		err = fmt.Errorf("error parsing proxy URL: %s", e)
-		return
+
+	configs := openapi.ServerConfigurations{
+		{
+			URL: proxyURL,
+		},
 	}
-	if url.Port() == "" {
-		cfg.Host = url.Hostname()
-	} else {
-		cfg.Host = url.Hostname() + ":" + url.Port()
-	}
-	cfg.BasePath = url.EscapedPath()
-	cfg.Scheme = url.Scheme
+	cfg.Servers = configs
 	return
 }
 
@@ -261,6 +267,30 @@ func checkResponseHeaders(resp *http.Response) (err error) {
 		case "X-Datasets-User-Message":
 			userMessage = value[0]
 		}
+	}
+	return
+}
+
+func strToInt32List(strs []string) (geneInts []int32) {
+	geneInts, _ = strToInt32ListErr(strs)
+	return
+}
+
+func strToInt32ListErr(strs []string) (geneInts []int32, err error) {
+	hasError := false
+	for _, idFullStr := range strs {
+		for _, idStr := range strings.Split(idFullStr, ",") {
+			geneInt64, e := strconv.ParseInt(idStr, 10, 32)
+			geneInt32 := int32(geneInt64)
+			if e != nil {
+				hasError = true
+			} else {
+				geneInts = append(geneInts, geneInt32)
+			}
+		}
+	}
+	if hasError {
+		err = errors.New("unable to parse integer value")
 	}
 	return
 }
@@ -374,7 +404,9 @@ func GetRuntimeStreamError(err error) openapi.RuntimeStreamError {
 
 func getGatewayRuntimeError(err error) string {
 	if openAPIErr, ok := err.(openapi.GenericOpenAPIError); ok {
-		return openAPIErr.Model().(openapi.RpcStatus).Message
+		model := openAPIErr.Model()
+		status := model.(openapi.RpcStatus)
+		return status.GetMessage()
 	}
 	return err.Error()
 }
@@ -422,6 +454,35 @@ func Execute() {
 	os.Exit(exitval)
 }
 
+func GeneratePHID() string {
+	phid := make([]byte, 12)
+	rand.Read(phid)
+	var list []string
+	for _, x := range phid {
+		list = append(list, fmt.Sprintf("%02X", x))
+	}
+	result := strings.Join(list, "")
+
+	return result
+}
+
+// This type implements the http.RoundTripper interface
+type LoggingRoundTripper struct {
+	Proxied http.RoundTripper
+}
+
+func (lrt LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	// Safely increment the request_counter
+	request_count_mu.Lock()
+	request_count++
+	count := request_count
+	request_count_mu.Unlock()
+
+	phid := fmt.Sprintf("%s.%d", req.Header.Get("NCBI-PHID"), count)
+	req.Header.Set("NCBI-PHID", phid)
+	return lrt.Proxied.RoundTrip(req)
+}
+
 func init() {
 	datasets_util.AddUsageSections(
 		"datasets",
@@ -445,8 +506,10 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&argApiKey, "api-key", os.Getenv("NCBI_API_KEY"), "NCBI Datasets API Key")
 
 	rootCmd.PersistentFlags().StringVar(&argProxyURL, "proxy", os.Getenv("http_proxy"), "API endpoint proxy")
+	rootCmd.PersistentFlags().BoolVar(&argSynMon, "synmon", false, "Mark request as synthetic monitoring")
 	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", false, "Emit debugging info")
 	rootCmd.PersistentFlags().MarkHidden("proxy")
+	rootCmd.PersistentFlags().MarkHidden("synmon")
 	rootCmd.PersistentFlags().MarkHidden("debug")
 
 	// todo: hide help flag
@@ -479,6 +542,8 @@ func init() {
 	ncbi_phid := os.Getenv("HTTP_NCBI_PHID")
 	if ncbi_phid != "" {
 		clientHeaders["NCBI-PHID"] = ncbi_phid
+	} else {
+		clientHeaders["NCBI-PHID"] = GeneratePHID()
 	}
 
 	l5d_dtab := os.Getenv("L5D_DTAB")

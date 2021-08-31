@@ -15,7 +15,7 @@ type streamProcessorOrtholog interface {
 }
 
 func cmdRunSummaryOrthologID(cmd *cobra.Command, args []string) (err error) {
-	geneInts, err := strToInt64ListErr(argIDArgs)
+	geneInts, err := strToInt32ListErr(argIDArgs)
 	if err != nil {
 		return
 	}
@@ -24,9 +24,9 @@ func cmdRunSummaryOrthologID(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 	if !argJsonFormat {
-		err = streamOrthologs(geneInts, openapi.V1ALPHA1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonLinesStreamProcessor{})
+		err = streamOrthologs(geneInts, openapi.V1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonLinesStreamProcessor{})
 	} else {
-		err = streamOrthologs(geneInts, openapi.V1ALPHA1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonStreamProcessor{wrapperName: "orthologs"})
+		err = streamOrthologs(geneInts, openapi.V1ORTHOLOGREQUESTCONTENTTYPE_COMPLETE, &JsonStreamProcessor{wrapperName: "orthologs"})
 	}
 
 	return

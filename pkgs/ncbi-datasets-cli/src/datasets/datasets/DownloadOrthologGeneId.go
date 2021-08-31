@@ -24,7 +24,7 @@ The default ortholog dataset includes the following files:
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools. `,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		geneInts, err := strToInt64ListErr(argIDArgs)
+		geneInts, err := strToInt32ListErr(argIDArgs)
 		if err != nil {
 			return err
 		}

@@ -11,13 +11,12 @@ import (
 )
 
 var (
-	argGeneFilename        string
 	argFastaFilterFilename string
 	argFastaFilter         []string
 )
 
-func singleGeneIdForRequest(req *openapi.V1alpha1GeneDatasetRequest) (int64, error) {
-	req.ReturnedContent = openapi.V1ALPHA1GENEDATASETREQUESTCONTENTTYPE_IDS_ONLY
+func singleGeneIdForRequest(req *openapi.V1GeneDatasetRequest) (int32, error) {
+	req.SetReturnedContent(openapi.V1GENEDATASETREQUESTCONTENTTYPE_IDS_ONLY)
 	gsp := &GeneIdStreamProcessor{}
 	err := streamGeneMatch(req, gsp)
 	if err != nil {
@@ -37,16 +36,15 @@ func singleGeneIdForRequest(req *openapi.V1alpha1GeneDatasetRequest) (int64, err
 	return gsp.GeneIds[0], nil
 }
 
-func allGeneIdForRequest(req *openapi.V1alpha1GeneDatasetRequest) ([]int64, error) {
-	req.ReturnedContent = openapi.V1ALPHA1GENEDATASETREQUESTCONTENTTYPE_IDS_ONLY
+func allGeneIdForRequest(req *openapi.V1GeneDatasetRequest) ([]int32, error) {
+	req.SetReturnedContent(openapi.V1GENEDATASETREQUESTCONTENTTYPE_IDS_ONLY)
 	gsp := &GeneIdStreamProcessor{}
 	err := streamGeneMatch(req, gsp)
 	if err != nil {
 		err = fmt.Errorf("Failure to read response from server: %w", err)
-		return []int64{}, err
+		return []int32{}, err
 	}
 	return gsp.GeneIds, nil
-
 }
 
 // downloadGeneCmd represents the gene command
@@ -82,13 +80,16 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 }
 
 func cmdDownloadGeneGeneID(cmd *cobra.Command, args []string) error {
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.GeneIds = strToInt64List(argIDArgs)
+	req := openapi.NewV1GeneDatasetRequest()
+	req.SetGeneIds(strToInt32List(argIDArgs))
 	return downloadGeneForRequest(req)
 }
 
-func downloadGeneForRequest(req *openapi.V1alpha1GeneDatasetRequest) (err error) {
-	var geneIds []int64
+// Final note:
+// ok, so allGeneIdForRequest -> ApiGeneMetadataStreamByPostRequest -> v1GeneDatasetRequest()
+// so this is the _right_ object to pass into this method.
+func downloadGeneForRequest(req *openapi.V1GeneDatasetRequest) (err error) {
+	var geneIds []int32
 	geneIds, err = allGeneIdForRequest(req)
 	if err != nil {
 		return
@@ -97,21 +98,26 @@ func downloadGeneForRequest(req *openapi.V1alpha1GeneDatasetRequest) (err error)
 		err = errors.New("No valid NCBI gene identifiers - Exiting")
 		return
 	}
-	err = downloadGeneByIDs(geneIds, argExcludeGene, argExcludeRna, argExcludeProtein, argGeneFilename)
+	err = downloadGeneByIDs(geneIds, argExcludeGene, argExcludeRna, argExcludeProtein, argIncludeCds, argInclude5putr, argInclude3putr, argDownloadFilename)
 	return
 }
 
-func downloadGeneByIDs(geneIDs []int64, excludeGene bool, excludeRNA bool, excludeProtein bool, geneFilename string) (err error) {
+func downloadGeneByIDs(geneIDs []int32, excludeGene bool, excludeRNA bool, excludeProtein bool, includeCds bool, include5utr bool, include3utr bool, geneFilename string) (err error) {
 	f, e := os.Create(geneFilename)
 	if e != nil {
 		err = fmt.Errorf("'%s' opening output file: %s", e, geneFilename)
 		return
 	}
 	defer f.Close()
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.GeneIds = geneIDs
 
-	accessionArgs := []string{}
+	cli, err := createOAClient()
+	if err != nil {
+		return
+	}
+	req := openapi.NewV1GeneDatasetRequest()
+	req.SetGeneIds(geneIDs)
+
+	fastaFilterArgs := []string{}
 	if argFastaFilterFilename != "" {
 		fp, fileErr := os.Open(argFastaFilterFilename)
 		if fileErr != nil {
@@ -119,9 +125,9 @@ func downloadGeneByIDs(geneIDs []int64, excludeGene bool, excludeRNA bool, exclu
 			return
 		}
 		defer fp.Close()
-		accessionArgs = readLines(fp)
+		fastaFilterArgs = readLines(fp)
 		// Check if any accessions were read
-		if len(accessionArgs) == 0 {
+		if len(fastaFilterArgs) == 0 {
 			err = fmt.Errorf(
 				"No identifiers read from file: '%s'\n       File should have 1 identifier per row and no spaces or quotes",
 				argFastaFilterFilename,
@@ -131,27 +137,32 @@ func downloadGeneByIDs(geneIDs []int64, excludeGene bool, excludeRNA bool, exclu
 	}
 
 	if len(argFastaFilter) > 0 {
-		accessionArgs = append(accessionArgs, argFastaFilter...)
+		fastaFilterArgs = append(fastaFilterArgs, argFastaFilter...)
 	}
-	if len(accessionArgs) > 0 {
-		req.FastaFilter = accessionArgs
-	}
-
-	cli, err := createOAClient()
-	if err != nil {
-		return
+	if len(fastaFilterArgs) > 0 {
+		req.SetFastaFilter(fastaFilterArgs)
 	}
 
-	if !excludeGene {
-		req.IncludeAnnotationType = append(req.IncludeAnnotationType, openapi.V1ALPHA1FASTA_GENE)
+	annotations := make([]openapi.V1Fasta, 0)
+	possible_annotations := []struct {
+		flag      bool
+		type_enum openapi.V1Fasta
+	}{
+		{!excludeGene, openapi.V1FASTA_GENE},
+		{!excludeRNA, openapi.V1FASTA_RNA},
+		{!excludeProtein, openapi.V1FASTA_PROTEIN},
+		{includeCds, openapi.V1FASTA_CDS},
+		{include5utr, openapi.V1FASTA__5_P_UTR},
+		{include3utr, openapi.V1FASTA__3_P_UTR},
 	}
-	if !excludeRNA {
-		req.IncludeAnnotationType = append(req.IncludeAnnotationType, openapi.V1ALPHA1FASTA_RNA)
+	for _, annot := range possible_annotations {
+		if annot.flag {
+			annotations = append(annotations, annot.type_enum)
+		}
 	}
-	if !excludeProtein {
-		req.IncludeAnnotationType = append(req.IncludeAnnotationType, openapi.V1ALPHA1FASTA_PROTEIN)
-	}
-	_, resp, err := cli.GeneApi.DownloadGenePackagePost(nil, *req, nil)
+	req.SetIncludeAnnotationType(annotations)
+
+	_, resp, err := cli.GeneApi.DownloadGenePackagePost(nil, req).Execute()
 	if err = handleHTTPResponse(resp, err); err != nil {
 		return
 	}
@@ -170,9 +181,12 @@ func init() {
 	flags := downloadGeneCmd.PersistentFlags()
 	registerHiddenStringSlicePair(flags, &argFastaFilter, "fasta-filter", "a", []string{}, "limit gene fasta download to a specific list of accessions")
 	registerHiddenStringPair(flags, &argFastaFilterFilename, "fasta-filter-file", "", "", "file of accessions to limit gene fasta download")
-	registerHiddenStringPair(flags, &argGeneFilename, "filename", "f", "ncbi_dataset.zip", "specify a custom file name for the downloaded dataset")
 
 	registerHiddenBoolPair(flags, &argExcludeGene, "exclude-gene", "g", false, "exclude gene.fna (gene sequence file)")
 	registerHiddenBoolPair(flags, &argExcludeRna, "exclude-rna", "r", false, "exclude rna.fna (transcript sequence file)")
 	registerHiddenBoolPair(flags, &argExcludeProtein, "exclude-protein", "p", false, "exclude protein.faa (protein sequence file)")
+
+	registerHiddenBoolPair(flags, &argIncludeCds, "include-cds", "c", false, "include cds.fna (CDS sequence file)")
+	registerHiddenBoolPair(flags, &argInclude5putr, "include-5p-utr", "5", false, "include 5p_utr.fna (5'-UTR sequence file)")
+	registerHiddenBoolPair(flags, &argInclude3putr, "include-3p-utr", "3", false, "include 3p_utr.fna (3'-UTR sequence file)")
 }

@@ -20,8 +20,8 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 	Args: cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
-		request := new(openapi.V1alpha1AssemblyMetadataRequest)
-		request.Taxon = args[0]
+		request := openapi.NewV1AssemblyMetadataRequest()
+		request.SetTaxon(args[0])
 
 		err = updateAssemblyMetadataRequestOption(request)
 		if err != nil {
@@ -32,7 +32,6 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 		if metadata_err != nil {
 			return metadata_err
 		}
-
 		printResults(&result)
 		return nil
 	},

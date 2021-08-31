@@ -21,7 +21,7 @@ func TestOAConfig(t *testing.T) {
 func TestOAClient(t *testing.T) {
 	cli, err := createOAClient()
 	require.NoError(t, err)
-	require.Equal(t, len(cli.GetConfig().DefaultHeader), 5)
+	require.Equal(t, len(cli.GetConfig().DefaultHeader), 6)
 
 	clientHeaders = make(map[string]string)
 	cli, err = createOAClient()

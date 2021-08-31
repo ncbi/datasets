@@ -8,8 +8,8 @@ import (
 
 func cmdRunSummaryGeneTaxon(cmd *cobra.Command, args []string) (err error) {
 
-	req := new(openapi.V1alpha1GeneDatasetRequest)
-	req.Taxon = argIDArgs[0]
+	req := openapi.NewV1GeneDatasetRequest()
+	req.SetTaxon(argIDArgs[0])
 	if argJsonLinesFormat {
 		err = streamGeneMatch(req, &JsonLinesStreamProcessor{})
 	} else {

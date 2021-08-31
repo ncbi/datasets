@@ -13,40 +13,39 @@ import (
 	openapi "main/openapi_client"
 )
 
-func getDownloadRequest(acc []string) *openapi.V1alpha1AssemblyDatasetRequest {
-	opts := new(openapi.V1alpha1AssemblyDatasetRequest)
-	opts.ExcludeSequence = argExcludeSeq
+func getDownloadRequest(acc []string) *openapi.V1AssemblyDatasetRequest {
+	req := openapi.NewV1AssemblyDatasetRequest()
+	req.SetExcludeSequence(argExcludeSeq)
 	if len(argChromosomes) > 0 {
-		opts.Chromosomes = argChromosomes
+		req.SetChromosomes(argChromosomes)
 	}
-	var argAnnotTypes []openapi.V1alpha1AnnotationForAssemblyType
-	if !argExcludeGff3 {
-		argAnnotTypes = append(argAnnotTypes, openapi.V1ALPHA1ANNOTATIONFORASSEMBLYTYPE_GENOME_GFF)
+	annotations := make([]openapi.V1AnnotationForAssemblyType, 0)
+	possible_annotations := []struct {
+		flag      bool
+		type_enum openapi.V1AnnotationForAssemblyType
+	}{
+		{!argExcludeGff3, openapi.V1ANNOTATIONFORASSEMBLYTYPE_GENOME_GFF},
+		{argIncludeGbff, openapi.V1ANNOTATIONFORASSEMBLYTYPE_GENOME_GBFF},
+		{argIncludeGtf, openapi.V1ANNOTATIONFORASSEMBLYTYPE_GENOME_GTF},
+		{!argExcludeProtein, openapi.V1ANNOTATIONFORASSEMBLYTYPE_PROT_FASTA},
+		{!argExcludeRna, openapi.V1ANNOTATIONFORASSEMBLYTYPE_RNA_FASTA},
+		{!argExcludeCds, openapi.V1ANNOTATIONFORASSEMBLYTYPE_CDS_FASTA},
 	}
-	if argIncludeGbff {
-		argAnnotTypes = append(argAnnotTypes, openapi.V1ALPHA1ANNOTATIONFORASSEMBLYTYPE_GENOME_GBFF)
+	for _, annot := range possible_annotations {
+		if annot.flag {
+			annotations = append(annotations, annot.type_enum)
+		}
 	}
-	if argIncludeGtf {
-		argAnnotTypes = append(argAnnotTypes, openapi.V1ALPHA1ANNOTATIONFORASSEMBLYTYPE_GENOME_GTF)
-	}
-	if !argExcludeProtein {
-		argAnnotTypes = append(argAnnotTypes, openapi.V1ALPHA1ANNOTATIONFORASSEMBLYTYPE_PROT_FASTA)
-	}
-	if !argExcludeRna {
-		argAnnotTypes = append(argAnnotTypes, openapi.V1ALPHA1ANNOTATIONFORASSEMBLYTYPE_RNA_FASTA)
-	}
-	if len(argAnnotTypes) > 0 {
-		opts.IncludeAnnotationType = argAnnotTypes
-	}
+	req.SetIncludeAnnotationType(annotations)
 	if argDehydrated {
-		opts.Hydrated = openapi.ASSEMBLYDATASETREQUESTRESOLUTION_DATA_REPORT_ONLY
+		req.SetHydrated(openapi.V1ASSEMBLYDATASETREQUESTRESOLUTION_DATA_REPORT_ONLY)
 	}
-	opts.AssemblyAccessions = acc
+	req.SetAssemblyAccessions(acc)
 
-	return opts
+	return req
 }
 
-func downloadAssembly(opts *openapi.V1alpha1AssemblyDatasetRequest, assmFilename string) (err error) {
+func downloadAssembly(req *openapi.V1AssemblyDatasetRequest, assmFilename string) (err error) {
 	f, e := os.Create(assmFilename)
 	if e != nil {
 		err = fmt.Errorf("'%s' opening output file: %s", e, assmFilename)
@@ -56,7 +55,7 @@ func downloadAssembly(opts *openapi.V1alpha1AssemblyDatasetRequest, assmFilename
 	if err != nil {
 		return
 	}
-	_, resp, err := cli.GenomeApi.DownloadAssemblyPackagePost(nil, *opts, nil)
+	_, resp, err := cli.GenomeApi.DownloadAssemblyPackagePost(nil, req).Execute()
 	if err = handleHTTPResponse(resp, err); err != nil {
 		return
 	}
@@ -92,8 +91,11 @@ func lookupAssmsForBioProjects(cli *openapi.APIClient, bioprojectAccs []string) 
 	if len(bioprojectAccs) == 0 {
 		return
 	}
-	request := new(openapi.V1alpha1AssemblyMetadataRequest)
-	request.Bioprojects.Accessions = bioprojectAccs
+	request := &openapi.V1AssemblyMetadataRequest{
+		Bioprojects: &openapi.V1AssemblyMetadataRequestBioprojects{
+			Accessions: &bioprojectAccs,
+		},
+	}
 
 	err = updateAssemblyMetadataRequestOption(request)
 	if err != nil {
@@ -105,13 +107,13 @@ func lookupAssmsForBioProjects(cli *openapi.APIClient, bioprojectAccs []string) 
 		return validAccs, meta_err
 	}
 
-	validAccs = make([]string, 0, len(result.Assemblies))
-	for _, assm := range result.Assemblies {
-		if len(assm.Assembly.AssemblyAccession) > 0 {
-			validAccs = append(validAccs, assm.Assembly.AssemblyAccession)
+	validAccs = make([]string, 0, len(result.GetAssemblies()))
+	for _, assm := range result.GetAssemblies() {
+		if len(assm.Assembly.GetAssemblyAccession()) > 0 {
+			validAccs = append(validAccs, assm.Assembly.GetAssemblyAccession())
 		}
 	}
-	err = datasets_util.MessagesToError(result.Messages)
+	err = datasets_util.MessagesToError(result.GetMessages())
 	return
 }
 
@@ -167,17 +169,18 @@ func checkAssemblyAvailability(accs []string) (assmAccs []string, warning string
 		return
 	}
 
-	opts := new(openapi.V1alpha1AssemblyDatasetRequest)
-	opts.AssemblyAccessions = accs
+	request := &openapi.V1AssemblyDatasetRequest{
+		Accessions: &accs,
+	}
 
-	result, resp, err := cli.GenomeApi.CheckAssemblyAvailabilityPost(nil, *opts)
+	result, resp, err := cli.GenomeApi.CheckAssemblyAvailabilityPost(nil, request).Execute()
 	err = handleHTTPResponseWithCustomErr(resp, err, "Unexpected %s error in checking assembly availability")
 	if err != nil {
 		assmAccs = nil
 		return
 	}
-	assmAccs = append(argIDArgs, result.ValidAssemblies...)
-	warning = result.Reason
+	assmAccs = append(argIDArgs, result.GetValidAssemblies()...)
+	warning = result.GetReason()
 	return
 }
 
@@ -221,12 +224,12 @@ func init() {
 	genomeCmd.AddCommand(downloadGenomeTaxonCmd)
 
 	pflags := genomeCmd.PersistentFlags()
-	registerHiddenStringPair(pflags, &argAssmFilename, "filename", "f", "ncbi_dataset.zip", "specify a custom file name for the downloaded dataset")
 	registerHiddenStringSlicePair(pflags, &argChromosomes, "chromosomes", "c", []string{"all"}, "limit to a specified, comma-delimited list of chromosomes")
 	registerHiddenBoolPair(pflags, &argExcludeSeq, "exclude-seq", "s", false, "exclude genomic.fna (genomic sequence file)")
 	registerHiddenBoolPair(pflags, &argExcludeRna, "exclude-rna", "r", false, "exclude rna.fna (transcript sequence file)")
 	registerHiddenBoolPair(pflags, &argExcludeProtein, "exclude-protein", "p", false, "exclude protein.faa (protein sequence file)")
 	registerHiddenBoolPair(pflags, &argExcludeGff3, "exclude-gff3", "g", false, "exclude genomic.gff (gff3 annotation file)")
+	registerHiddenBoolPair(pflags, &argExcludeCds, "exclude-genomic-cds", "d", false, "exclude cds_from_genomic.fna (genomic cds file)")
 	registerHiddenBoolPair(pflags, &argIncludeGbff, "include-gbff", "b", false, "include genomic.gbff (GenBank flat file sequence and annotation), if available")
 	registerHiddenBoolPair(pflags, &argIncludeGtf, "include-gtf", "e", false, "include genomic.gtf (gtf annotation file), if available")
 	pflags.BoolVar(&argDehydrated, "dehydrated", false, "download a dehydrated zip archive including the data report and locations of data files (use the rehydrate command to retrieve data files).")

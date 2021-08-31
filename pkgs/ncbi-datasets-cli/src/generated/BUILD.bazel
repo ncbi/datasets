@@ -2,8 +2,8 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
 
 go_library(
     name = "ncbi_datasets_go_lib",
-    srcs = glob(["ncbi/datasets/v1alpha1/*.go"],),
-    importpath = "main/ncbi/datasets/v1alpha1",
+    srcs = glob(["ncbi/datasets/v1/*.go"],),
+    importpath = "main/ncbi/datasets/v1",
     deps = [
         "@com_github_antihax_optional//:go_default_library",
         "@org_golang_x_oauth2//:go_default_library",
@@ -28,8 +28,8 @@ go_library(
 
 go_library(
     name = "ncbi_datasets_reports_go_lib",
-    srcs = glob(["ncbi/datasets/v1alpha1/reports/*.go"],),
-    importpath = "main/ncbi/datasets/v1alpha1/reports",
+    srcs = glob(["ncbi/datasets/v1/reports/*.go"],),
+    importpath = "main/ncbi/datasets/v1/reports",
     deps = [
         "@com_github_antihax_optional//:go_default_library",
         "@org_golang_x_oauth2//:go_default_library",
