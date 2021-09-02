@@ -41,7 +41,8 @@ go_library(
     importpath = "main/datasets/datasets",
     deps = [
         "//src/generated:openapi_go_lib",
-        "//src/generated:ncbi_datasets_go_lib",
+        "//src/generated:ncbi_datasets_v1_go_lib",
+        "//src/generated:ncbi_datasets_options_go_lib",
         ":datasets_util",
         ":datasets_util_command",
 
@@ -62,7 +63,8 @@ go_library(
     srcs = glob(["datasets/dataformat/*.go"],),
     importpath = "main/datasets/dataformat",
     deps = [
-        "//src/generated:ncbi_datasets_go_lib",
+        "//src/generated:ncbi_datasets_v1_go_lib",
+        "//src/generated:ncbi_datasets_options_go_lib",
         "//src/generated:ncbi_datasets_reports_go_lib",
         ":datasets_util",
         ":datasets_util_command",
