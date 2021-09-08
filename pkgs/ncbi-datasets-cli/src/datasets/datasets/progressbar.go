@@ -44,7 +44,7 @@ func (progressBar *copyProgressBar) Write(p []byte) (n int, err error) {
 }
 
 func (progressBar *copyProgressBar) Copy(dest io.Writer, src io.Reader) (n int64, err error) {
-	if progressBar.bar == nil {
+	if !argNoProgress && progressBar.bar == nil {
 		progressBar.bar = uiprogress.AddBar(1)
 		progressBar.bar.LeftEnd = ' '
 		progressBar.bar.RightEnd = ' '

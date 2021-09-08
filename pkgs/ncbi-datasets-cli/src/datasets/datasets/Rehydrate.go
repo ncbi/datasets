@@ -211,7 +211,9 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 			if hasError(err) {
 				return
 			}
-			bar.Incr()
+            if !argNoProgress {
+                bar.Incr()
+            }
 			errch <- nil
 		}()
 	}
@@ -223,12 +225,15 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	}
 	// Initialize the progress bar
 	totalFiles := len(fileList)
-	bar := uiprogress.AddBar(totalFiles).AppendCompleted()
-	bar.Width = 50
-	bar.PrependFunc(func(b *uiprogress.Bar) string {
-		return fmt.Sprintf("Completed %d of %d", b.Current(), b.Total)
-	})
-	uiprogress.Start()
+    var bar *uiprogress.Bar
+    if !argNoProgress {
+        bar = uiprogress.AddBar(totalFiles).AppendCompleted()
+        bar.Width = 50
+        bar.PrependFunc(func(b *uiprogress.Bar) string {
+            return fmt.Sprintf("Completed %d of %d", b.Current(), b.Total)
+        })
+        uiprogress.Start()
+    }
 
 	// Create channel to hold all required downloads
 	files := make(chan fetchLine, totalFiles)
@@ -255,7 +260,9 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	if errStr != "" {
 		err = errors.New(errStr)
 	}
-	uiprogress.Stop()
+    if !argNoProgress {
+        uiprogress.Stop()
+    }
 	return err
 }
 

@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 
+	pb_datasets "ncbi/datasets/v1"
+
 	"github.com/spf13/cobra"
 
 	datasets_util "main/datasets/util"
@@ -12,12 +14,13 @@ import (
 )
 
 var (
-	debug       bool
-	AppVersion  = "undefined"
-	userMessage string
-	tableFields []string
-	inputFile   string
-	packageFile string
+	debug                bool
+	AppVersion           = "undefined"
+	supportedApiVersions = []pb_datasets.Catalog_ApiVersion{pb_datasets.Catalog_V1, pb_datasets.Catalog_UNKNOWN}
+	userMessage          string
+	tableFields          []string
+	inputFile            string
+	packageFile          string
 )
 
 var rootCmd = &cobra.Command{
