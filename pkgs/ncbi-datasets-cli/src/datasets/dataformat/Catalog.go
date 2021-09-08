@@ -56,7 +56,7 @@ func getCatalog() (catalog *pb_datasets.Catalog, err error) {
 			return
 		}
 		defer zipreader.Close()
-		fileptr, e := findSingleFileMatch(&zipreader.File, DATASET_CATALOG)
+		fileptr, e := findSingleFileMatch(&zipreader.File, DATASET_CATALOG, DATASET_CATALOG)
 		if e != nil {
 			err = e
 			return

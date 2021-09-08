@@ -19,13 +19,13 @@ type StringWriter struct {
 	IStringWriter
 }
 
-func (sw* StringWriter) Println(s string) {
+func (sw *StringWriter) Println(s string) {
 	fmt.Println(s)
 }
 
 type DelimTableWriter struct {
 	TableWriter
-	Out IStringWriter
+	Out   IStringWriter
 	Delim string
 }
 
@@ -33,7 +33,7 @@ func newDelimWriter(delim string) *DelimTableWriter {
 	sw := StringWriter{}
 	writer := DelimTableWriter{
 		Delim: delim,
-		Out: &sw,
+		Out:   &sw,
 	}
 	return &writer
 }
@@ -41,7 +41,7 @@ func newDelimWriter(delim string) *DelimTableWriter {
 func (t *DelimTableWriter) EmitTableHeader(rspec *ReportSpec, fields []string) {
 	headerFields := make([]string, 0)
 	for _, f := range fields {
-		if ! rspec.hasColumn(f) {
+		if !rspec.hasColumn(f) {
 			// How do we report back to the user there was an error?
 			// should DelimTableWriter have an error collection?
 			fmt.Println("Unrecognized mnemonic: ", f)
@@ -57,7 +57,7 @@ func (t *DelimTableWriter) EmitTableRow(objIter *ObjIter, rspec *ReportSpec, fie
 	var vals []string
 
 	for _, f := range fields {
-		if ! rspec.hasColumn(f) {
+		if !rspec.hasColumn(f) {
 			// How do we report back to the user there was an error?
 			// should DelimTableWriter have an error collection?
 			continue

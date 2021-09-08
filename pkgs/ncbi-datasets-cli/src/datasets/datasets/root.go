@@ -52,6 +52,7 @@ var (
 	argJsonFormat      bool
 	argTaxExactMatch   bool
 	argTaxon           string
+	argNoProgress      bool
 
 	// Default retry configuration
 	defaultRetryWaitMin = 1 * time.Second
@@ -508,6 +509,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&argProxyURL, "proxy", os.Getenv("http_proxy"), "API endpoint proxy")
 	rootCmd.PersistentFlags().BoolVar(&argSynMon, "synmon", false, "Mark request as synthetic monitoring")
 	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", false, "Emit debugging info")
+	rootCmd.PersistentFlags().BoolVar(&argNoProgress, "no-progressbar", false, "hide progress bar")
 	rootCmd.PersistentFlags().MarkHidden("proxy")
 	rootCmd.PersistentFlags().MarkHidden("synmon")
 	rootCmd.PersistentFlags().MarkHidden("debug")

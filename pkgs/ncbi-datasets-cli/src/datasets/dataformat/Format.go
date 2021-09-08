@@ -11,6 +11,8 @@ import (
 	"regexp"
 	"strings"
 
+	pb_datasets "ncbi/datasets/v1"
+
 	"github.com/spf13/cobra"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -36,10 +38,10 @@ func buildFilenameRegexp(pattern string) (*regexp.Regexp, error) {
 	return regexp.Compile(constructRegexpPattern(pattern))
 }
 
-func findSingleFileMatch(files *[]*zip.File, fileRegexp string) (fileptr *zip.File, err error) {
+func findSingleFileMatch(files *[]*zip.File, fileRegexp string, ifile string) (fileptr *zip.File, err error) {
 	matchedFiles := make([]*zip.File, 0)
 	reportRegexp := regexp.MustCompile(fileRegexp)
-	userRegexp, err := buildFilenameRegexp(inputFile)
+	userRegexp, err := buildFilenameRegexp(ifile)
 	if err != nil {
 		return
 	}
@@ -65,6 +67,15 @@ func findSingleFileMatch(files *[]*zip.File, fileRegexp string) (fileptr *zip.Fi
 	return
 }
 
+func contains(itemList []pb_datasets.Catalog_ApiVersion, search_val pb_datasets.Catalog_ApiVersion) bool {
+	for _, val := range itemList {
+		if val == search_val {
+			return true
+		}
+	}
+	return false
+}
+
 func emitTable(writer ITableWriter, obj protoreflect.Message, rspec *ReportSpec, fields []string) (err error) {
 	if ok, e := rspec.fieldsAreValid(fields); !ok {
 		err = e
@@ -79,13 +90,25 @@ func emitTable(writer ITableWriter, obj protoreflect.Message, rspec *ReportSpec,
 			return
 		}
 		defer zipreader.Close()
-		fileptr, e := findSingleFileMatch(&zipreader.File, rspec.regexpMatch)
+		fileptr, e := findSingleFileMatch(&zipreader.File, rspec.regexpMatch, inputFile)
 		if e != nil {
 			err = e
 			return
 		}
 		if debug {
 			fmt.Fprintf(os.Stderr, "matched file: %s\n", fileptr.Name)
+		}
+
+		catalog, e := getCatalog()
+		if e != nil {
+			err = e
+			return
+		}
+		if !contains(supportedApiVersions, catalog.ApiVersion) {
+			err = fmt.Errorf("The archive %s is version: %s and is not supported by this version (%s) of the dataformat tool", packageFile, catalog.ApiVersion.String(), AppVersion)
+			if err != nil {
+				return
+			}
 		}
 		file, err = fileptr.Open()
 	} else if len(inputFile) > 0 {

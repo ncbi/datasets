@@ -10,8 +10,8 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	pb_reports "ncbi/datasets/v1/reports"
 	pb_options "ncbi/datasets/options"
+	pb_reports "ncbi/datasets/v1/reports"
 )
 
 type FieldDesc struct {
