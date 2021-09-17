@@ -2,9 +2,9 @@ package datasets
 
 import (
 	"bufio"
+	openapi "datasets_cli/v1/openapi"
 	"errors"
 	"fmt"
-	openapi "main/openapi_client"
 	"os"
 	"strconv"
 	"strings"
@@ -86,7 +86,7 @@ type GeneIdStreamProcessor struct {
 }
 
 func printInfo(reason string, identifiers []string, message string) {
-	fmt.Fprintf(os.Stderr, message)
+	fmt.Fprintf(os.Stderr, "%s\n", message)
 	if argDebug {
 		err := fmt.Errorf("Detailed Message: For input: %s : %s", strings.Join(identifiers, ", "), reason)
 		fmt.Fprintf(os.Stderr, err.Error())

@@ -3,7 +3,7 @@ package datasets
 import (
 	"github.com/spf13/cobra"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 var summaryGenomeTaxonCmd = &cobra.Command{

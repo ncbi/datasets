@@ -1,11 +1,15 @@
 package datasets
 
 import (
+	openapi "datasets_cli/v1/openapi"
+	"errors"
 	"github.com/spf13/cobra"
-	openapi "main/openapi_client"
 )
 
 func cmdRunSummaryGeneID(cmd *cobra.Command, args []string) (err error) {
+	if len(argIDArgs) == 0 {
+		return errors.New("Gene ids not provided")
+	}
 	geneInts := strToInt32List(argIDArgs)
 
 	req := openapi.NewV1GeneDatasetRequest()

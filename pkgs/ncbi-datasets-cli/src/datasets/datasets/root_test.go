@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 
 	"github.com/stretchr/testify/require"
 )
@@ -65,7 +65,7 @@ func TestArgsFromList(t *testing.T) {
 	inputFile := ""
 
 	args, err := getArgsFromListOrFile([]string{}, inputFile)
-	require.Error(t, err)
+	require.NoError(t, err)
 	require.ElementsMatch(t, args, []string{})
 
 	args, err = getArgsFromListOrFile([]string{"1,2,3"}, inputFile)

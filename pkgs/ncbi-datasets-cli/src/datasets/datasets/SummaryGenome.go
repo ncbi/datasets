@@ -1,8 +1,8 @@
 package datasets
 
 import (
+	openapi "datasets_cli/v1/openapi"
 	"fmt"
-	openapi "main/openapi_client"
 	"sort"
 	"strings"
 

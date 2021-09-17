@@ -23,9 +23,9 @@ import (
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
 
-	datasets_util "main/datasets/util"
-	datasets_command "main/datasets/util/command"
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
+	datasets_util "datasets_cli/v1/util"
+	datasets_command "datasets_cli/v1/util/command"
 )
 
 var (
@@ -356,6 +356,7 @@ func registerHiddenIntPair(flags *flag.FlagSet, storage *int, longName, shortFla
 	flags.IntVar(storage, longName, defaultValue, description)
 }
 
+// If neither args nor argInputFile specified, no error.
 func getArgsFromListOrFile(args []string, argInputFile string) (idArgs []string, err error) {
 	var errorMsg bytes.Buffer
 
@@ -369,7 +370,10 @@ func getArgsFromListOrFile(args []string, argInputFile string) (idArgs []string,
 		} else {
 			idArgs = args
 		}
-	} else if argInputFile == "-" {
+		return
+	}
+
+	if argInputFile == "-" {
 		idArgs = readLines(os.Stdin)
 	} else if argInputFile != "" {
 		fp, fileErr := os.Open(argInputFile)
@@ -388,9 +392,7 @@ func getArgsFromListOrFile(args []string, argInputFile string) (idArgs []string,
 			)
 		}
 	}
-	if len(idArgs) == 0 {
-		fmt.Fprintf(&errorMsg, "requires at least 1 arg(s), only received 0")
-	}
+
 	if errorMsg.Len() > 0 {
 		err = errors.New(errorMsg.String())
 	}
@@ -484,6 +486,14 @@ func (lrt LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, err
 	return lrt.Proxied.RoundTrip(req)
 }
 
+func useEnv(envVarName, argName string) (val string) {
+	val = os.Getenv(envVarName)
+	if len(val) > 0 {
+		fmt.Printf("Env var [%s] as default value for [%s] arg: %s\n", envVarName, argName, val)
+	}
+	return
+}
+
 func init() {
 	datasets_util.AddUsageSections(
 		"datasets",
@@ -504,9 +514,9 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&argApiKey, "api-key", os.Getenv("NCBI_API_KEY"), "NCBI Datasets API Key")
+	rootCmd.PersistentFlags().StringVar(&argApiKey, "api-key", useEnv("NCBI_API_KEY", "api-key"), "NCBI Datasets API Key")
 
-	rootCmd.PersistentFlags().StringVar(&argProxyURL, "proxy", os.Getenv("http_proxy"), "API endpoint proxy")
+	rootCmd.PersistentFlags().StringVar(&argProxyURL, "proxy", useEnv("http_proxy", "proxy"), "API endpoint proxy")
 	rootCmd.PersistentFlags().BoolVar(&argSynMon, "synmon", false, "Mark request as synthetic monitoring")
 	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", false, "Emit debugging info")
 	rootCmd.PersistentFlags().BoolVar(&argNoProgress, "no-progressbar", false, "hide progress bar")

@@ -3,7 +3,7 @@
 package main
 
 import (
-	"main/datasets/datasets"
+	"datasets_cli/v1/datasets"
 )
 
 func main() {

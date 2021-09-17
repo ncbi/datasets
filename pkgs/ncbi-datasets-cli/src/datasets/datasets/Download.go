@@ -9,9 +9,9 @@ import (
 	_nethttp "net/http"
 	"os"
 
-	openapi "main/openapi_client"
-
+	openapi "datasets_cli/v1/openapi"
 	"github.com/gosuri/uiprogress"
+
 	"github.com/spf13/cobra"
 )
 
@@ -41,15 +41,12 @@ func downloadData(f *os.File, resp *_nethttp.Response, inError error, filename s
 	if resp.StatusCode == 200 {
 		defer resp.Body.Close()
 		progressBar := &copyProgressBar{}
-		uiprogress.Start()
 		progressBar.filename = filename
 		if _, e := progressBar.Copy(f, resp.Body); e != nil {
 			progressBar.status = "error"
-			uiprogress.Stop()
 			err = fmt.Errorf("Download error: %s", e)
 			return
 		}
-		uiprogress.Stop()
 		if !isValidZip(filename) {
 			os.Remove(filename)
 			err = errors.New("Internal error (invalid zip archive). Please try again")
@@ -87,30 +84,44 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
   datasets download virus protein S --host dog --filename SARS2-spike-dog.zip
   datasets download --input-json request_file.json --filename output.zip`,
 	Args: cobra.ExactArgs(0),
-
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
+		argIDArgs, err = getArgsFromListOrFile(args, argInputFile)
+		if err != nil {
+			return
+		}
+		if !argNoProgress {
+			uiprogress.Start()
+		}
+		return
+	},
+	PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		if !argNoProgress {
+			uiprogress.Stop()
+		}
+	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if argJsonInputFilename != "" {
-			content, err := ioutil.ReadFile(argJsonInputFilename)
-			if err != nil {
-				return fmt.Errorf("Opening json request file: %s: \"%s\"", argJsonInputFilename, err)
-			}
-
-			// Convert json string to request structure
-			req := openapi.NewV1DatasetRequest()
-			err = json.Unmarshal([]byte(content), &req)
-			if err != nil {
-				return fmt.Errorf("Parsing JSON request file %s: \"%s\"", argJsonInputFilename, err)
-			}
-
-			if req.GenomeV1 != nil {
-				return downloadAssembly(req.GenomeV1, argDownloadFilename)
-			} else if req.GeneV1 != nil {
-				return downloadGeneForRequest(req.GeneV1)
-			} else {
-				return errors.New("request did not have a valid gene or genome request object")
-			}
-		} else {
+		if argJsonInputFilename == "" {
 			return errors.New("Must provide a valid json input file")
+		}
+
+		content, err := ioutil.ReadFile(argJsonInputFilename)
+		if err != nil {
+			return fmt.Errorf("Opening json request file: %s: \"%s\"", argJsonInputFilename, err)
+		}
+
+		// Convert json string to request structure
+		req := openapi.NewV1DatasetRequest()
+		err = json.Unmarshal([]byte(content), &req)
+		if err != nil {
+			return fmt.Errorf("Parsing JSON request file %s: \"%s\"", argJsonInputFilename, err)
+		}
+
+		if req.GenomeV1 != nil {
+			return downloadAssembly(req.GenomeV1, argDownloadFilename)
+		} else if req.GeneV1 != nil {
+			return downloadGeneForRequest(req.GeneV1)
+		} else {
+			return errors.New("request did not have a valid gene or genome request object")
 		}
 	},
 }

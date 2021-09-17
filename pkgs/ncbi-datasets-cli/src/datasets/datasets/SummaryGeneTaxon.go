@@ -1,7 +1,7 @@
 package datasets
 
 import (
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 
 	"github.com/spf13/cobra"
 )
@@ -23,6 +23,6 @@ var summaryGeneTaxonCmd = &cobra.Command{
 	Short:   "print a summary of a gene dataset by taxon",
 	Long:    `Print a summary of a gene dataset by taxon. The summary is returned in JSON format.`,
 	Example: `  datasets summary gene taxon human`,
-	Args:    cobra.MaximumNArgs(1),
+	Args:    cobra.ExactArgs(1),
 	RunE:    cmdRunSummaryGeneTaxon,
 }

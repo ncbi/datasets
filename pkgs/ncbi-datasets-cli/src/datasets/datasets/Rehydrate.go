@@ -14,6 +14,8 @@ import (
 	"regexp"
 	"strings"
 
+	datasets_util "datasets_cli/v1/util"
+
 	"github.com/gosuri/uiprogress"
 	"github.com/spf13/cobra"
 )
@@ -45,7 +47,8 @@ var rehydrateCmd = &cobra.Command{
 	Long: `
 Retrieve data files for an [unzipped, dehydrated zip archive](https://www.ncbi.nlm.nih.gov/datasets/docs/how-tos/genomes/rehydrate-package/).  Data files specified in fetch.txt will be downloaded from NCBI.
 `,
-	Args: cobra.MaximumNArgs(0),
+	Args:         cobra.MaximumNArgs(0),
+	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		fi, e := os.Stat(argPackageDir)
 		if e != nil {
@@ -143,7 +146,7 @@ func processHTTPRequest(client *http.Client, request *http.Request) (*http.Respo
 		fmt.Printf("\n%s\n", string(dumpPre))
 	}
 	resp, err := client.Do(request)
-	if err = handleHTTPResponse(resp, err); err != nil {
+	if err = datasets_util.HandleHttpResponseWithCustomErr(resp, err, "%s"); err != nil {
 		return nil, err
 	}
 	if err == nil && argDebug {
@@ -185,7 +188,10 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 			client := newRetryHttpClient(10)
 			client.Transport = LoggingRoundTripper{Proxied: http.DefaultTransport}
 			resp, err := processHTTPRequest(client, req)
-			if hasError(err) {
+			if err != nil {
+				// Custom logging to push error
+				newError := errors.New("File unavailable (" + getGatewayRuntimeError(err) + "): " + file.path)
+				hasError(newError)
 				return
 			}
 			defer resp.Body.Close()
@@ -211,9 +217,9 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 			if hasError(err) {
 				return
 			}
-            if !argNoProgress {
-                bar.Incr()
-            }
+			if !argNoProgress {
+				bar.Incr()
+			}
 			errch <- nil
 		}()
 	}
@@ -225,15 +231,15 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	}
 	// Initialize the progress bar
 	totalFiles := len(fileList)
-    var bar *uiprogress.Bar
-    if !argNoProgress {
-        bar = uiprogress.AddBar(totalFiles).AppendCompleted()
-        bar.Width = 50
-        bar.PrependFunc(func(b *uiprogress.Bar) string {
-            return fmt.Sprintf("Completed %d of %d", b.Current(), b.Total)
-        })
-        uiprogress.Start()
-    }
+	var bar *uiprogress.Bar
+	if !argNoProgress {
+		bar = uiprogress.AddBar(totalFiles).AppendCompleted()
+		bar.Width = 50
+		bar.PrependFunc(func(b *uiprogress.Bar) string {
+			return fmt.Sprintf("Completed %d of %d", b.Current(), b.Total)
+		})
+		uiprogress.Start()
+	}
 
 	// Create channel to hold all required downloads
 	files := make(chan fetchLine, totalFiles)
@@ -253,16 +259,16 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	var errStr string
 	for i := 0; i < totalFiles; i++ {
 		if err := <-errch; err != nil {
-			errStr = errStr + " " + err.Error()
+			errStr = errStr + "\n" + err.Error()
 		}
 	}
 	var err error
 	if errStr != "" {
 		err = errors.New(errStr)
 	}
-    if !argNoProgress {
-        uiprogress.Stop()
-    }
+	if !argNoProgress {
+		uiprogress.Stop()
+	}
 	return err
 }
 

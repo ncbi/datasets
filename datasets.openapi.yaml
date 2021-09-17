@@ -5087,7 +5087,7 @@ components:
           title: 'The RefSeq accession of the sequence'
         assembly_unit:
           type: string
-          title: 'The NCBI Assembly accesion of the associated assembly unit. Assembly units can include the primary assembly and non-nuclear assembly units'
+          title: 'The NCBI Assembly accession of the associated assembly unit. Assembly units can include the primary assembly and non-nuclear assembly units'
         length:
           type: integer
           title: 'The length of the sequence in nucleotides'

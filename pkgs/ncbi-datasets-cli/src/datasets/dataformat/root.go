@@ -9,8 +9,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	datasets_util "main/datasets/util"
-	datasets_command "main/datasets/util/command"
+	datasets_util "datasets_cli/v1/util"
+	datasets_command "datasets_cli/v1/util/command"
 )
 
 var (
