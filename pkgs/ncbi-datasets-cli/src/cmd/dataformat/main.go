@@ -1,7 +1,7 @@
 package main
 
 import (
-	"main/datasets/dataformat"
+	"datasets_cli/v1/dataformat"
 )
 
 func main() {

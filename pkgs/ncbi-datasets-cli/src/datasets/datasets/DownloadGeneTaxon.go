@@ -3,7 +3,7 @@ package datasets
 import (
 	"github.com/spf13/cobra"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 var downloadGeneTaxonCmd = &cobra.Command{
@@ -22,7 +22,7 @@ The default gene dataset includes the following files:
  * dataset_catalog.json (a list of files and file types included in the dataset)
 
 Refer to [NCBI Datasets Gene Package](https://www.ncbi.nlm.nih.gov/datasets/docs/data-packages/gene/) documentation for more information about the gene package. `,
-	Args: cobra.MaximumNArgs(1),
+	Args: cobra.ExactArgs(1),
 	RunE: cmdDownloadGeneTaxon,
 }
 

@@ -1,12 +1,17 @@
 package datasets
 
 import (
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
+	"errors"
 
 	"github.com/spf13/cobra"
 )
 
 func cmdRunSummaryGeneSymbol(cmd *cobra.Command, args []string) (err error) {
+	if len(argIDArgs) == 0 {
+		return errors.New("No gene symbols provided")
+	}
+
 	req := openapi.NewV1GeneDatasetRequest()
 	symbols_taxon := openapi.NewV1GeneDatasetRequestSymbolsForTaxon()
 	symbols_taxon.SetSymbols(argIDArgs)

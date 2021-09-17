@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 func HandleHttpResponseWithCustomErr(resp *http.Response, inError error, printfTemplate string) (err error) {

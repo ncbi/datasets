@@ -9,9 +9,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gosuri/uiprogress"
 	"github.com/spf13/cobra"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 func updateAssemblyMetadataRequestOption(request *openapi.V1AssemblyMetadataRequest) (err error) {
@@ -91,10 +94,26 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, ign
 		}
 	}
 
+	singleRecord := int32(1)
+	page, _, _ := getAssemblyMetadataPage(cli, request, singleRecord)
+	var bar *uiprogress.Bar
+	p := message.NewPrinter(language.English)
+
+	if !countOnly {
+		bar = uiprogress.AddBar(int(page.GetTotalCount())).AppendCompleted()
+		bar.PrependFunc(func(b *uiprogress.Bar) string {
+			return p.Sprintf("Collecting %d genome accessions", b.Total)
+
+		})
+		bar.AppendFunc(func(b *uiprogress.Bar) string {
+			return fmt.Sprintf("%d/%d", b.Current(), b.Total)
+		})
+		bar.Width = 50
+	}
+
 	retrievalCount := 0
 	for {
 		page_size := int32(minOf(MAX_PAGE_SIZE, maxRetrieval-retrievalCount))
-
 		var retry_delay = time.Duration(10)
 
 		const retry_count = 3
@@ -123,8 +142,12 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, ign
 		if countOnly {
 			return
 		}
-
 		retrievalCount += len(result_page.GetAssemblies())
+
+		if bar != nil {
+			bar.Set(int(retrievalCount))
+		}
+
 		result.SetAssemblies(append(result.GetAssemblies(), result_page.GetAssemblies()...))
 		result.SetMessages(append(result.GetMessages(), result_page.GetMessages()...))
 		if result_page.GetNextPageToken() == "" || retrievalCount >= maxRetrieval {

@@ -1,13 +1,14 @@
 package datasets
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 var (
@@ -110,6 +111,9 @@ func downloadProkaryoteGene(accessions []string) (err error) {
 }
 
 func cmdDownloadGeneAccession(cmd *cobra.Command, args []string) error {
+	if len(argIDArgs) == 0 {
+		return errors.New("Input identifiers not specified")
+	}
 	if isProkaryoteAcc(argIDArgs) {
 		return downloadProkaryoteGene(argIDArgs)
 	} else {

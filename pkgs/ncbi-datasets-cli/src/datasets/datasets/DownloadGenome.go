@@ -9,8 +9,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	datasets_util "main/datasets/util"
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
+	datasets_util "datasets_cli/v1/util"
 )
 
 func getDownloadRequest(acc []string) *openapi.V1AssemblyDatasetRequest {
@@ -212,11 +212,6 @@ The default genome dataset includes the following files (if available):
 * dataset_catalog.json (a list of files and file types included in the dataset)
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
-
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		err = processAssmAccArgs(args)
-		return
-	},
 }
 
 func init() {

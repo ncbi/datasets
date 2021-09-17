@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 var (
@@ -68,14 +68,6 @@ The default gene dataset includes the following files:
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.
 `,
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		argIDArgs, err = getArgsFromListOrFile(args, argInputFile)
-		if err == nil && len(argIDArgs) == 0 {
-			err = errors.New("input genes not specified")
-		}
-		return
-	},
-
 	RunE: cmdDownloadGeneGeneID,
 }
 
@@ -85,9 +77,6 @@ func cmdDownloadGeneGeneID(cmd *cobra.Command, args []string) error {
 	return downloadGeneForRequest(req)
 }
 
-// Final note:
-// ok, so allGeneIdForRequest -> ApiGeneMetadataStreamByPostRequest -> v1GeneDatasetRequest()
-// so this is the _right_ object to pass into this method.
 func downloadGeneForRequest(req *openapi.V1GeneDatasetRequest) (err error) {
 	var geneIds []int32
 	geneIds, err = allGeneIdForRequest(req)

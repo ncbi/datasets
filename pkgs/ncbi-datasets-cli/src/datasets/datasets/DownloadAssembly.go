@@ -19,14 +19,10 @@ unlocalized sequences and excludes any available annotation data.
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		assemblyArgs, err := getArgsFromListOrFile(args, argInputFile)
-		if err != nil {
-			return err
-		}
-		if len(assemblyArgs) == 0 {
+		if len(argIDArgs) == 0 {
 			return errors.New("Input accessions not specified")
 		}
-		validAccList, warning, err := checkAssemblyAvailability(assemblyArgs)
+		validAccList, warning, err := checkAssemblyAvailability(argIDArgs)
 		if err != nil {
 			return err
 		}

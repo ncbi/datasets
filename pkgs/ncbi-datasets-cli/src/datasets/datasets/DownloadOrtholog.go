@@ -1,9 +1,9 @@
 package datasets
 
 import (
+	openapi "datasets_cli/v1/openapi"
 	"errors"
 	"fmt"
-	openapi "main/openapi_client"
 
 	"github.com/spf13/cobra"
 )
@@ -25,11 +25,6 @@ The default gene dataset includes the following files:
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.
 `,
-
-	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
-		argIDArgs, err = getArgsFromListOrFile(args, argInputFile)
-		return
-	},
 }
 
 func downloadOrthologsByGeneId(geneInts []int32) error {

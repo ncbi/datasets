@@ -7,7 +7,7 @@ import (
 	"github.com/metakeule/fmtdate"
 	"github.com/spf13/cobra"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 func downloadVirusProtein(cmd *cobra.Command, proteinNames []string, assmFilename string) (err error) {

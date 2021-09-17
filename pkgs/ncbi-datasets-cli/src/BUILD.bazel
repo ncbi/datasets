@@ -1,10 +1,10 @@
-VERSION = "12.11.0"
+VERSION = "12.13.1"
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
 
 go_library(
     name = "datasets_util",
     srcs = glob(["datasets/util/*.go"],),
-    importpath = "main/datasets/util",
+    importpath = "datasets_cli/v1/util",
     deps = [
         "//src/generated:openapi_go_lib",
 
@@ -21,7 +21,7 @@ go_library(
 go_library(
     name = "datasets_util_command",
     srcs = glob(["datasets/util/command/*.go"],),
-    importpath = "main/datasets/util/command",
+    importpath = "datasets_cli/v1/util/command",
     deps = [
         "//src/generated:openapi_go_lib",
 

@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 )
 
 var geneDescrAccCmd = &cobra.Command{

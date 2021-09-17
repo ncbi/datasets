@@ -3,7 +3,7 @@ package datasets
 import (
 	"errors"
 
-	openapi "main/openapi_client"
+	openapi "datasets_cli/v1/openapi"
 
 	"github.com/spf13/cobra"
 )
