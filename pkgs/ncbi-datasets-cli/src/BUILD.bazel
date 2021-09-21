@@ -1,4 +1,4 @@
-VERSION = "12.13.1"
+VERSION = "12.13.2"
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
 
 go_library(
@@ -38,7 +38,7 @@ go_library(
 go_library(
     name = "datasets_lib",
     srcs = glob(["datasets/datasets/*.go"],),
-    importpath = "main/datasets/datasets",
+    importpath = "datasets_cli/v1/datasets",
     deps = [
         "//src/generated:openapi_go_lib",
         "//src/generated:ncbi_datasets_v1_go_lib",
@@ -55,13 +55,15 @@ go_library(
         "@com_github_stretchr_testify//require:go_default_library",
         "@com_github_hashicorp_go_retryablehttp//:go_default_library",
         "@com_github_hashicorp_go_cleanhttp//:go_default_library",
+        "@org_golang_x_text//message:go_default_library",
+        "@org_golang_x_text//language:go_default_library",
     ],
 )
 
 go_library(
     name = "dataformat_lib",
     srcs = glob(["datasets/dataformat/*.go"],),
-    importpath = "main/datasets/dataformat",
+    importpath = "datasets_cli/v1/dataformat",
     deps = [
         "//src/generated:ncbi_datasets_v1_go_lib",
         "//src/generated:ncbi_datasets_options_go_lib",

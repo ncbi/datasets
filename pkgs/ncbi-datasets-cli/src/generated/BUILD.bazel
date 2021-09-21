@@ -67,7 +67,7 @@ go_library(
 go_library(
     name = "openapi_go_lib",
     srcs = glob(["openapi_client/**/*.go"],),
-    importpath = "main/openapi_client",
+    importpath = "datasets_cli/v1/openapi",
     deps = [
         "@com_github_antihax_optional//:go_default_library",
         "@org_golang_x_oauth2//:go_default_library",
