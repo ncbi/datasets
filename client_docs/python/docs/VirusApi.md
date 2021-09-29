@@ -22,6 +22,7 @@ Download a SARS-CoV-2 protein datasets
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -112,6 +113,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -129,6 +131,7 @@ Download a summary of available SARS-CoV-2 protein datasets
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -218,6 +221,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -235,6 +239,7 @@ Get protein metadata in tabular format for SARS-CoV-2 genomes.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -327,6 +332,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -344,6 +350,7 @@ Download a Coronavirus genome datasets by taxon
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -436,6 +443,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -453,6 +461,7 @@ Get summary data and download by command line instructions for Coronaviridae gen
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -544,6 +553,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -561,6 +571,7 @@ Get viral genomic metadata in tabular format for Coronaviridae genomes by taxon.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -653,6 +664,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |

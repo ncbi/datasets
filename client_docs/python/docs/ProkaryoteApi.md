@@ -18,6 +18,7 @@ Get a prokaryote gene dataset including gene and protein fasta sequence, annotat
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -100,6 +101,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -117,6 +119,7 @@ Get a prokaryote gene dataset including gene and protein fasta sequence, annotat
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -200,6 +203,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
