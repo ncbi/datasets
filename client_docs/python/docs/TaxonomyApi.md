@@ -21,6 +21,7 @@ This endpoint retrieves a list of taxonomy names and IDs given a partial taxonom
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -94,6 +95,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -111,6 +113,7 @@ Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get a filte
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -188,6 +191,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -205,6 +209,7 @@ Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get a filte
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -275,6 +280,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -292,6 +298,7 @@ Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadat
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -365,6 +372,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -382,6 +390,7 @@ Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadat
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -449,6 +458,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |

@@ -30,6 +30,7 @@ Get a gene dataset including gene, transcript and protein fasta sequence, annota
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -112,6 +113,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -129,6 +131,7 @@ Get a gene dataset including gene, transcript and protein fasta sequence, annota
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -227,6 +230,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -244,6 +248,7 @@ Get gene download summary by RefSeq Accession in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -318,6 +323,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -335,6 +341,7 @@ Get a download summary by GeneID in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -411,6 +418,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -428,6 +436,7 @@ Get gene download summary in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -516,6 +525,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -533,6 +543,7 @@ Get gene download summary by gene symbol in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -611,6 +622,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -628,6 +640,7 @@ Get detailed gene metadata by RefSeq Accession in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -709,6 +722,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -726,6 +740,7 @@ Get detailed gene metadata by GeneID in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -809,6 +824,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -826,6 +842,7 @@ Get detailed gene metadata in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -914,6 +931,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -931,6 +949,7 @@ Get detailed gene metadata by gene symbol in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1018,6 +1037,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -1035,6 +1055,7 @@ Get detailed gene metadata in a streaming, JSON-lines output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1123,9 +1144,10 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful request, returning a stream of individual JSON Text payloads. |  * Transfer-Encoding - chunked <br>  |
+**200** | A successful response |  -  |
 **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1140,6 +1162,7 @@ Get detailed gene metadata for an ortholog set by gene ID in a JSON output forma
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1215,6 +1238,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -1232,6 +1256,7 @@ This endpoint retrieves a list of taxonomy names and IDs found in the gene datas
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1305,6 +1330,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -1322,6 +1348,7 @@ Using an NCBI Taxonomy ID or name (common or scientific) at any rank, get a subt
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1394,6 +1421,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |

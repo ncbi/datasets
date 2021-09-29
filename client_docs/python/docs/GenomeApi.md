@@ -28,6 +28,7 @@ Get detailed metadata for assembled genomes by accession in a JSON output format
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -122,6 +123,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -139,6 +141,7 @@ Get detailed metadata for assembled genomes by bioproject accession in a JSON ou
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -238,6 +241,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -255,6 +259,7 @@ Get detailed metadata on all assembled genomes for a specified NCBI Taxonomy ID 
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -354,6 +359,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -371,6 +377,7 @@ The 'GET' version of check is limited by the size of the GET URL (2KB, which wor
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -432,6 +439,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -449,6 +457,7 @@ The 'GET' version of check is limited by the size of the GET URL (2KB, which wor
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -528,6 +537,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -545,6 +555,7 @@ Download a genome dataset including fasta sequence, annotation and a detailed da
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -628,6 +639,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -645,6 +657,7 @@ The 'GET' version of download is limited by the size of the GET URL (2KB, which 
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -734,6 +747,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
@@ -751,6 +765,7 @@ Get a download summary by accession in a JSON output format.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -830,6 +845,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -847,6 +863,7 @@ The 'GET' version of download summary is limited by the size of the GET URL (2KB
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -926,6 +943,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -943,6 +961,7 @@ Get detailed metadata for assembled genomes.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1036,6 +1055,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -1053,6 +1073,7 @@ This endpoint retrieves a list of taxonomy names and IDs found in the assembly d
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1126,6 +1147,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
@@ -1143,6 +1165,7 @@ Using a NCBI Taxonomy ID or name (common or scientific) at any rank, get a subtr
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -1215,6 +1238,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |

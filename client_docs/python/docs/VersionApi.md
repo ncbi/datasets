@@ -17,6 +17,7 @@ Retrieve the latest version of the Datasets services.
 ### Example
 
 * Api Key Authentication (ApiKeyAuthHeader):
+
 ```python
 import time
 import ncbi.datasets.openapi
@@ -74,6 +75,7 @@ This endpoint does not need any parameter.
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A successful response |  -  |
