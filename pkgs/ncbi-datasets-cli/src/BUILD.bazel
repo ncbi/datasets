@@ -1,4 +1,4 @@
-VERSION = "12.14.2"
+VERSION = "12.15.0"
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
 
 go_library(
@@ -50,6 +50,8 @@ go_library(
         "@com_github_docker_go_units//:go_default_library",
         "@com_github_gosuri_uiprogress//:go_default_library",
         "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_afero//:go_default_library",
+        "@com_github_spf13_afero//mem:go_default_library",
         "@com_github_spf13_cobra//:go_default_library",
         "@com_github_spf13_pflag//:go_default_library",
         "@com_github_stretchr_testify//require:go_default_library",
@@ -57,6 +59,7 @@ go_library(
         "@com_github_hashicorp_go_cleanhttp//:go_default_library",
         "@org_golang_x_text//message:go_default_library",
         "@org_golang_x_text//language:go_default_library",
+        "@ke_bou_monkey//:go_default_library",
     ],
 )
 
@@ -79,6 +82,7 @@ go_library(
         "@com_github_spf13_cobra//:go_default_library",
         "@com_github_spf13_pflag//:go_default_library",
         "@com_github_stretchr_testify//require:go_default_library",
+
 
         "@org_golang_google_protobuf//proto:go_default_library",
         "@org_golang_google_protobuf//reflect/protoreflect:go_default_library",
@@ -103,9 +107,12 @@ go_binary(
         "@com_github_docker_go_units//:go_default_library",
         "@com_github_gosuri_uiprogress//:go_default_library",
         "@com_github_metakeule_fmtdate//:go_default_library",
+        "@com_github_spf13_afero//:go_default_library",
+        "@com_github_spf13_afero//mem:go_default_library",
         "@com_github_spf13_cobra//:go_default_library",
         "@com_github_spf13_pflag//:go_default_library",
         "@com_github_stretchr_testify//require:go_default_library",
+        "@ke_bou_monkey//:go_default_library",
     ],
 )
 

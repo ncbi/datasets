@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 
 	openapi "datasets_cli/v1/openapi"
-	datasets_util "datasets_cli/v1/util"
 )
 
 func getDownloadRequest(acc []string) *openapi.V1AssemblyDatasetRequest {
@@ -102,18 +101,17 @@ func lookupAssmsForBioProjects(cli *openapi.APIClient, bioprojectAccs []string) 
 		return
 	}
 
-	result, meta_err := getAssemblyMetadataWithPost(request, true)
-	if meta_err != nil {
-		return validAccs, meta_err
+	// Command line argument is used to set limit on number of records retrieved.  We want all of them at this point.
+	var tmp string
+	if argLimit != "" {
+		tmp = argLimit
+		argLimit = ""
+	}
+	validAccs, err = getAssemblyAccessionsWithPost(request)
+	if tmp != "" {
+		argLimit = tmp
 	}
 
-	validAccs = make([]string, 0, len(result.GetAssemblies()))
-	for _, assm := range result.GetAssemblies() {
-		if len(assm.Assembly.GetAssemblyAccession()) > 0 {
-			validAccs = append(validAccs, assm.Assembly.GetAssemblyAccession())
-		}
-	}
-	err = datasets_util.MessagesToError(result.GetMessages())
 	return
 }
 

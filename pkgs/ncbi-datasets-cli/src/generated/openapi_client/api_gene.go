@@ -32,10 +32,11 @@ type GeneApiService service
 type ApiDownloadGenePackageRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	geneIds []int32
-	includeAnnotationType *[]V1Fasta
-	fastaFilter *[]string
-	filename *string
+	geneIds []int32	
+	includeAnnotationType *[]V1Fasta	
+	fastaFilter *[]string	
+	filename *string	
+    Headers map[string]string
 }
 
 // Select additional types of annotation to include in the data package.  If unset, no annotation is provided.
@@ -140,6 +141,13 @@ func (a *GeneApiService) DownloadGenePackageExecute(r ApiDownloadGenePackageRequ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -204,8 +212,9 @@ func (a *GeneApiService) DownloadGenePackageExecute(r ApiDownloadGenePackageRequ
 type ApiDownloadGenePackagePostRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	v1GeneDatasetRequest *V1GeneDatasetRequest
-	filename *string
+	v1GeneDatasetRequest *V1GeneDatasetRequest	
+	filename *string	
+    Headers map[string]string
 }
 
 func (r *ApiDownloadGenePackagePostRequest) V1GeneDatasetRequest(v1GeneDatasetRequest V1GeneDatasetRequest) *ApiDownloadGenePackagePostRequest {
@@ -283,6 +292,13 @@ func (a *GeneApiService) DownloadGenePackagePostExecute(r ApiDownloadGenePackage
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1GeneDatasetRequest
 	if r.ctx != nil {
@@ -349,8 +365,9 @@ func (a *GeneApiService) DownloadGenePackagePostExecute(r ApiDownloadGenePackage
 type ApiGeneDownloadSummaryByAccessionRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	accessions []string
-	fastaFilter *[]string
+	accessions []string	
+	fastaFilter *[]string	
+    Headers map[string]string
 }
 
 // Limit the FASTA sequences in the datasets package to these transcript and protein accessions
@@ -431,6 +448,13 @@ func (a *GeneApiService) GeneDownloadSummaryByAccessionExecute(r ApiGeneDownload
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -495,8 +519,9 @@ func (a *GeneApiService) GeneDownloadSummaryByAccessionExecute(r ApiGeneDownload
 type ApiGeneDownloadSummaryByIdRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	geneIds []int32
-	fastaFilter *[]string
+	geneIds []int32	
+	fastaFilter *[]string	
+    Headers map[string]string
 }
 
 // Limit the FASTA sequences in the datasets package to these transcript and protein accessions
@@ -577,6 +602,13 @@ func (a *GeneApiService) GeneDownloadSummaryByIdExecute(r ApiGeneDownloadSummary
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -641,7 +673,8 @@ func (a *GeneApiService) GeneDownloadSummaryByIdExecute(r ApiGeneDownloadSummary
 type ApiGeneDownloadSummaryByPostRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	v1GeneDatasetRequest *V1GeneDatasetRequest
+	v1GeneDatasetRequest *V1GeneDatasetRequest	
+    Headers map[string]string
 }
 
 func (r *ApiGeneDownloadSummaryByPostRequest) V1GeneDatasetRequest(v1GeneDatasetRequest V1GeneDatasetRequest) *ApiGeneDownloadSummaryByPostRequest {
@@ -711,6 +744,13 @@ func (a *GeneApiService) GeneDownloadSummaryByPostExecute(r ApiGeneDownloadSumma
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1GeneDatasetRequest
 	if r.ctx != nil {
@@ -777,9 +817,10 @@ func (a *GeneApiService) GeneDownloadSummaryByPostExecute(r ApiGeneDownloadSumma
 type ApiGeneDownloadSummaryByTaxAndSymbolRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	symbols []string
-	taxon string
-	fastaFilter *[]string
+	symbols []string	
+	taxon string	
+	fastaFilter *[]string	
+    Headers map[string]string
 }
 
 // Limit the FASTA sequences in the datasets package to these transcript and protein accessions
@@ -863,6 +904,13 @@ func (a *GeneApiService) GeneDownloadSummaryByTaxAndSymbolExecute(r ApiGeneDownl
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -927,11 +975,12 @@ func (a *GeneApiService) GeneDownloadSummaryByTaxAndSymbolExecute(r ApiGeneDownl
 type ApiGeneMetadataByAccessionRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	accessions []string
-	returnedContent *V1GeneDatasetRequestContentType
-	sortSchemaField *V1GeneDatasetRequestSortField
-	sortSchemaDirection *V1SortDirection
-	limit *string
+	accessions []string	
+	returnedContent *V1GeneDatasetRequestContentType	
+	sortSchemaField *V1GeneDatasetRequestSortField	
+	sortSchemaDirection *V1SortDirection	
+	limit *string	
+    Headers map[string]string
 }
 
 // Return either gene-ids, or entire gene metadata
@@ -1028,6 +1077,13 @@ func (a *GeneApiService) GeneMetadataByAccessionExecute(r ApiGeneMetadataByAcces
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1092,11 +1148,12 @@ func (a *GeneApiService) GeneMetadataByAccessionExecute(r ApiGeneMetadataByAcces
 type ApiGeneMetadataByIdRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	geneIds []int32
-	returnedContent *V1GeneDatasetRequestContentType
-	sortSchemaField *V1GeneDatasetRequestSortField
-	sortSchemaDirection *V1SortDirection
-	limit *string
+	geneIds []int32	
+	returnedContent *V1GeneDatasetRequestContentType	
+	sortSchemaField *V1GeneDatasetRequestSortField	
+	sortSchemaDirection *V1SortDirection	
+	limit *string	
+    Headers map[string]string
 }
 
 // Return either gene-ids, or entire gene metadata
@@ -1193,6 +1250,13 @@ func (a *GeneApiService) GeneMetadataByIdExecute(r ApiGeneMetadataByIdRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1257,7 +1321,8 @@ func (a *GeneApiService) GeneMetadataByIdExecute(r ApiGeneMetadataByIdRequest) (
 type ApiGeneMetadataByPostRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	v1GeneDatasetRequest *V1GeneDatasetRequest
+	v1GeneDatasetRequest *V1GeneDatasetRequest	
+    Headers map[string]string
 }
 
 func (r *ApiGeneMetadataByPostRequest) V1GeneDatasetRequest(v1GeneDatasetRequest V1GeneDatasetRequest) *ApiGeneMetadataByPostRequest {
@@ -1327,6 +1392,13 @@ func (a *GeneApiService) GeneMetadataByPostExecute(r ApiGeneMetadataByPostReques
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1GeneDatasetRequest
 	if r.ctx != nil {
@@ -1393,13 +1465,14 @@ func (a *GeneApiService) GeneMetadataByPostExecute(r ApiGeneMetadataByPostReques
 type ApiGeneMetadataByTaxAndSymbolRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	symbols []string
-	taxon string
-	accessions *[]string
-	returnedContent *V1GeneDatasetRequestContentType
-	sortSchemaField *V1GeneDatasetRequestSortField
-	sortSchemaDirection *V1SortDirection
-	limit *string
+	symbols []string	
+	taxon string	
+	accessions *[]string	
+	returnedContent *V1GeneDatasetRequestContentType	
+	sortSchemaField *V1GeneDatasetRequestSortField	
+	sortSchemaDirection *V1SortDirection	
+	limit *string	
+    Headers map[string]string
 }
 
 // RNA or Protein accessions.
@@ -1515,6 +1588,13 @@ func (a *GeneApiService) GeneMetadataByTaxAndSymbolExecute(r ApiGeneMetadataByTa
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1579,7 +1659,8 @@ func (a *GeneApiService) GeneMetadataByTaxAndSymbolExecute(r ApiGeneMetadataByTa
 type ApiGeneMetadataStreamByPostRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	v1GeneDatasetRequest *V1GeneDatasetRequest
+	v1GeneDatasetRequest *V1GeneDatasetRequest	
+    Headers map[string]string
 }
 
 func (r *ApiGeneMetadataStreamByPostRequest) V1GeneDatasetRequest(v1GeneDatasetRequest V1GeneDatasetRequest) *ApiGeneMetadataStreamByPostRequest {
@@ -1649,6 +1730,13 @@ func (a *GeneApiService) GeneMetadataStreamByPostExecute(r ApiGeneMetadataStream
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1GeneDatasetRequest
 	if r.ctx != nil {
@@ -1715,9 +1803,10 @@ func (a *GeneApiService) GeneMetadataStreamByPostExecute(r ApiGeneMetadataStream
 type ApiGeneOrthologsByIdRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	geneId int32
-	returnedContent *V1OrthologRequestContentType
-	taxonFilter *[]string
+	geneId int32	
+	returnedContent *V1OrthologRequestContentType	
+	taxonFilter *[]string	
+    Headers map[string]string
 }
 
 // Return either gene-ids, or entire gene metadata
@@ -1806,6 +1895,13 @@ func (a *GeneApiService) GeneOrthologsByIdExecute(r ApiGeneOrthologsByIdRequest)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1870,8 +1966,9 @@ func (a *GeneApiService) GeneOrthologsByIdExecute(r ApiGeneOrthologsByIdRequest)
 type ApiGeneTaxNameQueryRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	taxonQuery string
-	taxRankFilter *V1OrganismQueryRequestTaxRankFilter
+	taxonQuery string	
+	taxRankFilter *V1OrganismQueryRequestTaxRankFilter	
+    Headers map[string]string
 }
 
 // Set the scope of searched tax ranks
@@ -1944,6 +2041,13 @@ func (a *GeneApiService) GeneTaxNameQueryExecute(r ApiGeneTaxNameQueryRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -2008,8 +2112,9 @@ func (a *GeneApiService) GeneTaxNameQueryExecute(r ApiGeneTaxNameQueryRequest) (
 type ApiGeneTaxTreeRequest struct {
 	ctx _context.Context
 	ApiService *GeneApiService
-	taxon string
-	childrenOnly *bool
+	taxon string	
+	childrenOnly *bool	
+    Headers map[string]string
 }
 
 // Only report the children of the requested taxon and not their descendants
@@ -2082,6 +2187,13 @@ func (a *GeneApiService) GeneTaxTreeExecute(r ApiGeneTaxTreeRequest) (V1Organism
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

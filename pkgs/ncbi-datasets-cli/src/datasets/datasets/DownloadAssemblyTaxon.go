@@ -31,17 +31,11 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 
 		request.SetReturnedContent(openapi.V1ASSEMBLYMETADATAREQUESTCONTENTTYPE_ASSM_ACC)
 
-		assemblyMetadata, post_err := getAssemblyMetadataWithPost(request, false)
+		accessions, post_err := getAssemblyAccessionsWithPost(request)
 		if post_err != nil {
 			return post_err
 		}
 
-		var accessions []string
-		i := 0
-		for _, assemblyMatch := range assemblyMetadata.GetAssemblies() {
-			accessions = append(accessions, assemblyMatch.Assembly.GetAssemblyAccession())
-			i++
-		}
 		if len(accessions) == 0 {
 			err = errors.New("No assembly available")
 			return err

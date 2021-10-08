@@ -103,12 +103,8 @@ func objToJSON(obj interface{}) (string, error) {
 }
 
 func printResults(Payload interface{}) {
-	json, err := objToJSON(Payload)
-	if err != nil {
-		rootCmd.PrintErr("\nError converting payload to json\n")
-		return
-	}
-	fmt.Printf("%s\n", json)
+	printResultsNoNewline(Payload)
+	fmt.Print("\n")
 }
 
 func printResultsNoNewline(Payload interface{}) {

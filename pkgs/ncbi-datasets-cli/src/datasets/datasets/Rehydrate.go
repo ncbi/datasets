@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -17,6 +18,7 @@ import (
 	datasets_util "datasets_cli/v1/util"
 
 	"github.com/gosuri/uiprogress"
+	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 )
 
@@ -25,6 +27,7 @@ var (
 	argMatchPattern string
 	argListOnly     bool
 	argNumWorkers   int
+	afs             afero.Fs
 )
 
 type fetchLine struct {
@@ -50,7 +53,7 @@ Retrieve data files for an [unzipped, dehydrated zip archive](https://www.ncbi.n
 	Args:         cobra.MaximumNArgs(0),
 	SilenceUsage: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fi, e := os.Stat(argPackageDir)
+		fi, e := afs.Stat(argPackageDir)
 		if e != nil {
 			return fmt.Errorf("opening '%s' for rehydration: %s", argPackageDir, e.Error())
 		}
@@ -62,7 +65,7 @@ Retrieve data files for an [unzipped, dehydrated zip archive](https://www.ncbi.n
 		case mode.IsDir():
 			// do directory stuff
 			fetchFile := path.Join(argPackageDir, "ncbi_dataset", "fetch.txt")
-			fp, e := os.Open(fetchFile)
+			fp, e := afs.Open(fetchFile)
 			if e != nil {
 				return fmt.Errorf("opening file '%s' for rehydration: %s", fetchFile, e.Error())
 			}
@@ -167,6 +170,10 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 			errch <- err
 			progressBar.status = "error"
 			progressBar.bar = nil
+			if perr, ok := err.(*fs.PathError); ok {
+				fmt.Printf("Critical Error: %s\n", perr)
+				os.Exit(-1)
+			}
 			return true
 		}
 		return false
@@ -199,14 +206,14 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 			// If the directory in which the file resides does not yet exist, create it
 			var fileDir = filepath.Dir(file.path)
 			if fileDir != "." {
-				err := os.MkdirAll(fileDir, 0755)
+				err := afs.MkdirAll(fileDir, 0755)
 				if hasError(err) {
 					return
 				}
 			}
 
 			// Create the file
-			out, err := os.Create(file.path)
+			out, err := afs.Create(file.path)
 			if hasError(err) {
 				return
 			}
@@ -229,6 +236,7 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	if argNumWorkers < 1 || argNumWorkers > 30 {
 		return errors.New("number of workers cannot be less than 1 or greater than 30")
 	}
+
 	// Initialize the progress bar
 	totalFiles := len(fileList)
 	var bar *uiprogress.Bar
@@ -273,6 +281,7 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 }
 
 func init() {
+	afs = afero.NewOsFs()
 	pflags := rehydrateCmd.PersistentFlags()
 	registerHiddenStringPair(pflags, &argPackageDir, "directory", "d", "", "specify the directory containing the unzipped dehydrated bag")
 	registerHiddenBoolPair(pflags, &argListOnly, "list", "l", false, "list files that would be downloaded during rehydration")

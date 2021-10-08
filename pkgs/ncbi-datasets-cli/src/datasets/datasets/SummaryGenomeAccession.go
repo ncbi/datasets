@@ -3,7 +3,6 @@ package datasets
 import (
 	"errors"
 	"fmt"
-	"math"
 	_nethttp "net/http"
 	"os"
 	"strconv"
@@ -15,6 +14,7 @@ import (
 	"golang.org/x/text/message"
 
 	openapi "datasets_cli/v1/openapi"
+	datasets_util "datasets_cli/v1/util"
 )
 
 func updateAssemblyMetadataRequestOption(request *openapi.V1AssemblyMetadataRequest) (err error) {
@@ -62,8 +62,7 @@ func updateAssemblyMetadataRequestOption(request *openapi.V1AssemblyMetadataRequ
 	return nil
 }
 
-func getAssemblyMetadataPage(cli *openapi.APIClient, request *openapi.V1AssemblyMetadataRequest, page_size int32) (openapi.V1AssemblyMetadata, *_nethttp.Response, error) {
-	request.SetPageSize(page_size)
+func getAssemblyMetadataPage(cli *openapi.APIClient, request *openapi.V1AssemblyMetadataRequest) (openapi.V1AssemblyMetadata, *_nethttp.Response, error) {
 	return cli.GenomeApi.GenomeMetadataByPost(nil, request).Execute()
 }
 
@@ -71,55 +70,85 @@ func SetPageToken(request *openapi.V1AssemblyMetadataRequest, token string) {
 	request.SetPageToken(token)
 }
 
-func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, ignore_limit bool) (result openapi.V1AssemblyMetadata, err error) {
-	cli, cli_err := createOAClient()
-	if cli_err != nil {
-		return result, cli_err
+func getAssemblyAccessionsWithPost(request *openapi.V1AssemblyMetadataRequest) ([]string, error) {
+	var accessions []string
+	getAccessions := func(page openapi.V1AssemblyMatch) {
+		accessions = append(accessions, *page.Assembly.AssemblyAccession)
 	}
 
-	maxRetrieval := math.MaxInt32
-	countOnly := false
-	if !ignore_limit {
-		if argLimit != "" {
-			if argLimit == "none" {
-				maxRetrieval = 1
-				countOnly = true
-			} else if argLimit != "all" {
-				maxRetrieval, err = strconv.Atoi(argLimit)
-				if err != nil {
-					err = fmt.Errorf("Invalid 'limit' value %s. Must be 'all', 'none', or a number.", argLimit)
-					return
-				}
+	_, err := getAssemblyMetadataWithPost(request, getAccessions)
+	return accessions, err
+}
+
+func printAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest) error {
+	var assm_count int
+	var header_printed bool
+	var err error
+	var total_count int
+
+	printAssembly := func(page openapi.V1AssemblyMatch) {
+		if !argJsonLinesFormat {
+			if !header_printed {
+				fmt.Printf("\"assemblies\": [")
+				header_printed = true
 			}
+			if assm_count > 0 {
+				fmt.Printf(",")
+			}
+			fmt.Printf("{\"assembly\": ")
+			assm_count++
+			defer func() {
+				fmt.Printf("}")
+			}()
+		}
+		printResultsNoNewline(page.GetAssembly())
+	}
+
+	if !argJsonLinesFormat {
+		fmt.Printf("{")
+		defer func() {
+			if header_printed {
+				fmt.Printf("],")
+			}
+			fmt.Printf("\"total_count\": %d}", total_count)
+		}()
+	}
+	total_count, err = getAssemblyMetadataWithPost(request, printAssembly)
+	return err
+}
+
+func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, callbackFn func(openapi.V1AssemblyMatch)) (int, error) {
+	cli, err := createOAClient()
+	if err != nil {
+		return 0, err
+	}
+
+	countOnly := false
+	if argLimit != "" {
+		if argLimit == "none" {
+			request.SetPageSize(0)
+			countOnly = true
+		} else if argLimit != "all" {
+			arg_limit, err := strconv.Atoi(argLimit)
+			if err != nil {
+				err = fmt.Errorf("Invalid 'limit' value %s. Must be 'all', 'none', or a number.", argLimit)
+				return 0, err
+			}
+			request.SetPageSize(int32(min(1000, arg_limit)))
 		}
 	}
 
-	singleRecord := int32(1)
-	page, _, _ := getAssemblyMetadataPage(cli, request, singleRecord)
 	var bar *uiprogress.Bar
 	p := message.NewPrinter(language.English)
 
-	if !countOnly {
-		bar = uiprogress.AddBar(int(page.GetTotalCount())).AppendCompleted()
-		bar.PrependFunc(func(b *uiprogress.Bar) string {
-			return p.Sprintf("Collecting %d genome accessions", b.Total)
-
-		})
-		bar.AppendFunc(func(b *uiprogress.Bar) string {
-			return fmt.Sprintf("%d/%d", b.Current(), b.Total)
-		})
-		bar.Width = 50
-	}
-
 	retrievalCount := 0
 	for {
-		page_size := int32(minOf(MAX_PAGE_SIZE, maxRetrieval-retrievalCount))
 		var retry_delay = time.Duration(10)
 
 		const retry_count = 3
 		var result_page *openapi.V1AssemblyMetadata
 		for i := 1; i <= retry_count; i++ {
-			page, resp, api_err := getAssemblyMetadataPage(cli, request, page_size)
+			page, resp, api_err := getAssemblyMetadataPage(cli, request)
 			err = handleHTTPResponse(resp, api_err)
 			if err == nil {
 				result_page = &page
@@ -132,30 +161,39 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, ign
 			retry_delay *= 2
 		}
 
+		if result_page.HasMessages() {
+			err = datasets_util.MessagesToError(result_page.GetMessages())
+		}
 		if err != nil {
-			result = openapi.V1AssemblyMetadata{}
-			return
-		}
-		if result.GetTotalCount() == 0 {
-			result.SetTotalCount(result_page.GetTotalCount())
-		}
-		if countOnly {
-			return
+			return 0, err
 		}
 		retrievalCount += len(result_page.GetAssemblies())
 
-		if bar != nil {
+		if countOnly {
+			return retrievalCount, nil
+		} else if bar == nil {
+			bar = uiprogress.AddBar(int(result_page.GetTotalCount())).AppendCompleted()
+			bar.PrependFunc(func(b *uiprogress.Bar) string {
+				return p.Sprintf("Collecting %d genome accessions", b.Total)
+
+			})
+			bar.AppendFunc(func(b *uiprogress.Bar) string {
+				return fmt.Sprintf("%d/%d", b.Current(), b.Total)
+			})
+			bar.Width = 50
+		} else {
 			bar.Set(int(retrievalCount))
 		}
 
-		result.SetAssemblies(append(result.GetAssemblies(), result_page.GetAssemblies()...))
-		result.SetMessages(append(result.GetMessages(), result_page.GetMessages()...))
-		if result_page.GetNextPageToken() == "" || retrievalCount >= maxRetrieval {
+		for _, pg := range result_page.GetAssemblies() {
+			callbackFn(pg)
+		}
+		if result_page.GetNextPageToken() == "" {
 			break
 		}
 		SetPageToken(request, result_page.GetNextPageToken())
 	}
-	return
+	return retrievalCount, err
 }
 
 var summaryGenomeAccessionCmd = &cobra.Command{
@@ -196,12 +234,7 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 			return err
 		}
 
-		result, err := getAssemblyMetadataWithPost(request, false)
-		if err != nil {
-			return err
-		}
-		printResults(&result)
-		return nil
+		return printAssemblyMetadataWithPost(request)
 	},
 }
 

@@ -31,8 +31,9 @@ type TaxonomyApiService service
 type ApiTaxNameQueryRequest struct {
 	ctx _context.Context
 	ApiService *TaxonomyApiService
-	taxonQuery string
-	taxRankFilter *V1OrganismQueryRequestTaxRankFilter
+	taxonQuery string	
+	taxRankFilter *V1OrganismQueryRequestTaxRankFilter	
+    Headers map[string]string
 }
 
 // Set the scope of searched tax ranks
@@ -105,6 +106,13 @@ func (a *TaxonomyApiService) TaxNameQueryExecute(r ApiTaxNameQueryRequest) (V1Sc
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -169,9 +177,10 @@ func (a *TaxonomyApiService) TaxNameQueryExecute(r ApiTaxNameQueryRequest) (V1Sc
 type ApiTaxonomyFilteredSubtreeRequest struct {
 	ctx _context.Context
 	ApiService *TaxonomyApiService
-	taxons []string
-	specifiedLimit *bool
-	rankLimits *[]V1OrganismRankType
+	taxons []string	
+	specifiedLimit *bool	
+	rankLimits *[]V1OrganismRankType	
+    Headers map[string]string
 }
 
 // Limit to specified species
@@ -260,6 +269,13 @@ func (a *TaxonomyApiService) TaxonomyFilteredSubtreeExecute(r ApiTaxonomyFiltere
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -324,7 +340,8 @@ func (a *TaxonomyApiService) TaxonomyFilteredSubtreeExecute(r ApiTaxonomyFiltere
 type ApiTaxonomyFilteredSubtreePostRequest struct {
 	ctx _context.Context
 	ApiService *TaxonomyApiService
-	v1TaxonomyFilteredSubtreeRequest *V1TaxonomyFilteredSubtreeRequest
+	v1TaxonomyFilteredSubtreeRequest *V1TaxonomyFilteredSubtreeRequest	
+    Headers map[string]string
 }
 
 func (r *ApiTaxonomyFilteredSubtreePostRequest) V1TaxonomyFilteredSubtreeRequest(v1TaxonomyFilteredSubtreeRequest V1TaxonomyFilteredSubtreeRequest) *ApiTaxonomyFilteredSubtreePostRequest {
@@ -394,6 +411,13 @@ func (a *TaxonomyApiService) TaxonomyFilteredSubtreePostExecute(r ApiTaxonomyFil
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1TaxonomyFilteredSubtreeRequest
 	if r.ctx != nil {
@@ -460,8 +484,9 @@ func (a *TaxonomyApiService) TaxonomyFilteredSubtreePostExecute(r ApiTaxonomyFil
 type ApiTaxonomyMetadataRequest struct {
 	ctx _context.Context
 	ApiService *TaxonomyApiService
-	taxons []string
-	returnedContent *V1TaxonomyMetadataRequestContentType
+	taxons []string	
+	returnedContent *V1TaxonomyMetadataRequestContentType	
+    Headers map[string]string
 }
 
 // Return either tax-ids alone, or entire taxononmy-metadata records
@@ -534,6 +559,13 @@ func (a *TaxonomyApiService) TaxonomyMetadataExecute(r ApiTaxonomyMetadataReques
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -598,7 +630,8 @@ func (a *TaxonomyApiService) TaxonomyMetadataExecute(r ApiTaxonomyMetadataReques
 type ApiTaxonomyMetadataPostRequest struct {
 	ctx _context.Context
 	ApiService *TaxonomyApiService
-	v1TaxonomyMetadataRequest *V1TaxonomyMetadataRequest
+	v1TaxonomyMetadataRequest *V1TaxonomyMetadataRequest	
+    Headers map[string]string
 }
 
 func (r *ApiTaxonomyMetadataPostRequest) V1TaxonomyMetadataRequest(v1TaxonomyMetadataRequest V1TaxonomyMetadataRequest) *ApiTaxonomyMetadataPostRequest {
@@ -668,6 +701,13 @@ func (a *TaxonomyApiService) TaxonomyMetadataPostExecute(r ApiTaxonomyMetadataPo
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1TaxonomyMetadataRequest
 	if r.ctx != nil {

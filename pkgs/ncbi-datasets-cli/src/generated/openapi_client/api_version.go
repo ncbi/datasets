@@ -29,6 +29,7 @@ type VersionApiService service
 type ApiVersionRequest struct {
 	ctx _context.Context
 	ApiService *VersionApiService
+    Headers map[string]string
 }
 
 
@@ -90,6 +91,13 @@ func (a *VersionApiService) VersionExecute(r ApiVersionRequest) (V1VersionReply,
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
