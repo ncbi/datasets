@@ -145,6 +145,7 @@ func init() {
 * a number: returns the specified number of matching genome summaries
 `)
 	pflags.BoolVar(&argAssmAccsOnly, "assmaccs", false, "return only assembly accessions")
+	pflags.BoolVar(&argJsonLinesFormat, "as-json-lines", false, "Stream results as newline delimited JSON-Lines")
 
 	addGenomeMetadataFilters(pflags)
 }

@@ -32,11 +32,12 @@ type ProkaryoteApiService service
 type ApiDownloadProkaryoteGenePackageRequest struct {
 	ctx _context.Context
 	ApiService *ProkaryoteApiService
-	accessions []string
-	includeAnnotationType *[]V1Fasta
-	geneFlankConfigLength *int32
-	taxon *string
-	filename *string
+	accessions []string	
+	includeAnnotationType *[]V1Fasta	
+	geneFlankConfigLength *int32	
+	taxon *string	
+	filename *string	
+    Headers map[string]string
 }
 
 // Select additional types of annotation to include in the data package.  If unset, no annotation is provided.
@@ -140,6 +141,13 @@ func (a *ProkaryoteApiService) DownloadProkaryoteGenePackageExecute(r ApiDownloa
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -204,8 +212,9 @@ func (a *ProkaryoteApiService) DownloadProkaryoteGenePackageExecute(r ApiDownloa
 type ApiDownloadProkaryoteGenePackagePostRequest struct {
 	ctx _context.Context
 	ApiService *ProkaryoteApiService
-	v1ProkaryoteGeneRequest *V1ProkaryoteGeneRequest
-	filename *string
+	v1ProkaryoteGeneRequest *V1ProkaryoteGeneRequest	
+	filename *string	
+    Headers map[string]string
 }
 
 func (r *ApiDownloadProkaryoteGenePackagePostRequest) V1ProkaryoteGeneRequest(v1ProkaryoteGeneRequest V1ProkaryoteGeneRequest) *ApiDownloadProkaryoteGenePackagePostRequest {
@@ -283,6 +292,13 @@ func (a *ProkaryoteApiService) DownloadProkaryoteGenePackagePostExecute(r ApiDow
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1ProkaryoteGeneRequest
 	if r.ctx != nil {

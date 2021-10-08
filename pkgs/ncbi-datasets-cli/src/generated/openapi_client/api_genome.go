@@ -33,16 +33,17 @@ type GenomeApiService service
 type ApiAssemblyDescriptorsByAccessionsRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	accessions []string
-	filtersReferenceOnly *bool
-	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource
-	filtersHasAnnotation *bool
-	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel
-	filtersFirstReleaseDate *time.Time
-	filtersLastReleaseDate *time.Time
-	filtersSearchText *[]string
-	pageSize *int32
-	pageToken *string
+	accessions []string	
+	filtersReferenceOnly *bool	
+	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource	
+	filtersHasAnnotation *bool	
+	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel	
+	filtersFirstReleaseDate *time.Time	
+	filtersLastReleaseDate *time.Time	
+	filtersSearchText *[]string	
+	pageSize *int32	
+	pageToken *string	
+    Headers map[string]string
 }
 
 // If true, only return reference and representative (GCF_ and GCA_) genome assemblies.
@@ -195,6 +196,13 @@ func (a *GenomeApiService) AssemblyDescriptorsByAccessionsExecute(r ApiAssemblyD
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -259,17 +267,18 @@ func (a *GenomeApiService) AssemblyDescriptorsByAccessionsExecute(r ApiAssemblyD
 type ApiAssemblyDescriptorsByBioprojectRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	accessions []string
-	filtersReferenceOnly *bool
-	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource
-	filtersHasAnnotation *bool
-	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel
-	filtersFirstReleaseDate *time.Time
-	filtersLastReleaseDate *time.Time
-	filtersSearchText *[]string
-	returnedContent *V1AssemblyMetadataRequestContentType
-	pageSize *int32
-	pageToken *string
+	accessions []string	
+	filtersReferenceOnly *bool	
+	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource	
+	filtersHasAnnotation *bool	
+	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel	
+	filtersFirstReleaseDate *time.Time	
+	filtersLastReleaseDate *time.Time	
+	filtersSearchText *[]string	
+	returnedContent *V1AssemblyMetadataRequestContentType	
+	pageSize *int32	
+	pageToken *string	
+    Headers map[string]string
 }
 
 // If true, only return reference and representative (GCF_ and GCA_) genome assemblies.
@@ -430,6 +439,13 @@ func (a *GenomeApiService) AssemblyDescriptorsByBioprojectExecute(r ApiAssemblyD
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -494,18 +510,19 @@ func (a *GenomeApiService) AssemblyDescriptorsByBioprojectExecute(r ApiAssemblyD
 type ApiAssemblyDescriptorsByTaxonRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	taxon string
-	filtersReferenceOnly *bool
-	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource
-	filtersHasAnnotation *bool
-	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel
-	filtersFirstReleaseDate *time.Time
-	filtersLastReleaseDate *time.Time
-	filtersSearchText *[]string
-	taxExactMatch *bool
-	returnedContent *V1AssemblyMetadataRequestContentType
-	pageSize *int32
-	pageToken *string
+	taxon string	
+	filtersReferenceOnly *bool	
+	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource	
+	filtersHasAnnotation *bool	
+	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel	
+	filtersFirstReleaseDate *time.Time	
+	filtersLastReleaseDate *time.Time	
+	filtersSearchText *[]string	
+	taxExactMatch *bool	
+	returnedContent *V1AssemblyMetadataRequestContentType	
+	pageSize *int32	
+	pageToken *string	
+    Headers map[string]string
 }
 
 // If true, only return reference and representative (GCF_ and GCA_) genome assemblies.
@@ -674,6 +691,13 @@ func (a *GenomeApiService) AssemblyDescriptorsByTaxonExecute(r ApiAssemblyDescri
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -738,7 +762,8 @@ func (a *GenomeApiService) AssemblyDescriptorsByTaxonExecute(r ApiAssemblyDescri
 type ApiCheckAssemblyAvailabilityRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	accessions []string
+	accessions []string	
+    Headers map[string]string
 }
 
 
@@ -803,6 +828,13 @@ func (a *GenomeApiService) CheckAssemblyAvailabilityExecute(r ApiCheckAssemblyAv
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -867,7 +899,8 @@ func (a *GenomeApiService) CheckAssemblyAvailabilityExecute(r ApiCheckAssemblyAv
 type ApiCheckAssemblyAvailabilityPostRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	v1AssemblyDatasetRequest *V1AssemblyDatasetRequest
+	v1AssemblyDatasetRequest *V1AssemblyDatasetRequest	
+    Headers map[string]string
 }
 
 func (r *ApiCheckAssemblyAvailabilityPostRequest) V1AssemblyDatasetRequest(v1AssemblyDatasetRequest V1AssemblyDatasetRequest) *ApiCheckAssemblyAvailabilityPostRequest {
@@ -937,6 +970,13 @@ func (a *GenomeApiService) CheckAssemblyAvailabilityPostExecute(r ApiCheckAssemb
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1AssemblyDatasetRequest
 	if r.ctx != nil {
@@ -1003,12 +1043,13 @@ func (a *GenomeApiService) CheckAssemblyAvailabilityPostExecute(r ApiCheckAssemb
 type ApiDownloadAssemblyPackageRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	accessions []string
-	chromosomes *[]string
-	excludeSequence *bool
-	includeAnnotationType *[]V1AnnotationForAssemblyType
-	hydrated *V1AssemblyDatasetRequestResolution
-	filename *string
+	accessions []string	
+	chromosomes *[]string	
+	excludeSequence *bool	
+	includeAnnotationType *[]V1AnnotationForAssemblyType	
+	hydrated *V1AssemblyDatasetRequestResolution	
+	filename *string	
+    Headers map[string]string
 }
 
 // The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence.
@@ -1129,6 +1170,13 @@ func (a *GenomeApiService) DownloadAssemblyPackageExecute(r ApiDownloadAssemblyP
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1193,8 +1241,9 @@ func (a *GenomeApiService) DownloadAssemblyPackageExecute(r ApiDownloadAssemblyP
 type ApiDownloadAssemblyPackagePostRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	v1AssemblyDatasetRequest *V1AssemblyDatasetRequest
-	filename *string
+	v1AssemblyDatasetRequest *V1AssemblyDatasetRequest	
+	filename *string	
+    Headers map[string]string
 }
 
 func (r *ApiDownloadAssemblyPackagePostRequest) V1AssemblyDatasetRequest(v1AssemblyDatasetRequest V1AssemblyDatasetRequest) *ApiDownloadAssemblyPackagePostRequest {
@@ -1272,6 +1321,13 @@ func (a *GenomeApiService) DownloadAssemblyPackagePostExecute(r ApiDownloadAssem
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1AssemblyDatasetRequest
 	if r.ctx != nil {
@@ -1338,10 +1394,11 @@ func (a *GenomeApiService) DownloadAssemblyPackagePostExecute(r ApiDownloadAssem
 type ApiGenomeDownloadSummaryRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	accessions []string
-	chromosomes *[]string
-	excludeSequence *bool
-	includeAnnotationType *[]V1AnnotationForAssemblyType
+	accessions []string	
+	chromosomes *[]string	
+	excludeSequence *bool	
+	includeAnnotationType *[]V1AnnotationForAssemblyType	
+    Headers map[string]string
 }
 
 // The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (&#39;Un&#39;). The filter only applies to fasta sequence.
@@ -1446,6 +1503,13 @@ func (a *GenomeApiService) GenomeDownloadSummaryExecute(r ApiGenomeDownloadSumma
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1510,7 +1574,8 @@ func (a *GenomeApiService) GenomeDownloadSummaryExecute(r ApiGenomeDownloadSumma
 type ApiGenomeDownloadSummaryByPostRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	v1AssemblyDatasetRequest *V1AssemblyDatasetRequest
+	v1AssemblyDatasetRequest *V1AssemblyDatasetRequest	
+    Headers map[string]string
 }
 
 func (r *ApiGenomeDownloadSummaryByPostRequest) V1AssemblyDatasetRequest(v1AssemblyDatasetRequest V1AssemblyDatasetRequest) *ApiGenomeDownloadSummaryByPostRequest {
@@ -1580,6 +1645,13 @@ func (a *GenomeApiService) GenomeDownloadSummaryByPostExecute(r ApiGenomeDownloa
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1AssemblyDatasetRequest
 	if r.ctx != nil {
@@ -1646,7 +1718,8 @@ func (a *GenomeApiService) GenomeDownloadSummaryByPostExecute(r ApiGenomeDownloa
 type ApiGenomeMetadataByPostRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	v1AssemblyMetadataRequest *V1AssemblyMetadataRequest
+	v1AssemblyMetadataRequest *V1AssemblyMetadataRequest	
+    Headers map[string]string
 }
 
 func (r *ApiGenomeMetadataByPostRequest) V1AssemblyMetadataRequest(v1AssemblyMetadataRequest V1AssemblyMetadataRequest) *ApiGenomeMetadataByPostRequest {
@@ -1716,6 +1789,13 @@ func (a *GenomeApiService) GenomeMetadataByPostExecute(r ApiGenomeMetadataByPost
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	// body params
 	localVarPostBody = r.v1AssemblyMetadataRequest
 	if r.ctx != nil {
@@ -1782,8 +1862,9 @@ func (a *GenomeApiService) GenomeMetadataByPostExecute(r ApiGenomeMetadataByPost
 type ApiGenomeTaxNameQueryRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	taxonQuery string
-	taxRankFilter *V1OrganismQueryRequestTaxRankFilter
+	taxonQuery string	
+	taxRankFilter *V1OrganismQueryRequestTaxRankFilter	
+    Headers map[string]string
 }
 
 // Set the scope of searched tax ranks
@@ -1856,6 +1937,13 @@ func (a *GenomeApiService) GenomeTaxNameQueryExecute(r ApiGenomeTaxNameQueryRequ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1920,8 +2008,9 @@ func (a *GenomeApiService) GenomeTaxNameQueryExecute(r ApiGenomeTaxNameQueryRequ
 type ApiGenomeTaxTreeRequest struct {
 	ctx _context.Context
 	ApiService *GenomeApiService
-	taxon string
-	childrenOnly *bool
+	taxon string	
+	childrenOnly *bool	
+    Headers map[string]string
 }
 
 // Only report the children of the requested taxon and not their descendants
@@ -1994,6 +2083,13 @@ func (a *GenomeApiService) GenomeTaxTreeExecute(r ApiGenomeTaxTreeRequest) (V1Or
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

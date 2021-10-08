@@ -33,15 +33,16 @@ type VirusApiService service
 type ApiSars2ProteinDownloadRequest struct {
 	ctx _context.Context
 	ApiService *VirusApiService
-	proteins []string
-	refseqOnly *bool
-	annotatedOnly *bool
-	releasedSince *time.Time
-	host *string
-	geoLocation *string
-	completeOnly *bool
-	includeAnnotationType *[]V1AnnotationForVirusType
-	filename *string
+	proteins []string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	geoLocation *string	
+	completeOnly *bool	
+	includeAnnotationType *[]V1AnnotationForVirusType	
+	filename *string	
+    Headers map[string]string
 }
 
 // If true, limit results to RefSeq genomes.
@@ -178,6 +179,13 @@ func (a *VirusApiService) Sars2ProteinDownloadExecute(r ApiSars2ProteinDownloadR
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -242,14 +250,15 @@ func (a *VirusApiService) Sars2ProteinDownloadExecute(r ApiSars2ProteinDownloadR
 type ApiSars2ProteinSummaryRequest struct {
 	ctx _context.Context
 	ApiService *VirusApiService
-	proteins []string
-	refseqOnly *bool
-	annotatedOnly *bool
-	releasedSince *time.Time
-	host *string
-	geoLocation *string
-	completeOnly *bool
-	includeAnnotationType *[]V1AnnotationForVirusType
+	proteins []string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	geoLocation *string	
+	completeOnly *bool	
+	includeAnnotationType *[]V1AnnotationForVirusType	
+    Headers map[string]string
 }
 
 // If true, limit results to RefSeq genomes.
@@ -378,6 +387,13 @@ func (a *VirusApiService) Sars2ProteinSummaryExecute(r ApiSars2ProteinSummaryReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -442,15 +458,16 @@ func (a *VirusApiService) Sars2ProteinSummaryExecute(r ApiSars2ProteinSummaryReq
 type ApiSars2ProteinTableRequest struct {
 	ctx _context.Context
 	ApiService *VirusApiService
-	proteins []string
-	refseqOnly *bool
-	annotatedOnly *bool
-	releasedSince *time.Time
-	host *string
-	geoLocation *string
-	completeOnly *bool
-	tableFields *[]V1VirusTableField
-	format *V1TableFormat
+	proteins []string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	geoLocation *string	
+	completeOnly *bool	
+	tableFields *[]V1VirusTableField	
+	format *V1TableFormat	
+    Headers map[string]string
 }
 
 // If true, limit results to RefSeq genomes.
@@ -587,6 +604,13 @@ func (a *VirusApiService) Sars2ProteinTableExecute(r ApiSars2ProteinTableRequest
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -651,17 +675,18 @@ func (a *VirusApiService) Sars2ProteinTableExecute(r ApiSars2ProteinTableRequest
 type ApiVirusGenomeDownloadRequest struct {
 	ctx _context.Context
 	ApiService *VirusApiService
-	taxon string
-	refseqOnly *bool
-	annotatedOnly *bool
-	releasedSince *time.Time
-	host *string
-	pangolinClassification *string
-	geoLocation *string
-	completeOnly *bool
-	excludeSequence *bool
-	includeAnnotationType *[]V1AnnotationForVirusType
-	filename *string
+	taxon string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	pangolinClassification *string	
+	geoLocation *string	
+	completeOnly *bool	
+	excludeSequence *bool	
+	includeAnnotationType *[]V1AnnotationForVirusType	
+	filename *string	
+    Headers map[string]string
 }
 
 // If true, limit results to RefSeq genomes.
@@ -814,6 +839,13 @@ func (a *VirusApiService) VirusGenomeDownloadExecute(r ApiVirusGenomeDownloadReq
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -878,16 +910,17 @@ func (a *VirusApiService) VirusGenomeDownloadExecute(r ApiVirusGenomeDownloadReq
 type ApiVirusGenomeSummaryRequest struct {
 	ctx _context.Context
 	ApiService *VirusApiService
-	taxon string
-	refseqOnly *bool
-	annotatedOnly *bool
-	releasedSince *time.Time
-	host *string
-	pangolinClassification *string
-	geoLocation *string
-	completeOnly *bool
-	excludeSequence *bool
-	includeAnnotationType *[]V1AnnotationForVirusType
+	taxon string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	pangolinClassification *string	
+	geoLocation *string	
+	completeOnly *bool	
+	excludeSequence *bool	
+	includeAnnotationType *[]V1AnnotationForVirusType	
+    Headers map[string]string
 }
 
 // If true, limit results to RefSeq genomes.
@@ -1032,6 +1065,13 @@ func (a *VirusApiService) VirusGenomeSummaryExecute(r ApiVirusGenomeSummaryReque
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1096,16 +1136,17 @@ func (a *VirusApiService) VirusGenomeSummaryExecute(r ApiVirusGenomeSummaryReque
 type ApiVirusGenomeTableRequest struct {
 	ctx _context.Context
 	ApiService *VirusApiService
-	taxon string
-	refseqOnly *bool
-	annotatedOnly *bool
-	releasedSince *time.Time
-	host *string
-	pangolinClassification *string
-	geoLocation *string
-	completeOnly *bool
-	tableFields *[]V1VirusTableField
-	format *V1TableFormat
+	taxon string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	pangolinClassification *string	
+	geoLocation *string	
+	completeOnly *bool	
+	tableFields *[]V1VirusTableField	
+	format *V1TableFormat	
+    Headers map[string]string
 }
 
 // If true, limit results to RefSeq genomes.
@@ -1250,6 +1291,13 @@ func (a *VirusApiService) VirusGenomeTableExecute(r ApiVirusGenomeTableRequest) 
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

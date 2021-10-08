@@ -28,11 +28,10 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 			return err
 		}
 
-		result, metadata_err := getAssemblyMetadataWithPost(request, false)
+		metadata_err := printAssemblyMetadataWithPost(request)
 		if metadata_err != nil {
 			return metadata_err
 		}
-		printResults(&result)
 		return nil
 	},
 }
