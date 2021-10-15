@@ -171,7 +171,9 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, cal
 
 		if countOnly {
 			return retrievalCount, nil
-		} else if bar == nil {
+		}
+
+		if bar == nil {
 			bar = uiprogress.AddBar(int(result_page.GetTotalCount())).AppendCompleted()
 			bar.PrependFunc(func(b *uiprogress.Bar) string {
 				return p.Sprintf("Collecting %d genome accessions", b.Total)
@@ -181,9 +183,8 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, cal
 				return fmt.Sprintf("%d/%d", b.Current(), b.Total)
 			})
 			bar.Width = 50
-		} else {
-			bar.Set(int(retrievalCount))
 		}
+		bar.Set(int(retrievalCount))
 
 		for _, pg := range result_page.GetAssemblies() {
 			callbackFn(pg)
