@@ -3,7 +3,6 @@ package datasets
 import (
 	"bufio"
 	"bytes"
-	"context"
 	"crypto/rand"
 	"encoding/json"
 	"errors"
@@ -36,6 +35,7 @@ var (
 	versionMessage string
 	userMessage    string
 	clientHeaders  = make(map[string]string)
+	ncbi_phid      string
 
 	// various command-line args
 	argDebug           bool
@@ -142,67 +142,15 @@ func CustomRequestLogHook(_ retry_http.Logger, request *http.Request, _ int) {
 	}
 }
 
-// DefaultRetryPolicy provides a default callback for Client.CheckRetry, which
-// will retry on connection errors and server errors.
-func DefaultRetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
-	// do not retry on context.Canceled or context.DeadlineExceeded
-	if ctx.Err() != nil {
-		return false, ctx.Err()
-	}
-
-	// don't propagate other errors
-	shouldRetry, _ := baseRetryPolicy(resp, err)
-	return shouldRetry, nil
-}
-
-func baseRetryPolicy(resp *http.Response, err error) (bool, error) {
-	// if err != nil {
-	// 	if v, ok := err.(*url.Error); ok {
-	// 		// Don't retry if the error was due to too many redirects.
-	// 		if redirectsErrorRe.MatchString(v.Error()) {
-	// 			return false, v
-	// 		}
-
-	// 		// Don't retry if the error was due to an invalid protocol scheme.
-	// 		if schemeErrorRe.MatchString(v.Error()) {
-	// 			return false, v
-	// 		}
-
-	// 		// Don't retry if the error was due to TLS cert verification failure.
-	// 		if _, ok := v.Err.(x509.UnknownAuthorityError); ok {
-	// 			return false, v
-	// 		}
-	// 	}
-
-	// 	// The error is likely recoverable so retry.
-	// 	return true, nil
-	// }
-
-	// 429 Too Many Requests is recoverable. Sometimes the server puts
-	// a Retry-After response header to indicate when the server is
-	// available to start processing request from client.
-	if resp.StatusCode == http.StatusTooManyRequests {
-		return true, nil
-	}
-
-	// Check the response code. We retry on 500-range responses to allow
-	// the server time to recover, as 500's are typically not permanent
-	// errors and may relate to outages on the server side. This will catch
-	// invalid response codes as well, like 0 and 999.
-	// if resp.StatusCode == 0 || (resp.StatusCode >= 500 && resp.StatusCode != 501) {
-	// 	return true, fmt.Errorf("unexpected HTTP status %s", resp.Status)
-	// }
-
-	return false, nil
-}
 func newRetryHttpClient(numRetries int) *http.Client {
+
 	retryClient := retry_http.Client{
 		HTTPClient:   cleanhttp.DefaultPooledClient(),
 		Logger:       defaultLogger,
 		RetryWaitMin: defaultRetryWaitMin,
 		RetryWaitMax: defaultRetryWaitMax,
 		RetryMax:     numRetries,
-		CheckRetry:   DefaultRetryPolicy,
+		CheckRetry:   retry_http.DefaultRetryPolicy,
 		Backoff:      retry_http.DefaultBackoff,
 	}
 	if len(argApiKey) > 0 {
@@ -211,15 +159,19 @@ func newRetryHttpClient(numRetries int) *http.Client {
 	return retryClient.StandardClient()
 }
 
+func initRetryableClient() *http.Client {
+	const maxNumRetries = 10
+	c := newRetryHttpClient(maxNumRetries)
+	t := c.Transport
+	c.Transport = LoggingRoundTripper{Proxied: t}
+
+	return c
+}
+
 func createOAClient() (cli *openapi.APIClient, err error) {
 	cfg := openapi.NewConfiguration()
 
-	cfg.HTTPClient = newRetryHttpClient(10)
-	cfg.HTTPClient.Transport = LoggingRoundTripper{Proxied: http.DefaultTransport}
-
-	for k, v := range clientHeaders {
-		cfg.AddDefaultHeader(k, v)
-	}
+	cfg.HTTPClient = initRetryableClient()
 
 	if argSynMon {
 		cfg.UserAgent = "synmon/datasets/datasets_cli"
@@ -229,9 +181,7 @@ func createOAClient() (cli *openapi.APIClient, err error) {
 	if err != nil {
 		return
 	}
-	if argDebug {
-		cfg.Debug = true
-	}
+	cfg.Debug = argDebug
 	cli = openapi.NewAPIClient(cfg)
 	return
 }
@@ -477,8 +427,17 @@ func (lrt LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, err
 	count := request_count
 	request_count_mu.Unlock()
 
-	phid := fmt.Sprintf("%s.%d", req.Header.Get("NCBI-PHID"), count)
+	phid := fmt.Sprintf("%s.%d", ncbi_phid, count)
 	req.Header.Set("NCBI-PHID", phid)
+
+	if argApiKey != "" {
+		req.Header.Set("Api-Key", argApiKey)
+	}
+
+	for k, v := range clientHeaders {
+		req.Header.Set(k, v)
+	}
+
 	return lrt.Proxied.RoundTrip(req)
 }
 
@@ -547,11 +506,8 @@ func init() {
 		clientHeaders["NCBI-SID"] = ncbi_sid
 	}
 
-	ncbi_phid := os.Getenv("HTTP_NCBI_PHID")
-	if ncbi_phid != "" {
-		clientHeaders["NCBI-PHID"] = ncbi_phid
-	} else {
-		clientHeaders["NCBI-PHID"] = GeneratePHID()
+	if ncbi_phid = os.Getenv("HTTP_NCBI_PHID"); ncbi_phid == "" {
+		ncbi_phid = GeneratePHID()
 	}
 
 	l5d_dtab := os.Getenv("L5D_DTAB")

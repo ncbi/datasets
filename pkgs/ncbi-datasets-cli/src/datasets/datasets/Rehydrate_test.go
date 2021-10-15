@@ -1,6 +1,7 @@
 package datasets
 
 import (
+	"net/http"
 	"net/url"
 	"testing"
 
@@ -11,7 +12,6 @@ import (
 	"bou.ke/monkey"
 	"fmt"
 	"io/fs"
-	"os"
 	"os/exec"
 	"reflect"
 )
@@ -76,86 +76,88 @@ func TestPatchUrlDatasetsProxy(t *testing.T) {
 }
 
 func TestFileRetrieval(t *testing.T) {
-	afs = afero.NewMemMapFs()
+	initTestVars()
 
-	fl := []fetchLine{
-		{url: "https://www.ncbi.nlm.nih.gov/favicon.ico", path: "random/dir/test.ico"},
-	}
 	argNoProgress = true
-	err := downloadMultipleFiles(fl)
+	err := downloadMultipleFiles(test_fl)
 	require.NoError(t, err)
 
-	exists, err := afero.Exists(afs, fl[0].path)
-	require.NoError(t, err)
-	require.True(t, exists)
-
-	empty, err := afero.IsEmpty(afs, fl[0].path)
-	require.NoError(t, err)
-	require.False(t, empty)
+	for _, test_file := range test_fl {
+		verifyFile(t, test_file.path)
+	}
 }
 
 func TestMissingFileRetrieval(t *testing.T) {
-	afs = afero.NewMemMapFs()
+	initTestVars()
 
-	fl := []fetchLine{
-		{url: "https://www.ncbi.nlm.nih.gov/missing.test", path: "random/dir/test.ico"},
-	}
-	argNoProgress = true
-	err := downloadMultipleFiles(fl)
+	setHttpError(http.StatusNotFound, 0, 1000)
+	err := downloadMultipleFiles(test_fl)
 	require.Error(t, err)
 
-	exists, err := afero.Exists(afs, fl[0].path)
+	exists, err := afero.Exists(afs, test_fl[0].path)
 	require.NoError(t, err)
 	require.False(t, exists)
 }
 
 func TestFileRetrievalReadOnlyError(t *testing.T) {
-	afs = afero.NewReadOnlyFs(afero.NewMemMapFs())
+	initTestVars()
+	afs = afero.NewReadOnlyFs(afs)
 
-	fl := []fetchLine{
-		{url: "https://www.ncbi.nlm.nih.gov/favicon.ico", path: "random/dir/test.ico"},
-	}
-	argNoProgress = true
-	err := downloadMultipleFiles(fl)
+	err := downloadMultipleFiles(test_fl)
 	require.Error(t, err)
 	// ReadOnlyFs returns 'operation not permitted'
 }
 
 func TestOutOfDiskSpace(t *testing.T) {
-	Crasher := func() {
-		afs = afero.NewMemMapFs()
-
-		fl := []fetchLine{
-			{url: "https://www.ncbi.nlm.nih.gov/favicon.ico", path: "random/dir/test.ico"},
-		}
+	err := doCrasher(t, func() error {
+		initTestVars()
 
 		var d *mem.File
 		monkey.PatchInstanceMethod(reflect.TypeOf(d), "Write",
 			func(c *mem.File, p []byte) (n int, err error) {
 				var perr fs.PathError
-				fmt.Printf("%#v\n", c)
 				perr.Op = "write"
-				perr.Path = fl[0].path
+				perr.Path = test_fl[0].path
 				perr.Err = fmt.Errorf("out of disk space")
 				return 0, &perr
 			})
 		defer monkey.UnpatchInstanceMethod(reflect.TypeOf(d), "Write")
 
-		argNoProgress = true
-
-		err := downloadMultipleFiles(fl)
+		err := downloadMultipleFiles(test_fl)
 		require.Error(t, err)
-	}
+		return err
+	})
 
-	if os.Getenv("BE_CRASHER") == "1" {
-		Crasher()
-		return
-	}
-	cmd := exec.Command(os.Args[0], fmt.Sprintf("-test.run=%s", t.Name()))
-	cmd.Env = append(os.Environ(), "BE_CRASHER=1")
-	err := cmd.Run()
 	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
 		return
 	}
-	t.Fatalf("process ran with err %v, want exit status 255", err)
+	t.Fatalf("process ran with err %v", err)
+}
+
+func TestRehydrateRetryTooManyRequests(t *testing.T) {
+	initTestVars()
+
+	const expectedFailures = 2
+	setHttpError(http.StatusTooManyRequests, 0, expectedFailures)
+	err := downloadMultipleFiles(test_fl)
+	require.NoError(t, err)
+	require.Equal(t, len(test_fl)+expectedFailures, test_attempted)
+	for _, test_file := range test_fl {
+		verifyFile(t, test_file.path)
+	}
+	verifyRequestHeaders(t)
+}
+
+func TestRehydrateRetryInternalServerError(t *testing.T) {
+	initTestVars()
+
+	const expectedFailures = 2
+	setHttpError(http.StatusInternalServerError, 0, expectedFailures)
+	err := downloadMultipleFiles(test_fl)
+	require.NoError(t, err)
+	require.Equal(t, len(test_fl)+expectedFailures, test_attempted)
+	for _, test_file := range test_fl {
+		verifyFile(t, test_file.path)
+	}
+	verifyRequestHeaders(t)
 }

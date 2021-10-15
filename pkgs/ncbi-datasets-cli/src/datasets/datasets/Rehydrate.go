@@ -149,20 +149,20 @@ func processHTTPRequest(client *http.Client, request *http.Request) (*http.Respo
 		fmt.Printf("\n%s\n", string(dumpPre))
 	}
 	resp, err := client.Do(request)
-	if err = datasets_util.HandleHttpResponseWithCustomErr(resp, err, "%s"); err != nil {
-		return nil, err
-	}
-	if err == nil && argDebug {
+	if resp != nil && argDebug {
 		dumpPost, errPost := httputil.DumpResponse(resp, false)
 		if errPost != nil {
 			return resp, errPost
 		}
 		fmt.Printf("\n%s\n", string(dumpPost))
 	}
+	if err = datasets_util.HandleHttpResponseWithCustomErr(resp, err, "%s"); err != nil {
+		return nil, err
+	}
 	return resp, err
 }
 
-func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<- error) {
+func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan fetchLine, errch chan<- error) {
 	progressBar := &copyProgressBar{}
 
 	hasError := func(err error) bool {
@@ -192,8 +192,6 @@ func downloadFileWorker(bar *uiprogress.Bar, files <-chan fetchLine, errch chan<
 			for k, v := range clientHeaders {
 				req.Header.Set(k, v)
 			}
-			client := newRetryHttpClient(10)
-			client.Transport = LoggingRoundTripper{Proxied: http.DefaultTransport}
 			resp, err := processHTTPRequest(client, req)
 			if err != nil {
 				// Custom logging to push error
@@ -254,10 +252,11 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	// Create error channel for each download
 	errch := make(chan error, totalFiles)
 
+	client := initRetryableClient()
 	// Create workers to process all fetches
 	argNumWorkers = min(totalFiles, argNumWorkers)
 	for w := 1; w <= argNumWorkers; w++ {
-		go downloadFileWorker(bar, files, errch)
+		go downloadFileWorker(client, bar, files, errch)
 	}
 	for _, file := range fileList {
 		files <- file // add file onto job queue
