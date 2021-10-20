@@ -23,7 +23,8 @@ var (
 	test_fl          []fetchLine
 )
 
-func init() {
+func TestMain(m *testing.M) {
+	// Write code here to run before tests
 	initTestVars()
 	// Start a local HTTP server
 	test_http_server = httptest.NewServer(http.HandlerFunc(
@@ -61,6 +62,14 @@ func init() {
 	argApiKey = "ABC123"
 	argNoProgress = true
 	//argDebug = true
+
+	// Run tests
+	exitVal := m.Run()
+
+	// Write code here to run after tests
+
+	// Exit with exit value from tests
+	os.Exit(exitVal)
 }
 
 func initTestVars() {

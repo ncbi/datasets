@@ -1,4 +1,4 @@
-VERSION = "12.16.0"
+VERSION = "12.16.2"
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
 
 go_library(
@@ -96,7 +96,7 @@ go_binary(
         "cmd/datasets/main.go",
     ],
     x_defs = {
-        "main/datasets/datasets.AppVersion": VERSION,
+        "datasets_cli/v1/datasets.AppVersion": VERSION,
     },
     deps = [
         ":datasets_lib",
@@ -122,7 +122,7 @@ go_binary(
         "cmd/dataformat/main.go",
     ],
     x_defs = {
-        "main/datasets/dataformat.AppVersion": VERSION,
+        "datasets_cli/v1/dataformat.AppVersion": VERSION,
     },
     deps = [
         ":dataformat_lib",

@@ -174,7 +174,7 @@ func createOAClient() (cli *openapi.APIClient, err error) {
 	cfg.HTTPClient = initRetryableClient()
 
 	if argSynMon {
-		cfg.UserAgent = "synmon/datasets/datasets_cli"
+		cfg.UserAgent = "datasets/monitoring/datasets_cli"
 	}
 
 	err = updateOATransportConfig(cfg, argProxyURL)
