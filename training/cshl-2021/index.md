@@ -25,8 +25,11 @@ Mirian Tieko Nunes Tsuchiya
 ### Teaching Assistants
 
 Eric Cox
+
 Brad Holmes
+
 Peter Meric
+
 ???
 
 ### Technical Support
