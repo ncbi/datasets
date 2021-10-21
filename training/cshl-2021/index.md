@@ -53,7 +53,9 @@ General Discussion and Wrap-Up
 
 ### Join the Hands-On Portion of the Tutorial Here!
 
-Please be advised that in many cases the permissions have been set to allow Notebooks to run on our servers. Some additional programs may need to be loaded to help the notebooks run if they are transferred elsewhere.  Also, permissions to make queries to BigQuery and AWS require credentials that can be set up by your institution.
+Please be advised that in many cases the permissions have been set to allow Notebooks to run on our servers. Some additional programs may need to be loaded to help the notebooks run if they are transferred elsewhere. 
+
+Please refer to the requirements.txt file to find this list of installs.
 
 **What is the IP for our Server?**
 
