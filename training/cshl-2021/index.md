@@ -14,7 +14,7 @@ We'll run through these hands-on exercises:
 
 We will also provide demonstrations and examples to help you better understand how to build your own searches and find the data you want. 
 
-We will be using Structured Query Language (SQL) to do these searches but no prior SQL experience is required. By the end of this seminar you will know how to run cloud metadata queries to find SRA data based on parameters that interest you. 
+We will be using Jupyter Notebooks to do demonstrate searches but no prior command-line or Jupyter Notebook experience is required. By the end of this seminar you will know how to find datasets for genes/genomes and orthologs based on parameters that interest you. 
 
 ### Instructors
 
