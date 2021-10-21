@@ -8,9 +8,9 @@ Need workshop description here
 
 We'll run through these hands-on exercises: 
 
-1.) finding sequence data based on k-mer searches for specific taxonomic IDs and 
+1.) activity 1 description
 
-2.) filtering runs to find exactly what you want. 
+2.) activity 2 description
 
 We will also provide demonstrations and examples to help you better understand how to build your own searches and find the data you want. 
 
