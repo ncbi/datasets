@@ -66,7 +66,7 @@ Please be advised that in many cases the permissions have been set to allow Note
 
 ### Websites
 
-•	[Datsets](https://www.ncbi.nlm.nih.gov/datasets/)
+•	[Datasets](https://www.ncbi.nlm.nih.gov/datasets/)
 
 Look at examples in our Jupyter notebooks on Binder
 
