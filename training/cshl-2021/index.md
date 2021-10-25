@@ -22,15 +22,18 @@ Nuala O'leary
 
 Mirian Tieko Nunes Tsuchiya
 
-### Teaching Assistants
+### Breakout Room Assistants
 
-Eric Cox
-
-Brad Holmes
-
-Peter Meric
-
-???
+| **Room Nam  | Instructor** |
+| ------------- | ------------- |
+| Main Room | Nuala O'leary  |
+| Coatis  | Mirian Tieko Nunes Tsuchiya  |
+| Bees	| Eric Cox | 
+| Hummingbirds	| Brad Holmes |
+| Butterflies |	Peter	Meric |
+| Shrimp	| Ray	Anderson III |
+| Sunflowers | 	Vamsi	Kodali | 
+| Penguins |	Adelaide Rhodes | 
 
 ### Technical Support
 
