@@ -24,7 +24,7 @@ Mirian Tieko Nunes Tsuchiya
 
 ### Breakout Room Assistants
 
-| **Room Nam  | Instructor** |
+| **Room Name**  | **Instructor** |
 | ------------- | ------------- |
 | Main Room | Nuala O'leary  |
 | Coatis  | Mirian Tieko Nunes Tsuchiya  |
