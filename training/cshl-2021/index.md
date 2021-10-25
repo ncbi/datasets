@@ -4,8 +4,7 @@
 
 ### Finding Data using New Features on NCBI Datasets
 
-Need workshop description here
-
+Welcome to the Datasets workshop. 
 We'll run through these hands-on exercises: 
 
 1.) activity 1 description
