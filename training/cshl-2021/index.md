@@ -80,7 +80,7 @@ Please refer to the requirements.txt file to find this list of installs.
 
 **What is the IP for our Server?**
 
-http://52.1.15.28/
+[http://52.1.15.28/](https://52.1.15.28)
 
 
 ### Additional Resources From the Workshop
