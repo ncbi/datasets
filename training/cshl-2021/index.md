@@ -1,19 +1,31 @@
 ## NCBI DATASETS Workshop at CSHL 2021
 
-### November 2, 2021, 9 a.m to 12 p.m.
+#### November 2, 2021, 9 a.m to 12 p.m.
 
-### Finding Data using New Features on NCBI Datasets
+### Accessing NCBI sequence data using NCBI Datasets
 
-Welcome to the Datasets workshop. 
-We'll run through these hands-on exercises: 
+In this workshop, you will learn about the NCBI Datasets resource and get hands-on experience using the datasets command-line tools (datasets and dataformat) to access, filter and download NCBI sequence and metadata for genomes, genes and orthologs.  
+#### https://www.ncbi.nlm.nih.gov/datasets/
 
-1.) activity 1 description
+#### Workshop topics 
 
-2.) activity 2 description
+**Part I:** Accessing genomes
+
+**Part II:** Accessing genes 
+
+**Part II:** Accessing orthologs
+
+**Part IV:** Building a BLAST database and creating a phylogenetic tree
+
+**Part V:** Downloading large datasets
+
+#### How will we carry out these tasks? 
+
+We will be using Jupyter Notebooks to demonstrate how to access data. No prior command-line or Jupyter Notebook experience is required. By the end of this seminar you will know how to use the datasets command line tools to access datasets for genes/genomes and orthologs based on parameters that interest you. 
 
 We will also provide demonstrations and examples to help you better understand how to build your own searches and find the data you want. 
 
-We will be using Jupyter Notebooks to do demonstrate searches but no prior command-line or Jupyter Notebook experience is required. By the end of this seminar you will know how to find datasets for genes/genomes and orthologs based on parameters that interest you. 
+
 
 ### Instructors
 
@@ -37,6 +49,12 @@ Mirian Tieko Nunes Tsuchiya
 ### Technical Support
 
 Adelaide Rhodes
+
+Use the Zoom chat or join Adelaide in the Penguins breakout room for technical support
+
+### Communication during the workshop
+
+We will use etherpad to ask questions about the workshop tasks  
 
 ### Agenda
 
