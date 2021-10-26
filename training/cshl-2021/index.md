@@ -55,6 +55,7 @@ Use the Zoom chat or join Adelaide in the Penguins breakout room for technical s
 ### Communication during the workshop
 
 We will use etherpad to ask questions about the workshop tasks  
+[Etherpad ](https://etherpad.wikimedia.org/p/CSHL_Datasets_Workshop_2021)
 
 ### Agenda
 
