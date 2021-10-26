@@ -61,7 +61,7 @@ We will use etherpad to ask questions about the workshop tasks
 
 [Introductory Slides ](https://github.com/ncbi/put location here)
 
-[Lecture: Getting Started with GCP on BigQuery](https://github.com/ncbi/put location here)
+[Lecture: Name of your Lecture](https://github.com/ncbi/put location here)
 
 How to Log In
 
@@ -79,6 +79,8 @@ Please be advised that in many cases the permissions have been set to allow Note
 Please refer to the requirements.txt file to find this list of installs.
 
 **What is the IP for our Server?**
+
+http://44.199.208.208
 
 
 ### Additional Resources From the Workshop
