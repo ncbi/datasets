@@ -85,7 +85,7 @@ http://44.199.208.208
 
 ### Additional Resources From the Workshop
 
-[JQ Quickstart](https://github.com/ncbi/location of document on this branch)
+[JQ Quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/reference-docs/jq-cheatsheet/)
 
 [Intro to Jupyter Notebooks](https://github.com/ncbi/find a link or have a quickstart here)
 
