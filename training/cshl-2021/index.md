@@ -7,15 +7,15 @@
 In this workshop, you will learn about the NCBI Datasets resource and get hands-on experience using the datasets command-line tools (datasets and dataformat) to access, filter and download NCBI sequence and metadata for genomes, genes and orthologs.  
 #### https://www.ncbi.nlm.nih.gov/datasets/
 
-#### Workshop topics 
+#### What tasks will we learn today?
 
 **Part I:** Accessing genomes
 
 **Part II:** Accessing genes 
 
-**Part II:** Accessing orthologs
+**Part III:** Accessing orthologs
 
-**Part IV:** Building a BLAST database and creating a phylogenetic tree
+**Part IV:** Building a BLAST database and creating a phylogenetic tree (optional)
 
 **Part V:** Downloading large datasets
 
@@ -24,7 +24,6 @@ In this workshop, you will learn about the NCBI Datasets resource and get hands-
 We will be using Jupyter Notebooks to demonstrate how to access data. No prior command-line or Jupyter Notebook experience is required. By the end of this seminar you will know how to use the datasets command line tools to access datasets for genes/genomes and orthologs based on parameters that interest you. 
 
 We will also provide demonstrations and examples to help you better understand how to build your own searches and find the data you want. 
-
 
 
 ### Instructors
@@ -61,8 +60,6 @@ We will use etherpad to ask questions about the workshop tasks
 
 [Introductory Slides ](https://github.com/ncbi/put location here)
 
-[Lecture: Name of your Lecture](https://github.com/ncbi/put location here)
-
 How to Log In
 
 Hands-On Activity/Demo in Jupyter Notebooks
@@ -71,12 +68,6 @@ Practice Exercises in Breakout Rooms
 
 General Discussion and Wrap-Up
 
-
-### Join the Hands-On Portion of the Tutorial Here!
-
-Please be advised that in many cases the permissions have been set to allow Notebooks to run on our servers. Some additional programs may need to be loaded to help the notebooks run if they are transferred elsewhere. 
-
-Please refer to the requirements.txt file to find this list of installs.
 
 **What is the IP for our Server?**
 
