@@ -126,7 +126,7 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, cal
 	countOnly := false
 	if argLimit != "" {
 		if argLimit == "none" {
-			request.SetPageSize(0)
+			request.SetPageSize(1)
 			countOnly = true
 		} else if argLimit != "all" {
 			arg_limit, err := strconv.Atoi(argLimit)
@@ -167,11 +167,13 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, cal
 		if err != nil {
 			return 0, err
 		}
-		retrievalCount += len(result_page.GetAssemblies())
 
 		if countOnly {
+			retrievalCount = int(*result_page.TotalCount)
 			return retrievalCount, nil
 		}
+
+		retrievalCount += len(result_page.GetAssemblies())
 
 		if bar == nil {
 			bar = uiprogress.AddBar(int(result_page.GetTotalCount())).AppendCompleted()
