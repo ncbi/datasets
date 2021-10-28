@@ -83,7 +83,7 @@ General Discussion and Wrap-Up
 ### Websites
 
 •	[Datasets](https://www.ncbi.nlm.nih.gov/datasets/)
-* [Installing the Datasets command-line tools](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/)
+• [Installing the Datasets command-line tools](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/)
 
 Look at examples in our Jupyter notebooks on Binder
 
