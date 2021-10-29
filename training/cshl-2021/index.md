@@ -30,14 +30,14 @@ We will also provide demonstrations and examples to help you better understa
 
 Nuala O'leary
 
-Mirian Tieko Nunes Tsuchiya
+Mirian Tsuchiya
 
 ### Breakout Room Assistants
 
 | **Room Name**  | **Instructor** |
 | ------------- | ------------- |
 | Main Room | Nuala O'leary  |
-| Coatis  | Mirian Tieko Nunes Tsuchiya  |
+| Coatis  | Mirian Tsuchiya  |
 | Bees	| Eric Cox | 
 | Hummingbirds	| Brad Holmes |
 | Butterflies |	Peter	Meric |
