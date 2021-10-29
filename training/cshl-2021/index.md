@@ -30,20 +30,17 @@ We will also provide demonstrations and examples to help you better understa
 
 Nuala O'leary
 
-Mirian Tsuchiya
+### Co-instructors and breakout rooms:
 
-### Breakout Room Assistants
-
-| **Room Name**  | **Instructor** |
-| ------------- | ------------- |
-| Main Room | Nuala O'leary  |
-| Coatis  | Mirian Tsuchiya  |
-| Bees	| Eric Cox | 
-| Hummingbirds	| Brad Holmes |
-| Butterflies |	Peter	Meric |
-| Shrimp	| Ray	Anderson III |
-| Sunflowers | 	Vamsi	Kodali | 
-| Penguins |	Adelaide Rhodes | 
+| **Co-Instructor**| **Room Name** | 
+| -------------    | ------------- |    
+| Mirian Tsuchiya  | Coatis        |
+| Eric Cox         | Bees          |
+| Brad Holmes      | Hummingbirds  |
+| Peter	Meric      | Butterflies   |
+| Ray Anderson III | Shrimp        |
+| Vamsi	Kodali     | Sunflowers    |
+| Adelaide Rhodes  | Penguins      |
 
 ### Technical Support
 
