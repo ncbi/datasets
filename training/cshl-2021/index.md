@@ -33,7 +33,7 @@ Nuala O'leary
 ### Co-instructors and breakout rooms:
 
 | **Co-Instructor**| **Room Name** | 
-| -------------    | ------------- |    
+| :-------------   | :------------ |    
 | Mirian Tsuchiya  | Coatis        |
 | Eric Cox         | Bees          |
 | Brad Holmes      | Hummingbirds  |
