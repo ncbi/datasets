@@ -58,7 +58,7 @@ We will use etherpad to ask questions about the workshop tasks
 
 ### Agenda
 
-[Introductory Slides ](https://github.com/ncbi/put location here)
+[Introductory Slides ](https://github.com/ncbi/datasets/blob/workshop-cshl-2021/training/cshl-2021/CSHL%20workshop.pptx)
 
 How to Log In
 
