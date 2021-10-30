@@ -18,11 +18,3 @@ mkdir software_installs
 mv datasets* software_installs
 mv dataformat* software_installs
 
-#import taxdb and put in path
-
-#BLASTDB="/srv/conda/bin/blastdb"
-#export $BLASTDB
-#cd $BLASTDB
-#perl update_blastdb.pl --passive --timeout 300 --force --verbose taxdb
-#tar xzvf taxdb.tar.gz
-#cd ~
