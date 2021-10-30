@@ -17,3 +17,11 @@ cp dataformat* /srv/conda/bin
 mkdir software_installs
 mv datasets* software_installs
 mv dataformat* software_installs
+
+#import taxdb and put in path
+
+wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/taxdb.tar.gz
+tar -xvf taxdb.tar.gz
+mv taxdb/* /srv/conda/bin/
+BLASTDB="/srv/conda/bin"
+export BLASTDB
