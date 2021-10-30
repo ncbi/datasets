@@ -105,7 +105,7 @@ The notebook and all supporting materials can be found at this link.
 
 • [Install the Datasets command-line tools](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/)
 
-Look at examples in our Jupyter notebooks on Binder
+### Look at Datasets examples for Jupyter notebooks on Binder
 
 •	Browse and download [genomes](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-assembly.ipynb)
 
