@@ -71,7 +71,7 @@ General Discussion and Wrap-Up
 
 **What is the IP for our Server?**
 
-https://jupyterhub01.ncbi.nlm.nih.gov/
+[https://jupyterhub01.ncbi.nlm.nih.gov/](https://jupyterhub01.ncbi.nlm.nih.gov/)
 
 **Username**
 
