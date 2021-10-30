@@ -13,3 +13,4 @@ dependencies:
   - mafft
   - fasttree
   - toytree
+  - awscli
