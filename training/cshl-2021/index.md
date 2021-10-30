@@ -1,13 +1,13 @@
 ## NCBI DATASETS Workshop at CSHL 2021
 
-#### November 2, 2021, 9 a.m to 12 p.m.
+**November 2, 2021, 9 a.m to 12 p.m.**
 
 ### Accessing NCBI sequence data using NCBI Datasets
 
 In this workshop, you will learn about the NCBI Datasets resource and get hands-on experience using the datasets command-line tools (datasets and dataformat) to access, filter and download NCBI sequence and metadata for genomes, genes and orthologs.  
 #### https://www.ncbi.nlm.nih.gov/datasets/
 
-#### What tasks will we learn today?
+### What tasks will we learn today?
 
 **Part I:** Accessing genomes
 
@@ -19,7 +19,7 @@ In this workshop, you will learn about the NCBI Datasets resource and get hands-
 
 **Part V:** Downloading large datasets
 
-#### How will we carry out these tasks? 
+### How will we carry out these tasks? 
 
 We will be using Jupyter Notebooks to demonstrate how to access data. No prior command-line or Jupyter Notebook experience is required. By the end of this seminar you will know how to use the datasets command line tools to access datasets for genes/genomes and orthologs based on parameters that interest you. 
 
@@ -66,16 +66,37 @@ Practice Exercises in Breakout Rooms
 General Discussion and Wrap-Up
 
 
+### Login Instructions for Jupyter Notebooks
+
 **What is the IP for our Server?**
 
-[http://52.1.15.28/](http://52.1.15.28)
+https://jupyterhub01.ncbi.nlm.nih.gov/
+
+**Username**
+
+The portion of your email address used to sign up for the workshop before the "@" symbol.
+
+**Password**
+
+Set your own password when you log in. Please write this down somewhere because we will not see it.
+
+**Server Availability**
+
+We will leave the server running for the rest of the day if you want to revisit the notebooks.
+
+The notebook and all supporting materials can be found at this link.
+
+[Github Link](https://github.com/ncbi/datasets/tree/workshop-cshl-2021/training/cshl-2021/)
+
 
 
 ### Additional Resources From the Workshop
 
 [JQ Quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/reference-docs/jq-cheatsheet/)
 
-[Intro to Jupyter Notebooks](https://github.com/ncbi/find a link or have a quickstart here)
+[JQ Cheat Sheet](https://github.com/ncbi/datasets/blob/workshop-cshl-2021/training/cshl-2021/jq_cheatsheet.md)
+
+[A Beginner's  Tutorial to Jupyter Notebooks by George Seif](https://towardsdatascience.com/a-beginners-tutorial-to-jupyter-notebooks-1b2f8705888a)
 
 ### Websites
 
