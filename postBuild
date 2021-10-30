@@ -9,7 +9,7 @@ cp datasets* /srv/conda/bin
 
 
 # Install dataformat binary
-curl -o datasets 'https://ftp.ncbi.nlm.nih.gov/pub/datasets/command-line/LATEST/linux-amd64/dataformat'
+curl -o dataformat 'https://ftp.ncbi.nlm.nih.gov/pub/datasets/command-line/LATEST/linux-amd64/dataformat'
 chmod +x dataformat
 cp dataformat* /srv/conda/bin
 
