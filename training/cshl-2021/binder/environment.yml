@@ -1,0 +1,15 @@
+name: cshl
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - numpy
+  - ncbi-datasets-cli
+  - jq
+  - blast
+  - tree
+  - pandas
+  - seqkit
+  - mafft
+  - fasttree
+  - toytree
