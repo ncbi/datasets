@@ -1,0 +1,15 @@
+name: cshl
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.9
+  - numpy
+  - jq
+  - blast
+  - tree
+  - pandas
+  - seqkit
+  - mafft
+  - fasttree
+  - toytree
