@@ -5,7 +5,8 @@
 ### Accessing NCBI sequence data using NCBI Datasets
 
 In this workshop, you will learn about the NCBI Datasets resource and get hands-on experience using the datasets command-line tools (datasets and dataformat) to access, filter and download NCBI sequence and metadata for genomes, genes and orthologs.  
-#### https://www.ncbi.nlm.nih.gov/datasets/
+
+[NCBI Datasets ](https://www.ncbi.nlm.nih.gov/datasets/)
 
 ### What tasks will we learn today?
 
