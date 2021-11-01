@@ -1,6 +1,6 @@
 ## NCBI DATASETS Workshop at CSHL 2021
 
-**November 2, 2021, 9 a.m to 12 p.m.**
+**November 2, 2021, 9 a.m to 12 p.m. EDT**
 
 ### Accessing NCBI sequence data using NCBI Datasets
 
@@ -41,7 +41,7 @@ Nuala O'leary
 | Peter	Meric      | Butterflies   |
 | Ray Anderson III | Shrimp        |
 | Vamsi	Kodali     | Sunflowers    |
-| Adelaide Rhodes  | Penguins      |
+| Adelaide Rhodes  | Penguins (Tech support)      |
 
 ### Technical Support
 
@@ -114,12 +114,17 @@ The notebook and all supporting materials can be found at this link.
 
 •	Analyze [gff3 files](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-gff3.ipynb)
 
-•	Browse and download [SARS-CoV-2 assemblies](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-virus.ipynb)
+•	Browse and download [SARS-CoV-2 assemblies](https://mybinder.org/v2/gh/ncbi/datasets/master?filepath=examples/jupyter/ncbi-datasets-pylib/ncbi-datasets-virus.ipynb)  
 
+### How to get help  
 
+• Email the helpdesk: [info@ncbi.nlm.nih.gov](mailto:info@ncbi.nlm.nih.gov)  
 
+• Webinar series on [YouTube](https://youtube.com/playlist?list=PL7dF9e2qSW0ZJRMmmUviRKBjBxWsqZBrT)  
 
+• [NCBI Insights](https://ncbiinsights.ncbi.nlm.nih.gov/) blog   
 
-
-![How To Get Help](./how_to_get_help.png)
-
+• [Facebook](https://www.facebook.com/ncbi.nlm/)  
+• [Twitter](https://twitter.com/NCBI)  
+• [YouTube](https://youtube.com/playlist?list=PL7dF9e2qSW0ZJRMmmUviRKBjBxWsqZBrT)  
+• [LinkedIn](https://www.linkedin.com/company/ncbinlm/)
