@@ -8,6 +8,7 @@ Please visit this website to see the workshop content:
 To run the notebooks after the workshop is over, visit this binder link by clicking on the badge or following the link:
 
 
-[![Binder](https://mybinder.org/badge_logo.svg)(https://mybinder.org/v2/gh/ncbi/datasets/workshop-cshl-2021?filepath=training/cshl-2021/CSHL_datasets_Nov01_binder.ipynb)
+* [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ncbi/datasets/workshop-cshl-2021?filepath=training/cshl-2021/CSHL_datasets_Nov01_binder.ipynb)
 
-[Link to Binder](https://mybinder.org/v2/gh/ncbi/datasets/workshop-cshl-2021?filepath=training/cshl-2021/CSHL_datasets_Nov01_binder.ipynb0
+
+* [Link to Binder](https://mybinder.org/v2/gh/ncbi/datasets/workshop-cshl-2021?filepath=training/cshl-2021/CSHL_datasets_Nov01_binder.ipynb)
