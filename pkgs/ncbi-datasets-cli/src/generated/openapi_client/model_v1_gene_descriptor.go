@@ -37,7 +37,7 @@ type V1GeneDescriptor struct {
 	EnsemblGeneIds *[]string `json:"ensembl_gene_ids,omitempty"`
 	OmimIds *[]string `json:"omim_ids,omitempty"`
 	Synonyms *[]string `json:"synonyms,omitempty"`
-	ReplacedGeneId *string `json:"replaced_gene_id,omitempty"`
+	ReplacedGeneIds *[]string `json:"replaced_gene_ids,omitempty"`
 	Annotations *[]V1Annotation `json:"annotations,omitempty"`
 }
 
@@ -742,36 +742,36 @@ func (o *V1GeneDescriptor) SetSynonyms(v []string) {
 	o.Synonyms = &v
 }
 
-// GetReplacedGeneId returns the ReplacedGeneId field value if set, zero value otherwise.
-func (o *V1GeneDescriptor) GetReplacedGeneId() string {
-	if o == nil || o.ReplacedGeneId == nil {
-		var ret string
+// GetReplacedGeneIds returns the ReplacedGeneIds field value if set, zero value otherwise.
+func (o *V1GeneDescriptor) GetReplacedGeneIds() []string {
+	if o == nil || o.ReplacedGeneIds == nil {
+		var ret []string
 		return ret
 	}
-	return *o.ReplacedGeneId
+	return *o.ReplacedGeneIds
 }
 
-// GetReplacedGeneIdOk returns a tuple with the ReplacedGeneId field value if set, nil otherwise
+// GetReplacedGeneIdsOk returns a tuple with the ReplacedGeneIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *V1GeneDescriptor) GetReplacedGeneIdOk() (*string, bool) {
-	if o == nil || o.ReplacedGeneId == nil {
+func (o *V1GeneDescriptor) GetReplacedGeneIdsOk() (*[]string, bool) {
+	if o == nil || o.ReplacedGeneIds == nil {
 		return nil, false
 	}
-	return o.ReplacedGeneId, true
+	return o.ReplacedGeneIds, true
 }
 
-// HasReplacedGeneId returns a boolean if a field has been set.
-func (o *V1GeneDescriptor) HasReplacedGeneId() bool {
-	if o != nil && o.ReplacedGeneId != nil {
+// HasReplacedGeneIds returns a boolean if a field has been set.
+func (o *V1GeneDescriptor) HasReplacedGeneIds() bool {
+	if o != nil && o.ReplacedGeneIds != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetReplacedGeneId gets a reference to the given string and assigns it to the ReplacedGeneId field.
-func (o *V1GeneDescriptor) SetReplacedGeneId(v string) {
-	o.ReplacedGeneId = &v
+// SetReplacedGeneIds gets a reference to the given []string and assigns it to the ReplacedGeneIds field.
+func (o *V1GeneDescriptor) SetReplacedGeneIds(v []string) {
+	o.ReplacedGeneIds = &v
 }
 
 // GetAnnotations returns the Annotations field value if set, zero value otherwise.
@@ -871,8 +871,8 @@ func (o V1GeneDescriptor) MarshalJSON() ([]byte, error) {
 	if o.Synonyms != nil && len(o.GetSynonyms()) > 0  {
 		toSerialize["synonyms"] = o.Synonyms
 	}
-	if o.ReplacedGeneId != nil  {
-		toSerialize["replaced_gene_id"] = o.ReplacedGeneId
+	if o.ReplacedGeneIds != nil && len(o.GetReplacedGeneIds()) > 0  {
+		toSerialize["replaced_gene_ids"] = o.ReplacedGeneIds
 	}
 	if o.Annotations != nil && len(o.GetAnnotations()) > 0  {
 		toSerialize["annotations"] = o.Annotations

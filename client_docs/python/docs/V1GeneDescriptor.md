@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **ensembl_gene_ids** | **[str]** |  | [optional] 
 **omim_ids** | **[str]** |  | [optional] 
 **synonyms** | **[str]** |  | [optional] 
-**replaced_gene_id** | **str** |  | [optional] 
+**replaced_gene_ids** | **[str]** |  | [optional] 
 **annotations** | [**[V1Annotation]**](V1Annotation.md) |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 

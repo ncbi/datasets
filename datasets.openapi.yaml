@@ -3591,9 +3591,11 @@ components:
           type: array
           items:
             type: string
-        replaced_gene_id:
-          type: string
-          format: uint64
+        replaced_gene_ids:
+          type: array
+          items:
+            type: string
+            format: uint64
         annotations:
           type: array
           items:
