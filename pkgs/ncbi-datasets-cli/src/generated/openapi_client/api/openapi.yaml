@@ -4739,7 +4739,6 @@ components:
               ribosomal_slippage: 6
               begin: begin
               order: 0
-        replaced_gene_id: replaced_gene_id
         transcripts:
         - cds:
             accession_version: accession_version
@@ -4935,6 +4934,9 @@ components:
             accession: accession
         tax_id: tax_id
         taxname: taxname
+        replaced_gene_ids:
+        - replaced_gene_ids
+        - replaced_gene_ids
         genomic_regions:
         - gene_range:
             accession_version: accession_version
@@ -5083,9 +5085,11 @@ components:
           items:
             type: string
           type: array
-        replaced_gene_id:
-          format: uint64
-          type: string
+        replaced_gene_ids:
+          items:
+            format: uint64
+            type: string
+          type: array
         annotations:
           items:
             $ref: '#/components/schemas/v1Annotation'
@@ -5129,7 +5133,6 @@ components:
                 ribosomal_slippage: 6
                 begin: begin
                 order: 0
-          replaced_gene_id: replaced_gene_id
           transcripts:
           - cds:
               accession_version: accession_version
@@ -5325,6 +5328,9 @@ components:
               accession: accession
           tax_id: tax_id
           taxname: taxname
+          replaced_gene_ids:
+          - replaced_gene_ids
+          - replaced_gene_ids
           genomic_regions:
           - gene_range:
               accession_version: accession_version
@@ -5519,7 +5525,6 @@ components:
                   ribosomal_slippage: 6
                   begin: begin
                   order: 0
-            replaced_gene_id: replaced_gene_id
             transcripts:
             - cds:
                 accession_version: accession_version
@@ -5715,6 +5720,9 @@ components:
                 accession: accession
             tax_id: tax_id
             taxname: taxname
+            replaced_gene_ids:
+            - replaced_gene_ids
+            - replaced_gene_ids
             genomic_regions:
             - gene_range:
                 accession_version: accession_version
@@ -5886,7 +5894,6 @@ components:
                   ribosomal_slippage: 6
                   begin: begin
                   order: 0
-            replaced_gene_id: replaced_gene_id
             transcripts:
             - cds:
                 accession_version: accession_version
@@ -6082,6 +6089,9 @@ components:
                 accession: accession
             tax_id: tax_id
             taxname: taxname
+            replaced_gene_ids:
+            - replaced_gene_ids
+            - replaced_gene_ids
             genomic_regions:
             - gene_range:
                 accession_version: accession_version
@@ -6597,7 +6607,6 @@ components:
                     ribosomal_slippage: 6
                     begin: begin
                     order: 0
-              replaced_gene_id: replaced_gene_id
               transcripts:
               - cds:
                   accession_version: accession_version
@@ -6793,6 +6802,9 @@ components:
                   accession: accession
               tax_id: tax_id
               taxname: taxname
+              replaced_gene_ids:
+              - replaced_gene_ids
+              - replaced_gene_ids
               genomic_regions:
               - gene_range:
                   accession_version: accession_version
@@ -6964,7 +6976,6 @@ components:
                     ribosomal_slippage: 6
                     begin: begin
                     order: 0
-              replaced_gene_id: replaced_gene_id
               transcripts:
               - cds:
                   accession_version: accession_version
@@ -7160,6 +7171,9 @@ components:
                   accession: accession
               tax_id: tax_id
               taxname: taxname
+              replaced_gene_ids:
+              - replaced_gene_ids
+              - replaced_gene_ids
               genomic_regions:
               - gene_range:
                   accession_version: accession_version

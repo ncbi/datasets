@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **EnsemblGeneIds** | Pointer to **[]string** |  | [optional] 
 **OmimIds** | Pointer to **[]string** |  | [optional] 
 **Synonyms** | Pointer to **[]string** |  | [optional] 
-**ReplacedGeneId** | Pointer to **string** |  | [optional] 
+**ReplacedGeneIds** | Pointer to **[]string** |  | [optional] 
 **Annotations** | Pointer to [**[]V1Annotation**](V1Annotation.md) |  | [optional] 
 
 ## Methods
@@ -572,30 +572,30 @@ SetSynonyms sets Synonyms field to given value.
 
 HasSynonyms returns a boolean if a field has been set.
 
-### GetReplacedGeneId
+### GetReplacedGeneIds
 
-`func (o *V1GeneDescriptor) GetReplacedGeneId() string`
+`func (o *V1GeneDescriptor) GetReplacedGeneIds() []string`
 
-GetReplacedGeneId returns the ReplacedGeneId field if non-nil, zero value otherwise.
+GetReplacedGeneIds returns the ReplacedGeneIds field if non-nil, zero value otherwise.
 
-### GetReplacedGeneIdOk
+### GetReplacedGeneIdsOk
 
-`func (o *V1GeneDescriptor) GetReplacedGeneIdOk() (*string, bool)`
+`func (o *V1GeneDescriptor) GetReplacedGeneIdsOk() (*[]string, bool)`
 
-GetReplacedGeneIdOk returns a tuple with the ReplacedGeneId field if it's non-nil, zero value otherwise
+GetReplacedGeneIdsOk returns a tuple with the ReplacedGeneIds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReplacedGeneId
+### SetReplacedGeneIds
 
-`func (o *V1GeneDescriptor) SetReplacedGeneId(v string)`
+`func (o *V1GeneDescriptor) SetReplacedGeneIds(v []string)`
 
-SetReplacedGeneId sets ReplacedGeneId field to given value.
+SetReplacedGeneIds sets ReplacedGeneIds field to given value.
 
-### HasReplacedGeneId
+### HasReplacedGeneIds
 
-`func (o *V1GeneDescriptor) HasReplacedGeneId() bool`
+`func (o *V1GeneDescriptor) HasReplacedGeneIds() bool`
 
-HasReplacedGeneId returns a boolean if a field has been set.
+HasReplacedGeneIds returns a boolean if a field has been set.
 
 ### GetAnnotations
 
