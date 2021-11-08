@@ -70,9 +70,16 @@ General Discussion and Wrap-Up
 
 ### Login Instructions for Jupyter Notebooks
 
-**What is the IP for our Server?**
+**The event has ended so the live login is no longer active**
 
-[https://jupyterhub01.ncbi.nlm.nih.gov/](https://jupyterhub01.ncbi.nlm.nih.gov/)
+To run the notebooks after the workshop is over, visit this binder link by clicking on the badge or following the link:
+
+
+* [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ncbi/datasets/workshop-cshl-2021?filepath=training/cshl-2021/CSHL_datasets_Nov01_binder.ipynb)
+
+
+* [Link to Binder](https://mybinder.org/v2/gh/ncbi/datasets/workshop-cshl-2021?filepath=training/cshl-2021/CSHL_datasets_Nov01_binder.ipynb)
+
 
 **Username**
 
