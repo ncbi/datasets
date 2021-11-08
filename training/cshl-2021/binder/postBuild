@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script is only needed if for some reason the datasets options in conda is not working correctly
+
 set -ex
 
 # Install datasets binary
