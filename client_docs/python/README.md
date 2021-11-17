@@ -20,7 +20,7 @@ Python >= 3.6
 To install the pre-built python package, create a virtualenv and use pip:
 
 ```sh
-python3.9 -m venv ve/
+python -m venv ve/
 source ve/bin/activate
 pip install ncbi-datasets-pylib
 ```
