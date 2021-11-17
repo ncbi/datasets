@@ -449,6 +449,13 @@ func useEnv(envVarName, argName string) (val string) {
 	return
 }
 
+func useEnvBool(envVarName, argName string, defaultVal bool) bool {
+	if val, err := strconv.ParseBool(useEnv(envVarName, argName)); err == nil {
+		return val
+	}
+	return defaultVal
+}
+
 func init() {
 	datasets_util.AddUsageSections(
 		"datasets",
@@ -473,7 +480,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&argProxyURL, "proxy", useEnv("http_proxy", "proxy"), "API endpoint proxy")
 	rootCmd.PersistentFlags().BoolVar(&argSynMon, "synmon", false, "Mark request as synthetic monitoring")
-	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", false, "Emit debugging info")
+	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", useEnvBool("DATASETS_DEBUG", "debug", false), "Emit debugging info")
 	rootCmd.PersistentFlags().BoolVar(&argNoProgress, "no-progressbar", false, "hide progress bar")
 	rootCmd.PersistentFlags().MarkHidden("proxy")
 	rootCmd.PersistentFlags().MarkHidden("synmon")
