@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 
 	openapi "datasets_cli/v1/openapi"
@@ -20,6 +21,7 @@ var (
 	test_http_server *httptest.Server
 	test_http_req    *http.Request
 	test_attempted   int
+	test_server_lock sync.Mutex
 	test_fl          []fetchLine
 )
 
@@ -32,6 +34,8 @@ func TestMain(m *testing.M) {
 			test_min_attempts := 0
 			test_max_attempts := 3
 
+			test_server_lock.Lock()
+			defer test_server_lock.Unlock()
 			test_attempted++
 			test_http_req = req
 			if test_error, err := strconv.Atoi(req.Header.Get("Error")); err == nil {
