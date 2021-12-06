@@ -396,6 +396,10 @@ func (rpt *ReportSpec) newObject() protoreflect.Message {
 	return rpt.messageType.ProtoReflect().New()
 }
 
+func (rpt *ReportSpec) ReportMessageName() string {
+	return string(rpt.messageType.ProtoReflect().New().Descriptor().Name())
+}
+
 func (rpt *ReportSpec) GetAllFields() (cols []*ColSpec) {
 	fields := rpt.GetAllFieldMnemonics()
 	cols = make([]*ColSpec, len(fields))
