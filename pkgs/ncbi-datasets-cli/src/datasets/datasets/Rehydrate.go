@@ -1,9 +1,11 @@
 package datasets
 
 import (
+	"compress/gzip"
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -14,6 +16,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 
 	datasets_util "datasets_cli/v1/util"
 
@@ -23,11 +26,12 @@ import (
 )
 
 var (
-	argPackageDir   string
-	argMatchPattern string
-	argListOnly     bool
-	argNumWorkers   int
-	afs             afero.Fs
+	argPackageDir    string
+	argMatchPattern  string
+	argListOnly      bool
+	argNumWorkers    int
+	afs              afero.Fs
+	argRehydrateGzip bool
 )
 
 type fetchLine struct {
@@ -162,7 +166,7 @@ func processHTTPRequest(client *http.Client, request *http.Request) (*http.Respo
 	return resp, err
 }
 
-func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan fetchLine, errch chan<- error) {
+func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan fetchLine, errch chan<- error, wg *sync.WaitGroup) {
 	progressBar := &copyProgressBar{}
 
 	hasError := func(err error) bool {
@@ -181,6 +185,11 @@ func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan f
 
 	for file := range files {
 		func() {
+			wg.Add(1)
+			defer wg.Done()
+			if argRehydrateGzip {
+				file.path += ".gz"
+			}
 			// Get the data
 			progressBar.filename = file.path
 
@@ -217,11 +226,20 @@ func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan f
 			}
 			defer out.Close()
 
+			w := out.(io.Writer)
+
+			if argRehydrateGzip {
+				gz_out := gzip.NewWriter(w)
+				defer gz_out.Close()
+				w = gz_out
+			}
+
 			// Write the body to file
-			_, err = progressBar.Copy(out, resp.Body)
+			_, err = progressBar.Copy(w, resp.Body)
 			if hasError(err) {
 				return
 			}
+
 			if !argNoProgress {
 				bar.Incr()
 			}
@@ -238,6 +256,7 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	// Initialize the progress bar
 	totalFiles := len(fileList)
 	var bar *uiprogress.Bar
+
 	if !argNoProgress {
 		bar = uiprogress.AddBar(totalFiles).AppendCompleted()
 		bar.Width = 50
@@ -254,9 +273,10 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 
 	client := initRetryableClient()
 	// Create workers to process all fetches
+	wg := sync.WaitGroup{}
 	argNumWorkers = min(totalFiles, argNumWorkers)
 	for w := 1; w <= argNumWorkers; w++ {
-		go downloadFileWorker(client, bar, files, errch)
+		go downloadFileWorker(client, bar, files, errch, &wg)
 	}
 	for _, file := range fileList {
 		files <- file // add file onto job queue
@@ -276,6 +296,7 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	if !argNoProgress {
 		uiprogress.Stop()
 	}
+	wg.Wait()
 	return err
 }
 
@@ -286,4 +307,5 @@ func init() {
 	registerHiddenBoolPair(pflags, &argListOnly, "list", "l", false, "list files that would be downloaded during rehydration")
 	pflags.StringVar(&argMatchPattern, "match", "", "specify substring that matches files for rehydration")
 	registerHiddenIntPair(pflags, &argNumWorkers, "max-workers", "w", 10, "limit the maximum number of concurrent download workers (allowed range is 1-30)")
+	pflags.BoolVar(&argRehydrateGzip, "gzip", false, "rehydrate files to gzip format")
 }
