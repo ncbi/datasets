@@ -1,4 +1,4 @@
-VERSION = "12.23.0"
+VERSION = "12.24.0"
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_binary")
 
 go_library(
