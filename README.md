@@ -4,9 +4,7 @@ NCBI Datasets is a new resource that lets you easily gather data from across NCB
 
 Find and download sequence, annotation, and metadata for genes and genomes using our command-line tools or [web interface](https://www.ncbi.nlm.nih.gov/datasets/).  
 
-NCBI Datasets tools are under active development.  
-
-Submit feedback by creating a GitHub issue or you may [contact NCBI](mailto:info@ncbi.nlm.nih.gov) directly with your questions, comments or feature requests.
+NCBI Datasets tools are under active development. Submit feedback by creating a GitHub issue or you may [contact NCBI](mailto:info@ncbi.nlm.nih.gov) directly with your questions, comments or feature requests.
 
 ## Install the Datasets command-line tools
 
@@ -16,7 +14,7 @@ Download and install the NCBI Datasets command-line tools, datasets and dataform
 
 `conda install -c conda-forge ncbi-datasets-cli`  
 
-For other ways to install, see our command-line tool [quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/)
+For other ways to install, see our command-line tool [quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/).
 
 ## Use the Datasets command-line tools
 
@@ -34,7 +32,10 @@ Use **dataformat** to extract selected fields of metadata from the downloaded da
 dataformat tsv genome --package human-reference.zip --fields organism-name,assminfo-name,assminfo-accession,assminfo-submitter 
 Organism name	Assembly Name	Assembly Accession	Assembly Submitter
 Homo sapiens	GRCh38.p13	GCF_000001405.39	Genome Reference Consortium
-```
+```  
+
+The schematic below outlines the available commands for the **datasets** command-line tool:
+![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/datasets_schema_github.png)
 
 ### Download large numbers of genomes  
 
@@ -57,9 +58,6 @@ Try this example for the human reference genome:
 `datasets rehydrate --directory my_human_dataset/`  
 
 For more information, see [how to download large genome data packages](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/how-tos/genomes/large-download/).
-
-The schematic below outlines the available commands for the **datasets** command-line tool:
-![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/datasets_schema_complete.svg)
 
 ## Datasets data packages
 NCBI Datasets provides sequence, annotation, metadata and other biological data as an [NCBI Datasets Data Package zip archive](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/data-packages/).
