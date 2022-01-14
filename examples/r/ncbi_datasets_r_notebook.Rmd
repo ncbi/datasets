@@ -9,15 +9,15 @@ output:
 
 The objective of this notebook is to use **ncbi.datasets R** package to extract gene information and sequence for a list of gene symbols.
 In this example. we will show you how to get information for a list of Drosophila
-melanogaster genes cited in 
+melanogaster genes cited in
   [A single-cell survey of Drosophila blood](https://pubmed.ncbi.nlm.nih.gov/32396065/).
-  
+
 #### Citation
-Tattikota SG, Cho B, Liu Y, Hu Y, Barrera V, Steinbaugh MJ, Yoon SH, Comjean A, 
+Tattikota SG, Cho B, Liu Y, Hu Y, Barrera V, Steinbaugh MJ, Yoon SH, Comjean A,
    Li F, Dervis F, Hung RJ, Nam JW, Ho Sui S, Shim J, Perrimon N. A single-cell
-   survey of *Drosophila* blood. Elife. 2020 May 12;9:e54818. 
+   survey of *Drosophila* blood. Elife. 2020 May 12;9:e54818.
    doi: 10.7554/eLife.54818. PMID: [32396065](https://pubmed.ncbi.nlm.nih.gov/32396065/); PMCID: [PMC7237219](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7237219/).
-   
+
 # Installation
 To start, we install the ncbi.datasets R package from ftp.
 
@@ -94,7 +94,7 @@ result <- api.gene_instance$GeneMetadataByTaxAndSymbol(
 
 Using the metadata we retrieved in the previous step (and stored in `result`), let's organize it into a table. The extensive metadata report includes information on gene nomenclature,  gene type, transcript and protein lengths and coordinates for the genes transcripts and coding regions.
 
-In this example we'll generate a table including  
+In this example we'll generate a table including
 
 * gene symbol
 * gene name
@@ -103,7 +103,7 @@ In this example we'll generate a table including
 * Fly Base id
 * gene type
 * chromosome location
-* gene range 
+* gene range
 
 ```{r}
 metadata_tbl <- t(sapply(result$genes ,
@@ -117,7 +117,7 @@ metadata_tbl <- t(sapply(result$genes ,
         paste(g$gene$chromosome, ":",
               g$gene$genomic_ranges[[1]]$range[[1]]$begin, "..",
               g$gene$genomic_ranges[[1]]$range[[1]]$end,
-              sep = '') 
+              sep = '')
     )}))
 colnames(metadata_tbl) <- c('Gene Symbol',
                             'Gene Name',
@@ -161,7 +161,7 @@ transcript_tbl <- t(sapply(result$genes ,
         g$gene$transcripts[[max_idx]]$protein$accession_version,
         g$gene$transcripts[[max_idx]]$protein$length,
         range_format(g$gene$transcripts[[max_idx]]$cds)
-        
+
     )}))
 colnames(transcript_tbl) <- c('gene symbol',
                             'gene id',
@@ -193,7 +193,7 @@ In this example, we'll retrieve the length and coordinates of the cds and exons.
 
 ```{r}
 metadata_tbl_2 <- t(do.call(cbind,
-    sapply(result$genes, 
+    sapply(result$genes,
         function(g) sapply(g$gene$transcripts,
             function(t) {
                 c(g$gene$symbol,
@@ -204,7 +204,7 @@ metadata_tbl_2 <- t(do.call(cbind,
                         sep = ''),
                   t$length,
                   t$exons$accession_version,
-                  paste(sapply(t$exons$range, function(r) 
+                  paste(sapply(t$exons$range, function(r)
                       {paste(r$begin, r$end, sep='-')}), collapse=','),
                   length(t$exons$range)
                   )}))))
@@ -223,4 +223,3 @@ if (require(DT)) {
   print(metadata_tbl_2)
 }
 ```
-

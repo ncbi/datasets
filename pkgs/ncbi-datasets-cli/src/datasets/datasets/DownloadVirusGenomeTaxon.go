@@ -102,8 +102,8 @@ var downloadVirusGenomeCmd = &cobra.Command{
 	Short: "download a coronavirus genome dataset by taxon",
 	Long: `
 Download a coronavirus genome dataset including genome, CDS and protein sequence, annotation
-and a detailed data report. Coronavirus genome datasets are limited to the Coronaviridae family 
-including SARS-CoV-2. Coronavirus genome datasets can be specified by taxon. Datasets are 
+and a detailed data report. Coronavirus genome datasets are limited to the Coronaviridae family
+including SARS-CoV-2. Coronavirus genome datasets can be specified by taxon. Datasets are
 downloaded as a zip file.
 
 The default coronavirus genome dataset includes the following files (if available):
@@ -139,7 +139,7 @@ The default coronavirus genome dataset includes the following files (if availabl
 * data_report.jsonl (data report with viral metadata)
 * virus_dataset.md (README containing details on sequence file data content and other information)
 * dataset_catalog.json (a list of files and file types included in the dataset)
- 
+
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
 	Example: `  datasets download virus genome taxon sars-cov-2 --host dog
   datasets download virus genome taxon coronaviridae --host "manis javanica"`,

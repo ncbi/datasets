@@ -16,5 +16,3 @@ Build only dataformat command-line client
 bazel build src:dataformat
 ```
 The executable should be at bazel-bin/src/dataformat_/dataformat
-
-

@@ -202,8 +202,8 @@ paths:
           type: array
         style: form
       - description: The maximum number of genome assemblies to return. Default is
-          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
-          can be used to retrieve the remaining results.
+          20 and maximum is 1000. If the number of results exceeds the page size,
+          `page_token` can be used to retrieve the remaining results.
         explode: true
         in: query
         name: page_size
@@ -213,9 +213,9 @@ paths:
           type: integer
         style: form
       - description: A page token is returned from an `AssemblyMetadataRequest` call
-          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
-          parameters, to retrieve the next page of results. When `page_token` is empty,
-          all results have been retrieved.
+          with more than `page_size` results. Use this token, along with the previous
+          `AssemblyMetadataRequest` parameters, to retrieve the next page of results.
+          When `page_token` is empty, all results have been retrieved.
         explode: true
         in: query
         name: page_token
@@ -409,8 +409,8 @@ paths:
           $ref: '#/components/schemas/v1AssemblyMetadataRequestContentType'
         style: form
       - description: The maximum number of genome assemblies to return. Default is
-          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
-          can be used to retrieve the remaining results.
+          20 and maximum is 1000. If the number of results exceeds the page size,
+          `page_token` can be used to retrieve the remaining results.
         explode: true
         in: query
         name: page_size
@@ -420,9 +420,9 @@ paths:
           type: integer
         style: form
       - description: A page token is returned from an `AssemblyMetadataRequest` call
-          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
-          parameters, to retrieve the next page of results. When `page_token` is empty,
-          all results have been retrieved.
+          with more than `page_size` results. Use this token, along with the previous
+          `AssemblyMetadataRequest` parameters, to retrieve the next page of results.
+          When `page_token` is empty, all results have been retrieved.
         explode: true
         in: query
         name: page_token
@@ -602,8 +602,8 @@ paths:
           $ref: '#/components/schemas/v1AssemblyMetadataRequestContentType'
         style: form
       - description: The maximum number of genome assemblies to return. Default is
-          20 and maximum is 1000. If the number of results exceeds the page size,  `page_token`
-          can be used to retrieve the remaining results.
+          20 and maximum is 1000. If the number of results exceeds the page size,
+          `page_token` can be used to retrieve the remaining results.
         explode: true
         in: query
         name: page_size
@@ -613,9 +613,9 @@ paths:
           type: integer
         style: form
       - description: A page token is returned from an `AssemblyMetadataRequest` call
-          with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
-          parameters, to retrieve the next page of results. When `page_token` is empty,
-          all results have been retrieved.
+          with more than `page_size` results. Use this token, along with the previous
+          `AssemblyMetadataRequest` parameters, to retrieve the next page of results.
+          When `page_token` is empty, all results have been retrieved.
         explode: true
         in: query
         name: page_token
@@ -4320,14 +4320,14 @@ components:
           type: string
         page_size:
           title: The maximum number of genome assemblies to return. Default is 20
-            and maximum is 1000. If the number of results exceeds the page size,  `page_token`
+            and maximum is 1000. If the number of results exceeds the page size, `page_token`
             can be used to retrieve the remaining results.
           type: integer
         page_token:
           title: A page token is returned from an `AssemblyMetadataRequest` call with
-            more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest`
-            parameters, to retrieve the next page of results. When `page_token` is
-            empty, all results have been retrieved.
+            more than `page_size` results. Use this token, along with the previous
+            `AssemblyMetadataRequest` parameters, to retrieve the next page of results.
+            When `page_token` is empty, all results have been retrieved.
           type: string
       type: object
     v1AssemblyMetadataRequestBioprojects:

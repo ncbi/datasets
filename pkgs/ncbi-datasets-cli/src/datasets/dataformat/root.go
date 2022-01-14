@@ -28,7 +28,7 @@ var rootCmd = &cobra.Command{
 	Short: "NCBI Datasets Dataformat",
 	Long: `dataformat is a command-line tool to convert JSON-lines formatted NCBI Datasets reports into other formats (Excel, TSV).
 
-To learn more about what fields are available in the reports and how to convert them into 
+To learn more about what fields are available in the reports and how to convert them into
 tabular data, visit the [data report schema](https://www.ncbi.nlm.nih.gov/datasets/docs/data-report-schemas-overview/) documentation.
 
 Refer to NCBI's [command line start](https://www.ncbi.nlm.nih.gov/datasets/docs/command-line-start) documentation for information about getting started with the command-line tools.`,

@@ -443,9 +443,6 @@ func (lrt LoggingRoundTripper) RoundTrip(req *http.Request) (*http.Response, err
 
 func useEnv(envVarName, argName string) (val string) {
 	val = os.Getenv(envVarName)
-	if len(val) > 0 {
-		fmt.Printf("Env var [%s] as default value for [%s] arg: %s\n", envVarName, argName, val)
-	}
 	return
 }
 

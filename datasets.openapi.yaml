@@ -246,14 +246,14 @@ paths:
             value: C57BL/6J
             summary: C57BL/6J
       - name: page_size
-        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results.'
+        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
         required: false
         schema:
           type: integer
           default: 20
       - name: page_token
-        description: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        description: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
@@ -414,14 +414,14 @@ paths:
         schema:
           $ref: '#/components/schemas/v1AssemblyMetadataRequestContentType'
       - name: page_size
-        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results.'
+        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
         required: false
         schema:
           type: integer
           default: 20
       - name: page_token
-        description: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        description: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
@@ -573,14 +573,14 @@ paths:
         schema:
           $ref: '#/components/schemas/v1AssemblyMetadataRequestContentType'
       - name: page_size
-        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results.'
+        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
         required: false
         schema:
           type: integer
           default: 20
       - name: page_token
-        description: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        description: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
@@ -3297,10 +3297,10 @@ components:
           title: 'Deprecated - Limit the number of returned results ("all", "none", otherwise an integer value)'
         page_size:
           type: integer
-          title: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results.'
+          title: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         page_token:
           type: string
-          title: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+          title: 'A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
     v1AssemblyMetadataRequestBioprojects:
       type: object
       properties:
