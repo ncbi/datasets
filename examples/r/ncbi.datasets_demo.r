@@ -38,4 +38,3 @@ result_genome <- api.virus_instance$Sars2ProteinSummary(
     host='human',
     geo.location='French')
 prettify(result_genome$toJSONString())
-

@@ -71,8 +71,8 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     filters_search_text = [
         "Genome Reference Consortium",
     ] # [str] | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter (optional)
-    page_size = 20 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional) if omitted the server will use the default value of 20
-    page_token = "page_token_example" # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+    page_size = 20 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) if omitted the server will use the default value of 20
+    page_token = "page_token_example" # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -105,8 +105,8 @@ Name | Type | Description  | Notes
  **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date By default, do not filter. | [optional]
  **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date By default, do not filter. | [optional]
  **filters_search_text** | **[str]**| Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter | [optional]
- **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] if omitted the server will use the default value of 20
- **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional]
+ **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] if omitted the server will use the default value of 20
+ **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional]
 
 ### Return type
 
@@ -188,8 +188,8 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
         "Genome Reference Consortium",
     ] # [str] | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter (optional)
     returned_content = V1AssemblyMetadataRequestContentType("COMPLETE") # V1AssemblyMetadataRequestContentType | Return either assembly accessions, or entire assembly-metadata records (optional)
-    page_size = 20 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional) if omitted the server will use the default value of 20
-    page_token = "page_token_example" # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+    page_size = 20 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) if omitted the server will use the default value of 20
+    page_token = "page_token_example" # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -223,8 +223,8 @@ Name | Type | Description  | Notes
  **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date By default, do not filter. | [optional]
  **filters_search_text** | **[str]**| Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter | [optional]
  **returned_content** | **V1AssemblyMetadataRequestContentType**| Return either assembly accessions, or entire assembly-metadata records | [optional]
- **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] if omitted the server will use the default value of 20
- **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional]
+ **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] if omitted the server will use the default value of 20
+ **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional]
 
 ### Return type
 
@@ -305,8 +305,8 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     ] # [str] | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter (optional)
     tax_exact_match = False # bool | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. (optional) if omitted the server will use the default value of False
     returned_content = V1AssemblyMetadataRequestContentType("COMPLETE") # V1AssemblyMetadataRequestContentType | Return either assembly accessions, or entire assembly-metadata records (optional)
-    page_size = 20 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional) if omitted the server will use the default value of 20
-    page_token = "page_token_example" # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+    page_size = 20 # int | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) if omitted the server will use the default value of 20
+    page_token = "page_token_example" # str | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -341,8 +341,8 @@ Name | Type | Description  | Notes
  **filters_search_text** | **[str]**| Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter | [optional]
  **tax_exact_match** | **bool**| If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. | [optional] if omitted the server will use the default value of False
  **returned_content** | **V1AssemblyMetadataRequestContentType**| Return either assembly accessions, or entire assembly-metadata records | [optional]
- **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] if omitted the server will use the default value of 20
- **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional]
+ **page_size** | **int**| The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [optional] if omitted the server will use the default value of 20
+ **page_token** | **str**| A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | [optional]
 
 ### Return type
 

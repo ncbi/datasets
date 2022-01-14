@@ -49,8 +49,8 @@ func main() {
     filtersFirstReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or after the specified date By default, do not filter. (optional)
     filtersLastReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or before to the specified date By default, do not filter. (optional)
     filtersSearchText := []string{"Inner_example"} // []string | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter (optional)
-    pageSize := int32(56) // int32 | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
-    pageToken := "pageToken_example" // string | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+    pageSize := int32(56) // int32 | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
+    pageToken := "pageToken_example" // string | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -87,8 +87,8 @@ Name | Type | Description  | Notes
  **filtersFirstReleaseDate** | **time.Time** | Only return genome assemblies that were released on or after the specified date By default, do not filter. | 
  **filtersLastReleaseDate** | **time.Time** | Only return genome assemblies that were released on or before to the specified date By default, do not filter. | 
  **filtersSearchText** | **[]string** | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter | 
- **pageSize** | **int32** | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
- **pageToken** | **string** | A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
+ **pageSize** | **int32** | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
+ **pageToken** | **string** | A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
 
 ### Return type
 
@@ -139,8 +139,8 @@ func main() {
     filtersLastReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or before to the specified date By default, do not filter. (optional)
     filtersSearchText := []string{"Inner_example"} // []string | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter (optional)
     returnedContent := openapiclient.v1AssemblyMetadataRequestContentType("COMPLETE") // V1AssemblyMetadataRequestContentType | Return either assembly accessions, or entire assembly-metadata records (optional) (default to "COMPLETE")
-    pageSize := int32(56) // int32 | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
-    pageToken := "pageToken_example" // string | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+    pageSize := int32(56) // int32 | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
+    pageToken := "pageToken_example" // string | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -178,8 +178,8 @@ Name | Type | Description  | Notes
  **filtersLastReleaseDate** | **time.Time** | Only return genome assemblies that were released on or before to the specified date By default, do not filter. | 
  **filtersSearchText** | **[]string** | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter | 
  **returnedContent** | [**V1AssemblyMetadataRequestContentType**](V1AssemblyMetadataRequestContentType.md) | Return either assembly accessions, or entire assembly-metadata records | [default to &quot;COMPLETE&quot;]
- **pageSize** | **int32** | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
- **pageToken** | **string** | A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
+ **pageSize** | **int32** | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
+ **pageToken** | **string** | A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
 
 ### Return type
 
@@ -231,8 +231,8 @@ func main() {
     filtersSearchText := []string{"Inner_example"} // []string | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter (optional)
     taxExactMatch := true // bool | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. (optional) (default to false)
     returnedContent := openapiclient.v1AssemblyMetadataRequestContentType("COMPLETE") // V1AssemblyMetadataRequestContentType | Return either assembly accessions, or entire assembly-metadata records (optional) (default to "COMPLETE")
-    pageSize := int32(56) // int32 | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
-    pageToken := "pageToken_example" // string | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous  `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+    pageSize := int32(56) // int32 | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
+    pageToken := "pageToken_example" // string | A page token is returned from an `AssemblyMetadataRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -271,8 +271,8 @@ Name | Type | Description  | Notes
  **filtersSearchText** | **[]string** | Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter | 
  **taxExactMatch** | **bool** | If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too. Ignored for assembly_accession request. | [default to false]
  **returnedContent** | [**V1AssemblyMetadataRequestContentType**](V1AssemblyMetadataRequestContentType.md) | Return either assembly accessions, or entire assembly-metadata records | [default to &quot;COMPLETE&quot;]
- **pageSize** | **int32** | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
- **pageToken** | **string** | A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
+ **pageSize** | **int32** | The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
+ **pageToken** | **string** | A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
 
 ### Return type
 

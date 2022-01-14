@@ -81,12 +81,12 @@ func (r *ApiAssemblyDescriptorsByAccessionsRequest) FiltersSearchText(filtersSea
 	r.filtersSearchText = &filtersSearchText
 	return r
 }
-// The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results.
+// The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results.
 func (r *ApiAssemblyDescriptorsByAccessionsRequest) PageSize(pageSize int32) *ApiAssemblyDescriptorsByAccessionsRequest {
 	r.pageSize = &pageSize
 	return r
 }
-// A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
+// A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
 func (r *ApiAssemblyDescriptorsByAccessionsRequest) PageToken(pageToken string) *ApiAssemblyDescriptorsByAccessionsRequest {
 	r.pageToken = &pageToken
 	return r
@@ -321,12 +321,12 @@ func (r *ApiAssemblyDescriptorsByBioprojectRequest) ReturnedContent(returnedCont
 	r.returnedContent = &returnedContent
 	return r
 }
-// The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results.
+// The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results.
 func (r *ApiAssemblyDescriptorsByBioprojectRequest) PageSize(pageSize int32) *ApiAssemblyDescriptorsByBioprojectRequest {
 	r.pageSize = &pageSize
 	return r
 }
-// A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
+// A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
 func (r *ApiAssemblyDescriptorsByBioprojectRequest) PageToken(pageToken string) *ApiAssemblyDescriptorsByBioprojectRequest {
 	r.pageToken = &pageToken
 	return r
@@ -570,12 +570,12 @@ func (r *ApiAssemblyDescriptorsByTaxonRequest) ReturnedContent(returnedContent V
 	r.returnedContent = &returnedContent
 	return r
 }
-// The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size,  &#x60;page_token&#x60; can be used to retrieve the remaining results.
+// The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results.
 func (r *ApiAssemblyDescriptorsByTaxonRequest) PageSize(pageSize int32) *ApiAssemblyDescriptorsByTaxonRequest {
 	r.pageSize = &pageSize
 	return r
 }
-// A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous  &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
+// A page token is returned from an &#x60;AssemblyMetadataRequest&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;AssemblyMetadataRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
 func (r *ApiAssemblyDescriptorsByTaxonRequest) PageToken(pageToken string) *ApiAssemblyDescriptorsByTaxonRequest {
 	r.pageToken = &pageToken
 	return r

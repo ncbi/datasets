@@ -198,7 +198,7 @@ var genomeCmd = &cobra.Command{
   datasets download genome taxon human --assembly-level chromosome,complete_genome --dehydrated
   datasets download genome taxon mouse --search C57BL/6J --search "Broad Institute" --dehydrated`,
 	Long: `
-Download a genome dataset including genome, transcript and protein sequence, annotation and a detailed data report. 
+Download a genome dataset including genome, transcript and protein sequence, annotation and a detailed data report.
 Genome datasets can be specified by NCBI Assembly or BioProject accession or taxon. Datasets are downloaded as a zip file.
 
 The default genome dataset includes the following files (if available):
