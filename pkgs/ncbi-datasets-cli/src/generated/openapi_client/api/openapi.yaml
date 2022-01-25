@@ -3609,6 +3609,63 @@ components:
         paired_assembly_accession: paired_assembly_accession
         contig_n50: 1
         assembly_level: assembly_level
+        biosample:
+          owner:
+            name: name
+            contacts:
+            - lab: lab
+            - lab: lab
+          submission_date: submission_date
+          models:
+          - models
+          - models
+          last_updated: last_updated
+          bioprojects:
+          - parent_accession: parent_accession
+            parent_accessions:
+            - parent_accessions
+            - parent_accessions
+            accession: accession
+            title: title
+          - parent_accession: parent_accession
+            parent_accessions:
+            - parent_accessions
+            - parent_accessions
+            accession: accession
+            title: title
+          package: package
+          publication_date: publication_date
+          description:
+            organism:
+              lineage:
+              - name: name
+                tax_id: 1
+              - name: name
+                tax_id: 1
+              strain: strain
+              pangolin_classification: pangolin_classification
+              organism_name: organism_name
+              sci_name: sci_name
+              common_name: common_name
+              tax_id: 1
+            comment: comment
+            title: title
+          attributes:
+          - name: name
+            value: value
+          - name: name
+            value: value
+          accession: accession
+          sample_ids:
+          - label: label
+            value: value
+            db: db
+          - label: label
+            value: value
+            db: db
+          status:
+            when: when
+            status: status
       properties:
         assembly_accession:
           title: The GenColl assembly accession (e.g. GCF_000001405.39)
@@ -3660,6 +3717,8 @@ components:
           title: NCBI BioSample Accession for the BioSample from which the sequences
             in the genome assembly were obtained.
           type: string
+        biosample:
+          $ref: '#/components/schemas/v1reportsBioSampleDescriptor'
         blast_url:
           title: Link to assembly-specific blast page
           type: string
@@ -3905,6 +3964,63 @@ components:
           paired_assembly_accession: paired_assembly_accession
           contig_n50: 1
           assembly_level: assembly_level
+          biosample:
+            owner:
+              name: name
+              contacts:
+              - lab: lab
+              - lab: lab
+            submission_date: submission_date
+            models:
+            - models
+            - models
+            last_updated: last_updated
+            bioprojects:
+            - parent_accession: parent_accession
+              parent_accessions:
+              - parent_accessions
+              - parent_accessions
+              accession: accession
+              title: title
+            - parent_accession: parent_accession
+              parent_accessions:
+              - parent_accessions
+              - parent_accessions
+              accession: accession
+              title: title
+            package: package
+            publication_date: publication_date
+            description:
+              organism:
+                lineage:
+                - name: name
+                  tax_id: 1
+                - name: name
+                  tax_id: 1
+                strain: strain
+                pangolin_classification: pangolin_classification
+                organism_name: organism_name
+                sci_name: sci_name
+                common_name: common_name
+                tax_id: 1
+              comment: comment
+              title: title
+            attributes:
+            - name: name
+              value: value
+            - name: name
+              value: value
+            accession: accession
+            sample_ids:
+            - label: label
+              value: value
+              db: db
+            - label: label
+              value: value
+              db: db
+            status:
+              when: when
+              status: status
         messages:
         - warning:
             reason: reason
@@ -4062,6 +4178,63 @@ components:
             paired_assembly_accession: paired_assembly_accession
             contig_n50: 1
             assembly_level: assembly_level
+            biosample:
+              owner:
+                name: name
+                contacts:
+                - lab: lab
+                - lab: lab
+              submission_date: submission_date
+              models:
+              - models
+              - models
+              last_updated: last_updated
+              bioprojects:
+              - parent_accession: parent_accession
+                parent_accessions:
+                - parent_accessions
+                - parent_accessions
+                accession: accession
+                title: title
+              - parent_accession: parent_accession
+                parent_accessions:
+                - parent_accessions
+                - parent_accessions
+                accession: accession
+                title: title
+              package: package
+              publication_date: publication_date
+              description:
+                organism:
+                  lineage:
+                  - name: name
+                    tax_id: 1
+                  - name: name
+                    tax_id: 1
+                  strain: strain
+                  pangolin_classification: pangolin_classification
+                  organism_name: organism_name
+                  sci_name: sci_name
+                  common_name: common_name
+                  tax_id: 1
+                comment: comment
+                title: title
+              attributes:
+              - name: name
+                value: value
+              - name: name
+                value: value
+              accession: accession
+              sample_ids:
+              - label: label
+                value: value
+                db: db
+              - label: label
+                value: value
+                db: db
+              status:
+                when: when
+                status: status
           messages:
           - warning:
               reason: reason
@@ -4208,6 +4381,63 @@ components:
             paired_assembly_accession: paired_assembly_accession
             contig_n50: 1
             assembly_level: assembly_level
+            biosample:
+              owner:
+                name: name
+                contacts:
+                - lab: lab
+                - lab: lab
+              submission_date: submission_date
+              models:
+              - models
+              - models
+              last_updated: last_updated
+              bioprojects:
+              - parent_accession: parent_accession
+                parent_accessions:
+                - parent_accessions
+                - parent_accessions
+                accession: accession
+                title: title
+              - parent_accession: parent_accession
+                parent_accessions:
+                - parent_accessions
+                - parent_accessions
+                accession: accession
+                title: title
+              package: package
+              publication_date: publication_date
+              description:
+                organism:
+                  lineage:
+                  - name: name
+                    tax_id: 1
+                  - name: name
+                    tax_id: 1
+                  strain: strain
+                  pangolin_classification: pangolin_classification
+                  organism_name: organism_name
+                  sci_name: sci_name
+                  common_name: common_name
+                  tax_id: 1
+                comment: comment
+                title: title
+              attributes:
+              - name: name
+                value: value
+              - name: name
+                value: value
+              accession: accession
+              sample_ids:
+              - label: label
+                value: value
+                db: db
+              - label: label
+                value: value
+                db: db
+              status:
+                when: when
+                status: status
           messages:
           - warning:
               reason: reason
@@ -4242,7 +4472,7 @@ components:
               - valid_identifiers
               message: message
         next_page_token: next_page_token
-        total_count: 1
+        total_count: 6
         messages:
         - warning:
             reason: reason
@@ -8202,6 +8432,245 @@ components:
         requested:
           type: string
         returned:
+          type: string
+      type: object
+    v1reportsBioProject:
+      example:
+        parent_accession: parent_accession
+        parent_accessions:
+        - parent_accessions
+        - parent_accessions
+        accession: accession
+        title: title
+      properties:
+        accession:
+          title: BioProject accession
+          type: string
+        title:
+          title: Title of the BioProject provided by the submitter
+          type: string
+        parent_accession:
+          type: string
+        parent_accessions:
+          items:
+            type: string
+          type: array
+      type: object
+    v1reportsBioSampleAttribute:
+      example:
+        name: name
+        value: value
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      type: object
+    v1reportsBioSampleContact:
+      example:
+        lab: lab
+      properties:
+        lab:
+          type: string
+      type: object
+    v1reportsBioSampleDescription:
+      example:
+        organism:
+          lineage:
+          - name: name
+            tax_id: 1
+          - name: name
+            tax_id: 1
+          strain: strain
+          pangolin_classification: pangolin_classification
+          organism_name: organism_name
+          sci_name: sci_name
+          common_name: common_name
+          tax_id: 1
+        comment: comment
+        title: title
+      properties:
+        title:
+          type: string
+        organism:
+          $ref: '#/components/schemas/v1reportsOrganism'
+        comment:
+          type: string
+      type: object
+    v1reportsBioSampleDescriptor:
+      example:
+        owner:
+          name: name
+          contacts:
+          - lab: lab
+          - lab: lab
+        submission_date: submission_date
+        models:
+        - models
+        - models
+        last_updated: last_updated
+        bioprojects:
+        - parent_accession: parent_accession
+          parent_accessions:
+          - parent_accessions
+          - parent_accessions
+          accession: accession
+          title: title
+        - parent_accession: parent_accession
+          parent_accessions:
+          - parent_accessions
+          - parent_accessions
+          accession: accession
+          title: title
+        package: package
+        publication_date: publication_date
+        description:
+          organism:
+            lineage:
+            - name: name
+              tax_id: 1
+            - name: name
+              tax_id: 1
+            strain: strain
+            pangolin_classification: pangolin_classification
+            organism_name: organism_name
+            sci_name: sci_name
+            common_name: common_name
+            tax_id: 1
+          comment: comment
+          title: title
+        attributes:
+        - name: name
+          value: value
+        - name: name
+          value: value
+        accession: accession
+        sample_ids:
+        - label: label
+          value: value
+          db: db
+        - label: label
+          value: value
+          db: db
+        status:
+          when: when
+          status: status
+      properties:
+        accession:
+          type: string
+        last_updated:
+          type: string
+        publication_date:
+          type: string
+        submission_date:
+          type: string
+        sample_ids:
+          items:
+            $ref: '#/components/schemas/v1reportsBioSampleId'
+          type: array
+        description:
+          $ref: '#/components/schemas/v1reportsBioSampleDescription'
+        owner:
+          $ref: '#/components/schemas/v1reportsBioSampleOwner'
+        models:
+          items:
+            type: string
+          type: array
+        bioprojects:
+          items:
+            $ref: '#/components/schemas/v1reportsBioProject'
+          type: array
+        package:
+          type: string
+        attributes:
+          items:
+            $ref: '#/components/schemas/v1reportsBioSampleAttribute'
+          type: array
+        status:
+          $ref: '#/components/schemas/v1reportsBioSampleStatus'
+      type: object
+    v1reportsBioSampleId:
+      example:
+        label: label
+        value: value
+        db: db
+      properties:
+        db:
+          type: string
+        label:
+          type: string
+        value:
+          type: string
+      type: object
+    v1reportsBioSampleOwner:
+      example:
+        name: name
+        contacts:
+        - lab: lab
+        - lab: lab
+      properties:
+        name:
+          type: string
+        contacts:
+          items:
+            $ref: '#/components/schemas/v1reportsBioSampleContact'
+          type: array
+      type: object
+    v1reportsBioSampleStatus:
+      example:
+        when: when
+        status: status
+      properties:
+        status:
+          type: string
+        when:
+          type: string
+      type: object
+    v1reportsLineageOrganism:
+      example:
+        name: name
+        tax_id: 1
+      properties:
+        tax_id:
+          title: NCBI Taxonomy identifier
+          type: integer
+        name:
+          title: Scientific name
+          type: string
+      type: object
+    v1reportsOrganism:
+      example:
+        lineage:
+        - name: name
+          tax_id: 1
+        - name: name
+          tax_id: 1
+        strain: strain
+        pangolin_classification: pangolin_classification
+        organism_name: organism_name
+        sci_name: sci_name
+        common_name: common_name
+        tax_id: 1
+      properties:
+        tax_id:
+          title: NCBI Taxonomy identifier
+          type: integer
+        sci_name:
+          title: Scientific name
+          type: string
+        organism_name:
+          title: Scientific name
+          type: string
+        common_name:
+          title: Common name
+          type: string
+        lineage:
+          items:
+            $ref: '#/components/schemas/v1reportsLineageOrganism'
+          type: array
+        strain:
+          type: string
+        pangolin_classification:
           type: string
       type: object
     v1AnnotationForAssemblyType:

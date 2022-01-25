@@ -474,10 +474,14 @@ func (rpt *ReportSpec) populateMappingForObj(
 			}
 			continue
 		}
+		if isMsg && strings.HasSuffix(prefixMnemonic, tbl_opts.Mnemonic) && objDesc.Name() == fld.Message().Name() {
+			// prevent directly recursive structures -- does not handle mutually-recursive structures
+			//fmt.Printf("breaking recursion on message [%s] field [%s]\n", fld.Name(), objDesc.Name())
+			continue
+		}
 		mnemonic := prefixMnemonic + tbl_opts.Mnemonic
 		colName := prefixColName + tbl_opts.ColumnName
 		if isMsg {
-			// a message field containing a "partial" tabular description
 			var newObj protoreflect.Message
 			if isList {
 				newObj = obj.Get(fld).List().NewElement().Message()

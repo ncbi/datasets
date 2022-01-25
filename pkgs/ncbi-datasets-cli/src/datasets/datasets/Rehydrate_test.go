@@ -3,17 +3,19 @@ package datasets
 import (
 	"net/http"
 	"net/url"
+	"path/filepath"
 	"testing"
 
 	"github.com/spf13/afero"
 	"github.com/spf13/afero/mem"
 	"github.com/stretchr/testify/require"
 
-	"bou.ke/monkey"
 	"fmt"
 	"io/fs"
 	"os/exec"
 	"reflect"
+
+	"bou.ke/monkey"
 )
 
 func TestMin(t *testing.T) {
@@ -160,4 +162,33 @@ func TestRehydrateRetryInternalServerError(t *testing.T) {
 		verifyFile(t, test_file.path)
 	}
 	verifyRequestHeaders(t)
+}
+
+func TestRehydrateFileSkipDownloaded(t *testing.T) {
+	initTestVars()
+	// set up one file on disk
+	var fileDir = filepath.Dir(test_fl[0].path)
+	afs.MkdirAll(fileDir, 0755)
+	out, _ := afs.Create(test_fl[0].path)
+	out.Close()
+	exists, _ := afero.Exists(afs, test_fl[0].path)
+	require.True(t, exists)
+
+	err := downloadMultipleFiles(test_fl[0:1])
+	require.NoError(t, err)
+	require.Equal(t, 0, test_attempted)
+
+	err = downloadMultipleFiles(test_fl)
+	require.NoError(t, err)
+	require.Equal(t, len(test_fl)-1, test_attempted)
+}
+
+func TestRehydrateFileDownloadErrorDelete(t *testing.T) {
+	initTestVars()
+	setHttpError(http.StatusInternalServerError, 0, 20)
+	test_file := test_fl[0:1]
+	downloadMultipleFiles(test_file)
+	exists, err := afero.Exists(afs, test_file[0].path)
+	require.NoError(t, err)
+	require.False(t, exists)
 }

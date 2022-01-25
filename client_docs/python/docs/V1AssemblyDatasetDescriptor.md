@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **estimated_size** | **str** |  | [optional] 
 **seq_length** | **str** |  | [optional] 
 **biosample_accession** | **str** |  | [optional] 
+**biosample** | [**V1reportsBioSampleDescriptor**](V1reportsBioSampleDescriptor.md) |  | [optional] 
 **blast_url** | **str** |  | [optional] 
 **gc_count** | **str** |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]

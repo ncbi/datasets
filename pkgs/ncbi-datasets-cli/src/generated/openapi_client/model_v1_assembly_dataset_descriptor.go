@@ -31,6 +31,7 @@ type V1AssemblyDatasetDescriptor struct {
 	EstimatedSize *string `json:"estimated_size,omitempty"`
 	SeqLength *string `json:"seq_length,omitempty"`
 	BiosampleAccession *string `json:"biosample_accession,omitempty"`
+	Biosample *V1reportsBioSampleDescriptor `json:"biosample,omitempty"`
 	BlastUrl *string `json:"blast_url,omitempty"`
 	GcCount *string `json:"gc_count,omitempty"`
 }
@@ -532,6 +533,38 @@ func (o *V1AssemblyDatasetDescriptor) SetBiosampleAccession(v string) {
 	o.BiosampleAccession = &v
 }
 
+// GetBiosample returns the Biosample field value if set, zero value otherwise.
+func (o *V1AssemblyDatasetDescriptor) GetBiosample() V1reportsBioSampleDescriptor {
+	if o == nil || o.Biosample == nil {
+		var ret V1reportsBioSampleDescriptor
+		return ret
+	}
+	return *o.Biosample
+}
+
+// GetBiosampleOk returns a tuple with the Biosample field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1AssemblyDatasetDescriptor) GetBiosampleOk() (*V1reportsBioSampleDescriptor, bool) {
+	if o == nil || o.Biosample == nil {
+		return nil, false
+	}
+	return o.Biosample, true
+}
+
+// HasBiosample returns a boolean if a field has been set.
+func (o *V1AssemblyDatasetDescriptor) HasBiosample() bool {
+	if o != nil && o.Biosample != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetBiosample gets a reference to the given V1reportsBioSampleDescriptor and assigns it to the Biosample field.
+func (o *V1AssemblyDatasetDescriptor) SetBiosample(v V1reportsBioSampleDescriptor) {
+	o.Biosample = &v
+}
+
 // GetBlastUrl returns the BlastUrl field value if set, zero value otherwise.
 func (o *V1AssemblyDatasetDescriptor) GetBlastUrl() string {
 	if o == nil || o.BlastUrl == nil {
@@ -642,6 +675,9 @@ func (o V1AssemblyDatasetDescriptor) MarshalJSON() ([]byte, error) {
 	}
 	if o.BiosampleAccession != nil  {
 		toSerialize["biosample_accession"] = o.BiosampleAccession
+	}
+	if o.Biosample != nil  {
+		toSerialize["biosample"] = o.Biosample
 	}
 	if o.BlastUrl != nil  {
 		toSerialize["blast_url"] = o.BlastUrl

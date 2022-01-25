@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **EstimatedSize** | Pointer to **string** |  | [optional] 
 **SeqLength** | Pointer to **string** |  | [optional] 
 **BiosampleAccession** | Pointer to **string** |  | [optional] 
+**Biosample** | Pointer to [**V1reportsBioSampleDescriptor**](V1reportsBioSampleDescriptor.md) |  | [optional] 
 **BlastUrl** | Pointer to **string** |  | [optional] 
 **GcCount** | Pointer to **string** |  | [optional] 
 
@@ -415,6 +416,31 @@ SetBiosampleAccession sets BiosampleAccession field to given value.
 `func (o *V1AssemblyDatasetDescriptor) HasBiosampleAccession() bool`
 
 HasBiosampleAccession returns a boolean if a field has been set.
+
+### GetBiosample
+
+`func (o *V1AssemblyDatasetDescriptor) GetBiosample() V1reportsBioSampleDescriptor`
+
+GetBiosample returns the Biosample field if non-nil, zero value otherwise.
+
+### GetBiosampleOk
+
+`func (o *V1AssemblyDatasetDescriptor) GetBiosampleOk() (*V1reportsBioSampleDescriptor, bool)`
+
+GetBiosampleOk returns a tuple with the Biosample field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBiosample
+
+`func (o *V1AssemblyDatasetDescriptor) SetBiosample(v V1reportsBioSampleDescriptor)`
+
+SetBiosample sets Biosample field to given value.
+
+### HasBiosample
+
+`func (o *V1AssemblyDatasetDescriptor) HasBiosample() bool`
+
+HasBiosample returns a boolean if a field has been set.
 
 ### GetBlastUrl
 
