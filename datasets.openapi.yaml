@@ -3126,6 +3126,9 @@ components:
         biosample_accession:
           type: string
           title: 'NCBI BioSample Accession for the BioSample from which the sequences in the genome assembly were obtained.'
+        biosample:
+          $ref: '#/components/schemas/v1reportsBioSampleDescriptor'
+          title: 'NCBI BioSample from which the sequences in the genome assembly were obtained.'
         blast_url:
           type: string
           title: 'Link to assembly-specific blast page'
@@ -4268,6 +4271,134 @@ components:
         requested:
           type: string
         returned:
+          type: string
+    v1reportsBioProject:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'BioProject accession'
+        title:
+          type: string
+          title: 'Title of the BioProject provided by the submitter'
+        parent_accession:
+          type: string
+        parent_accessions:
+          type: array
+          items:
+            type: string
+    v1reportsBioSampleAttribute:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    v1reportsBioSampleContact:
+      type: object
+      properties:
+        lab:
+          type: string
+    v1reportsBioSampleDescription:
+      type: object
+      properties:
+        title:
+          type: string
+        organism:
+          $ref: '#/components/schemas/v1reportsOrganism'
+        comment:
+          type: string
+    v1reportsBioSampleDescriptor:
+      type: object
+      properties:
+        accession:
+          type: string
+        last_updated:
+          type: string
+        publication_date:
+          type: string
+        submission_date:
+          type: string
+        sample_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsBioSampleId'
+        description:
+          $ref: '#/components/schemas/v1reportsBioSampleDescription'
+        owner:
+          $ref: '#/components/schemas/v1reportsBioSampleOwner'
+        models:
+          type: array
+          items:
+            type: string
+        bioprojects:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsBioProject'
+        package:
+          type: string
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsBioSampleAttribute'
+        status:
+          $ref: '#/components/schemas/v1reportsBioSampleStatus'
+    v1reportsBioSampleId:
+      type: object
+      properties:
+        db:
+          type: string
+        label:
+          type: string
+        value:
+          type: string
+    v1reportsBioSampleOwner:
+      type: object
+      properties:
+        name:
+          type: string
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsBioSampleContact'
+    v1reportsBioSampleStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        when:
+          type: string
+    v1reportsLineageOrganism:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+          title: 'NCBI Taxonomy identifier'
+        name:
+          type: string
+          title: 'Scientific name'
+    v1reportsOrganism:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+          title: 'NCBI Taxonomy identifier'
+        sci_name:
+          type: string
+          title: 'Scientific name'
+        organism_name:
+          type: string
+          title: 'Scientific name'
+        common_name:
+          type: string
+          title: 'Common name'
+        lineage:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsLineageOrganism'
+        strain:
+          type: string
+        pangolin_classification:
           type: string
     
     v1AnnotationForAssemblyType:

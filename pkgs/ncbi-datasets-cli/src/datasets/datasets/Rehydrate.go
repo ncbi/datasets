@@ -190,6 +190,7 @@ func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan f
 			if argRehydrateGzip {
 				file.path += ".gz"
 			}
+
 			// Get the data
 			progressBar.filename = file.path
 
@@ -237,15 +238,29 @@ func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan f
 			// Write the body to file
 			_, err = progressBar.Copy(w, resp.Body)
 			if hasError(err) {
+				defer deleteFile(file.path)
 				return
 			}
 
 			if !argNoProgress {
 				bar.Incr()
 			}
+
 			errch <- nil
 		}()
 	}
+}
+
+func deleteFile(f string) {
+	if f != "" {
+		if exists, _ := afero.Exists(afs, f); exists {
+			err_rm := os.Remove(f)
+			if err_rm != nil {
+				fmt.Printf("Unable to remove corrupted file %s\n", f)
+			}
+		}
+	}
+	return
 }
 
 func downloadMultipleFiles(fileList []fetchLine) error {
@@ -253,8 +268,25 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 		return errors.New("number of workers cannot be less than 1 or greater than 30")
 	}
 
+	if len(fileList) == 0 {
+		fmt.Printf("Found no files for rehydration\n")
+		return nil
+	}
+
+	var downloadFileList []fetchLine
+	for _, file := range fileList {
+		if exists, err := afero.Exists(afs, file.path); err != nil || !exists {
+			downloadFileList = append(downloadFileList, file)
+		}
+	}
+
+	if len(downloadFileList) == 0 {
+		fmt.Printf("Found no files for rehydration\n")
+		return nil
+	}
+
 	// Initialize the progress bar
-	totalFiles := len(fileList)
+	totalFiles := len(downloadFileList)
 	var bar *uiprogress.Bar
 
 	if !argNoProgress {
@@ -278,7 +310,7 @@ func downloadMultipleFiles(fileList []fetchLine) error {
 	for w := 1; w <= argNumWorkers; w++ {
 		go downloadFileWorker(client, bar, files, errch, &wg)
 	}
-	for _, file := range fileList {
+	for _, file := range downloadFileList {
 		files <- file // add file onto job queue
 	}
 	close(files)
