@@ -14,7 +14,7 @@ var downloadGeneSymbolCmd = &cobra.Command{
 	Example: `  datasets download gene symbol tp53
   datasets download gene symbol brca1 --taxon mouse`,
 	Long: `
-Download a gene dataset by gene symbol and taxon (species name or species-level NCBI Taxonomy ID). If no taxon is specified, data will be returned for human. Gene datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download a gene dataset by gene symbol and taxon (species name or species-level NCBI Taxonomy ID). If no taxon is specified, data will be returned for human. Gene data packages include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
 
 The default gene dataset includes the following files:
  * gene.fna (gene sequences)

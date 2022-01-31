@@ -69,18 +69,18 @@ var downloadVirusProteinCmd = &cobra.Command{
 	Use:   "protein <protein_name ...> [flags]",
 	Short: "download a SARS-CoV-2 protein dataset by protein name",
 	Long: `
-Download a SARS-CoV-2 protein dataset by protein name. SARS-CoV-2 protein
-datasets include CDS and protein sequence, annotation and a detailed data report.
-Datasets are downloaded as a zip file.
+Download a SARS-CoV-2 protein data package by protein name. SARS-CoV-2 protein
+data packages include CDS and protein sequence, annotation and a detailed data report.
+Data packages are downloaded as a zip file.
 
-The default SARS-CoV-2 protein dataset includes the following files:
+The default SARS-CoV-2 protein data package includes the following files:
 * cds.fna (nucleotide coding sequences)
 * protein.faa (protein sequences)
 * protein.gpff (protein sequence and annotation in GenPept flat file format)
 * protein structures in PDB format
 * data_report.jsonl (data report with viral metadata)
 * virus_dataset.md (README containing details on sequence file data content and other information)
-* dataset_catalog.json (a list of files and file types included in the dataset)
+* dataset_catalog.json (a list of files and file types included in the data package)
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.
 

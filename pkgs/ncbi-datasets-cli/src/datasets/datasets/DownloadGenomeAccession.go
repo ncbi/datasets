@@ -10,7 +10,7 @@ var downloadGenomeAccessionCmd = &cobra.Command{
 	Use:   "accession <accession ...>",
 	Short: "download a genome dataset by NCBI Assembly or BioProject accession",
 	Long: `
-Download a genome dataset by NCBI Assembly or BioProject accession. Genome datasets include genome, transcript and protein sequence, annotation and a detailed data report. Datasets are downloaded as a zip file.
+Download a genome dataset by NCBI Assembly or BioProject accession. Genome data packages include genome, transcript and protein sequence, annotation and a detailed data report. Datasets are downloaded as a zip file.
 
 The default genome dataset includes the following files (if available):
   * genomic.fna (genomic sequences)

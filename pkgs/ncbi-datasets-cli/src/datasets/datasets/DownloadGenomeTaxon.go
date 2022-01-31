@@ -12,7 +12,7 @@ var downloadGenomeTaxonCmd = &cobra.Command{
 	Use:   "taxon <taxon>",
 	Short: "download a genome dataset by taxon (NCBI Taxonomy ID, scientific or common name at any tax rank)",
 	Long: `
-Download a genome dataset by taxon (NCBI Taxonomy ID, scientific or common name at any tax rank).  Genome datasets include genome, transcript and protein sequence, annotation and a detailed data report. Datasets are downloaded as a zip file.
+Download a genome dataset by taxon (NCBI Taxonomy ID, scientific or common name at any tax rank).  Genome data packages include genome, transcript and protein sequence, annotation and a detailed data report. Datasets are downloaded as a zip file.
 
 The default genome dataset includes the following files (if available):
 * genomic.fna (genomic sequences)

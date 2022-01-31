@@ -23,15 +23,15 @@ var downloadGeneAccessionCmd = &cobra.Command{
   datasets download gene accession NM_000546.6 NM_000492.4
   datasets download gene accession WP_004675351.1`,
 	Long: `
-Download a gene dataset by RefSeq nucleotide or protein accession. Gene datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download a gene data package by RefSeq nucleotide or protein accession. Gene data packages include gene, transcript and protein sequence, a data table and a data report. Data packages are downloaded as a zip file.
 
-The default gene dataset includes the following files:
+The default gene data package includes the following files:
  * gene.fna (gene sequences)
  * rna.fna (transcript sequences)
  * protein.faa (protein sequences)
  * data_report.jsonl (data report with gene metadata)
  * data_table.tsv (data table with gene metadata, one transcript per row)
- * dataset_catalog.json (a list of files and file types included in the dataset)
+ * dataset_catalog.json (a list of files and file types included in the data package)
  * annotation_report.jsonl (included with prokaryotic gene packages)
 
 Refer to [NCBI Datasets Gene Package](https://www.ncbi.nlm.nih.gov/datasets/docs/data-packages/gene/) documentation for more information about the gene package. `,

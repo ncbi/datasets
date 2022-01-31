@@ -10,7 +10,7 @@ var downloadGeneGeneIDCmd = &cobra.Command{
 	Example: `  datasets download gene gene-id 672
   datasets download gene gene-id 2597 14433`,
 	Long: `
-Download a gene dataset by NCBI Gene ID. Gene datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download a gene dataset by NCBI Gene ID. Gene data packages include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
 
 The default gene dataset includes the following files:
  * gene.fna (gene sequences)

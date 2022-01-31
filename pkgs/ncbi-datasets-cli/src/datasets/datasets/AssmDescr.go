@@ -8,7 +8,7 @@ import (
 var getAssemblyDescriptorsCmd = &cobra.Command{
 	Deprecated: "please use \"summary genome\"",
 	Use:        "assembly-descriptors",
-	Short:      "Deprecated - Retrieve descriptions of available genome assembly datasets",
+	Short:      "Deprecated - Retrieve descriptions of available genome assembly data packages",
 	Long: `
 Retrieve descriptions of available genome assemblies.  Search by assembly accession,
 NCBI Taxonomy ID, scientific or common name at any tax rank across all domains of life.

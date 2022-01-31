@@ -56,7 +56,7 @@ var downloadGeneCmd = &cobra.Command{
   datasets download gene accession NP_000483.3
   datasets download gene gene-id 2778 --fasta-filter NC_000020.11,NM_001077490.3,NP_001070958.1`,
 	Long: `
-Download a gene dataset including gene, transcript and protein sequence, a data table and a data report. Gene datasets can be specified by NCBI Gene ID, symbol or RefSeq accession. Datasets are downloaded as a zip file.
+Download a gene data package including gene, transcript and protein sequence, a data table and a data report. Gene data packages can be specified by NCBI Gene ID, symbol or RefSeq accession. Data packages are downloaded as a zip file.
 
 The default gene dataset includes the following files:
  * gene.fna (gene sequences)

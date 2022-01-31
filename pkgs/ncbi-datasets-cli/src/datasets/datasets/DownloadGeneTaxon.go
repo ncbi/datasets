@@ -11,7 +11,7 @@ var downloadGeneTaxonCmd = &cobra.Command{
 	Short:   "download a gene dataset by taxon",
 	Example: `  datasets download gene taxon human --exclude-gene --exclude-protein --exclude-rna`,
 	Long: `
-Download a gene dataset by taxon. Gene datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download a gene dataset by taxon. Gene data packages include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
 
 The default gene dataset includes the following files:
  * gene.fna (gene sequences)
