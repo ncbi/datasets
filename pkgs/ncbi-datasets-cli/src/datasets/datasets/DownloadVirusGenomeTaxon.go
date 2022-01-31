@@ -127,7 +127,7 @@ var downloadVirusGenomeOrgCmd = &cobra.Command{
 	Short: "Request genome data by taxonomic id or name. Allowed taxon are limited to all taxa under Coronaviridae, e.g. sars2 or betacoronavirus",
 	Long: `
 Download a coronavirus genome dataset by taxon (NCBI Taxonomy ID, scientific or common name
-for any taxonomic group in the coronavirus family). Coronavirus genome datasets include genome,
+for any taxonomic group in the coronavirus family). Coronavirus genome data packages include genome,
 CDS and protein sequence, annotation and a detailed data report. Datasets are downloaded as a zip file.
 
 The default coronavirus genome dataset includes the following files (if available):

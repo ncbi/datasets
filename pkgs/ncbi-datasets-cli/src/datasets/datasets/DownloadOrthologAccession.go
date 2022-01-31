@@ -12,7 +12,7 @@ var downloadOrthologAccessionCmd = &cobra.Command{
 	Example: `  datasets download ortholog accession NP_000483.3
   datasets download ortholog accession NM_000546.6`,
 	Long: `
-Download an ortholog dataset by RefSeq nucleotide or protein accession. Ortholog data is calculated by NCBI for vertebrates and insects. Ortholog datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download an ortholog dataset by RefSeq nucleotide or protein accession. Ortholog data is calculated by NCBI for vertebrates and insects. Ortholog data packages include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
 
 The default ortholog dataset includes the following files:
  * gene.fna (gene sequences)

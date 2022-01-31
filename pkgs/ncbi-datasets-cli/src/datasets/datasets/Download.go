@@ -72,7 +72,7 @@ var downloadCmd = &cobra.Command{
 	Use:   "download",
 	Short: "download a gene, genome or coronavirus dataset as a zip file",
 	Long: `
-Download genome, gene and coronavirus datasets, including sequence, annotation, and metadata, as a zip file.
+Download genome, gene and coronavirus data packages, including sequence, annotation, and metadata, as a zip file.
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
 	Example: `  datasets download genome accession GCF_000001405.39 --chromosomes X,Y --exclude-gff3 --exclude-rna

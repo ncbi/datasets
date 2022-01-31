@@ -11,7 +11,7 @@ var downloadOrthologGeneIDCmd = &cobra.Command{
 	Short:   "download an ortholog dataset by NCBI Gene ID",
 	Example: `  datasets download ortholog gene-id 672`,
 	Long: `
-Download an ortholog dataset by NCBI Gene ID. Ortholog data is calculated by NCBI for vertebrates and insects. Ortholog datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download an ortholog dataset by NCBI Gene ID. Ortholog data is calculated by NCBI for vertebrates and insects. Ortholog data packages include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
 
 The default ortholog dataset includes the following files:
  * gene.fna (gene sequences)

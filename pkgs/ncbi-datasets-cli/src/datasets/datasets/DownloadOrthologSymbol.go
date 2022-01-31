@@ -12,7 +12,7 @@ var downloadOrthologSymbolCmd = &cobra.Command{
 	Example: `  datasets download ortholog symbol tp53
   datasets download ortholog symbol brca1 --taxon mouse`,
 	Long: `
-Download an ortholog dataset by gene symbol and taxon (species name or species-level NCBI Taxonomy ID). If no taxon is specified, data will be returned for human. Ortholog data is calculated by NCBI for vertebrates and insects. Ortholog datasets include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
+Download an ortholog dataset by gene symbol and taxon (species name or species-level NCBI Taxonomy ID). If no taxon is specified, data will be returned for human. Ortholog data is calculated by NCBI for vertebrates and insects. Ortholog data packages include gene, transcript and protein sequence, a data table and a data report. Datasets are downloaded as a zip file.
 
 The default ortholog dataset includes the following files:
  * gene.fna (gene sequences)
