@@ -5,17 +5,38 @@ import (
 )
 
 var (
-	argAnnotatedOnly bool
-	argReleasedSince string
-	argHost          string
-	argLineage       string
-	argGeoLocation   string
-	argCompleteOnly  bool
-	argExcludeGpff   bool
-	argExcludePdb    bool
+	argAnnotatedOnly      bool
+	argReleasedSince      string
+	argHost               string
+	argLineage            string
+	argGeoLocation        string
+	argCompleteOnly       bool
+	argRetiredExcludeFlag bool
+	argRetiredIncludeFlag bool
 )
 
 const dateFormat = "MM/DD/YYYY"
+
+const messagePreamble = `
+NCBI Datasets has removed the following file types from the SARS-CoV-2 Data Package:
+ * PDB files (*.pdb)
+ * GenBank flatfiles (genomic.gbff)
+ * GenPept flatfiles (genpept.gpff)
+
+Questions? Please contact us: info@ncbi.nlm.nih.gov
+
+`
+
+const virusFlagWarningMessage = messagePreamble + `
+The following flags are no longer needed
+ * --exclude-pdb
+ * --exclude-gpff
+`
+
+const virusFlagErrorMessage = messagePreamble + `
+You must remove this flag to continue:
+ * --include-gbff
+`
 
 // virusCmd represents the virus command
 var virusCmd = &cobra.Command{
@@ -32,4 +53,13 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 func init() {
 	virusCmd.AddCommand(downloadVirusGenomeCmd)
 	virusCmd.AddCommand(downloadVirusProteinCmd)
+
+	virusCmd.PersistentFlags().BoolVarP(&argRetiredExcludeFlag, "exclude-gpff", "g", false, "exclude genomic.fna (genomic sequence file)")
+	virusCmd.PersistentFlags().MarkHidden("exclude-gpff")
+
+	virusCmd.PersistentFlags().BoolVarP(&argRetiredIncludeFlag, "include-gbff", "b", false, "include genomic.gbff (genome sequence and annotation in GenBank flat file format)")
+	virusCmd.PersistentFlags().MarkHidden("include-gbff")
+
+	virusCmd.PersistentFlags().BoolVar(&argRetiredExcludeFlag, "exclude-pdb", false, "exclude *.pdb (protein structure files)")
+	virusCmd.PersistentFlags().MarkHidden("exclude-pdb")
 }

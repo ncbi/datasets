@@ -1,6 +1,7 @@
 package datasets
 
 import (
+	"errors"
 	"os"
 	"time"
 
@@ -40,8 +41,6 @@ func downloadVirusProtein(cmd *cobra.Command, proteinNames []string, assmFilenam
 	}{
 		{!argExcludeCds, openapi.V1ANNOTATIONFORVIRUSTYPE_CDS_FASTA},
 		{!argExcludeProtein, openapi.V1ANNOTATIONFORVIRUSTYPE_PROT_FASTA},
-		{!argExcludeGpff, openapi.V1ANNOTATIONFORVIRUSTYPE_GENOME_GPFF},
-		{!argExcludePdb, openapi.V1ANNOTATIONFORVIRUSTYPE_PDB_FILES},
 	}
 	for _, annot := range possible_annotations {
 		if annot.flag {
@@ -76,8 +75,6 @@ Data packages are downloaded as a zip file.
 The default SARS-CoV-2 protein data package includes the following files:
 * cds.fna (nucleotide coding sequences)
 * protein.faa (protein sequences)
-* protein.gpff (protein sequence and annotation in GenPept flat file format)
-* protein structures in PDB format
 * data_report.jsonl (data report with viral metadata)
 * virus_dataset.md (README containing details on sequence file data content and other information)
 * dataset_catalog.json (a list of files and file types included in the data package)
@@ -118,7 +115,14 @@ Allowed protein names:
   datasets download virus protein S E M N --refseq --filename SARS2-structural-refseq.zip`,
 	Args: cobra.MinimumNArgs(1),
 
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, args []string) (err error) {
+		if argRetiredIncludeFlag {
+			err = errors.New(virusFlagErrorMessage)
+		}
+
+		if argRetiredExcludeFlag {
+			cmd.PrintErrln(virusFlagWarningMessage)
+		}
 		return downloadVirusProtein(cmd, args, argDownloadFilename)
 	},
 }
@@ -127,11 +131,9 @@ func init() {
 	registerHiddenBoolPair(downloadVirusProteinCmd.PersistentFlags(), &argAnnotatedOnly, "annotated", "a", false, "limit to annotated coronavirus genomes")
 	registerHiddenBoolPair(downloadVirusProteinCmd.PersistentFlags(), &argCompleteOnly, "complete-only", "c", false, "limit to complete coronavirus genomes")
 	downloadVirusProteinCmd.PersistentFlags().BoolVar(&argExcludeCds, "exclude-cds", false, "exclude cds.fna (CDS sequence file)")
-	downloadVirusProteinCmd.PersistentFlags().BoolVar(&argExcludePdb, "exclude-pdb", false, "exclude *.pdb (protein structure files)")
 	registerHiddenBoolPair(downloadVirusProteinCmd.PersistentFlags(), &argExcludeProtein, "exclude-protein", "p", false, "exclude protein.faa (protein sequence file)")
 	downloadVirusProteinCmd.PersistentFlags().StringVar(&argGeoLocation, "geo-location", "", "limit to coronavirus genomes isolated from a specified geographic location (continent, country or U.S. state)")
 	downloadVirusProteinCmd.PersistentFlags().StringVar(&argHost, "host", "", "limit to coronavirus genomes isolated from a specified host (NCBI Taxonomy ID, scientific or common name at any taxonomic rank)")
-	registerHiddenBoolPair(downloadVirusProteinCmd.PersistentFlags(), &argExcludeGpff, "exclude-gpff", "g", false, "exclude protein.gpff (protein sequence and annotation in GenPept flat file format")
 	downloadVirusProteinCmd.PersistentFlags().BoolVar(&argRefseqOnly, "refseq", false, "limit to RefSeq coronavirus genomes")
 	downloadVirusProteinCmd.PersistentFlags().StringVar(&argReleasedSince, "released-since", "", "limit to coronavirus genomes released after a specified date ("+dateFormat+")")
 }

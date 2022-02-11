@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **TaxId** | Pointer to **int32** |  | [optional] 
 **TaxName** | Pointer to **string** |  | [optional] 
 **Accession** | Pointer to **string** |  | [optional] 
-**Accessions** | Pointer to [**V1VirusDatasetRequestAccessions**](V1VirusDatasetRequestAccessions.md) |  | [optional] 
+**Accessions** | Pointer to **[]string** |  | [optional] 
 **Taxon** | Pointer to **string** |  | [optional] 
 **RefseqOnly** | Pointer to **bool** |  | [optional] 
 **AnnotatedOnly** | Pointer to **bool** |  | [optional] 
@@ -117,20 +117,20 @@ HasAccession returns a boolean if a field has been set.
 
 ### GetAccessions
 
-`func (o *V1VirusDatasetRequest) GetAccessions() V1VirusDatasetRequestAccessions`
+`func (o *V1VirusDatasetRequest) GetAccessions() []string`
 
 GetAccessions returns the Accessions field if non-nil, zero value otherwise.
 
 ### GetAccessionsOk
 
-`func (o *V1VirusDatasetRequest) GetAccessionsOk() (*V1VirusDatasetRequestAccessions, bool)`
+`func (o *V1VirusDatasetRequest) GetAccessionsOk() (*[]string, bool)`
 
 GetAccessionsOk returns a tuple with the Accessions field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAccessions
 
-`func (o *V1VirusDatasetRequest) SetAccessions(v V1VirusDatasetRequestAccessions)`
+`func (o *V1VirusDatasetRequest) SetAccessions(v []string)`
 
 SetAccessions sets Accessions field to given value.
 

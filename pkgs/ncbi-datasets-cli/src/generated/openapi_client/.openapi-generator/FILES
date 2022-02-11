@@ -119,7 +119,6 @@ docs/V1Transcript.md
 docs/V1TranscriptTranscriptType.md
 docs/V1VersionReply.md
 docs/V1VirusDatasetRequest.md
-docs/V1VirusDatasetRequestAccessions.md
 docs/V1VirusTableField.md
 docs/V1Warning.md
 docs/V1WarningGeneWarningCode.md
@@ -251,7 +250,6 @@ model_v1_transcript.go
 model_v1_transcript_transcript_type.go
 model_v1_version_reply.go
 model_v1_virus_dataset_request.go
-model_v1_virus_dataset_request_accessions.go
 model_v1_virus_table_field.go
 model_v1_warning.go
 model_v1_warning_gene_warning_code.go

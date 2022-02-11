@@ -1,6 +1,7 @@
 package datasets
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -63,9 +64,6 @@ func downloadVirusGenomeOrg(cmd *cobra.Command, taxon string, assmFilename strin
 	}{
 		{!argExcludeCds, openapi.V1ANNOTATIONFORVIRUSTYPE_CDS_FASTA},
 		{!argExcludeProtein, openapi.V1ANNOTATIONFORVIRUSTYPE_PROT_FASTA},
-		{argIncludeGbff, openapi.V1ANNOTATIONFORVIRUSTYPE_GENOME_GBFF},
-		{!argExcludeGpff, openapi.V1ANNOTATIONFORVIRUSTYPE_GENOME_GPFF},
-		{!argExcludePdb, openapi.V1ANNOTATIONFORVIRUSTYPE_PDB_FILES},
 	}
 	for _, annot := range possible_annotations {
 		if annot.flag {
@@ -110,8 +108,6 @@ The default coronavirus genome dataset includes the following files (if availabl
 * genomic.fna (genomic sequences)
 * cds.fna (nucleotide coding sequences)
 * protein.faa (protein sequences)
-* protein.gpff (protein sequence and annotation in GenPept flat file format)
-* protein structures in PDB format
 * data_report.jsonl (data report with viral metadata)
 * virus_dataset.md (README containing details on sequence file data content and other information)
 * dataset_catalog.json (a list of files and file types included in the dataset)
@@ -134,8 +130,6 @@ The default coronavirus genome dataset includes the following files (if availabl
 * genomic.fna (genomic sequences)
 * cds.fna (nucleotide coding sequences)
 * protein.faa (protein sequences)
-* protein.gpff (protein sequence and annotation in GenPept flat file format)
-* protein structures in PDB format
 * data_report.jsonl (data report with viral metadata)
 * virus_dataset.md (README containing details on sequence file data content and other information)
 * dataset_catalog.json (a list of files and file types included in the dataset)
@@ -145,8 +139,15 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
   datasets download virus genome taxon coronaviridae --host "manis javanica"`,
 	Args: cobra.ExactArgs(1),
 
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, args []string) (err error) {
 		taxon := args[0]
+		if argRetiredIncludeFlag {
+			err = errors.New(virusFlagErrorMessage)
+		}
+
+		if argRetiredExcludeFlag {
+			cmd.PrintErrln(virusFlagWarningMessage)
+		}
 		return downloadVirusGenomeOrg(cmd, taxon, argDownloadFilename)
 	},
 }
@@ -157,14 +158,11 @@ func init() {
 	registerHiddenBoolPair(downloadVirusGenomeOrgCmd.PersistentFlags(), &argAnnotatedOnly, "annotated", "a", false, "limit to annotated coronavirus genomes")
 	registerHiddenBoolPair(downloadVirusGenomeOrgCmd.PersistentFlags(), &argCompleteOnly, "complete-only", "c", false, "limit to complete coronavirus genomes")
 	downloadVirusGenomeOrgCmd.PersistentFlags().BoolVar(&argExcludeCds, "exclude-cds", false, "exclude cds.fna (CDS sequence file)")
-	downloadVirusGenomeOrgCmd.PersistentFlags().BoolVar(&argExcludePdb, "exclude-pdb", false, "exclude *.pdb (protein structure files)")
 	registerHiddenBoolPair(downloadVirusGenomeOrgCmd.PersistentFlags(), &argExcludeProtein, "exclude-protein", "p", false, "exclude protein.faa (protein sequence file)")
 	registerHiddenBoolPair(downloadVirusGenomeOrgCmd.PersistentFlags(), &argExcludeSeq, "exclude-seq", "s", false, "exclude genomic.fna (genomic sequence file)")
 	downloadVirusGenomeOrgCmd.PersistentFlags().StringVar(&argGeoLocation, "geo-location", "", "limit to coronavirus genomes isolated from a specified geographic location (continent, country or U.S. state)")
 	downloadVirusGenomeOrgCmd.PersistentFlags().StringVar(&argHost, "host", "", "limit to coronavirus genomes isolated from a specified host (NCBI Taxonomy ID, scientific or common name at any taxonomic rank)")
 	downloadVirusGenomeOrgCmd.PersistentFlags().StringVar(&argLineage, "lineage", "", "limit to SARS-CoV-2 genomes classified as the specified lineage (variant) by pangolin using the pangoLEARN algorithm")
-	registerHiddenBoolPair(downloadVirusGenomeOrgCmd.PersistentFlags(), &argIncludeGbff, "include-gbff", "b", false, "include genomic.gbff (genome sequence and annotation in GenBank flat file format)")
-	registerHiddenBoolPair(downloadVirusGenomeOrgCmd.PersistentFlags(), &argExcludeGpff, "exclude-gpff", "g", false, "exclude protein.gpff (protein sequence and annotation in GenPept flat file format")
 	downloadVirusGenomeOrgCmd.PersistentFlags().BoolVar(&argRefseqOnly, "refseq", false, "limit to RefSeq coronavirus genomes")
 	downloadVirusGenomeOrgCmd.PersistentFlags().StringVar(&argReleasedSince, "released-since", "", "limit to coronavirus genomes released after a specified date ("+dateFormat+")")
 }

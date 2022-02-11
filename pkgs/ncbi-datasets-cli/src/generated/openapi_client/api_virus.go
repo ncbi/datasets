@@ -745,9 +745,9 @@ func (r ApiVirusGenomeDownloadRequest) Execute() (*os.File, *_nethttp.Response, 
 }
 
 /*
-VirusGenomeDownload Download Coronavirus genome datasets by taxon
+VirusGenomeDownload Download a coronavirus genome dataset by taxon
 
-Download a Coronavirus genome datasets by taxon
+Download a coronavirus genome dataset by taxon
  @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param taxon NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
  @return ApiVirusGenomeDownloadRequest
@@ -846,6 +846,394 @@ func (a *VirusApiService) VirusGenomeDownloadExecute(r ApiVirusGenomeDownloadReq
 		}
 	}
 
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusGenomeDownloadAccessionRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	accessions []string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	pangolinClassification *string	
+	geoLocation *string	
+	completeOnly *bool	
+	excludeSequence *bool	
+	includeAnnotationType *[]V1AnnotationForVirusType	
+	filename *string	
+    Headers map[string]string
+}
+
+// If true, limit results to RefSeq genomes.
+func (r *ApiVirusGenomeDownloadAccessionRequest) RefseqOnly(refseqOnly bool) *ApiVirusGenomeDownloadAccessionRequest {
+	r.refseqOnly = &refseqOnly
+	return r
+}
+// If true, limit results to annotated genomes.
+func (r *ApiVirusGenomeDownloadAccessionRequest) AnnotatedOnly(annotatedOnly bool) *ApiVirusGenomeDownloadAccessionRequest {
+	r.annotatedOnly = &annotatedOnly
+	return r
+}
+// If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
+func (r *ApiVirusGenomeDownloadAccessionRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeDownloadAccessionRequest {
+	r.releasedSince = &releasedSince
+	return r
+}
+// If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
+func (r *ApiVirusGenomeDownloadAccessionRequest) Host(host string) *ApiVirusGenomeDownloadAccessionRequest {
+	r.host = &host
+	return r
+}
+// If set, limit results to genomes classified to this lineage by the PangoLearn tool.
+func (r *ApiVirusGenomeDownloadAccessionRequest) PangolinClassification(pangolinClassification string) *ApiVirusGenomeDownloadAccessionRequest {
+	r.pangolinClassification = &pangolinClassification
+	return r
+}
+// Assemblies from this location (country and state, or continent)
+func (r *ApiVirusGenomeDownloadAccessionRequest) GeoLocation(geoLocation string) *ApiVirusGenomeDownloadAccessionRequest {
+	r.geoLocation = &geoLocation
+	return r
+}
+// only include complete genomes.
+func (r *ApiVirusGenomeDownloadAccessionRequest) CompleteOnly(completeOnly bool) *ApiVirusGenomeDownloadAccessionRequest {
+	r.completeOnly = &completeOnly
+	return r
+}
+// Set to true to omit the genomic sequence.
+func (r *ApiVirusGenomeDownloadAccessionRequest) ExcludeSequence(excludeSequence bool) *ApiVirusGenomeDownloadAccessionRequest {
+	r.excludeSequence = &excludeSequence
+	return r
+}
+// Select additional types of annotation to include in the data package.  If unset, no annotation is provided.
+func (r *ApiVirusGenomeDownloadAccessionRequest) IncludeAnnotationType(includeAnnotationType []V1AnnotationForVirusType) *ApiVirusGenomeDownloadAccessionRequest {
+	r.includeAnnotationType = &includeAnnotationType
+	return r
+}
+// Output file name.
+func (r *ApiVirusGenomeDownloadAccessionRequest) Filename(filename string) *ApiVirusGenomeDownloadAccessionRequest {
+	r.filename = &filename
+	return r
+}
+
+func (r ApiVirusGenomeDownloadAccessionRequest) Execute() (*os.File, *_nethttp.Response, error) {
+	return r.ApiService.VirusGenomeDownloadAccessionExecute(r)
+}
+
+/*
+VirusGenomeDownloadAccession Download a coronavirus genome dataset by accession
+
+Download a coronavirus genome dataset by accession
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accessions Accessions accessions = 16;
+ @return ApiVirusGenomeDownloadAccessionRequest
+*/
+func (a *VirusApiService) VirusGenomeDownloadAccession(ctx _context.Context, accessions []string) ApiVirusGenomeDownloadAccessionRequest {
+	return ApiVirusGenomeDownloadAccessionRequest{
+		ApiService: a,
+		ctx: ctx,
+		accessions: accessions,
+	}
+}
+
+// Execute executes the request
+//  @return *os.File
+func (a *VirusApiService) VirusGenomeDownloadAccessionExecute(r ApiVirusGenomeDownloadAccessionRequest) (*os.File, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  *os.File
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusGenomeDownloadAccession")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/accession/{accessions}/genome/download"
+	localVarPath = strings.Replace(localVarPath, "{"+"accessions"+"}", _neturl.PathEscape(parameterToString(r.accessions, "csv")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.refseqOnly != nil {
+		localVarQueryParams.Add("refseq_only", parameterToString(*r.refseqOnly, ""))
+	}
+	if r.annotatedOnly != nil {
+		localVarQueryParams.Add("annotated_only", parameterToString(*r.annotatedOnly, ""))
+	}
+	if r.releasedSince != nil {
+		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.host != nil {
+		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
+	}
+	if r.pangolinClassification != nil {
+		localVarQueryParams.Add("pangolin_classification", parameterToString(*r.pangolinClassification, ""))
+	}
+	if r.geoLocation != nil {
+		localVarQueryParams.Add("geo_location", parameterToString(*r.geoLocation, ""))
+	}
+	if r.completeOnly != nil {
+		localVarQueryParams.Add("complete_only", parameterToString(*r.completeOnly, ""))
+	}
+	if r.excludeSequence != nil {
+		localVarQueryParams.Add("exclude_sequence", parameterToString(*r.excludeSequence, ""))
+	}
+	if r.includeAnnotationType != nil {
+		t := *r.includeAnnotationType
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("include_annotation_type", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("include_annotation_type", parameterToString(t, "multi"))
+		}
+	}
+	if r.filename != nil {
+		localVarQueryParams.Add("filename", parameterToString(*r.filename, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/zip", "application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusGenomeDownloadPostRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	v1VirusDatasetRequest *V1VirusDatasetRequest	
+	filename *string	
+    Headers map[string]string
+}
+
+func (r *ApiVirusGenomeDownloadPostRequest) V1VirusDatasetRequest(v1VirusDatasetRequest V1VirusDatasetRequest) *ApiVirusGenomeDownloadPostRequest {
+	r.v1VirusDatasetRequest = &v1VirusDatasetRequest
+	return r
+}
+// Output file name.
+func (r *ApiVirusGenomeDownloadPostRequest) Filename(filename string) *ApiVirusGenomeDownloadPostRequest {
+	r.filename = &filename
+	return r
+}
+
+func (r ApiVirusGenomeDownloadPostRequest) Execute() (*os.File, *_nethttp.Response, error) {
+	return r.ApiService.VirusGenomeDownloadPostExecute(r)
+}
+
+/*
+VirusGenomeDownloadPost Get a coronavirus genome dataset by post
+
+The 'GET' version of download is limited by the size of the GET URL (2KB, which works out to about 140 genomic accessions).  The POST operation is provided to allow users to supply a larger number of accessions in a single request.
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiVirusGenomeDownloadPostRequest
+*/
+func (a *VirusApiService) VirusGenomeDownloadPost(ctx _context.Context, v1VirusDatasetRequest *V1VirusDatasetRequest) ApiVirusGenomeDownloadPostRequest {
+	return ApiVirusGenomeDownloadPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		v1VirusDatasetRequest: v1VirusDatasetRequest,
+	}
+}
+
+// Execute executes the request
+//  @return *os.File
+func (a *VirusApiService) VirusGenomeDownloadPostExecute(r ApiVirusGenomeDownloadPostRequest) (*os.File, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  *os.File
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusGenomeDownloadPost")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/genome/download"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.v1VirusDatasetRequest == nil {
+		return localVarReturnValue, nil, reportError("v1VirusDatasetRequest is required and must be specified")
+	}
+
+	if r.filename != nil {
+		localVarQueryParams.Add("filename", parameterToString(*r.filename, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/zip", "application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	// body params
+	localVarPostBody = r.v1VirusDatasetRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1072,6 +1460,376 @@ func (a *VirusApiService) VirusGenomeSummaryExecute(r ApiVirusGenomeSummaryReque
 		}
 	}
 
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusGenomeSummaryAccessionRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	accessions []string	
+	refseqOnly *bool	
+	annotatedOnly *bool	
+	releasedSince *time.Time	
+	host *string	
+	pangolinClassification *string	
+	geoLocation *string	
+	completeOnly *bool	
+	excludeSequence *bool	
+	includeAnnotationType *[]V1AnnotationForVirusType	
+    Headers map[string]string
+}
+
+// If true, limit results to RefSeq genomes.
+func (r *ApiVirusGenomeSummaryAccessionRequest) RefseqOnly(refseqOnly bool) *ApiVirusGenomeSummaryAccessionRequest {
+	r.refseqOnly = &refseqOnly
+	return r
+}
+// If true, limit results to annotated genomes.
+func (r *ApiVirusGenomeSummaryAccessionRequest) AnnotatedOnly(annotatedOnly bool) *ApiVirusGenomeSummaryAccessionRequest {
+	r.annotatedOnly = &annotatedOnly
+	return r
+}
+// If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
+func (r *ApiVirusGenomeSummaryAccessionRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeSummaryAccessionRequest {
+	r.releasedSince = &releasedSince
+	return r
+}
+// If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
+func (r *ApiVirusGenomeSummaryAccessionRequest) Host(host string) *ApiVirusGenomeSummaryAccessionRequest {
+	r.host = &host
+	return r
+}
+// If set, limit results to genomes classified to this lineage by the PangoLearn tool.
+func (r *ApiVirusGenomeSummaryAccessionRequest) PangolinClassification(pangolinClassification string) *ApiVirusGenomeSummaryAccessionRequest {
+	r.pangolinClassification = &pangolinClassification
+	return r
+}
+// Assemblies from this location (country and state, or continent)
+func (r *ApiVirusGenomeSummaryAccessionRequest) GeoLocation(geoLocation string) *ApiVirusGenomeSummaryAccessionRequest {
+	r.geoLocation = &geoLocation
+	return r
+}
+// only include complete genomes.
+func (r *ApiVirusGenomeSummaryAccessionRequest) CompleteOnly(completeOnly bool) *ApiVirusGenomeSummaryAccessionRequest {
+	r.completeOnly = &completeOnly
+	return r
+}
+// Set to true to omit the genomic sequence.
+func (r *ApiVirusGenomeSummaryAccessionRequest) ExcludeSequence(excludeSequence bool) *ApiVirusGenomeSummaryAccessionRequest {
+	r.excludeSequence = &excludeSequence
+	return r
+}
+// Select additional types of annotation to include in the data package.  If unset, no annotation is provided.
+func (r *ApiVirusGenomeSummaryAccessionRequest) IncludeAnnotationType(includeAnnotationType []V1AnnotationForVirusType) *ApiVirusGenomeSummaryAccessionRequest {
+	r.includeAnnotationType = &includeAnnotationType
+	return r
+}
+
+func (r ApiVirusGenomeSummaryAccessionRequest) Execute() (V1DownloadSummary, *_nethttp.Response, error) {
+	return r.ApiService.VirusGenomeSummaryAccessionExecute(r)
+}
+
+/*
+VirusGenomeSummaryAccession Get summary data for Coronaviridae genomes by accession
+
+Get summary data for Coronaviridae genomes by accession
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accessions Accessions accessions = 16;
+ @return ApiVirusGenomeSummaryAccessionRequest
+*/
+func (a *VirusApiService) VirusGenomeSummaryAccession(ctx _context.Context, accessions []string) ApiVirusGenomeSummaryAccessionRequest {
+	return ApiVirusGenomeSummaryAccessionRequest{
+		ApiService: a,
+		ctx: ctx,
+		accessions: accessions,
+	}
+}
+
+// Execute executes the request
+//  @return V1DownloadSummary
+func (a *VirusApiService) VirusGenomeSummaryAccessionExecute(r ApiVirusGenomeSummaryAccessionRequest) (V1DownloadSummary, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1DownloadSummary
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusGenomeSummaryAccession")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/accession/{accessions}/genome"
+	localVarPath = strings.Replace(localVarPath, "{"+"accessions"+"}", _neturl.PathEscape(parameterToString(r.accessions, "csv")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.refseqOnly != nil {
+		localVarQueryParams.Add("refseq_only", parameterToString(*r.refseqOnly, ""))
+	}
+	if r.annotatedOnly != nil {
+		localVarQueryParams.Add("annotated_only", parameterToString(*r.annotatedOnly, ""))
+	}
+	if r.releasedSince != nil {
+		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.host != nil {
+		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
+	}
+	if r.pangolinClassification != nil {
+		localVarQueryParams.Add("pangolin_classification", parameterToString(*r.pangolinClassification, ""))
+	}
+	if r.geoLocation != nil {
+		localVarQueryParams.Add("geo_location", parameterToString(*r.geoLocation, ""))
+	}
+	if r.completeOnly != nil {
+		localVarQueryParams.Add("complete_only", parameterToString(*r.completeOnly, ""))
+	}
+	if r.excludeSequence != nil {
+		localVarQueryParams.Add("exclude_sequence", parameterToString(*r.excludeSequence, ""))
+	}
+	if r.includeAnnotationType != nil {
+		t := *r.includeAnnotationType
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("include_annotation_type", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("include_annotation_type", parameterToString(t, "multi"))
+		}
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusGenomeSummaryPostRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	v1VirusDatasetRequest *V1VirusDatasetRequest	
+    Headers map[string]string
+}
+
+func (r *ApiVirusGenomeSummaryPostRequest) V1VirusDatasetRequest(v1VirusDatasetRequest V1VirusDatasetRequest) *ApiVirusGenomeSummaryPostRequest {
+	r.v1VirusDatasetRequest = &v1VirusDatasetRequest
+	return r
+}
+
+func (r ApiVirusGenomeSummaryPostRequest) Execute() (V1DownloadSummary, *_nethttp.Response, error) {
+	return r.ApiService.VirusGenomeSummaryPostExecute(r)
+}
+
+/*
+VirusGenomeSummaryPost Get summary data for Coronaviridae genomes by post
+
+The 'GET' version is limited by the size of the GET URL (2KB, which works out to about 140 genomic accessions).  The POST operation is provided to allow users to supply a larger number of accessions in a single request.
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiVirusGenomeSummaryPostRequest
+*/
+func (a *VirusApiService) VirusGenomeSummaryPost(ctx _context.Context, v1VirusDatasetRequest *V1VirusDatasetRequest) ApiVirusGenomeSummaryPostRequest {
+	return ApiVirusGenomeSummaryPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		v1VirusDatasetRequest: v1VirusDatasetRequest,
+	}
+}
+
+// Execute executes the request
+//  @return V1DownloadSummary
+func (a *VirusApiService) VirusGenomeSummaryPostExecute(r ApiVirusGenomeSummaryPostRequest) (V1DownloadSummary, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1DownloadSummary
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusGenomeSummaryPost")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/genome"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.v1VirusDatasetRequest == nil {
+		return localVarReturnValue, nil, reportError("v1VirusDatasetRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	// body params
+	localVarPostBody = r.v1VirusDatasetRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

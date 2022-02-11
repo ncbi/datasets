@@ -65,6 +65,7 @@ func TestMain(m *testing.M) {
 	argProxyURL = test_http_server.URL
 	argApiKey = "ABC123"
 	argNoProgress = true
+	maxNumRetries = 2
 	//argDebug = true
 
 	// Run tests

@@ -220,14 +220,24 @@ func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan f
 				}
 			}
 
-			// Create the file
-			out, err := afs.Create(file.path)
+			tempfile := file.path + ".temp"
+
+			// If tempfile already exists, error out and notify user
+			exists, err := afero.Exists(afs, tempfile)
+			if exists {
+				newError := errors.New(tempfile + " may be in use by another rehydration job")
+				hasError(newError)
+				return
+			}
+
+			// Create temporary file at current working directory
+			temp, err := afs.Create(tempfile)
 			if hasError(err) {
 				return
 			}
-			defer out.Close()
+			defer temp.Close()
 
-			w := out.(io.Writer)
+			w := temp.(io.Writer)
 
 			if argRehydrateGzip {
 				gz_out := gzip.NewWriter(w)
@@ -238,7 +248,13 @@ func downloadFileWorker(client *http.Client, bar *uiprogress.Bar, files <-chan f
 			// Write the body to file
 			_, err = progressBar.Copy(w, resp.Body)
 			if hasError(err) {
-				defer deleteFile(file.path)
+				defer deleteFile(tempfile)
+				return
+			}
+
+			err = afs.Rename(tempfile, file.path)
+			if hasError(err) {
+				defer deleteFile(tempfile)
 				return
 			}
 

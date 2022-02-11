@@ -58,6 +58,8 @@ var (
 	defaultRetryWaitMin = 1 * time.Second
 	defaultRetryWaitMax = 30 * time.Second
 
+	maxNumRetries = 10
+
 	// defaultLogger is the logger provided with defaultClient
 	defaultLogger = log.New(io.Discard, "", log.LstdFlags)
 
@@ -160,7 +162,6 @@ func newRetryHttpClient(numRetries int) *http.Client {
 }
 
 func initRetryableClient() *http.Client {
-	const maxNumRetries = 10
 	c := newRetryHttpClient(maxNumRetries)
 	t := c.Transport
 	c.Transport = LoggingRoundTripper{Proxied: t}
