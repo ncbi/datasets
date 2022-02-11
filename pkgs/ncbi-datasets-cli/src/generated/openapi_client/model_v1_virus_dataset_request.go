@@ -20,7 +20,7 @@ type V1VirusDatasetRequest struct {
 	TaxId *int32 `json:"tax_id,omitempty"`
 	TaxName *string `json:"tax_name,omitempty"`
 	Accession *string `json:"accession,omitempty"`
-	Accessions *V1VirusDatasetRequestAccessions `json:"accessions,omitempty"`
+	Accessions *[]string `json:"accessions,omitempty"`
 	Taxon *string `json:"taxon,omitempty"`
 	RefseqOnly *bool `json:"refseq_only,omitempty"`
 	AnnotatedOnly *bool `json:"annotated_only,omitempty"`
@@ -153,9 +153,9 @@ func (o *V1VirusDatasetRequest) SetAccession(v string) {
 }
 
 // GetAccessions returns the Accessions field value if set, zero value otherwise.
-func (o *V1VirusDatasetRequest) GetAccessions() V1VirusDatasetRequestAccessions {
+func (o *V1VirusDatasetRequest) GetAccessions() []string {
 	if o == nil || o.Accessions == nil {
-		var ret V1VirusDatasetRequestAccessions
+		var ret []string
 		return ret
 	}
 	return *o.Accessions
@@ -163,7 +163,7 @@ func (o *V1VirusDatasetRequest) GetAccessions() V1VirusDatasetRequestAccessions 
 
 // GetAccessionsOk returns a tuple with the Accessions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *V1VirusDatasetRequest) GetAccessionsOk() (*V1VirusDatasetRequestAccessions, bool) {
+func (o *V1VirusDatasetRequest) GetAccessionsOk() (*[]string, bool) {
 	if o == nil || o.Accessions == nil {
 		return nil, false
 	}
@@ -179,8 +179,8 @@ func (o *V1VirusDatasetRequest) HasAccessions() bool {
 	return false
 }
 
-// SetAccessions gets a reference to the given V1VirusDatasetRequestAccessions and assigns it to the Accessions field.
-func (o *V1VirusDatasetRequest) SetAccessions(v V1VirusDatasetRequestAccessions) {
+// SetAccessions gets a reference to the given []string and assigns it to the Accessions field.
+func (o *V1VirusDatasetRequest) SetAccessions(v []string) {
 	o.Accessions = &v
 }
 
@@ -579,7 +579,7 @@ func (o V1VirusDatasetRequest) MarshalJSON() ([]byte, error) {
 	if o.Accession != nil  {
 		toSerialize["accession"] = o.Accession
 	}
-	if o.Accessions != nil  {
+	if o.Accessions != nil && len(o.GetAccessions()) > 0  {
 		toSerialize["accessions"] = o.Accessions
 	}
 	if o.Taxon != nil  {

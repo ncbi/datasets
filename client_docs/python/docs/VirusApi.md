@@ -7,8 +7,12 @@ Method | HTTP request | Description
 [**sars2_protein_download**](VirusApi.md#sars2_protein_download) | **GET** /virus/taxon/sars2/protein/{proteins}/download | Download SARS-CoV-2 protein and CDS datasets by protein name
 [**sars2_protein_summary**](VirusApi.md#sars2_protein_summary) | **GET** /virus/taxon/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
 [**sars2_protein_table**](VirusApi.md#sars2_protein_table) | **GET** /virus/taxon/sars2/protein/{proteins}/table | Get SARS-CoV-2 protein metadata in a tabular format.
-[**virus_genome_download**](VirusApi.md#virus_genome_download) | **GET** /virus/taxon/{taxon}/genome/download | Download Coronavirus genome datasets by taxon
+[**virus_genome_download**](VirusApi.md#virus_genome_download) | **GET** /virus/taxon/{taxon}/genome/download | Download a coronavirus genome dataset by taxon
+[**virus_genome_download_accession**](VirusApi.md#virus_genome_download_accession) | **GET** /virus/accession/{accessions}/genome/download | Download a coronavirus genome dataset by accession
+[**virus_genome_download_post**](VirusApi.md#virus_genome_download_post) | **POST** /virus/genome/download | Get a coronavirus genome dataset by post
 [**virus_genome_summary**](VirusApi.md#virus_genome_summary) | **GET** /virus/taxon/{taxon}/genome | Get summary data for Coronaviridae genomes by taxon
+[**virus_genome_summary_accession**](VirusApi.md#virus_genome_summary_accession) | **GET** /virus/accession/{accessions}/genome | Get summary data for Coronaviridae genomes by accession
+[**virus_genome_summary_post**](VirusApi.md#virus_genome_summary_post) | **POST** /virus/genome | Get summary data for Coronaviridae genomes by post
 [**virus_genome_table**](VirusApi.md#virus_genome_table) | **GET** /virus/taxon/{taxon}/genome/table | Get viral genomic metadata in a tabular format.
 
 
@@ -61,7 +65,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
     include_annotation_type = [
-        V1AnnotationForVirusType("["CDS_FASTA","PROT_FASTA"]"),
+        V1AnnotationForVirusType("CDS_FASTA"),
     ] # [V1AnnotationForVirusType] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
     filename = "ncbi_dataset.zip" # str | Output file name. (optional) if omitted the server will use the default value of "ncbi_dataset.zip"
 
@@ -171,7 +175,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
     include_annotation_type = [
-        V1AnnotationForVirusType("["CDS_FASTA","PROT_FASTA"]"),
+        V1AnnotationForVirusType("CDS_FASTA"),
     ] # [V1AnnotationForVirusType] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 
     # example passing only required values which don't have defaults set
@@ -343,9 +347,9 @@ Name | Type | Description  | Notes
 # **virus_genome_download**
 > file_type virus_genome_download(taxon)
 
-Download Coronavirus genome datasets by taxon
+Download a coronavirus genome dataset by taxon
 
-Download a Coronavirus genome datasets by taxon
+Download a coronavirus genome dataset by taxon
 
 ### Example
 
@@ -389,13 +393,13 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
     exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional) if omitted the server will use the default value of False
     include_annotation_type = [
-        V1AnnotationForVirusType("["CDS_FASTA","PROT_FASTA"]"),
+        V1AnnotationForVirusType("CDS_FASTA"),
     ] # [V1AnnotationForVirusType] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
     filename = "ncbi_dataset.zip" # str | Output file name. (optional) if omitted the server will use the default value of "ncbi_dataset.zip"
 
     # example passing only required values which don't have defaults set
     try:
-        # Download Coronavirus genome datasets by taxon
+        # Download a coronavirus genome dataset by taxon
         api_response = api_instance.virus_genome_download(taxon)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
@@ -404,7 +408,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        # Download Coronavirus genome datasets by taxon
+        # Download a coronavirus genome dataset by taxon
         api_response = api_instance.virus_genome_download(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
@@ -439,6 +443,233 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/zip, application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **virus_genome_download_accession**
+> file_type virus_genome_download_accession(accessions)
+
+Download a coronavirus genome dataset by accession
+
+Download a coronavirus genome dataset by accession
+
+### Example
+
+* Api Key Authentication (ApiKeyAuthHeader):
+
+```python
+import time
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.api import virus_api
+from ncbi.datasets.openapi.model.v1_annotation_for_virus_type import V1AnnotationForVirusType
+from ncbi.datasets.openapi.model.rpc_status import RpcStatus
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuthHeader'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virus_api.VirusApi(api_client)
+    accessions = [
+        "NC_045512.2",
+    ] # [str] | Accessions accessions = 16;
+    refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
+    annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
+    released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
+    pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
+    geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
+    complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
+    exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional) if omitted the server will use the default value of False
+    include_annotation_type = [
+        V1AnnotationForVirusType("CDS_FASTA"),
+    ] # [V1AnnotationForVirusType] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
+    filename = "ncbi_dataset.zip" # str | Output file name. (optional) if omitted the server will use the default value of "ncbi_dataset.zip"
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Download a coronavirus genome dataset by accession
+        api_response = api_instance.virus_genome_download_accession(accessions)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_download_accession: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Download a coronavirus genome dataset by accession
+        api_response = api_instance.virus_genome_download_accession(accessions, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_download_accession: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **accessions** | **[str]**| Accessions accessions &#x3D; 16; |
+ **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
+ **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
+ **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
+ **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
+ **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
+ **complete_only** | **bool**| only include complete genomes. | [optional] if omitted the server will use the default value of False
+ **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] if omitted the server will use the default value of False
+ **include_annotation_type** | [**[V1AnnotationForVirusType]**](V1AnnotationForVirusType.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional]
+ **filename** | **str**| Output file name. | [optional] if omitted the server will use the default value of "ncbi_dataset.zip"
+
+### Return type
+
+**file_type**
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/zip, application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Download selected genome assemblies and associated annotation data as a zip file |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **virus_genome_download_post**
+> file_type virus_genome_download_post(v1_virus_dataset_request)
+
+Get a coronavirus genome dataset by post
+
+The 'GET' version of download is limited by the size of the GET URL (2KB, which works out to about 140 genomic accessions).  The POST operation is provided to allow users to supply a larger number of accessions in a single request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuthHeader):
+
+```python
+import time
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.api import virus_api
+from ncbi.datasets.openapi.model.v1_virus_dataset_request import V1VirusDatasetRequest
+from ncbi.datasets.openapi.model.rpc_status import RpcStatus
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuthHeader'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virus_api.VirusApi(api_client)
+    v1_virus_dataset_request = V1VirusDatasetRequest(
+        tax_id=1,
+        tax_name="tax_name_example",
+        accession="accession_example",
+        accessions=[
+            "accessions_example",
+        ],
+        taxon="taxon_example",
+        refseq_only=True,
+        annotated_only=True,
+        released_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
+        host="host_example",
+        pangolin_classification="pangolin_classification_example",
+        geo_location="geo_location_example",
+        complete_only=True,
+        table_fields=[
+            V1VirusTableField("unspecified"),
+        ],
+        exclude_sequence=True,
+        include_annotation_type=[
+            V1AnnotationForVirusType("DEFAULT"),
+        ],
+        format=V1TableFormat("tsv"),
+    ) # V1VirusDatasetRequest | 
+    filename = "ncbi_dataset.zip" # str | Output file name. (optional) if omitted the server will use the default value of "ncbi_dataset.zip"
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get a coronavirus genome dataset by post
+        api_response = api_instance.virus_genome_download_post(v1_virus_dataset_request)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_download_post: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Get a coronavirus genome dataset by post
+        api_response = api_instance.virus_genome_download_post(v1_virus_dataset_request, filename=filename)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_download_post: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **v1_virus_dataset_request** | [**V1VirusDatasetRequest**](V1VirusDatasetRequest.md)|  |
+ **filename** | **str**| Output file name. | [optional] if omitted the server will use the default value of "ncbi_dataset.zip"
+
+### Return type
+
+**file_type**
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/zip, application/json
 
 
@@ -501,7 +732,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
     exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional) if omitted the server will use the default value of False
     include_annotation_type = [
-        V1AnnotationForVirusType("["CDS_FASTA","PROT_FASTA"]"),
+        V1AnnotationForVirusType("CDS_FASTA"),
     ] # [V1AnnotationForVirusType] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
 
     # example passing only required values which don't have defaults set
@@ -549,6 +780,222 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **virus_genome_summary_accession**
+> V1DownloadSummary virus_genome_summary_accession(accessions)
+
+Get summary data for Coronaviridae genomes by accession
+
+Get summary data for Coronaviridae genomes by accession
+
+### Example
+
+* Api Key Authentication (ApiKeyAuthHeader):
+
+```python
+import time
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.api import virus_api
+from ncbi.datasets.openapi.model.v1_annotation_for_virus_type import V1AnnotationForVirusType
+from ncbi.datasets.openapi.model.v1_download_summary import V1DownloadSummary
+from ncbi.datasets.openapi.model.rpc_status import RpcStatus
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuthHeader'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virus_api.VirusApi(api_client)
+    accessions = [
+        "NC_045512.2",
+    ] # [str] | Accessions accessions = 16;
+    refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
+    annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
+    released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
+    pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
+    geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
+    complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
+    exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional) if omitted the server will use the default value of False
+    include_annotation_type = [
+        V1AnnotationForVirusType("CDS_FASTA"),
+    ] # [V1AnnotationForVirusType] | Select additional types of annotation to include in the data package.  If unset, no annotation is provided. (optional)
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get summary data for Coronaviridae genomes by accession
+        api_response = api_instance.virus_genome_summary_accession(accessions)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_summary_accession: %s\n" % e)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        # Get summary data for Coronaviridae genomes by accession
+        api_response = api_instance.virus_genome_summary_accession(accessions, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_summary_accession: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **accessions** | **[str]**| Accessions accessions &#x3D; 16; |
+ **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
+ **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
+ **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
+ **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
+ **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
+ **complete_only** | **bool**| only include complete genomes. | [optional] if omitted the server will use the default value of False
+ **exclude_sequence** | **bool**| Set to true to omit the genomic sequence. | [optional] if omitted the server will use the default value of False
+ **include_annotation_type** | [**[V1AnnotationForVirusType]**](V1AnnotationForVirusType.md)| Select additional types of annotation to include in the data package.  If unset, no annotation is provided. | [optional]
+
+### Return type
+
+[**V1DownloadSummary**](V1DownloadSummary.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A successful response |  -  |
+**0** | An unexpected error response. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **virus_genome_summary_post**
+> V1DownloadSummary virus_genome_summary_post(v1_virus_dataset_request)
+
+Get summary data for Coronaviridae genomes by post
+
+The 'GET' version is limited by the size of the GET URL (2KB, which works out to about 140 genomic accessions).  The POST operation is provided to allow users to supply a larger number of accessions in a single request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuthHeader):
+
+```python
+import time
+import ncbi.datasets.openapi
+from ncbi.datasets.openapi.api import virus_api
+from ncbi.datasets.openapi.model.v1_download_summary import V1DownloadSummary
+from ncbi.datasets.openapi.model.v1_virus_dataset_request import V1VirusDatasetRequest
+from ncbi.datasets.openapi.model.rpc_status import RpcStatus
+from pprint import pprint
+# Defining the host is optional and defaults to https://api.ncbi.nlm.nih.gov/datasets/v1
+# See configuration.py for a list of all supported configuration parameters.
+configuration = ncbi.datasets.openapi.Configuration(
+    host = "https://api.ncbi.nlm.nih.gov/datasets/v1"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuthHeader
+configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuthHeader'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = virus_api.VirusApi(api_client)
+    v1_virus_dataset_request = V1VirusDatasetRequest(
+        tax_id=1,
+        tax_name="tax_name_example",
+        accession="accession_example",
+        accessions=[
+            "accessions_example",
+        ],
+        taxon="taxon_example",
+        refseq_only=True,
+        annotated_only=True,
+        released_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
+        host="host_example",
+        pangolin_classification="pangolin_classification_example",
+        geo_location="geo_location_example",
+        complete_only=True,
+        table_fields=[
+            V1VirusTableField("unspecified"),
+        ],
+        exclude_sequence=True,
+        include_annotation_type=[
+            V1AnnotationForVirusType("DEFAULT"),
+        ],
+        format=V1TableFormat("tsv"),
+    ) # V1VirusDatasetRequest | 
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Get summary data for Coronaviridae genomes by post
+        api_response = api_instance.virus_genome_summary_post(v1_virus_dataset_request)
+        pprint(api_response)
+    except ncbi.datasets.openapi.ApiException as e:
+        print("Exception when calling VirusApi->virus_genome_summary_post: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **v1_virus_dataset_request** | [**V1VirusDatasetRequest**](V1VirusDatasetRequest.md)|  |
+
+### Return type
+
+[**V1DownloadSummary**](V1DownloadSummary.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 

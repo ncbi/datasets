@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **tax_id** | **int** |  | [optional] 
 **tax_name** | **str** |  | [optional] 
 **accession** | **str** |  | [optional] 
-**accessions** | [**V1VirusDatasetRequestAccessions**](V1VirusDatasetRequestAccessions.md) |  | [optional] 
+**accessions** | **[str]** |  | [optional] 
 **taxon** | **str** |  | [optional] 
 **refseq_only** | **bool** |  | [optional] 
 **annotated_only** | **bool** |  | [optional] 

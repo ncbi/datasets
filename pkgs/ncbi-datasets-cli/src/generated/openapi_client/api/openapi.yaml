@@ -2481,16 +2481,11 @@ paths:
           package.  If unset, no annotation is provided.
         examples:
           example-0:
-            summary: Transcript & protein sequence
-            value:
-            - CDS_FASTA
-            - PROT_FASTA
+            summary: Transcript sequence
+            value: CDS_FASTA
           example-1:
             summary: All annotation
             value:
-            - GENOME_GBFF
-            - GENOME_GPFF
-            - PDB_FILES
             - CDS_FASTA
             - PROT_FASTA
         explode: true
@@ -2516,6 +2511,205 @@ paths:
                 $ref: '#/components/schemas/rpcStatus'
           description: An unexpected error response.
       summary: Get summary data for Coronaviridae genomes by taxon
+      tags:
+      - Virus
+  /virus/accession/{accessions}/genome:
+    get:
+      description: Get summary data for Coronaviridae genomes by accession
+      operationId: virus_genome_summary_accession
+      parameters:
+      - description: Accessions accessions = 16;
+        examples:
+          example-0:
+            summary: SARS-COV-2 isolate Wuhan-Hu-1, complete genome
+            value: NC_045512.2
+        explode: false
+        in: path
+        name: accessions
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: simple
+      - description: If true, limit results to RefSeq genomes.
+        examples:
+          example-0:
+            summary: Limit to RefSeq genomes
+            value: true
+          example-1:
+            summary: Both GenBank & RefSeq genomes
+            value: false
+        explode: true
+        in: query
+        name: refseq_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If true, limit results to annotated genomes.
+        examples:
+          example-0:
+            summary: Limit to annotated genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: annotated_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If set, limit results to viral genomes that have been released
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as '2020-04-01T00:00:00.000Z'
+        examples:
+          example-0:
+            summary: August 1, 2020
+            value: 2020-08-01
+        explode: true
+        in: query
+        name: released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: If set, limit results to genomes extracted from this host (Taxonomy
+          ID or name) All hosts by default
+        examples:
+          example-0:
+            summary: human
+            value: human
+        explode: true
+        in: query
+        name: host
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        explode: true
+        in: query
+        name: pangolin_classification
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Assemblies from this location (country and state, or continent)
+        examples:
+          example-0:
+            summary: USA
+            value: USA
+          example-1:
+            summary: Texas
+            value: TX
+        explode: true
+        in: query
+        name: geo_location
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: only include complete genomes.
+        examples:
+          example-0:
+            summary: Limit to complete genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: complete_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Set to true to omit the genomic sequence.
+        examples:
+          example-0:
+            summary: Exclude genomic sequence
+            value: true
+          example-1:
+            summary: Include genomic sequence
+            value: false
+        explode: true
+        in: query
+        name: exclude_sequence
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
+        examples:
+          example-0:
+            summary: Transcript sequence
+            value: CDS_FASTA
+          example-1:
+            summary: All annotation
+            value:
+            - CDS_FASTA
+            - PROT_FASTA
+        explode: true
+        in: query
+        name: include_annotation_type
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/v1AnnotationForVirusType'
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1DownloadSummary'
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Get summary data for Coronaviridae genomes by accession
+      tags:
+      - Virus
+  /virus/genome:
+    post:
+      description: The 'GET' version is limited by the size of the GET URL (2KB, which
+        works out to about 140 genomic accessions).  The POST operation is provided
+        to allow users to supply a larger number of accessions in a single request.
+      operationId: virus_genome_summary_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1VirusDatasetRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1DownloadSummary'
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Get summary data for Coronaviridae genomes by post
       tags:
       - Virus
   /virus/taxon/sars2/protein/{proteins}:
@@ -2638,15 +2832,11 @@ paths:
           package.  If unset, no annotation is provided.
         examples:
           example-0:
-            summary: Transcript & protein sequence
-            value:
-            - CDS_FASTA
-            - PROT_FASTA
+            summary: Transcript sequence
+            value: CDS_FASTA
           example-1:
             summary: All annotation
             value:
-            - GENOME_GPFF
-            - PDB_FILES
             - CDS_FASTA
             - PROT_FASTA
         explode: true
@@ -3019,7 +3209,7 @@ paths:
       - Virus
   /virus/taxon/{taxon}/genome/download:
     get:
-      description: Download a Coronavirus genome datasets by taxon
+      description: Download a coronavirus genome dataset by taxon
       operationId: virus_genome_download
       parameters:
       - description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
@@ -3161,16 +3351,11 @@ paths:
           package.  If unset, no annotation is provided.
         examples:
           example-0:
-            summary: Transcript & protein sequence
-            value:
-            - CDS_FASTA
-            - PROT_FASTA
+            summary: Transcript sequence
+            value: CDS_FASTA
           example-1:
             summary: All annotation
             value:
-            - GENOME_GBFF
-            - GENOME_GPFF
-            - PDB_FILES
             - CDS_FASTA
             - PROT_FASTA
         explode: true
@@ -3207,7 +3392,232 @@ paths:
               schema:
                 $ref: '#/components/schemas/rpcStatus'
           description: An unexpected error response.
-      summary: Download Coronavirus genome datasets by taxon
+      summary: Download a coronavirus genome dataset by taxon
+      tags:
+      - Virus
+  /virus/accession/{accessions}/genome/download:
+    get:
+      description: Download a coronavirus genome dataset by accession
+      operationId: virus_genome_download_accession
+      parameters:
+      - description: Accessions accessions = 16;
+        examples:
+          example-0:
+            summary: SARS-COV-2 isolate Wuhan-Hu-1, complete genome
+            value: NC_045512.2
+        explode: false
+        in: path
+        name: accessions
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: simple
+      - description: If true, limit results to RefSeq genomes.
+        examples:
+          example-0:
+            summary: Limit to RefSeq genomes
+            value: true
+          example-1:
+            summary: Both GenBank & RefSeq genomes
+            value: false
+        explode: true
+        in: query
+        name: refseq_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If true, limit results to annotated genomes.
+        examples:
+          example-0:
+            summary: Limit to annotated genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: annotated_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If set, limit results to viral genomes that have been released
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as '2020-04-01T00:00:00.000Z'
+        examples:
+          example-0:
+            summary: August 1, 2020
+            value: 2020-08-01
+        explode: true
+        in: query
+        name: released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: If set, limit results to genomes extracted from this host (Taxonomy
+          ID or name) All hosts by default
+        examples:
+          example-0:
+            summary: human
+            value: human
+        explode: true
+        in: query
+        name: host
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        explode: true
+        in: query
+        name: pangolin_classification
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Assemblies from this location (country and state, or continent)
+        examples:
+          example-0:
+            summary: USA
+            value: USA
+          example-1:
+            summary: Texas
+            value: TX
+        explode: true
+        in: query
+        name: geo_location
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: only include complete genomes.
+        examples:
+          example-0:
+            summary: Limit to complete genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: complete_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Set to true to omit the genomic sequence.
+        examples:
+          example-0:
+            summary: Exclude genomic sequence
+            value: true
+          example-1:
+            summary: Include genomic sequence
+            value: false
+        explode: true
+        in: query
+        name: exclude_sequence
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Select additional types of annotation to include in the data
+          package.  If unset, no annotation is provided.
+        examples:
+          example-0:
+            summary: Transcript sequence
+            value: CDS_FASTA
+          example-1:
+            summary: All annotation
+            value:
+            - CDS_FASTA
+            - PROT_FASTA
+        explode: true
+        in: query
+        name: include_annotation_type
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/v1AnnotationForVirusType'
+          type: array
+        style: form
+      - description: Output file name.
+        explode: true
+        in: query
+        name: filename
+        required: false
+        schema:
+          default: ncbi_dataset.zip
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/zip:
+              schema:
+                description: Zip compressed stream
+                format: binary
+                type: string
+          description: Download selected genome assemblies and associated annotation
+            data as a zip file
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Download a coronavirus genome dataset by accession
+      tags:
+      - Virus
+  /virus/genome/download:
+    post:
+      description: The 'GET' version of download is limited by the size of the GET
+        URL (2KB, which works out to about 140 genomic accessions).  The POST operation
+        is provided to allow users to supply a larger number of accessions in a single
+        request.
+      operationId: virus_genome_download_post
+      parameters:
+      - description: Output file name.
+        explode: true
+        in: query
+        name: filename
+        required: false
+        schema:
+          default: ncbi_dataset.zip
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1VirusDatasetRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/zip:
+              schema:
+                description: Zip compressed stream
+                format: binary
+                type: string
+          description: Download selected genome assemblies and associated annotation
+            data as a zip file
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Get a coronavirus genome dataset by post
       tags:
       - Virus
   /virus/taxon/sars2/protein/{proteins}/download:
@@ -3330,15 +3740,11 @@ paths:
           package.  If unset, no annotation is provided.
         examples:
           example-0:
-            summary: Transcript & protein sequence
-            value:
-            - CDS_FASTA
-            - PROT_FASTA
+            summary: Transcript sequence
+            value: CDS_FASTA
           example-1:
             summary: All annotation
             value:
-            - GENOME_GPFF
-            - PDB_FILES
             - CDS_FASTA
             - PROT_FASTA
         explode: true
@@ -8352,7 +8758,9 @@ components:
           title: genome sequence accession
           type: string
         accessions:
-          $ref: '#/components/schemas/v1VirusDatasetRequestAccessions'
+          items:
+            type: string
+          type: array
         taxon:
           title: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
             rank
@@ -8396,13 +8804,6 @@ components:
           type: array
         format:
           $ref: '#/components/schemas/v1TableFormat'
-      type: object
-    v1VirusDatasetRequestAccessions:
-      properties:
-        accessions:
-          items:
-            type: string
-          type: array
       type: object
     v1Warning:
       example:
