@@ -14,6 +14,9 @@ Method | HTTP request | Description
 [**VirusGenomeSummaryAccession**](VirusApi.md#VirusGenomeSummaryAccession) | **Get** /virus/accession/{accessions}/genome | Get summary data for Coronaviridae genomes by accession
 [**VirusGenomeSummaryPost**](VirusApi.md#VirusGenomeSummaryPost) | **Post** /virus/genome | Get summary data for Coronaviridae genomes by post
 [**VirusGenomeTable**](VirusApi.md#VirusGenomeTable) | **Get** /virus/taxon/{taxon}/genome/table | Get viral genomic metadata in a tabular format.
+[**VirusReportsByAcessions**](VirusApi.md#VirusReportsByAcessions) | **Get** /virus/accession/{accessions}/dataset_report | Get virus metadata by accession
+[**VirusReportsByPost**](VirusApi.md#VirusReportsByPost) | **Post** /virus | Get virus metadata by POST
+[**VirusReportsByTaxon**](VirusApi.md#VirusReportsByTaxon) | **Get** /virus/taxon/{taxon}/dataset_report | Get virus metadata by taxon
 
 
 
@@ -853,6 +856,258 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## VirusReportsByAcessions
+
+> V1reportsVirusDataReportPage VirusReportsByAcessions(ctx, accessions).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+
+Get virus metadata by accession
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+    openapiclient "./openapi"
+)
+
+func main() {
+    accessions := []string{"Inner_example"} // []string | genome sequence accessions
+    filterRefseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
+    filterAnnotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
+    filterReleasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    filterHost := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
+    filterPangolinClassification := "filterPangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
+    filterGeoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
+    filterCompleteOnly := true // bool | only include complete genomes. (optional) (default to false)
+    returnedContent := openapiclient.v1VirusDataReportRequestContentType("COMPLETE") // V1VirusDataReportRequestContentType | Return either virus genome accessions, or complete virus metadata (optional) (default to "COMPLETE")
+    tableFields := []string{"TableFields_example"} // []string | Specify which fields to include in the tabular report (optional)
+    pageSize := int32(56) // int32 | The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
+    pageToken := "pageToken_example" // string | A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.VirusApi.VirusReportsByAcessions(context.Background(), accessions).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusReportsByAcessions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `VirusReportsByAcessions`: V1reportsVirusDataReportPage
+    fmt.Fprintf(os.Stdout, "Response from `VirusApi.VirusReportsByAcessions`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accessions** | [**[]string**](string.md) | genome sequence accessions | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVirusReportsByAcessionsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **filterRefseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
+ **filterAnnotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
+ **filterReleasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **filterHost** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
+ **filterPangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
+ **filterGeoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
+ **filterCompleteOnly** | **bool** | only include complete genomes. | [default to false]
+ **returnedContent** | [**V1VirusDataReportRequestContentType**](V1VirusDataReportRequestContentType.md) | Return either virus genome accessions, or complete virus metadata | [default to &quot;COMPLETE&quot;]
+ **tableFields** | **[]string** | Specify which fields to include in the tabular report | 
+ **pageSize** | **int32** | The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
+ **pageToken** | **string** | A page token is returned from a &#x60;GetVirusDataReports&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;VirusDataReportRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
+
+### Return type
+
+[**V1reportsVirusDataReportPage**](V1reportsVirusDataReportPage.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, text/tab-separated-values, application/x-tabular
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## VirusReportsByPost
+
+> V1reportsVirusDataReportPage VirusReportsByPost(ctx).V1VirusDataReportRequest(v1VirusDataReportRequest).Execute()
+
+Get virus metadata by POST
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    v1VirusDataReportRequest := *openapiclient.NewV1VirusDataReportRequest() // V1VirusDataReportRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.VirusApi.VirusReportsByPost(context.Background()).V1VirusDataReportRequest(v1VirusDataReportRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusReportsByPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `VirusReportsByPost`: V1reportsVirusDataReportPage
+    fmt.Fprintf(os.Stdout, "Response from `VirusApi.VirusReportsByPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVirusReportsByPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **v1VirusDataReportRequest** | [**V1VirusDataReportRequest**](V1VirusDataReportRequest.md) |  | 
+
+### Return type
+
+[**V1reportsVirusDataReportPage**](V1reportsVirusDataReportPage.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json, text/tab-separated-values, application/x-tabular
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## VirusReportsByTaxon
+
+> V1reportsVirusDataReportPage VirusReportsByTaxon(ctx, taxon).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+
+Get virus metadata by taxon
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+    openapiclient "./openapi"
+)
+
+func main() {
+    taxon := "2697049" // string | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
+    filterRefseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
+    filterAnnotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
+    filterReleasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    filterHost := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
+    filterPangolinClassification := "filterPangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
+    filterGeoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
+    filterCompleteOnly := true // bool | only include complete genomes. (optional) (default to false)
+    returnedContent := openapiclient.v1VirusDataReportRequestContentType("COMPLETE") // V1VirusDataReportRequestContentType | Return either virus genome accessions, or complete virus metadata (optional) (default to "COMPLETE")
+    tableFields := []string{"TableFields_example"} // []string | Specify which fields to include in the tabular report (optional)
+    pageSize := int32(56) // int32 | The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
+    pageToken := "pageToken_example" // string | A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.VirusApi.VirusReportsByTaxon(context.Background(), taxon).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusReportsByTaxon``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `VirusReportsByTaxon`: V1reportsVirusDataReportPage
+    fmt.Fprintf(os.Stdout, "Response from `VirusApi.VirusReportsByTaxon`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**taxon** | **string** | NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVirusReportsByTaxonRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **filterRefseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
+ **filterAnnotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
+ **filterReleasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **filterHost** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
+ **filterPangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
+ **filterGeoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
+ **filterCompleteOnly** | **bool** | only include complete genomes. | [default to false]
+ **returnedContent** | [**V1VirusDataReportRequestContentType**](V1VirusDataReportRequestContentType.md) | Return either virus genome accessions, or complete virus metadata | [default to &quot;COMPLETE&quot;]
+ **tableFields** | **[]string** | Specify which fields to include in the tabular report | 
+ **pageSize** | **int32** | The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results. | [default to 20]
+ **pageToken** | **string** | A page token is returned from a &#x60;GetVirusDataReports&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;VirusDataReportRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved. | 
+
+### Return type
+
+[**V1reportsVirusDataReportPage**](V1reportsVirusDataReportPage.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, text/tab-separated-values, application/x-tabular
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

@@ -11,48 +11,16 @@ import (
 	openapi "datasets_cli/v1/openapi"
 )
 
-func checkTaxonWithinScope(cli *openapi.APIClient, taxon string) (is_cov bool) {
-	// conservatively set default to true
-	is_cov = true
-	query_min_ord, query_max_ord, err := findTaxonOrd(cli, taxon)
-	if err == nil {
-		cov_min_ord, cov_max_ord, err := findTaxonOrd(cli, "Coronaviridae")
-		if err == nil && (query_min_ord < cov_min_ord || query_max_ord > cov_max_ord) {
-			is_cov = false
-		}
-	}
-	return
-}
-
-func findTaxonOrd(cli *openapi.APIClient, taxon string) (min_ord int32, max_ord int32, err error) {
-	min_ord = 0
-	max_ord = 0
-	request := cli.GeneApi.GeneTaxTree(nil, taxon)
-	request.ChildrenOnly(false)
-	org, resp, err := request.Execute()
-	if err = handleHTTPResponse(resp, err); err == nil {
-		min_ord = org.GetMinOrd()
-		max_ord = org.GetMaxOrd()
-	}
-	return
-}
-
-func downloadVirusGenomeRequestWithTaxon(taxon string) (request openapi.ApiVirusGenomeDownloadRequest, err error) {
+func downloadVirusGenomeRequestWithAcc(args []string) (request openapi.ApiVirusGenomeDownloadAccessionRequest, err error) {
 	cli, err := createOAClient()
 	if err != nil {
 		return
 	}
-	if !checkTaxonWithinScope(cli, taxon) {
-		fmt.Print("The download virus genome taxon command only supports coronavirus taxa.\nFor data on other viruses, please use the download genome taxon command.\n")
-		err = fmt.Errorf("taxa %s is out of scope", taxon)
-		return
-	}
-
-	request = cli.VirusApi.VirusGenomeDownload(nil, taxon)
+	request = cli.VirusApi.VirusGenomeDownloadAccession(nil, args)
 	return
 }
 
-func downloadVirusGenome(request openapi.ApiVirusGenomeDownloadRequest, assmFilename string) (err error) {
+func downloadVirusGenomeAccession(request openapi.ApiVirusGenomeDownloadAccessionRequest, assmFilename string) (err error) {
 	request.RefseqOnly(argRefseqOnly)
 	request.AnnotatedOnly(argAnnotatedOnly)
 	request.ExcludeSequence(argExcludeSeq)
@@ -100,20 +68,19 @@ func downloadVirusGenome(request openapi.ApiVirusGenomeDownloadRequest, assmFile
 	return downloadData(f, resp, err, assmFilename, length)
 }
 
-func downloadVirusGenomeOrg(cmd *cobra.Command, taxon string, assmFilename string) error {
-	request, err := downloadVirusGenomeRequestWithTaxon(taxon)
+func downloadVirusGenomeAcc(cmd *cobra.Command, args []string, assmFilename string) error {
+	request, err := downloadVirusGenomeRequestWithAcc(args)
 	if err != nil {
 		return err
 	}
-	return downloadVirusGenome(request, assmFilename)
+	return downloadVirusGenomeAccession(request, assmFilename)
 }
 
-var downloadVirusGenomeOrgCmd = &cobra.Command{
-	Use:   "taxon  <taxon>",
-	Short: "Request genome data by taxonomic id or name. Allowed taxon are limited to all taxa under Coronaviridae, e.g. sars2 or betacoronavirus",
+var downloadVirusGenomeAccCmd = &cobra.Command{
+	Use:   "accession <accession ...>",
+	Short: "Request genome data by accessions.",
 	Long: `
-Download a coronavirus genome dataset by taxon (NCBI Taxonomy ID, scientific or common name
-for any taxonomic group in the coronavirus family). Coronavirus genome data packages include genome,
+Download a coronavirus genome dataset by nucleotide accessions. Coronavirus genome data packages include genome,
 CDS and protein sequence, annotation and a detailed data report. Datasets are downloaded as a zip file.
 
 The default coronavirus genome dataset includes the following files (if available):
@@ -125,23 +92,24 @@ The default coronavirus genome dataset includes the following files (if availabl
 * dataset_catalog.json (a list of files and file types included in the dataset)
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
-	Example: `  datasets download virus genome taxon sars-cov-2 --host dog
-  datasets download virus genome taxon coronaviridae --host "manis javanica"`,
-	Args: cobra.ExactArgs(1),
+	Example: `  datasets download virus genome accession NC_045512.2`,
 
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
-		taxon := args[0]
+		if len(argIDArgs) == 0 {
+			return errors.New("Input accessions not specified")
+		}
 		if argRetiredIncludeFlag {
 			err = errors.New(virusFlagErrorMessage)
 		}
-
 		if argRetiredExcludeFlag {
 			cmd.PrintErrln(virusFlagWarningMessage)
 		}
-		return downloadVirusGenomeOrg(cmd, taxon, argDownloadFilename)
+		return downloadVirusGenomeAcc(cmd, argIDArgs, argDownloadFilename)
 	},
 }
 
 func init() {
-	downloadVirusGenomeCmd.AddCommand(downloadVirusGenomeOrgCmd)
+	downloadVirusGenomeCmd.AddCommand(downloadVirusGenomeAccCmd)
+
+	registerHiddenStringPair(downloadVirusGenomeAccCmd.Flags(), &argInputFile, "inputfile", "i", "", "read a list of accessions from a file to use as input")
 }

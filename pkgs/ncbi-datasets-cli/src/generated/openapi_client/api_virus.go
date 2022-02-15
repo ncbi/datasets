@@ -2116,3 +2116,635 @@ func (a *VirusApiService) VirusGenomeTableExecute(r ApiVirusGenomeTableRequest) 
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+type ApiVirusReportsByAcessionsRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	accessions []string	
+	filterRefseqOnly *bool	
+	filterAnnotatedOnly *bool	
+	filterReleasedSince *time.Time	
+	filterHost *string	
+	filterPangolinClassification *string	
+	filterGeoLocation *string	
+	filterCompleteOnly *bool	
+	returnedContent *V1VirusDataReportRequestContentType	
+	tableFields *[]string	
+	pageSize *int32	
+	pageToken *string	
+    Headers map[string]string
+}
+
+// If true, limit results to RefSeq genomes.
+func (r *ApiVirusReportsByAcessionsRequest) FilterRefseqOnly(filterRefseqOnly bool) *ApiVirusReportsByAcessionsRequest {
+	r.filterRefseqOnly = &filterRefseqOnly
+	return r
+}
+// If true, limit results to annotated genomes.
+func (r *ApiVirusReportsByAcessionsRequest) FilterAnnotatedOnly(filterAnnotatedOnly bool) *ApiVirusReportsByAcessionsRequest {
+	r.filterAnnotatedOnly = &filterAnnotatedOnly
+	return r
+}
+// If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
+func (r *ApiVirusReportsByAcessionsRequest) FilterReleasedSince(filterReleasedSince time.Time) *ApiVirusReportsByAcessionsRequest {
+	r.filterReleasedSince = &filterReleasedSince
+	return r
+}
+// If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
+func (r *ApiVirusReportsByAcessionsRequest) FilterHost(filterHost string) *ApiVirusReportsByAcessionsRequest {
+	r.filterHost = &filterHost
+	return r
+}
+// If set, limit results to genomes classified to this lineage by the PangoLearn tool.
+func (r *ApiVirusReportsByAcessionsRequest) FilterPangolinClassification(filterPangolinClassification string) *ApiVirusReportsByAcessionsRequest {
+	r.filterPangolinClassification = &filterPangolinClassification
+	return r
+}
+// Assemblies from this location (country and state, or continent)
+func (r *ApiVirusReportsByAcessionsRequest) FilterGeoLocation(filterGeoLocation string) *ApiVirusReportsByAcessionsRequest {
+	r.filterGeoLocation = &filterGeoLocation
+	return r
+}
+// only include complete genomes.
+func (r *ApiVirusReportsByAcessionsRequest) FilterCompleteOnly(filterCompleteOnly bool) *ApiVirusReportsByAcessionsRequest {
+	r.filterCompleteOnly = &filterCompleteOnly
+	return r
+}
+// Return either virus genome accessions, or complete virus metadata
+func (r *ApiVirusReportsByAcessionsRequest) ReturnedContent(returnedContent V1VirusDataReportRequestContentType) *ApiVirusReportsByAcessionsRequest {
+	r.returnedContent = &returnedContent
+	return r
+}
+// Specify which fields to include in the tabular report
+func (r *ApiVirusReportsByAcessionsRequest) TableFields(tableFields []string) *ApiVirusReportsByAcessionsRequest {
+	r.tableFields = &tableFields
+	return r
+}
+// The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results.
+func (r *ApiVirusReportsByAcessionsRequest) PageSize(pageSize int32) *ApiVirusReportsByAcessionsRequest {
+	r.pageSize = &pageSize
+	return r
+}
+// A page token is returned from a &#x60;GetVirusDataReports&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;VirusDataReportRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
+func (r *ApiVirusReportsByAcessionsRequest) PageToken(pageToken string) *ApiVirusReportsByAcessionsRequest {
+	r.pageToken = &pageToken
+	return r
+}
+
+func (r ApiVirusReportsByAcessionsRequest) Execute() (V1reportsVirusDataReportPage, *_nethttp.Response, error) {
+	return r.ApiService.VirusReportsByAcessionsExecute(r)
+}
+
+/*
+VirusReportsByAcessions Get virus metadata by accession
+
+Get virus metadata by accesion. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accessions genome sequence accessions
+ @return ApiVirusReportsByAcessionsRequest
+*/
+func (a *VirusApiService) VirusReportsByAcessions(ctx _context.Context, accessions []string) ApiVirusReportsByAcessionsRequest {
+	return ApiVirusReportsByAcessionsRequest{
+		ApiService: a,
+		ctx: ctx,
+		accessions: accessions,
+	}
+}
+
+// Execute executes the request
+//  @return V1reportsVirusDataReportPage
+func (a *VirusApiService) VirusReportsByAcessionsExecute(r ApiVirusReportsByAcessionsRequest) (V1reportsVirusDataReportPage, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1reportsVirusDataReportPage
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusReportsByAcessions")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/accession/{accessions}/dataset_report"
+	localVarPath = strings.Replace(localVarPath, "{"+"accessions"+"}", _neturl.PathEscape(parameterToString(r.accessions, "csv")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.filterRefseqOnly != nil {
+		localVarQueryParams.Add("filter.refseq_only", parameterToString(*r.filterRefseqOnly, ""))
+	}
+	if r.filterAnnotatedOnly != nil {
+		localVarQueryParams.Add("filter.annotated_only", parameterToString(*r.filterAnnotatedOnly, ""))
+	}
+	if r.filterReleasedSince != nil {
+		localVarQueryParams.Add("filter.released_since", parameterToString(*r.filterReleasedSince, ""))
+	}
+	if r.filterHost != nil {
+		localVarQueryParams.Add("filter.host", parameterToString(*r.filterHost, ""))
+	}
+	if r.filterPangolinClassification != nil {
+		localVarQueryParams.Add("filter.pangolin_classification", parameterToString(*r.filterPangolinClassification, ""))
+	}
+	if r.filterGeoLocation != nil {
+		localVarQueryParams.Add("filter.geo_location", parameterToString(*r.filterGeoLocation, ""))
+	}
+	if r.filterCompleteOnly != nil {
+		localVarQueryParams.Add("filter.complete_only", parameterToString(*r.filterCompleteOnly, ""))
+	}
+	if r.returnedContent != nil {
+		localVarQueryParams.Add("returned_content", parameterToString(*r.returnedContent, ""))
+	}
+	if r.tableFields != nil {
+		t := *r.tableFields
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("table_fields", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("table_fields", parameterToString(t, "multi"))
+		}
+	}
+	if r.pageSize != nil {
+		localVarQueryParams.Add("page_size", parameterToString(*r.pageSize, ""))
+	}
+	if r.pageToken != nil {
+		localVarQueryParams.Add("page_token", parameterToString(*r.pageToken, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values", "application/x-tabular"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusReportsByPostRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	v1VirusDataReportRequest *V1VirusDataReportRequest	
+    Headers map[string]string
+}
+
+func (r *ApiVirusReportsByPostRequest) V1VirusDataReportRequest(v1VirusDataReportRequest V1VirusDataReportRequest) *ApiVirusReportsByPostRequest {
+	r.v1VirusDataReportRequest = &v1VirusDataReportRequest
+	return r
+}
+
+func (r ApiVirusReportsByPostRequest) Execute() (V1reportsVirusDataReportPage, *_nethttp.Response, error) {
+	return r.ApiService.VirusReportsByPostExecute(r)
+}
+
+/*
+VirusReportsByPost Get virus metadata by POST
+
+Get virus metadata. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiVirusReportsByPostRequest
+*/
+func (a *VirusApiService) VirusReportsByPost(ctx _context.Context, v1VirusDataReportRequest *V1VirusDataReportRequest) ApiVirusReportsByPostRequest {
+	return ApiVirusReportsByPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		v1VirusDataReportRequest: v1VirusDataReportRequest,
+	}
+}
+
+// Execute executes the request
+//  @return V1reportsVirusDataReportPage
+func (a *VirusApiService) VirusReportsByPostExecute(r ApiVirusReportsByPostRequest) (V1reportsVirusDataReportPage, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1reportsVirusDataReportPage
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusReportsByPost")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.v1VirusDataReportRequest == nil {
+		return localVarReturnValue, nil, reportError("v1VirusDataReportRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values", "application/x-tabular"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	// body params
+	localVarPostBody = r.v1VirusDataReportRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusReportsByTaxonRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	taxon string	
+	filterRefseqOnly *bool	
+	filterAnnotatedOnly *bool	
+	filterReleasedSince *time.Time	
+	filterHost *string	
+	filterPangolinClassification *string	
+	filterGeoLocation *string	
+	filterCompleteOnly *bool	
+	returnedContent *V1VirusDataReportRequestContentType	
+	tableFields *[]string	
+	pageSize *int32	
+	pageToken *string	
+    Headers map[string]string
+}
+
+// If true, limit results to RefSeq genomes.
+func (r *ApiVirusReportsByTaxonRequest) FilterRefseqOnly(filterRefseqOnly bool) *ApiVirusReportsByTaxonRequest {
+	r.filterRefseqOnly = &filterRefseqOnly
+	return r
+}
+// If true, limit results to annotated genomes.
+func (r *ApiVirusReportsByTaxonRequest) FilterAnnotatedOnly(filterAnnotatedOnly bool) *ApiVirusReportsByTaxonRequest {
+	r.filterAnnotatedOnly = &filterAnnotatedOnly
+	return r
+}
+// If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
+func (r *ApiVirusReportsByTaxonRequest) FilterReleasedSince(filterReleasedSince time.Time) *ApiVirusReportsByTaxonRequest {
+	r.filterReleasedSince = &filterReleasedSince
+	return r
+}
+// If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
+func (r *ApiVirusReportsByTaxonRequest) FilterHost(filterHost string) *ApiVirusReportsByTaxonRequest {
+	r.filterHost = &filterHost
+	return r
+}
+// If set, limit results to genomes classified to this lineage by the PangoLearn tool.
+func (r *ApiVirusReportsByTaxonRequest) FilterPangolinClassification(filterPangolinClassification string) *ApiVirusReportsByTaxonRequest {
+	r.filterPangolinClassification = &filterPangolinClassification
+	return r
+}
+// Assemblies from this location (country and state, or continent)
+func (r *ApiVirusReportsByTaxonRequest) FilterGeoLocation(filterGeoLocation string) *ApiVirusReportsByTaxonRequest {
+	r.filterGeoLocation = &filterGeoLocation
+	return r
+}
+// only include complete genomes.
+func (r *ApiVirusReportsByTaxonRequest) FilterCompleteOnly(filterCompleteOnly bool) *ApiVirusReportsByTaxonRequest {
+	r.filterCompleteOnly = &filterCompleteOnly
+	return r
+}
+// Return either virus genome accessions, or complete virus metadata
+func (r *ApiVirusReportsByTaxonRequest) ReturnedContent(returnedContent V1VirusDataReportRequestContentType) *ApiVirusReportsByTaxonRequest {
+	r.returnedContent = &returnedContent
+	return r
+}
+// Specify which fields to include in the tabular report
+func (r *ApiVirusReportsByTaxonRequest) TableFields(tableFields []string) *ApiVirusReportsByTaxonRequest {
+	r.tableFields = &tableFields
+	return r
+}
+// The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, &#x60;page_token&#x60; can be used to retrieve the remaining results.
+func (r *ApiVirusReportsByTaxonRequest) PageSize(pageSize int32) *ApiVirusReportsByTaxonRequest {
+	r.pageSize = &pageSize
+	return r
+}
+// A page token is returned from a &#x60;GetVirusDataReports&#x60; call with more than &#x60;page_size&#x60; results. Use this token, along with the previous &#x60;VirusDataReportRequest&#x60; parameters, to retrieve the next page of results. When &#x60;page_token&#x60; is empty, all results have been retrieved.
+func (r *ApiVirusReportsByTaxonRequest) PageToken(pageToken string) *ApiVirusReportsByTaxonRequest {
+	r.pageToken = &pageToken
+	return r
+}
+
+func (r ApiVirusReportsByTaxonRequest) Execute() (V1reportsVirusDataReportPage, *_nethttp.Response, error) {
+	return r.ApiService.VirusReportsByTaxonExecute(r)
+}
+
+/*
+VirusReportsByTaxon Get virus metadata by taxon
+
+Get virus metadata by taxon. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param taxon NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank
+ @return ApiVirusReportsByTaxonRequest
+*/
+func (a *VirusApiService) VirusReportsByTaxon(ctx _context.Context, taxon string) ApiVirusReportsByTaxonRequest {
+	return ApiVirusReportsByTaxonRequest{
+		ApiService: a,
+		ctx: ctx,
+		taxon: taxon,
+	}
+}
+
+// Execute executes the request
+//  @return V1reportsVirusDataReportPage
+func (a *VirusApiService) VirusReportsByTaxonExecute(r ApiVirusReportsByTaxonRequest) (V1reportsVirusDataReportPage, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1reportsVirusDataReportPage
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusReportsByTaxon")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/taxon/{taxon}/dataset_report"
+	localVarPath = strings.Replace(localVarPath, "{"+"taxon"+"}", _neturl.PathEscape(parameterToString(r.taxon, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if r.filterRefseqOnly != nil {
+		localVarQueryParams.Add("filter.refseq_only", parameterToString(*r.filterRefseqOnly, ""))
+	}
+	if r.filterAnnotatedOnly != nil {
+		localVarQueryParams.Add("filter.annotated_only", parameterToString(*r.filterAnnotatedOnly, ""))
+	}
+	if r.filterReleasedSince != nil {
+		localVarQueryParams.Add("filter.released_since", parameterToString(*r.filterReleasedSince, ""))
+	}
+	if r.filterHost != nil {
+		localVarQueryParams.Add("filter.host", parameterToString(*r.filterHost, ""))
+	}
+	if r.filterPangolinClassification != nil {
+		localVarQueryParams.Add("filter.pangolin_classification", parameterToString(*r.filterPangolinClassification, ""))
+	}
+	if r.filterGeoLocation != nil {
+		localVarQueryParams.Add("filter.geo_location", parameterToString(*r.filterGeoLocation, ""))
+	}
+	if r.filterCompleteOnly != nil {
+		localVarQueryParams.Add("filter.complete_only", parameterToString(*r.filterCompleteOnly, ""))
+	}
+	if r.returnedContent != nil {
+		localVarQueryParams.Add("returned_content", parameterToString(*r.returnedContent, ""))
+	}
+	if r.tableFields != nil {
+		t := *r.tableFields
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("table_fields", parameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("table_fields", parameterToString(t, "multi"))
+		}
+	}
+	if r.pageSize != nil {
+		localVarQueryParams.Add("page_size", parameterToString(*r.pageSize, ""))
+	}
+	if r.pageToken != nil {
+		localVarQueryParams.Add("page_token", parameterToString(*r.pageToken, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values", "application/x-tabular"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}

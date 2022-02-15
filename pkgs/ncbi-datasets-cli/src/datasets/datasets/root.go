@@ -58,7 +58,7 @@ var (
 	defaultRetryWaitMin = 1 * time.Second
 	defaultRetryWaitMax = 30 * time.Second
 
-	maxNumRetries = 10
+	maxNumRetries = uint8(10)
 
 	// defaultLogger is the logger provided with defaultClient
 	defaultLogger = log.New(io.Discard, "", log.LstdFlags)
@@ -144,14 +144,14 @@ func CustomRequestLogHook(_ retry_http.Logger, request *http.Request, _ int) {
 	}
 }
 
-func newRetryHttpClient(numRetries int) *http.Client {
+func newRetryHttpClient(numRetries uint8) *http.Client {
 
 	retryClient := retry_http.Client{
 		HTTPClient:   cleanhttp.DefaultPooledClient(),
 		Logger:       defaultLogger,
 		RetryWaitMin: defaultRetryWaitMin,
 		RetryWaitMax: defaultRetryWaitMax,
-		RetryMax:     numRetries,
+		RetryMax:     int(numRetries),
 		CheckRetry:   retry_http.DefaultRetryPolicy,
 		Backoff:      retry_http.DefaultBackoff,
 	}
@@ -476,13 +476,19 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&argApiKey, "api-key", useEnv("NCBI_API_KEY", "api-key"), "NCBI Datasets API Key")
 
+	rootCmd.PersistentFlags().Uint8Var(&maxNumRetries, "max-retries", 10, "Maximum number of retries on API calls, max 255")
+	rootCmd.PersistentFlags().MarkHidden("max-retries")
+
 	rootCmd.PersistentFlags().StringVar(&argProxyURL, "proxy", useEnv("http_proxy", "proxy"), "API endpoint proxy")
-	rootCmd.PersistentFlags().BoolVar(&argSynMon, "synmon", false, "Mark request as synthetic monitoring")
-	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", useEnvBool("DATASETS_DEBUG", "debug", false), "Emit debugging info")
-	rootCmd.PersistentFlags().BoolVar(&argNoProgress, "no-progressbar", false, "hide progress bar")
 	rootCmd.PersistentFlags().MarkHidden("proxy")
+
+	rootCmd.PersistentFlags().BoolVar(&argSynMon, "synmon", false, "Mark request as synthetic monitoring")
 	rootCmd.PersistentFlags().MarkHidden("synmon")
+
+	rootCmd.PersistentFlags().BoolVar(&argDebug, "debug", useEnvBool("DATASETS_DEBUG", "debug", false), "Emit debugging info")
 	rootCmd.PersistentFlags().MarkHidden("debug")
+
+	rootCmd.PersistentFlags().BoolVar(&argNoProgress, "no-progressbar", false, "hide progress bar")
 
 	// todo: hide help flag
 	// rootCmd.DebugFlags()  - this has no help flag. cannot find out how to modify its behavior
