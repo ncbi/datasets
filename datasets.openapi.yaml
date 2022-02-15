@@ -2843,6 +2843,441 @@ paths:
           example-2:
             value: jsonl
             summary: JSON Lines
+  /virus/taxon/{taxon}/dataset_report:
+    get:
+      summary: Get virus metadata by taxon
+      description: 'Get virus metadata by taxon. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Virus
+      operationId: virus_reports_by_taxon
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1reportsVirusDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+            application/x-tabular:
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: taxon
+        description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: 2697049
+            summary: SARS-COV-2
+          example-1:
+            value: 11118
+            summary: Coronaviridae
+          example-2:
+            value: 1335626
+            summary: MERS
+      - name: filter.refseq_only
+        description: 'If true, limit results to RefSeq genomes.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to RefSeq genomes
+          example-1:
+            value: false
+            summary: Both GenBank & RefSeq genomes
+      - name: filter.annotated_only
+        description: 'If true, limit results to annotated genomes.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to annotated genomes
+          example-1:
+            value: false
+            summary: All genomes
+      - name: filter.released_since
+        description: 'If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as ''2020-04-01T00:00:00.000Z'''
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2020-08-01
+            summary: August 1, 2020
+      - name: filter.host
+        description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: human
+            summary: human
+      - name: filter.pangolin_classification
+        description: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: filter.geo_location
+        description: 'Assemblies from this location (country and state, or continent)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: USA
+            summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: filter.complete_only
+        description: 'only include complete genomes.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to complete genomes
+          example-1:
+            value: false
+            summary: All genomes
+      - name: returned_content
+        description: 'Return either virus genome accessions, or complete virus metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v1VirusDataReportRequestContentType'
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+              - accession
+              - bioprojects
+              - biosample-acc
+              - completeness
+              - gene-count
+              - geo-location
+              - geo-region
+              - host-common-name
+              - host-infraspecific-breed
+              - host-infraspecific-cultivar
+              - host-infraspecific-ecotype
+              - host-infraspecific-isolate
+              - host-infraspecific-sex
+              - host-infraspecific-strain
+              - host-name
+              - host-pangolin
+              - host-tax-id
+              - is-annotated
+              - is-complete
+              - isolate-collection-date
+              - isolate-lineage
+              - isolate-lineage-source
+              - length
+              - matpeptide-count
+              - mol-type
+              - nucleotide-completeness
+              - protein-count
+              - purpose-of-sampling
+              - release-date
+              - sourcedb
+              - sra-accs
+              - update-date
+              - virus-common-name
+              - virus-infraspecific-breed
+              - virus-infraspecific-cultivar
+              - virus-infraspecific-ecotype
+              - virus-infraspecific-isolate
+              - virus-infraspecific-sex
+              - virus-infraspecific-strain
+              - virus-name
+              - virus-pangolin
+              - virus-tax-id
+        examples:
+          example-0:
+            value:
+              - accession
+              - is_complete
+              - is_annotated
+            summary: Virus Genome Fields
+      - name: page_size
+        description: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+  /virus/accession/{accessions}/dataset_report:
+    get:
+      summary: Get virus metadata by accession
+      description: 'Get virus metadata by accesion. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Virus
+      operationId: virus_reports_by_acessions
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1reportsVirusDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+            application/x-tabular:
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: accessions
+        description: 'genome sequence accessions'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: NC_045512.2,NC_038294.1
+            summary: SARS-COV-2 isolate Wuhan-Hu-1 and Middle East respiratory syndrome-related coronavirus, complete genomes
+      - name: filter.refseq_only
+        description: 'If true, limit results to RefSeq genomes.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to RefSeq genomes
+          example-1:
+            value: false
+            summary: Both GenBank & RefSeq genomes
+      - name: filter.annotated_only
+        description: 'If true, limit results to annotated genomes.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to annotated genomes
+          example-1:
+            value: false
+            summary: All genomes
+      - name: filter.released_since
+        description: 'If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as ''2020-04-01T00:00:00.000Z'''
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2020-08-01
+            summary: August 1, 2020
+      - name: filter.host
+        description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: human
+            summary: human
+      - name: filter.pangolin_classification
+        description: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: filter.geo_location
+        description: 'Assemblies from this location (country and state, or continent)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: USA
+            summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: filter.complete_only
+        description: 'only include complete genomes.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to complete genomes
+          example-1:
+            value: false
+            summary: All genomes
+      - name: returned_content
+        description: 'Return either virus genome accessions, or complete virus metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v1VirusDataReportRequestContentType'
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+              - accession
+              - bioprojects
+              - biosample-acc
+              - completeness
+              - gene-count
+              - geo-location
+              - geo-region
+              - host-common-name
+              - host-infraspecific-breed
+              - host-infraspecific-cultivar
+              - host-infraspecific-ecotype
+              - host-infraspecific-isolate
+              - host-infraspecific-sex
+              - host-infraspecific-strain
+              - host-name
+              - host-pangolin
+              - host-tax-id
+              - is-annotated
+              - is-complete
+              - isolate-collection-date
+              - isolate-lineage
+              - isolate-lineage-source
+              - length
+              - matpeptide-count
+              - mol-type
+              - nucleotide-completeness
+              - protein-count
+              - purpose-of-sampling
+              - release-date
+              - sourcedb
+              - sra-accs
+              - update-date
+              - virus-common-name
+              - virus-infraspecific-breed
+              - virus-infraspecific-cultivar
+              - virus-infraspecific-ecotype
+              - virus-infraspecific-isolate
+              - virus-infraspecific-sex
+              - virus-infraspecific-strain
+              - virus-name
+              - virus-pangolin
+              - virus-tax-id
+        examples:
+          example-0:
+            value:
+              - accession
+              - is_complete
+              - is_annotated
+            summary: Virus Genome Fields
+      - name: page_size
+        description: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+  /virus:
+    post:
+      summary: Get virus metadata by POST
+      description: 'Get virus metadata. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Virus
+      operationId: virus_reports_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1reportsVirusDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+            application/x-tabular:
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1VirusDataReportRequest'
+            example:
+              taxon: 2697049
+              refseq_only: true
   /virus/taxon/{taxon}/genome/download:
     get:
       summary: Download a coronavirus genome dataset by taxon
@@ -4537,6 +4972,57 @@ components:
           type: integer
         patch_ver:
           type: integer
+    v1VirusDataReportRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/v1VirusDatasetFilter'
+          title: 'All the supported filters for virus requests'
+        returned_content:
+          $ref: '#/components/schemas/v1VirusDataReportRequestContentType'
+          title: 'Return either virus genome accessions, or complete virus metadata'
+        table_fields:
+          type: array
+          items:
+            type: string
+        page_size:
+          type: integer
+          title: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        page_token:
+          type: string
+          title: 'A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+    v1VirusDatasetFilter:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
+        taxon:
+          type: string
+          title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        refseq_only:
+          type: boolean
+          title: 'If true, limit results to RefSeq genomes.'
+        annotated_only:
+          type: boolean
+          title: 'If true, limit results to annotated genomes.'
+        released_since:
+          type: string
+          format: date-time
+          title: 'If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as ''2020-04-01T00:00:00.000Z'''
+        host:
+          type: string
+          title: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
+        pangolin_classification:
+          type: string
+          title: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
+        geo_location:
+          type: string
+          title: 'Assemblies from this location (country and state, or continent)'
+        complete_only:
+          type: boolean
+          title: 'only include complete genomes.'
     v1VirusDatasetRequest:
       type: object
       properties:
@@ -4708,6 +5194,17 @@ components:
           type: string
         when:
           type: string
+    v1reportsConservedDomain:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'cdd accession'
+        name:
+          type: string
+        range:
+          $ref: '#/components/schemas/v1reportsRange'
+          title: 'range on the protein'
     v1reportsLineageOrganism:
       type: object
       properties:
@@ -4740,6 +5237,215 @@ components:
           type: string
         pangolin_classification:
           type: string
+    v1reportsRange:
+      type: object
+      properties:
+        begin:
+          type: string
+          format: uint64
+        end:
+          type: string
+          format: uint64
+        orientation:
+          $ref: '#/components/schemas/v1reportsOrientation'
+        order:
+          type: integer
+          title: 'I don''t think this needs to be included in gene reports but it is currently there so it needs to be available in the spec until/unless it gets removed from that report'
+    v1reportsSeqRangeSetFasta:
+      type: object
+      properties:
+        seq_id:
+          type: string
+          title: 'Seq_id may include location info in addition to a sequence accession'
+        accession_version:
+          type: string
+          title: 'Accession and version of the viral nucleotide sequence'
+        title:
+          type: string
+        sequence_hash:
+          type: string
+          title: 'Unique identifier for identical sequences'
+        range:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsRange'
+    v1reportsVirusAnnotation:
+      type: object
+      properties:
+        genes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsVirusGene'
+    v1reportsVirusAssembly:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'The accession.version of the viral nucleotide sequence. Includes both GenBank and RefSeq accessions'
+        is_complete:
+          type: boolean
+        is_annotated:
+          type: boolean
+          title: 'The viral genome has been annotated by either the submitter (GenBank) or by NCBI (RefSeq)'
+        isolate:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyIsolate'
+        source_database:
+          type: string
+          title: 'Indicates if the source of the viral nucleotide record is from a GenBank submitter or from NCBI-derived curation (RefSeq)'
+        protein_count:
+          type: integer
+          title: 'The total count of annotated proteins including both proteins and polyproteins but not processed mature peptides'
+        host:
+          $ref: '#/components/schemas/v1reportsOrganism'
+          title: 'Taxon from which the virus sample was isolated'
+        virus:
+          $ref: '#/components/schemas/v1reportsOrganism'
+          title: 'Viral taxon'
+        bioprojects:
+          type: array
+          items:
+            type: string
+        location:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyCollectionLocation'
+        update_date:
+          type: string
+          title: 'Date the viral nucleotide accession was last updated in NCBI Virus'
+        release_date:
+          type: string
+          title: 'Date the viral nucleotide accession was first released in NCBI Virus'
+        nucleotide_completeness:
+          type: string
+          title: 'Value describing if the of the viral nucleotide sequence represents a complete or partial genome'
+        completeness:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyCompleteness'
+        length:
+          type: integer
+          title: 'Length of the viral nucleotide sequence'
+        gene_count:
+          type: integer
+          title: 'Total count of genes annotated on the viral nucleotide sequence'
+        mature_peptide_count:
+          type: integer
+          title: 'Total count of processed mature peptides annotated on the viral nucleotide sequence'
+        biosample:
+          type: string
+          title: 'Associated Biosample accessions'
+        mol_type:
+          type: string
+          title: 'ICTV (International Committee on Taxonomy of Viruses) viral classification based on nucleic acid composition, strandedness and method of replication'
+        annotation:
+          $ref: '#/components/schemas/v1reportsVirusAnnotation'
+        nucleotide:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+          title: 'The whole genomic nucleotide record of the CDS feature.'
+        purpose_of_sampling:
+          $ref: '#/components/schemas/v1reportsPurposeOfSampling'
+        sra_accessions:
+          type: array
+          items:
+            type: string
+    v1reportsVirusAssemblyCollectionLocation:
+      type: object
+      properties:
+        geographic_location:
+          type: string
+          title: 'Country of virus specimen collection'
+        geographic_region:
+          type: string
+          title: 'Region of virus specimen collection'
+    v1reportsVirusAssemblyIsolate:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'BioSample harmonized attribute names https://www.ncbi.nlm.nih.gov/biosample/docs/attributes/'
+        source:
+          type: string
+          title: 'Source material from which the viral specimen was isolated'
+        collection_date:
+          type: string
+          title: 'The collection date for the sample from which the viral nucleotide sequence was derived'
+    v1reportsVirusDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsVirusAssembly'
+        total_count:
+          type: integer
+          title: 'The total count of available assemblies (ignoring the page_size parameter).'
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _first_page:
+          type: boolean
+    v1reportsVirusGene:
+      type: object
+      properties:
+        name:
+          type: string
+        gene_id:
+          type: integer
+        nucleotide:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+          title: 'The interval on the genomic nucleotide record of the CDS feature.'
+        cds:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsVirusPeptide'
+    v1reportsVirusPeptide:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Protein accession and version'
+        name:
+          type: string
+          title: 'Protein name'
+        other_names:
+          type: array
+          items:
+            type: string
+        nucleotide:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+          title: 'The interval on the genomic nucleotide record of this mature-peptide feature'
+        protein:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+          title: 'The full polyprotein record or interval on the polyprotein for mature-peptide features'
+        pdb_ids:
+          type: array
+          items:
+            type: string
+        cdd:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsConservedDomain'
+        uni_prot_kb:
+          $ref: '#/components/schemas/v1reportsVirusPeptideUniProtId'
+          title: 'UniProt identifier'
+        mature_peptide:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1reportsVirusPeptide'
+        protein_completeness:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyCompleteness'
+          title: 'Protein completeness'
+    v1reportsVirusPeptideUniProtId:
+      type: object
+      properties:
+        id:
+          type: string
+          title: 'UniProt ID'
+        name:
+          type: string
+          title: 'UniProt name'
     
     v1AnnotationForAssemblyType:
       type: string
@@ -5034,6 +5740,14 @@ components:
         - PROTEIN_CODING_MODEL
         - NON_CODING_MODEL
       default: UNKNOWN
+    
+    v1VirusDataReportRequestContentType:
+      type: string
+      enum:
+        - COMPLETE
+        - ACCESSIONS_ONLY
+      default: COMPLETE
+      title: 'Specify a specific group of values to be returned, currently either all fields or accessions only'
     
     v1VirusTableField:
       type: string

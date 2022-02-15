@@ -3207,6 +3207,512 @@ paths:
       summary: Get SARS-CoV-2 protein metadata in a tabular format.
       tags:
       - Virus
+  /virus/taxon/{taxon}/dataset_report:
+    get:
+      description: 'Get virus metadata by taxon. By default, in paged JSON format,
+        but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      operationId: virus_reports_by_taxon
+      parameters:
+      - description: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
+          rank
+        examples:
+          example-0:
+            summary: SARS-COV-2
+            value: 2697049
+          example-1:
+            summary: Coronaviridae
+            value: 11118
+          example-2:
+            summary: MERS
+            value: 1335626
+        explode: false
+        in: path
+        name: taxon
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: If true, limit results to RefSeq genomes.
+        examples:
+          example-0:
+            summary: Limit to RefSeq genomes
+            value: true
+          example-1:
+            summary: Both GenBank & RefSeq genomes
+            value: false
+        explode: true
+        in: query
+        name: filter.refseq_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If true, limit results to annotated genomes.
+        examples:
+          example-0:
+            summary: Limit to annotated genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: filter.annotated_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If set, limit results to viral genomes that have been released
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as '2020-04-01T00:00:00.000Z'
+        examples:
+          example-0:
+            summary: August 1, 2020
+            value: 2020-08-01
+        explode: true
+        in: query
+        name: filter.released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: If set, limit results to genomes extracted from this host (Taxonomy
+          ID or name) All hosts by default
+        examples:
+          example-0:
+            summary: human
+            value: human
+        explode: true
+        in: query
+        name: filter.host
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        explode: true
+        in: query
+        name: filter.pangolin_classification
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Assemblies from this location (country and state, or continent)
+        examples:
+          example-0:
+            summary: USA
+            value: USA
+          example-1:
+            summary: Texas
+            value: TX
+        explode: true
+        in: query
+        name: filter.geo_location
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: only include complete genomes.
+        examples:
+          example-0:
+            summary: Limit to complete genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: filter.complete_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Return either virus genome accessions, or complete virus metadata
+        explode: true
+        in: query
+        name: returned_content
+        required: false
+        schema:
+          $ref: '#/components/schemas/v1VirusDataReportRequestContentType'
+        style: form
+      - description: Specify which fields to include in the tabular report
+        examples:
+          example-0:
+            summary: Virus Genome Fields
+            value:
+            - accession
+            - is_complete
+            - is_annotated
+        explode: true
+        in: query
+        name: table_fields
+        required: false
+        schema:
+          items:
+            enum:
+            - accession
+            - bioprojects
+            - biosample-acc
+            - completeness
+            - gene-count
+            - geo-location
+            - geo-region
+            - host-common-name
+            - host-infraspecific-breed
+            - host-infraspecific-cultivar
+            - host-infraspecific-ecotype
+            - host-infraspecific-isolate
+            - host-infraspecific-sex
+            - host-infraspecific-strain
+            - host-name
+            - host-pangolin
+            - host-tax-id
+            - is-annotated
+            - is-complete
+            - isolate-collection-date
+            - isolate-lineage
+            - isolate-lineage-source
+            - length
+            - matpeptide-count
+            - mol-type
+            - nucleotide-completeness
+            - protein-count
+            - purpose-of-sampling
+            - release-date
+            - sourcedb
+            - sra-accs
+            - update-date
+            - virus-common-name
+            - virus-infraspecific-breed
+            - virus-infraspecific-cultivar
+            - virus-infraspecific-ecotype
+            - virus-infraspecific-isolate
+            - virus-infraspecific-sex
+            - virus-infraspecific-strain
+            - virus-name
+            - virus-pangolin
+            - virus-tax-id
+            type: string
+          type: array
+        style: form
+      - description: The maximum number of virus data reports to return. Default is
+          20 and maximum is 1000. If the number of results exceeds the page size,
+          `page_token` can be used to retrieve the remaining results.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      - description: A page token is returned from a `GetVirusDataReports` call with
+          more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest`
+          parameters, to retrieve the next page of results. When `page_token` is empty,
+          all results have been retrieved.
+        explode: true
+        in: query
+        name: page_token
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1reportsVirusDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+            application/x-tabular:
+              schema:
+                type: string
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Get virus metadata by taxon
+      tags:
+      - Virus
+  /virus/accession/{accessions}/dataset_report:
+    get:
+      description: 'Get virus metadata by accesion. By default, in paged JSON format,
+        but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      operationId: virus_reports_by_acessions
+      parameters:
+      - description: genome sequence accessions
+        examples:
+          example-0:
+            summary: SARS-COV-2 isolate Wuhan-Hu-1 and Middle East respiratory syndrome-related
+              coronavirus, complete genomes
+            value: NC_045512.2,NC_038294.1
+        explode: false
+        in: path
+        name: accessions
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: simple
+      - description: If true, limit results to RefSeq genomes.
+        examples:
+          example-0:
+            summary: Limit to RefSeq genomes
+            value: true
+          example-1:
+            summary: Both GenBank & RefSeq genomes
+            value: false
+        explode: true
+        in: query
+        name: filter.refseq_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If true, limit results to annotated genomes.
+        examples:
+          example-0:
+            summary: Limit to annotated genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: filter.annotated_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: If set, limit results to viral genomes that have been released
+          after a specified date (and optionally, time). April 1, 2020 midnight UTC
+          should be formatted as '2020-04-01T00:00:00.000Z'
+        examples:
+          example-0:
+            summary: August 1, 2020
+            value: 2020-08-01
+        explode: true
+        in: query
+        name: filter.released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: If set, limit results to genomes extracted from this host (Taxonomy
+          ID or name) All hosts by default
+        examples:
+          example-0:
+            summary: human
+            value: human
+        explode: true
+        in: query
+        name: filter.host
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: If set, limit results to genomes classified to this lineage by
+          the PangoLearn tool.
+        explode: true
+        in: query
+        name: filter.pangolin_classification
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Assemblies from this location (country and state, or continent)
+        examples:
+          example-0:
+            summary: USA
+            value: USA
+          example-1:
+            summary: Texas
+            value: TX
+        explode: true
+        in: query
+        name: filter.geo_location
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: only include complete genomes.
+        examples:
+          example-0:
+            summary: Limit to complete genomes
+            value: true
+          example-1:
+            summary: All genomes
+            value: false
+        explode: true
+        in: query
+        name: filter.complete_only
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Return either virus genome accessions, or complete virus metadata
+        explode: true
+        in: query
+        name: returned_content
+        required: false
+        schema:
+          $ref: '#/components/schemas/v1VirusDataReportRequestContentType'
+        style: form
+      - description: Specify which fields to include in the tabular report
+        examples:
+          example-0:
+            summary: Virus Genome Fields
+            value:
+            - accession
+            - is_complete
+            - is_annotated
+        explode: true
+        in: query
+        name: table_fields
+        required: false
+        schema:
+          items:
+            enum:
+            - accession
+            - bioprojects
+            - biosample-acc
+            - completeness
+            - gene-count
+            - geo-location
+            - geo-region
+            - host-common-name
+            - host-infraspecific-breed
+            - host-infraspecific-cultivar
+            - host-infraspecific-ecotype
+            - host-infraspecific-isolate
+            - host-infraspecific-sex
+            - host-infraspecific-strain
+            - host-name
+            - host-pangolin
+            - host-tax-id
+            - is-annotated
+            - is-complete
+            - isolate-collection-date
+            - isolate-lineage
+            - isolate-lineage-source
+            - length
+            - matpeptide-count
+            - mol-type
+            - nucleotide-completeness
+            - protein-count
+            - purpose-of-sampling
+            - release-date
+            - sourcedb
+            - sra-accs
+            - update-date
+            - virus-common-name
+            - virus-infraspecific-breed
+            - virus-infraspecific-cultivar
+            - virus-infraspecific-ecotype
+            - virus-infraspecific-isolate
+            - virus-infraspecific-sex
+            - virus-infraspecific-strain
+            - virus-name
+            - virus-pangolin
+            - virus-tax-id
+            type: string
+          type: array
+        style: form
+      - description: The maximum number of virus data reports to return. Default is
+          20 and maximum is 1000. If the number of results exceeds the page size,
+          `page_token` can be used to retrieve the remaining results.
+        explode: true
+        in: query
+        name: page_size
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      - description: A page token is returned from a `GetVirusDataReports` call with
+          more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest`
+          parameters, to retrieve the next page of results. When `page_token` is empty,
+          all results have been retrieved.
+        explode: true
+        in: query
+        name: page_token
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1reportsVirusDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+            application/x-tabular:
+              schema:
+                type: string
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Get virus metadata by accession
+      tags:
+      - Virus
+  /virus:
+    post:
+      description: 'Get virus metadata. By default, in paged JSON format, but also
+        available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      operationId: virus_reports_by_post
+      requestBody:
+        content:
+          application/json:
+            example:
+              taxon: 2697049
+              refseq_only: true
+            schema:
+              $ref: '#/components/schemas/v1VirusDataReportRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1reportsVirusDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+            application/x-tabular:
+              schema:
+                type: string
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Get virus metadata by POST
+      tags:
+      - Virus
   /virus/taxon/{taxon}/genome/download:
     get:
       description: Download a coronavirus genome dataset by taxon
@@ -8746,6 +9252,65 @@ components:
         patch_ver:
           type: integer
       type: object
+    v1VirusDataReportRequest:
+      properties:
+        filter:
+          $ref: '#/components/schemas/v1VirusDatasetFilter'
+        returned_content:
+          $ref: '#/components/schemas/v1VirusDataReportRequestContentType'
+        table_fields:
+          items:
+            type: string
+          type: array
+        page_size:
+          title: The maximum number of virus data reports to return. Default is 20
+            and maximum is 1000. If the number of results exceeds the page size, `page_token`
+            can be used to retrieve the remaining results.
+          type: integer
+        page_token:
+          title: A page token is returned from a `GetVirusDataReports` call with more
+            than `page_size` results. Use this token, along with the previous `VirusDataReportRequest`
+            parameters, to retrieve the next page of results. When `page_token` is
+            empty, all results have been retrieved.
+          type: string
+      type: object
+    v1VirusDatasetFilter:
+      properties:
+        accessions:
+          items:
+            type: string
+          type: array
+        taxon:
+          title: NCBI Taxonomy ID or name (common or scientific) at any taxonomic
+            rank
+          type: string
+        refseq_only:
+          title: If true, limit results to RefSeq genomes.
+          type: boolean
+        annotated_only:
+          title: If true, limit results to annotated genomes.
+          type: boolean
+        released_since:
+          format: date-time
+          title: If set, limit results to viral genomes that have been released after
+            a specified date (and optionally, time). April 1, 2020 midnight UTC should
+            be formatted as '2020-04-01T00:00:00.000Z'
+          type: string
+        host:
+          title: If set, limit results to genomes extracted from this host (Taxonomy
+            ID or name) All hosts by default
+          type: string
+        pangolin_classification:
+          title: If set, limit results to genomes classified to this lineage by the
+            PangoLearn tool.
+          type: string
+        geo_location:
+          title: Assemblies from this location (country and state, or continent)
+          type: string
+        complete_only:
+          title: only include complete genomes.
+          type: boolean
+      type: object
     v1VirusDatasetRequest:
       properties:
         tax_id:
@@ -9027,6 +9592,23 @@ components:
         when:
           type: string
       type: object
+    v1reportsConservedDomain:
+      example:
+        name: name
+        range:
+          end: end
+          begin: begin
+          order: 2
+        accession: accession
+      properties:
+        accession:
+          title: cdd accession
+          type: string
+        name:
+          type: string
+        range:
+          $ref: '#/components/schemas/v1reportsRange'
+      type: object
     v1reportsLineageOrganism:
       example:
         name: name
@@ -9072,6 +9654,1554 @@ components:
         strain:
           type: string
         pangolin_classification:
+          type: string
+      type: object
+    v1reportsRange:
+      example:
+        end: end
+        begin: begin
+        order: 2
+      properties:
+        begin:
+          format: uint64
+          type: string
+        end:
+          format: uint64
+          type: string
+        orientation:
+          $ref: '#/components/schemas/v1reportsOrientation'
+        order:
+          title: I don't think this needs to be included in gene reports but it is
+            currently there so it needs to be available in the spec until/unless it
+            gets removed from that report
+          type: integer
+      type: object
+    v1reportsSeqRangeSetFasta:
+      example:
+        accession_version: accession_version
+        sequence_hash: sequence_hash
+        range:
+        - end: end
+          begin: begin
+          order: 2
+        - end: end
+          begin: begin
+          order: 2
+        seq_id: seq_id
+        title: title
+      properties:
+        seq_id:
+          title: Seq_id may include location info in addition to a sequence accession
+          type: string
+        accession_version:
+          title: Accession and version of the viral nucleotide sequence
+          type: string
+        title:
+          type: string
+        sequence_hash:
+          title: Unique identifier for identical sequences
+          type: string
+        range:
+          items:
+            $ref: '#/components/schemas/v1reportsRange'
+          type: array
+      type: object
+    v1reportsVirusAnnotation:
+      example:
+        genes:
+        - cds:
+          - cdd:
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            nucleotide:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            protein:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            pdb_ids:
+            - pdb_ids
+            - pdb_ids
+            name: name
+            other_names:
+            - other_names
+            - other_names
+            uni_prot_kb:
+              name: name
+              id: id
+            mature_peptide:
+            - null
+            - null
+            accession: accession
+          - cdd:
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            nucleotide:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            protein:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            pdb_ids:
+            - pdb_ids
+            - pdb_ids
+            name: name
+            other_names:
+            - other_names
+            - other_names
+            uni_prot_kb:
+              name: name
+              id: id
+            mature_peptide:
+            - null
+            - null
+            accession: accession
+          nucleotide:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          name: name
+          gene_id: 5
+        - cds:
+          - cdd:
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            nucleotide:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            protein:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            pdb_ids:
+            - pdb_ids
+            - pdb_ids
+            name: name
+            other_names:
+            - other_names
+            - other_names
+            uni_prot_kb:
+              name: name
+              id: id
+            mature_peptide:
+            - null
+            - null
+            accession: accession
+          - cdd:
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            - name: name
+              range:
+                end: end
+                begin: begin
+                order: 2
+              accession: accession
+            nucleotide:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            protein:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            pdb_ids:
+            - pdb_ids
+            - pdb_ids
+            name: name
+            other_names:
+            - other_names
+            - other_names
+            uni_prot_kb:
+              name: name
+              id: id
+            mature_peptide:
+            - null
+            - null
+            accession: accession
+          nucleotide:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          name: name
+          gene_id: 5
+      properties:
+        genes:
+          items:
+            $ref: '#/components/schemas/v1reportsVirusGene'
+          type: array
+      type: object
+    v1reportsVirusAssembly:
+      example:
+        annotation:
+          genes:
+          - cds:
+            - cdd:
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              protein:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              pdb_ids:
+              - pdb_ids
+              - pdb_ids
+              name: name
+              other_names:
+              - other_names
+              - other_names
+              uni_prot_kb:
+                name: name
+                id: id
+              mature_peptide:
+              - null
+              - null
+              accession: accession
+            - cdd:
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              protein:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              pdb_ids:
+              - pdb_ids
+              - pdb_ids
+              name: name
+              other_names:
+              - other_names
+              - other_names
+              uni_prot_kb:
+                name: name
+                id: id
+              mature_peptide:
+              - null
+              - null
+              accession: accession
+            nucleotide:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            name: name
+            gene_id: 5
+          - cds:
+            - cdd:
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              protein:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              pdb_ids:
+              - pdb_ids
+              - pdb_ids
+              name: name
+              other_names:
+              - other_names
+              - other_names
+              uni_prot_kb:
+                name: name
+                id: id
+              mature_peptide:
+              - null
+              - null
+              accession: accession
+            - cdd:
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              - name: name
+                range:
+                  end: end
+                  begin: begin
+                  order: 2
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              protein:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              pdb_ids:
+              - pdb_ids
+              - pdb_ids
+              name: name
+              other_names:
+              - other_names
+              - other_names
+              uni_prot_kb:
+                name: name
+                id: id
+              mature_peptide:
+              - null
+              - null
+              accession: accession
+            nucleotide:
+              accession_version: accession_version
+              sequence_hash: sequence_hash
+              range:
+              - end: end
+                begin: begin
+                order: 2
+              - end: end
+                begin: begin
+                order: 2
+              seq_id: seq_id
+              title: title
+            name: name
+            gene_id: 5
+        gene_count: 1
+        nucleotide:
+          accession_version: accession_version
+          sequence_hash: sequence_hash
+          range:
+          - end: end
+            begin: begin
+            order: 2
+          - end: end
+            begin: begin
+            order: 2
+          seq_id: seq_id
+          title: title
+        length: 6
+        accession: accession
+        mature_peptide_count: 5
+        sra_accessions:
+        - sra_accessions
+        - sra_accessions
+        virus:
+          lineage:
+          - name: name
+            tax_id: 1
+          - name: name
+            tax_id: 1
+          strain: strain
+          pangolin_classification: pangolin_classification
+          organism_name: organism_name
+          sci_name: sci_name
+          common_name: common_name
+          tax_id: 1
+        nucleotide_completeness: nucleotide_completeness
+        source_database: source_database
+        update_date: update_date
+        isolate:
+          collection_date: collection_date
+          name: name
+          source: source
+        is_annotated: true
+        bioprojects:
+        - bioprojects
+        - bioprojects
+        release_date: release_date
+        protein_count: 0
+        host:
+          lineage:
+          - name: name
+            tax_id: 1
+          - name: name
+            tax_id: 1
+          strain: strain
+          pangolin_classification: pangolin_classification
+          organism_name: organism_name
+          sci_name: sci_name
+          common_name: common_name
+          tax_id: 1
+        location:
+          geographic_region: geographic_region
+          geographic_location: geographic_location
+        is_complete: true
+        biosample: biosample
+        mol_type: mol_type
+      properties:
+        accession:
+          title: The accession.version of the viral nucleotide sequence. Includes
+            both GenBank and RefSeq accessions
+          type: string
+        is_complete:
+          type: boolean
+        is_annotated:
+          title: The viral genome has been annotated by either the submitter (GenBank)
+            or by NCBI (RefSeq)
+          type: boolean
+        isolate:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyIsolate'
+        source_database:
+          title: Indicates if the source of the viral nucleotide record is from a
+            GenBank submitter or from NCBI-derived curation (RefSeq)
+          type: string
+        protein_count:
+          title: The total count of annotated proteins including both proteins and
+            polyproteins but not processed mature peptides
+          type: integer
+        host:
+          $ref: '#/components/schemas/v1reportsOrganism'
+        virus:
+          $ref: '#/components/schemas/v1reportsOrganism'
+        bioprojects:
+          items:
+            type: string
+          type: array
+        location:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyCollectionLocation'
+        update_date:
+          title: Date the viral nucleotide accession was last updated in NCBI Virus
+          type: string
+        release_date:
+          title: Date the viral nucleotide accession was first released in NCBI Virus
+          type: string
+        nucleotide_completeness:
+          title: Value describing if the of the viral nucleotide sequence represents
+            a complete or partial genome
+          type: string
+        completeness:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyCompleteness'
+        length:
+          title: Length of the viral nucleotide sequence
+          type: integer
+        gene_count:
+          title: Total count of genes annotated on the viral nucleotide sequence
+          type: integer
+        mature_peptide_count:
+          title: Total count of processed mature peptides annotated on the viral nucleotide
+            sequence
+          type: integer
+        biosample:
+          title: Associated Biosample accessions
+          type: string
+        mol_type:
+          title: ICTV (International Committee on Taxonomy of Viruses) viral classification
+            based on nucleic acid composition, strandedness and method of replication
+          type: string
+        annotation:
+          $ref: '#/components/schemas/v1reportsVirusAnnotation'
+        nucleotide:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+        purpose_of_sampling:
+          $ref: '#/components/schemas/v1reportsPurposeOfSampling'
+        sra_accessions:
+          items:
+            type: string
+          type: array
+      type: object
+    v1reportsVirusAssemblyCollectionLocation:
+      example:
+        geographic_region: geographic_region
+        geographic_location: geographic_location
+      properties:
+        geographic_location:
+          title: Country of virus specimen collection
+          type: string
+        geographic_region:
+          title: Region of virus specimen collection
+          type: string
+      type: object
+    v1reportsVirusAssemblyIsolate:
+      example:
+        collection_date: collection_date
+        name: name
+        source: source
+      properties:
+        name:
+          title: BioSample harmonized attribute names https://www.ncbi.nlm.nih.gov/biosample/docs/attributes/
+          type: string
+        source:
+          title: Source material from which the viral specimen was isolated
+          type: string
+        collection_date:
+          title: The collection date for the sample from which the viral nucleotide
+            sequence was derived
+          type: string
+      type: object
+    v1reportsVirusDataReportPage:
+      example:
+        reports:
+        - annotation:
+            genes:
+            - cds:
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              name: name
+              gene_id: 5
+            - cds:
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              name: name
+              gene_id: 5
+          gene_count: 1
+          nucleotide:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          length: 6
+          accession: accession
+          mature_peptide_count: 5
+          sra_accessions:
+          - sra_accessions
+          - sra_accessions
+          virus:
+            lineage:
+            - name: name
+              tax_id: 1
+            - name: name
+              tax_id: 1
+            strain: strain
+            pangolin_classification: pangolin_classification
+            organism_name: organism_name
+            sci_name: sci_name
+            common_name: common_name
+            tax_id: 1
+          nucleotide_completeness: nucleotide_completeness
+          source_database: source_database
+          update_date: update_date
+          isolate:
+            collection_date: collection_date
+            name: name
+            source: source
+          is_annotated: true
+          bioprojects:
+          - bioprojects
+          - bioprojects
+          release_date: release_date
+          protein_count: 0
+          host:
+            lineage:
+            - name: name
+              tax_id: 1
+            - name: name
+              tax_id: 1
+            strain: strain
+            pangolin_classification: pangolin_classification
+            organism_name: organism_name
+            sci_name: sci_name
+            common_name: common_name
+            tax_id: 1
+          location:
+            geographic_region: geographic_region
+            geographic_location: geographic_location
+          is_complete: true
+          biosample: biosample
+          mol_type: mol_type
+        - annotation:
+            genes:
+            - cds:
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              name: name
+              gene_id: 5
+            - cds:
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              - cdd:
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                - name: name
+                  range:
+                    end: end
+                    begin: begin
+                    order: 2
+                  accession: accession
+                nucleotide:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                protein:
+                  accession_version: accession_version
+                  sequence_hash: sequence_hash
+                  range:
+                  - end: end
+                    begin: begin
+                    order: 2
+                  - end: end
+                    begin: begin
+                    order: 2
+                  seq_id: seq_id
+                  title: title
+                pdb_ids:
+                - pdb_ids
+                - pdb_ids
+                name: name
+                other_names:
+                - other_names
+                - other_names
+                uni_prot_kb:
+                  name: name
+                  id: id
+                mature_peptide:
+                - null
+                - null
+                accession: accession
+              nucleotide:
+                accession_version: accession_version
+                sequence_hash: sequence_hash
+                range:
+                - end: end
+                  begin: begin
+                  order: 2
+                - end: end
+                  begin: begin
+                  order: 2
+                seq_id: seq_id
+                title: title
+              name: name
+              gene_id: 5
+          gene_count: 1
+          nucleotide:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          length: 6
+          accession: accession
+          mature_peptide_count: 5
+          sra_accessions:
+          - sra_accessions
+          - sra_accessions
+          virus:
+            lineage:
+            - name: name
+              tax_id: 1
+            - name: name
+              tax_id: 1
+            strain: strain
+            pangolin_classification: pangolin_classification
+            organism_name: organism_name
+            sci_name: sci_name
+            common_name: common_name
+            tax_id: 1
+          nucleotide_completeness: nucleotide_completeness
+          source_database: source_database
+          update_date: update_date
+          isolate:
+            collection_date: collection_date
+            name: name
+            source: source
+          is_annotated: true
+          bioprojects:
+          - bioprojects
+          - bioprojects
+          release_date: release_date
+          protein_count: 0
+          host:
+            lineage:
+            - name: name
+              tax_id: 1
+            - name: name
+              tax_id: 1
+            strain: strain
+            pangolin_classification: pangolin_classification
+            organism_name: organism_name
+            sci_name: sci_name
+            common_name: common_name
+            tax_id: 1
+          location:
+            geographic_region: geographic_region
+            geographic_location: geographic_location
+          is_complete: true
+          biosample: biosample
+          mol_type: mol_type
+        next_page_token: next_page_token
+        total_count: 7
+        _first_page: true
+        _report_type: _report_type
+        _report_fields:
+        - _report_fields
+        - _report_fields
+      properties:
+        reports:
+          items:
+            $ref: '#/components/schemas/v1reportsVirusAssembly'
+          type: array
+        total_count:
+          title: The total count of available assemblies (ignoring the page_size parameter).
+          type: integer
+        next_page_token:
+          title: A token that can be sent as `page_token` to retrieve the next page.
+            If this field is omitted, there are no subsequent pages.
+          type: string
+        _report_type:
+          type: string
+        _report_fields:
+          items:
+            type: string
+          type: array
+        _first_page:
+          type: boolean
+      type: object
+    v1reportsVirusGene:
+      example:
+        cds:
+        - cdd:
+          - name: name
+            range:
+              end: end
+              begin: begin
+              order: 2
+            accession: accession
+          - name: name
+            range:
+              end: end
+              begin: begin
+              order: 2
+            accession: accession
+          nucleotide:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          protein:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          pdb_ids:
+          - pdb_ids
+          - pdb_ids
+          name: name
+          other_names:
+          - other_names
+          - other_names
+          uni_prot_kb:
+            name: name
+            id: id
+          mature_peptide:
+          - null
+          - null
+          accession: accession
+        - cdd:
+          - name: name
+            range:
+              end: end
+              begin: begin
+              order: 2
+            accession: accession
+          - name: name
+            range:
+              end: end
+              begin: begin
+              order: 2
+            accession: accession
+          nucleotide:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          protein:
+            accession_version: accession_version
+            sequence_hash: sequence_hash
+            range:
+            - end: end
+              begin: begin
+              order: 2
+            - end: end
+              begin: begin
+              order: 2
+            seq_id: seq_id
+            title: title
+          pdb_ids:
+          - pdb_ids
+          - pdb_ids
+          name: name
+          other_names:
+          - other_names
+          - other_names
+          uni_prot_kb:
+            name: name
+            id: id
+          mature_peptide:
+          - null
+          - null
+          accession: accession
+        nucleotide:
+          accession_version: accession_version
+          sequence_hash: sequence_hash
+          range:
+          - end: end
+            begin: begin
+            order: 2
+          - end: end
+            begin: begin
+            order: 2
+          seq_id: seq_id
+          title: title
+        name: name
+        gene_id: 5
+      properties:
+        name:
+          type: string
+        gene_id:
+          type: integer
+        nucleotide:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+        cds:
+          items:
+            $ref: '#/components/schemas/v1reportsVirusPeptide'
+          type: array
+      type: object
+    v1reportsVirusPeptide:
+      example:
+        cdd:
+        - name: name
+          range:
+            end: end
+            begin: begin
+            order: 2
+          accession: accession
+        - name: name
+          range:
+            end: end
+            begin: begin
+            order: 2
+          accession: accession
+        nucleotide:
+          accession_version: accession_version
+          sequence_hash: sequence_hash
+          range:
+          - end: end
+            begin: begin
+            order: 2
+          - end: end
+            begin: begin
+            order: 2
+          seq_id: seq_id
+          title: title
+        protein:
+          accession_version: accession_version
+          sequence_hash: sequence_hash
+          range:
+          - end: end
+            begin: begin
+            order: 2
+          - end: end
+            begin: begin
+            order: 2
+          seq_id: seq_id
+          title: title
+        pdb_ids:
+        - pdb_ids
+        - pdb_ids
+        name: name
+        other_names:
+        - other_names
+        - other_names
+        uni_prot_kb:
+          name: name
+          id: id
+        mature_peptide:
+        - null
+        - null
+        accession: accession
+      properties:
+        accession:
+          title: Protein accession and version
+          type: string
+        name:
+          title: Protein name
+          type: string
+        other_names:
+          items:
+            type: string
+          type: array
+        nucleotide:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+        protein:
+          $ref: '#/components/schemas/v1reportsSeqRangeSetFasta'
+        pdb_ids:
+          items:
+            type: string
+          type: array
+        cdd:
+          items:
+            $ref: '#/components/schemas/v1reportsConservedDomain'
+          type: array
+        uni_prot_kb:
+          $ref: '#/components/schemas/v1reportsVirusPeptideUniProtId'
+        mature_peptide:
+          items:
+            $ref: '#/components/schemas/v1reportsVirusPeptide'
+          type: array
+        protein_completeness:
+          $ref: '#/components/schemas/v1reportsVirusAssemblyCompleteness'
+      type: object
+    v1reportsVirusPeptideUniProtId:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          title: UniProt ID
+          type: string
+        name:
+          title: UniProt name
           type: string
       type: object
     v1AnnotationForAssemblyType:
@@ -9341,6 +11471,14 @@ components:
       - NON_CODING
       - PROTEIN_CODING_MODEL
       - NON_CODING_MODEL
+      type: string
+    v1VirusDataReportRequestContentType:
+      default: COMPLETE
+      enum:
+      - COMPLETE
+      - ACCESSIONS_ONLY
+      title: Specify a specific group of values to be returned, currently either all
+        fields or accessions only
       type: string
     v1VirusTableField:
       default: unspecified
