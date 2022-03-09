@@ -57,12 +57,6 @@ tags:
 
     * protein.faa (protein sequences in FASTA format)
 
-    * genomic.gbff (genomic sequences and annotation in GenBank flat file format)
-
-    * protein.gpff (protein sequences and annotation in GenPept flat file format)
-
-    * protein structures in PDB format
-
 
     The following files are always included in coronavirus genome and protein datasets:
 
