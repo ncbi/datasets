@@ -30,16 +30,14 @@ Questions? Please contact us: info@ncbi.nlm.nih.gov
 const virusFlagWarningMessage = messagePreamble + `
 The following flags are no longer needed
  * --exclude-pdb
- * --exclude-gpff
-`
+ * --exclude-gpff`
 
 const virusFlagErrorMessage = messagePreamble + `
 You must remove this flag to continue:
- * --include-gbff
-`
+ * --include-gbff`
 
 // virusCmd represents the virus command
-var virusCmd = &cobra.Command{
+var downloadVirusCmd = &cobra.Command{
 	Use:   "virus [command]",
 	Short: "download a coronavirus dataset",
 	Long: `
@@ -51,15 +49,15 @@ Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/
 }
 
 func init() {
-	virusCmd.AddCommand(downloadVirusGenomeCmd)
-	virusCmd.AddCommand(downloadVirusProteinCmd)
+	downloadVirusCmd.AddCommand(downloadVirusGenomeCmd)
+	downloadVirusCmd.AddCommand(downloadVirusProteinCmd)
 
-	virusCmd.PersistentFlags().BoolVarP(&argRetiredExcludeFlag, "exclude-gpff", "g", false, "exclude genomic.fna (genomic sequence file)")
-	virusCmd.PersistentFlags().MarkHidden("exclude-gpff")
+	downloadVirusCmd.PersistentFlags().BoolVarP(&argRetiredExcludeFlag, "exclude-gpff", "g", false, "exclude genomic.fna (genomic sequence file)")
+	downloadVirusCmd.PersistentFlags().MarkHidden("exclude-gpff")
 
-	virusCmd.PersistentFlags().BoolVarP(&argRetiredIncludeFlag, "include-gbff", "b", false, "include genomic.gbff (genome sequence and annotation in GenBank flat file format)")
-	virusCmd.PersistentFlags().MarkHidden("include-gbff")
+	downloadVirusCmd.PersistentFlags().BoolVarP(&argRetiredIncludeFlag, "include-gbff", "b", false, "include genomic.gbff (genome sequence and annotation in GenBank flat file format)")
+	downloadVirusCmd.PersistentFlags().MarkHidden("include-gbff")
 
-	virusCmd.PersistentFlags().BoolVar(&argRetiredExcludeFlag, "exclude-pdb", false, "exclude *.pdb (protein structure files)")
-	virusCmd.PersistentFlags().MarkHidden("exclude-pdb")
+	downloadVirusCmd.PersistentFlags().BoolVar(&argRetiredExcludeFlag, "exclude-pdb", false, "exclude *.pdb (protein structure files)")
+	downloadVirusCmd.PersistentFlags().MarkHidden("exclude-pdb")
 }

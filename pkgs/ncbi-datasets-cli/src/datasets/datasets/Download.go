@@ -137,7 +137,7 @@ func isValidZip(filename string) bool {
 func init() {
 	downloadCmd.AddCommand(downloadGeneCmd)
 	downloadCmd.AddCommand(genomeCmd)
-	downloadCmd.AddCommand(virusCmd)
+	downloadCmd.AddCommand(downloadVirusCmd)
 	downloadCmd.AddCommand(assemblyCmd)
 	downloadCmd.AddCommand(downloadOrthologCmd)
 
