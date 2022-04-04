@@ -31,11 +31,12 @@ var (
 	// AppVersion is the application version string whose value is set at build time
 	AppVersion = "undefined"
 
-	serverVersion  string
-	versionMessage string
-	userMessage    string
-	clientHeaders  = make(map[string]string)
-	ncbi_phid      string
+	serverVersion    string
+	versionMessage   string
+	userMessage      string
+	clientHeaders    = make(map[string]string)
+	jsonAcceptHeader = map[string]string{"Accept": "application/json"}
+	ncbi_phid        string
 
 	// various command-line args
 	argDebug           bool
@@ -501,7 +502,6 @@ func init() {
 	rootCmd.AddCommand(getAssemblyDescriptorsCmd)
 	rootCmd.AddCommand(getGeneDescriptorsCmd)
 	rootCmd.AddCommand(rehydrateCmd)
-	rootCmd.AddCommand(virusSummaryCmd)
 
 	rootCmd.AddCommand(datasets_command.NewAutocompleteCmd(rootCmd))
 	rootCmd.AddCommand(versionCmd)

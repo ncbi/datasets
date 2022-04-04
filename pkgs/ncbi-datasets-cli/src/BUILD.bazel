@@ -1,6 +1,5 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
-
-VERSION = "13.6.0"
+load("//:version.bzl", "VERSION")
 
 go_library(
     name = "datasets_util",

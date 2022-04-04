@@ -5,7 +5,6 @@ import (
 	"fmt"
 	_nethttp "net/http"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/gosuri/uiprogress"
@@ -100,8 +99,10 @@ func printAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest) e
 			defer func() {
 				fmt.Printf("}")
 			}()
+			printResultsNoNewline(page.GetAssembly())
+		} else {
+			printResults(page.GetAssembly())
 		}
-		printResultsNoNewline(page.GetAssembly())
 	}
 
 	if !argJsonLinesFormat {
@@ -129,12 +130,12 @@ func getAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest, cal
 			request.SetPageSize(1)
 			countOnly = true
 		} else if argLimit != "all" {
-			arg_limit, err := strconv.Atoi(argLimit)
-			if err != nil {
-				err = fmt.Errorf("Invalid 'limit' value %s. Must be 'all', 'none', or a number.", argLimit)
-				return 0, err
-			}
-			request.SetPageSize(int32(min(1000, arg_limit)))
+			// arg_limit, err := strconv.Atoi(argLimit)
+			// if err != nil {
+			// 	err = fmt.Errorf("Invalid 'limit' value %s. Must be 'all', 'none', or a number.", argLimit)
+			// 	return 0, err
+			// }
+			request.SetPageSize(1000)
 		}
 	}
 
