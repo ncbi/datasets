@@ -50,7 +50,7 @@ func printViralMetadataWithPost(request *openapi.V1VirusDataReportRequest) error
 			if header_printed {
 				fmt.Printf("],")
 			}
-			fmt.Printf("\"total_count\": %d}", total_count)
+			fmt.Printf("\"total_count\": %d}\n", total_count)
 		}()
 	}
 	total_count, err = getSummaryVirusGenomeByAcc(request, printVirus)

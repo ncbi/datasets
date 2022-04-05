@@ -111,7 +111,7 @@ func printAssemblyMetadataWithPost(request *openapi.V1AssemblyMetadataRequest) e
 			if header_printed {
 				fmt.Printf("],")
 			}
-			fmt.Printf("\"total_count\": %d}", total_count)
+			fmt.Printf("\"total_count\": %d}\n", total_count)
 		}()
 	}
 	total_count, err = getAssemblyMetadataWithPost(request, printAssembly)

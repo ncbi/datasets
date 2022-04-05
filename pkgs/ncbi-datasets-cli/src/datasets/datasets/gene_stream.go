@@ -22,9 +22,6 @@ func bytesToGeneConvert(b []byte) (*openapi.V1GeneMatch, error) {
 	if err := geneMatchObj.UnmarshalJSON(b); err != nil {
 		return nil, fmt.Errorf("Failure to parse JSON: %s. %w", string(b), err)
 	}
-	if argDebug {
-		fmt.Println("Parsed object: ", geneMatchObj.Get())
-	}
 	return geneMatchObj.Get(), nil
 }
 
