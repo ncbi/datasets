@@ -3,6 +3,7 @@ package datasets
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gosuri/uiprogress"
@@ -19,6 +20,7 @@ func summaryVirusGenomeRequestWithAcc(args []string) (request *openapi.V1VirusDa
 	filter.SetAccessions(args)
 	request = openapi.NewV1VirusDataReportRequest()
 	request.SetFilter(filter)
+	request.SetPageSize(1000)
 	return
 }
 
@@ -63,27 +65,30 @@ func getSummaryVirusGenomeByAcc(request *openapi.V1VirusDataReportRequest, callb
 		return 0, err
 	}
 
+	var arg_limit int
+	limit := false
 	countOnly := false
 	if argLimit != "" {
-		if argLimit == "none" {
+		if argLimit == "none" || argLimit == "0" {
 			request.SetPageSize(1)
 			countOnly = true
 		} else if argLimit != "all" {
-			// arg_limit, err := strconv.Atoi(argLimit)
-			// if err != nil {
-			// 	err = fmt.Errorf("Invalid 'limit' value %s. Must be 'all', 'none', or a number.", argLimit)
-			// 	return 0, err
-			// }
-			request.SetPageSize(1000)
+			arg_limit, err = strconv.Atoi(argLimit)
+			request.SetPageSize(mint32(int32(arg_limit), int32(1000)))
+			if err != nil {
+				err = fmt.Errorf("Invalid 'limit' value %s. Must be 'all', 'none', or a number.", argLimit)
+				return 0, err
+			}
+			limit = true
 		}
 	}
-
 	var bar *uiprogress.Bar
 	p := message.NewPrinter(language.English)
 
 	retrievalCount := 0
-	for {
-
+	limitCount := 0
+	cont := true
+	for cont {
 		const retry_count = 3
 
 		retry_delay := time.Duration(10)
@@ -130,6 +135,14 @@ func getSummaryVirusGenomeByAcc(request *openapi.V1VirusDataReportRequest, callb
 		bar.Set(int(retrievalCount))
 
 		for _, report := range result_page.GetReports() {
+			if limit {
+				if limitCount >= arg_limit {
+					retrievalCount = limitCount
+					cont = false
+					break
+				}
+				limitCount += 1
+			}
 			callbackFn(report)
 		}
 		if result_page.GetNextPageToken() == "" {

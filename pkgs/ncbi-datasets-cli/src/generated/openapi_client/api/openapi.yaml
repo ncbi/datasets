@@ -8576,6 +8576,15 @@ components:
             this and previous range.
           type: integer
       type: object
+    v1RefGeneCatalogDatasetRequest:
+      properties:
+        opaque_solr_query:
+          type: string
+        files:
+          items:
+            $ref: '#/components/schemas/v1RefGeneCatalogDatasetRequestFileType'
+          type: array
+      type: object
     v1Sars2ProteinDatasetRequest:
       properties:
         proteins:
@@ -11432,6 +11441,13 @@ components:
       enum:
       - COMPLETE
       - IDS_ONLY
+      type: string
+    v1RefGeneCatalogDatasetRequestFileType:
+      default: FILE_TYPE_UNSPECIFIED
+      enum:
+      - FILE_TYPE_UNSPECIFIED
+      - FILE_TYPE_NUCLEOTIDE
+      - FILE_TYPE_PROTEIN
       type: string
     v1SortDirection:
       default: SORT_DIRECTION_UNSPECIFIED

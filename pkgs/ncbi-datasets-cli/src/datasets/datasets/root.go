@@ -96,6 +96,18 @@ func minOf(vars ...int) int {
 	return min
 }
 
+func mint32(vars ...int32) int32 {
+	min := vars[0]
+
+	for _, i := range vars {
+		if min > i {
+			min = i
+		}
+	}
+
+	return min
+}
+
 // helper for converting interface{} obj to json strings
 func objToJSON(obj interface{}) (string, error) {
 	jsonBuf, err := json.Marshal(obj)
