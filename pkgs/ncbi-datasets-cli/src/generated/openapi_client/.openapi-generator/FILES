@@ -92,6 +92,8 @@ docs/V1ProkaryoteGeneRequest.md
 docs/V1ProkaryoteGeneRequestGeneFlankConfig.md
 docs/V1Protein.md
 docs/V1Range.md
+docs/V1RefGeneCatalogDatasetRequest.md
+docs/V1RefGeneCatalogDatasetRequestFileType.md
 docs/V1Sars2ProteinDatasetRequest.md
 docs/V1SciNameAndIds.md
 docs/V1SciNameAndIdsSciNameAndId.md
@@ -237,6 +239,8 @@ model_v1_prokaryote_gene_request.go
 model_v1_prokaryote_gene_request_gene_flank_config.go
 model_v1_protein.go
 model_v1_range.go
+model_v1_ref_gene_catalog_dataset_request.go
+model_v1_ref_gene_catalog_dataset_request_file_type.go
 model_v1_sars2_protein_dataset_request.go
 model_v1_sci_name_and_ids.go
 model_v1_sci_name_and_ids_sci_name_and_id.go

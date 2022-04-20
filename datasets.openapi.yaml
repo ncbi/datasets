@@ -4678,6 +4678,15 @@ components:
         ribosomal_slippage:
           type: integer
           title: 'When ribosomal slippage is desired, fill out slippage amount between this and previous range.'
+    v1RefGeneCatalogDatasetRequest:
+      type: object
+      properties:
+        opaque_solr_query:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1RefGeneCatalogDatasetRequestFileType'
     v1Sars2ProteinDatasetRequest:
       type: object
       properties:
@@ -5693,6 +5702,14 @@ components:
         - COMPLETE
         - IDS_ONLY
       default: COMPLETE
+    
+    v1RefGeneCatalogDatasetRequestFileType:
+      type: string
+      enum:
+        - FILE_TYPE_UNSPECIFIED
+        - FILE_TYPE_NUCLEOTIDE
+        - FILE_TYPE_PROTEIN
+      default: FILE_TYPE_UNSPECIFIED
     
     v1SortDirection:
       type: string
