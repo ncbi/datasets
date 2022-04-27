@@ -26,7 +26,7 @@ for (gene_match in result_gene$genes)  {
 
 print("Demo 2: Genome API, AssemblyDescriptorsByAccessions")
 api.genome_instance <- GenomeApi$new()
-result_genome <- api.genome_instance$AssemblyDescriptorsByAccessions('GCF_000001405.39,GCA_007922845.1')
+result_genome <- api.genome_instance$AssemblyDescriptorsByAccessions('GCF_000001405.40,GCA_007922845.1')
 prettify(result_genome$toJSONString())
 
 

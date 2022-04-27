@@ -220,7 +220,7 @@ var summaryGenomeAccessionCmd = &cobra.Command{
 Print a summary of a genome dataset by NCBI Assembly or BioProject accession. The summary is returned in JSON format.
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
-	Example: `  datasets summary genome accession GCF_000001405.39
+	Example: `  datasets summary genome accession GCF_000001405.40
   datasets summary genome accession GCA_003774525.2 GCA_000001635
   datasets summary genome accession PRJNA31257`,
 	RunE: func(cmd *cobra.Command, args []string) error {

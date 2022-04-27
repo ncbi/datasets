@@ -102,12 +102,12 @@ var (
 			regexpMatch: "^ncbi_dataset/data/.+/sequence_report.jsonl$",
 			exampleCommands: CommandStringsMap{
 				"tsv": []string{
-					"dataformat tsv genome-seq --inputfile human_package/ncbi_dataset/data/GCF_000001405.39/sequence_report.jsonl",
-					"dataformat tsv genome-seq --package human.zip --inputfile GCF_000001405.39/sequence_report.jsonl",
+					"dataformat tsv genome-seq --inputfile human_package/ncbi_dataset/data/GCF_000001405.40/sequence_report.jsonl",
+					"dataformat tsv genome-seq --package human.zip --inputfile GCF_000001405.40/sequence_report.jsonl",
 				},
 				"excel": []string{
-					"dataformat excel genome-seq --inputfile human_package/ncbi_dataset/data/GCF_000001405.39/sequence_report.jsonl --outputfile human-ref-genome-seq.xlsx",
-					"dataformat excel genome-seq --package human.zip --inputfile GCF_000001405.39/sequence_report.jsonl --outputfile human-ref-genome-seq.xlsx",
+					"dataformat excel genome-seq --inputfile human_package/ncbi_dataset/data/GCF_000001405.40/sequence_report.jsonl --outputfile human-ref-genome-seq.xlsx",
+					"dataformat excel genome-seq --package human.zip --inputfile GCF_000001405.40/sequence_report.jsonl --outputfile human-ref-genome-seq.xlsx",
 				},
 			},
 		},

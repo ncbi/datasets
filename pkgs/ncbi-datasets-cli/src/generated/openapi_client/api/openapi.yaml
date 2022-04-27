@@ -60,11 +60,11 @@ paths:
           example-0:
             summary: Human and Mouse
             value:
-            - GCF_000001405.39
+            - GCF_000001405.40
             - GCF_000001635.27
           example-1:
             summary: Human
-            value: GCF_000001405.39
+            value: GCF_000001405.40
         explode: false
         in: path
         name: accessions
@@ -646,7 +646,7 @@ paths:
             example:
               accessions:
                 accessions:
-                - GCF_000001405.39
+                - GCF_000001405.40
             schema:
               $ref: '#/components/schemas/v1AssemblyMetadataRequest'
         required: true
@@ -771,11 +771,11 @@ paths:
           example-0:
             summary: Human and Mouse
             value:
-            - GCF_000001405.39
+            - GCF_000001405.40
             - GCF_000001635.27
           example-1:
             summary: Human
-            value: GCF_000001405.39
+            value: GCF_000001405.40
         explode: false
         in: path
         name: accessions
@@ -882,7 +882,7 @@ paths:
           application/json:
             example:
               accessions:
-              - GCF_000001405.39
+              - GCF_000001405.40
             schema:
               $ref: '#/components/schemas/v1AssemblyDatasetRequest'
         required: true
@@ -913,11 +913,11 @@ paths:
           example-0:
             summary: Human and Mouse
             value:
-            - GCF_000001405.39
+            - GCF_000001405.40
             - GCF_000001635.27
           example-1:
             summary: Human
-            value: GCF_000001405.39
+            value: GCF_000001405.40
         explode: false
         in: path
         name: accessions
@@ -1054,7 +1054,7 @@ paths:
           application/json:
             example:
               accessions:
-              - GCF_000001405.39
+              - GCF_000001405.40
             schema:
               $ref: '#/components/schemas/v1AssemblyDatasetRequest'
         required: true
@@ -1346,11 +1346,11 @@ paths:
           example-0:
             summary: Human and Mouse
             value:
-            - GCF_000001405.39
+            - GCF_000001405.40
             - GCF_000001635.27
           example-1:
             summary: Human
-            value: GCF_000001405.39
+            value: GCF_000001405.40
         explode: false
         in: path
         name: accessions
@@ -1388,7 +1388,7 @@ paths:
           application/json:
             example:
               accessions:
-              - GCF_000001405.39
+              - GCF_000001405.40
             schema:
               $ref: '#/components/schemas/v1AssemblyDatasetRequest'
         required: true
@@ -4577,7 +4577,7 @@ components:
             status: status
       properties:
         assembly_accession:
-          title: The GenColl assembly accession (e.g. GCF_000001405.39)
+          title: The GenColl assembly accession (e.g. GCF_000001405.40)
           type: string
         paired_assembly_accession:
           title: The GenBank or RefSeq assembly accession paired with this assembly

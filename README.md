@@ -31,7 +31,7 @@ Use **dataformat** to extract selected fields of metadata from the downloaded da
 ```
 dataformat tsv genome --package human-reference.zip --fields organism-name,assminfo-name,assminfo-accession,assminfo-submitter
 Organism name	Assembly Name	Assembly Accession	Assembly Submitter
-Homo sapiens	GRCh38.p13	GCF_000001405.39	Genome Reference Consortium
+Homo sapiens	GRCh38.p14	GCF_000001405.40	Genome Reference Consortium
 ```
 
 The schematic below outlines the available commands for the **datasets** command-line tool:
@@ -49,7 +49,7 @@ Download large numbers of genomes by first downloading a dehydrated zip archive 
 Try this example for the human reference genome:
 
 1. Download the dehydrated zip archive
-`datasets download genome accession GCF_000001405.39 --dehydrated --filename human_GRCh38_dataset.zip`
+`datasets download genome accession GCF_000001405.40 --dehydrated --filename human_GRCh38_dataset.zip`
 
 2. Unzip the downloaded zip archive
 `unzip human_GRCh38_dataset.zip -d my_human_dataset`
