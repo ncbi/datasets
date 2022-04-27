@@ -193,7 +193,7 @@ func processAssmAccArgs(args []string) (err error) {
 var genomeCmd = &cobra.Command{
 	Use:   "genome",
 	Short: "download a genome dataset",
-	Example: `  datasets download genome accession GCF_000001405.39 --chromosomes X,Y --exclude-gff3 --exclude-rna
+	Example: `  datasets download genome accession GCF_000001405.40 --chromosomes X,Y --exclude-gff3 --exclude-rna
   datasets download genome taxon "bos taurus" --dehydrated
   datasets download genome taxon human --assembly-level chromosome,complete_genome --dehydrated
   datasets download genome taxon mouse --search C57BL/6J --search "Broad Institute" --dehydrated`,

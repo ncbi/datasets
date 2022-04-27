@@ -128,11 +128,11 @@ paths:
         examples:
           example-0:
             value:
-              - GCF_000001405.39
+              - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
           example-1:
-            value: GCF_000001405.39
+            value: GCF_000001405.40
             summary: Human
       - name: filters.reference_only
         description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
@@ -608,7 +608,7 @@ paths:
             example:
               accessions:
                 accessions:
-                - GCF_000001405.39
+                - GCF_000001405.40
   /genome/taxon/{taxon}/tree:
     get:
       summary: Get a taxonomic subtree by taxonomic identifier
@@ -723,11 +723,11 @@ paths:
         examples:
           example-0:
             value:
-              - GCF_000001405.39
+              - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
           example-1:
-            value: GCF_000001405.39
+            value: GCF_000001405.40
             summary: Human
       - name: chromosomes
         description: 'The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (''Un''). The filter only applies to fasta sequence.'
@@ -817,7 +817,7 @@ paths:
               $ref: '#/components/schemas/v1AssemblyDatasetRequest'
             example:
               accessions:
-              - GCF_000001405.39
+              - GCF_000001405.40
   /genome/accession/{accessions}/download:
     get:
       summary: Get a genome dataset by accession
@@ -852,11 +852,11 @@ paths:
         examples:
           example-0:
             value:
-              - GCF_000001405.39
+              - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
           example-1:
-            value: GCF_000001405.39
+            value: GCF_000001405.40
             summary: Human
       - name: chromosomes
         description: 'The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (''Un''). The filter only applies to fasta sequence.'
@@ -961,7 +961,7 @@ paths:
               $ref: '#/components/schemas/v1AssemblyDatasetRequest'
             example:
               accessions:
-              - GCF_000001405.39
+              - GCF_000001405.40
       parameters:
       - name: filename
         description: Output file name.
@@ -1224,11 +1224,11 @@ paths:
         examples:
           example-0:
             value:
-              - GCF_000001405.39
+              - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
           example-1:
-            value: GCF_000001405.39
+            value: GCF_000001405.40
             summary: Human
   /genome/check:
     post:
@@ -1258,7 +1258,7 @@ paths:
               $ref: '#/components/schemas/v1AssemblyDatasetRequest'
             example:
               accessions:
-              - GCF_000001405.39
+              - GCF_000001405.40
   /version:
     get:
       summary: Retrieve service version
@@ -3853,7 +3853,7 @@ components:
       properties:
         assembly_accession:
           type: string
-          title: 'The GenColl assembly accession (e.g. GCF_000001405.39)'
+          title: 'The GenColl assembly accession (e.g. GCF_000001405.40)'
         paired_assembly_accession:
           type: string
           title: 'The GenBank or RefSeq assembly accession paired with this assembly'

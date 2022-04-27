@@ -11,7 +11,7 @@ var summaryCmd = &cobra.Command{
 Print a summary of a gene or genome dataset in JSON format.
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
-	Example: `  datasets summary genome accession GCF_000001405.39
+	Example: `  datasets summary genome accession GCF_000001405.40
   datasets summary genome taxon "mus musculus"
   datasets summary gene gene-id 672
   datasets summary gene symbol brca1 --taxon mouse

@@ -10,7 +10,7 @@ var assemblyCmd = &cobra.Command{
 	Deprecated: "please use \"datasets download genome\".",
 	Use:        "assembly <accession ...>",
 	Short:      "Download genome assembly data",
-	Example:    "  datasets download assembly GCF_000001405.39 GCF_000001635.26",
+	Example:    "  datasets download assembly GCF_000001405.40 GCF_000001635.26",
 	Long: `
 Download data by assembly accession. Data is returned as a zip archive.
 The default download package for a given assembly (or set of assemblies) includes all chromosomes and

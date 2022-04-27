@@ -59,7 +59,7 @@ configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
 with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = genome_api.GenomeApi(api_client)
-    accessions = ["GCF_000001405.39","GCF_000001635.27"] # [str] | 
+    accessions = ["GCF_000001405.40","GCF_000001635.27"] # [str] | 
     filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) if omitted the server will use the default value of False
     filters_assembly_source = V1AssemblyDatasetDescriptorsFilterAssemblySource("refseq") # V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional)
     filters_has_annotation = True # bool | Return only annotated genome assemblies (optional) if omitted the server will use the default value of False
@@ -406,7 +406,7 @@ configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
 with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = genome_api.GenomeApi(api_client)
-    accessions = ["GCF_000001405.39","GCF_000001635.27"] # [str] | NCBI genome assembly accessions
+    accessions = ["GCF_000001405.40","GCF_000001635.27"] # [str] | NCBI genome assembly accessions
 
     # example passing only required values which don't have defaults set
     try:
@@ -585,7 +585,7 @@ configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
 with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = genome_api.GenomeApi(api_client)
-    accessions = ["GCF_000001405.39","GCF_000001635.27"] # [str] | NCBI genome assembly accessions
+    accessions = ["GCF_000001405.40","GCF_000001635.27"] # [str] | NCBI genome assembly accessions
     chromosomes = [1,2,3,"X","Y","MT"] # [str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
     exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional) if omitted the server will use the default value of False
     include_annotation_type = [
@@ -795,7 +795,7 @@ configuration.api_key['ApiKeyAuthHeader'] = 'YOUR_API_KEY'
 with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = genome_api.GenomeApi(api_client)
-    accessions = ["GCF_000001405.39","GCF_000001635.27"] # [str] | NCBI genome assembly accessions
+    accessions = ["GCF_000001405.40","GCF_000001635.27"] # [str] | NCBI genome assembly accessions
     chromosomes = [1,2,3,"X","Y","MT"] # [str] | The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome ('Un'). The filter only applies to fasta sequence. (optional)
     exclude_sequence = True # bool | Set to true to omit the genomic sequence. (optional) if omitted the server will use the default value of False
     include_annotation_type = [

@@ -22,7 +22,7 @@ The default genome dataset includes the following files (if available):
 
 Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
 
-	Example: `  datasets download genome accession GCF_000001405.39 --chromosomes X,Y --exclude-gff3 --exclude-rna
+	Example: `  datasets download genome accession GCF_000001405.40 --chromosomes X,Y --exclude-gff3 --exclude-rna
   datasets download genome accession GCA_003774525.2 GCA_000001635 --chromosomes X,Y,Un.9
   datasets download genome accession PRJNA289059 --exclude-seq`,
 
