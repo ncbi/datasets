@@ -5253,7 +5253,6 @@ components:
           $ref: '#/components/schemas/v1reportsOrientation'
         order:
           type: integer
-          title: 'I don''t think this needs to be included in gene reports but it is currently there so it needs to be available in the spec until/unless it gets removed from that report'
     v1reportsSeqRangeSetFasta:
       type: object
       properties:
