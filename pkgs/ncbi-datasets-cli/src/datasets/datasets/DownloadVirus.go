@@ -43,7 +43,7 @@ var downloadVirusCmd = &cobra.Command{
 	Long: `
 Download a coronavirus genome or SARS-CoV-2 protein dataset as a zip file.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools. `,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools. `,
 	Example: `  datasets download virus genome taxon sars-cov-2 --host dog
   datasets download virus protein S --host dog --filename SARS2-spike-dog.zip`,
 }

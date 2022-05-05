@@ -75,7 +75,7 @@ var rootCmd = &cobra.Command{
 	Long: `datasets is a command-line tool that is used to query and download biological sequence data
 across all domains of life from NCBI databases.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Args: cobra.MaximumNArgs(0),
 }
 

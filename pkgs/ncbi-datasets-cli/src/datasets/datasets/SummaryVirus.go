@@ -11,7 +11,7 @@ var summaryVirusCmd = &cobra.Command{
 	Long: `
 Print coronavirus metadata (data report). The data report is returned in JSON Lines format.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 }
 
 func init() {

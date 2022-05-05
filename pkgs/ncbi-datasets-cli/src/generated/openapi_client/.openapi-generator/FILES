@@ -141,6 +141,7 @@ docs/V1reportsGeneDescriptorGeneType.md
 docs/V1reportsGeneDescriptorRnaType.md
 docs/V1reportsGenomicRegionGenomicRegionType.md
 docs/V1reportsLineageOrganism.md
+docs/V1reportsLinkedAssemblyLinkedAssemblyType.md
 docs/V1reportsOrganism.md
 docs/V1reportsOrientation.md
 docs/V1reportsProkaryoteGeneLocationCompleteness.md
@@ -288,6 +289,7 @@ model_v1reports_gene_descriptor_gene_type.go
 model_v1reports_gene_descriptor_rna_type.go
 model_v1reports_genomic_region_genomic_region_type.go
 model_v1reports_lineage_organism.go
+model_v1reports_linked_assembly_linked_assembly_type.go
 model_v1reports_organism.go
 model_v1reports_orientation.go
 model_v1reports_prokaryote_gene_location_completeness.go

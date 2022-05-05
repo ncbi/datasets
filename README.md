@@ -14,7 +14,7 @@ Download and install the NCBI Datasets command-line tools, datasets and dataform
 
 `conda install -c conda-forge ncbi-datasets-cli`
 
-For other ways to install, see our command-line tool [quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/).
+For other ways to install, see our command-line tool [quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/command-line-tools/).
 
 ## Use the Datasets command-line tools
 
@@ -35,7 +35,7 @@ Homo sapiens	GRCh38.p14	GCF_000001405.40	Genome Reference Consortium
 ```
 
 The schematic below outlines the available commands for the **datasets** command-line tool:
-![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/datasets_schema_github.png)
+![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/datasets_schema_github.png)
 
 ### Download large numbers of genomes
 

@@ -22,7 +22,7 @@ The default genome dataset includes the following files (if available):
 * data_report.jsonl (data report with genome assembly and annotation metadata)
 * dataset_catalog.json (a list of files and file types included in the dataset)
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Example: `  datasets download genome taxon human --chromosomes 21
   datasets download genome taxon "bos taurus"
   datasets download genome taxon 10116 --exclude-seq --exclude-gff3`,

@@ -5707,6 +5707,7 @@ components:
       enum:
         - FILE_TYPE_UNSPECIFIED
         - FILE_TYPE_NUCLEOTIDE
+        - FILE_TYPE_NUCLEOTIDE_WITH_FLANK
         - FILE_TYPE_PROTEIN
       default: FILE_TYPE_UNSPECIFIED
     
@@ -5835,6 +5836,14 @@ components:
         - BIOLOGICAL_REGION
         - OTHER
       default: UNKNOWN
+    
+    v1reportsLinkedAssemblyLinkedAssemblyType:
+      type: string
+      enum:
+        - LINKED_ASSEMBLY_TYPE_UNKNOWN
+        - alternate_pseudohaplotype
+        - haploid_principal_pseudohaplotype_of_diploid
+      default: LINKED_ASSEMBLY_TYPE_UNKNOWN
     
     v1reportsOrientation:
       type: string

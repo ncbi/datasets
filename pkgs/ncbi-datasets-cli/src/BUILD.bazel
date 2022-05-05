@@ -73,6 +73,7 @@ go_library(
         "@com_github_antihax_optional//:go_default_library",
         "@com_github_docker_go_units//:go_default_library",
         "@com_github_gosuri_uiprogress//:go_default_library",
+        "@com_github_mattn_go_isatty//:go_default_library",
         "@com_github_metakeule_fmtdate//:go_default_library",
         "@com_github_spf13_cobra//:go_default_library",
         "@com_github_spf13_pflag//:go_default_library",

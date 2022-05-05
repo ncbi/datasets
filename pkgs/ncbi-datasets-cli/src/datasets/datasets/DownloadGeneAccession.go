@@ -48,7 +48,7 @@ var dlGeneAccessionCmd = &cobra.Command{
 Download data by gene accession. Data is returned as a zip archive.
 The default package includes a gene data report and genomic, RNA and protein fasta sequence.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.
 `,
 	RunE: cmdDownloadGeneAccession,
 }
