@@ -3,7 +3,7 @@ module main
 go 1.16
 
 require (
-	bou.ke/monkey v1.0.2 // indirect
+	//bou.ke/monkey v1.0.2 // indirect
 	github.com/antihax/optional v1.0.0
 	github.com/blang/vfs v1.0.0
 	github.com/docker/go-units v0.4.0
@@ -33,6 +33,9 @@ require (
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sys v0.0.0-20200828194041-157a740278f4 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
-	google.golang.org/protobuf v1.26.0
 	gopkg.in/ini.v1 v1.60.2 // indirect
+	github.com/frankban/quicktest v1.5.0 // indirect
+	github.com/pseudomuto/protoc-gen-doc v1.3.2
+	github.com/pseudomuto/protokit v0.2.0
+	google.golang.org/protobuf v1.28.0
 )

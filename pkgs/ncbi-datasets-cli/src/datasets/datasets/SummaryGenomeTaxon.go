@@ -12,7 +12,7 @@ var summaryGenomeTaxonCmd = &cobra.Command{
 	Long: `
 Print a summary of a genome dataset by taxon (NCBI Taxonomy ID, scientific or common name at any tax rank). The summary is returned in JSON format.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Example: `  datasets summary genome taxon human
   datasets summary genome taxon "mus musculus"
   datasets summary genome taxon 10116`,

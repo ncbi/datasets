@@ -7,6 +7,7 @@ import (
 
 	pb_datasets "ncbi/datasets/v1"
 
+	isatty "github.com/mattn/go-isatty"
 	"github.com/spf13/cobra"
 
 	datasets_util "datasets_cli/v1/util"
@@ -19,6 +20,7 @@ var (
 	supportedApiVersions = []pb_datasets.Catalog_ApiVersion{pb_datasets.Catalog_V1, pb_datasets.Catalog_UNKNOWN}
 	userMessage          string
 	tableFields          []string
+	defaultInputFile     string
 	inputFile            string
 	packageFile          string
 )
@@ -46,8 +48,11 @@ Refer to NCBI's [command line start](https://www.ncbi.nlm.nih.gov/datasets/docs/
 		if len(tableFields) == 0 {
 			tableFields = fields
 		}
-		if len(rpt.defaultPackagePath) > 0 {
-			if f := cmd.Flag("inputfile"); f != nil {
+		if f := cmd.Flag("inputfile"); f != nil {
+			if f.Value.String() == "-" {
+				f.Value.Set("/dev/stdin")
+			}
+			if len(rpt.defaultPackagePath) > 0 {
 				f.DefValue = rpt.defaultPackagePath
 				if len(inputFile) == 0 {
 					inputFile = rpt.defaultPackagePath
@@ -59,6 +64,12 @@ Refer to NCBI's [command line start](https://www.ncbi.nlm.nih.gov/datasets/docs/
 }
 
 func inputFilePreRunE(cmd *cobra.Command, args []string) (err error) {
+	if len(defaultInputFile) > 0 {
+		return
+	}
+	if inputFile == "-" {
+		inputFile = "/dev/stdin"
+	}
 	reqFlags := []string{"inputfile", "package"}
 	ok := false
 	flags := cmd.Flags()
@@ -76,8 +87,7 @@ func inputFilePreRunE(cmd *cobra.Command, args []string) (err error) {
 
 func addFileInputFlags(cmd *cobra.Command) {
 	pflags := cmd.PersistentFlags()
-	pflags.StringVar(&inputFile, "inputfile", "", "input file")
-	//cmd.MarkPersistentFlagRequired("inputfile")
+	pflags.StringVar(&inputFile, "inputfile", defaultInputFile, "input file")
 	pflags.StringVar(&packageFile, "package", "", "datasets package (zip archive), inputfile parameter is relative to the root path inside the archive")
 }
 
@@ -130,7 +140,15 @@ func outputFieldNames(reportName, flagContent string) (retval []string) {
 	return
 }
 
+func selectDefaultInputStream() string {
+	if !isatty.IsTerminal(os.Stdin.Fd()) {
+		return "/dev/stdin"
+	}
+	return ""
+}
+
 func init() {
+	defaultInputFile = selectDefaultInputStream()
 	rptCmds := make([]string, len(AllReports))
 	for i, rpt := range AllReports {
 		rptCmds[i] = rpt.cmd

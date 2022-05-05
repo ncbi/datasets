@@ -18,7 +18,7 @@ Download assembly data by taxid. Data is returned as a zip archive.
 The default download package for a given assembly (or set of assemblies) includes all chromosomes and
 unlocalized sequences and excludes any available annotation data.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Args: cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {

@@ -91,7 +91,7 @@ The default coronavirus genome dataset includes the following files (if availabl
 * virus_dataset.md (README containing details on sequence file data content and other information)
 * dataset_catalog.json (a list of files and file types included in the dataset)
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Example: `  datasets download virus genome accession NC_045512.2`,
 
 	RunE: func(cmd *cobra.Command, args []string) (err error) {

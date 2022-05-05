@@ -162,7 +162,7 @@ var summaryVirusGenomeAccCmd = &cobra.Command{
 	Long: `
 Print coronavirus genome metadata (data report) by nucleotide accession. The data report is returned in JSON format.
 
-Refer to NCBI's [command line quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/quickstarts/command-line-tools/) documentation for information about getting started with the command-line tools.`,
+Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Example: "  datasets summary virus genome accession NC_045512.2",
 
 	RunE: func(cmd *cobra.Command, args []string) error {
