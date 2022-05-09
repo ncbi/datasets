@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **OpaqueSolrQuery** | Pointer to **string** |  | [optional] 
 **Files** | Pointer to [**[]V1MicroBiggeDatasetRequestFileType**](V1MicroBiggeDatasetRequestFileType.md) |  | [optional] 
-**ElementFlankConfig** | Pointer to [**V1MicroBiggeDatasetRequestElementFlankConfig**](V1MicroBiggeDatasetRequestElementFlankConfig.md) |  | [optional] 
+**ElementFlankConfig** | Pointer to [**V1ElementFlankConfig**](V1ElementFlankConfig.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasFiles returns a boolean if a field has been set.
 
 ### GetElementFlankConfig
 
-`func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfig() V1MicroBiggeDatasetRequestElementFlankConfig`
+`func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfig() V1ElementFlankConfig`
 
 GetElementFlankConfig returns the ElementFlankConfig field if non-nil, zero value otherwise.
 
 ### GetElementFlankConfigOk
 
-`func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfigOk() (*V1MicroBiggeDatasetRequestElementFlankConfig, bool)`
+`func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfigOk() (*V1ElementFlankConfig, bool)`
 
 GetElementFlankConfigOk returns a tuple with the ElementFlankConfig field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetElementFlankConfig
 
-`func (o *V1MicroBiggeDatasetRequest) SetElementFlankConfig(v V1MicroBiggeDatasetRequestElementFlankConfig)`
+`func (o *V1MicroBiggeDatasetRequest) SetElementFlankConfig(v V1ElementFlankConfig)`
 
 SetElementFlankConfig sets ElementFlankConfig field to given value.
 

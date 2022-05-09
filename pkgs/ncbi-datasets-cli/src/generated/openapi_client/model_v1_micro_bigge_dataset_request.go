@@ -18,7 +18,7 @@ import (
 type V1MicroBiggeDatasetRequest struct {
 	OpaqueSolrQuery *string `json:"opaque_solr_query,omitempty"`
 	Files *[]V1MicroBiggeDatasetRequestFileType `json:"files,omitempty"`
-	ElementFlankConfig *V1MicroBiggeDatasetRequestElementFlankConfig `json:"element_flank_config,omitempty"`
+	ElementFlankConfig *V1ElementFlankConfig `json:"element_flank_config,omitempty"`
 }
 
 // NewV1MicroBiggeDatasetRequest instantiates a new V1MicroBiggeDatasetRequest object
@@ -103,9 +103,9 @@ func (o *V1MicroBiggeDatasetRequest) SetFiles(v []V1MicroBiggeDatasetRequestFile
 }
 
 // GetElementFlankConfig returns the ElementFlankConfig field value if set, zero value otherwise.
-func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfig() V1MicroBiggeDatasetRequestElementFlankConfig {
+func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfig() V1ElementFlankConfig {
 	if o == nil || o.ElementFlankConfig == nil {
-		var ret V1MicroBiggeDatasetRequestElementFlankConfig
+		var ret V1ElementFlankConfig
 		return ret
 	}
 	return *o.ElementFlankConfig
@@ -113,7 +113,7 @@ func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfig() V1MicroBiggeDataset
 
 // GetElementFlankConfigOk returns a tuple with the ElementFlankConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfigOk() (*V1MicroBiggeDatasetRequestElementFlankConfig, bool) {
+func (o *V1MicroBiggeDatasetRequest) GetElementFlankConfigOk() (*V1ElementFlankConfig, bool) {
 	if o == nil || o.ElementFlankConfig == nil {
 		return nil, false
 	}
@@ -129,8 +129,8 @@ func (o *V1MicroBiggeDatasetRequest) HasElementFlankConfig() bool {
 	return false
 }
 
-// SetElementFlankConfig gets a reference to the given V1MicroBiggeDatasetRequestElementFlankConfig and assigns it to the ElementFlankConfig field.
-func (o *V1MicroBiggeDatasetRequest) SetElementFlankConfig(v V1MicroBiggeDatasetRequestElementFlankConfig) {
+// SetElementFlankConfig gets a reference to the given V1ElementFlankConfig and assigns it to the ElementFlankConfig field.
+func (o *V1MicroBiggeDatasetRequest) SetElementFlankConfig(v V1ElementFlankConfig) {
 	o.ElementFlankConfig = &v
 }
 

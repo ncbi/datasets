@@ -18,6 +18,7 @@ import (
 type V1RefGeneCatalogDatasetRequest struct {
 	OpaqueSolrQuery *string `json:"opaque_solr_query,omitempty"`
 	Files *[]V1RefGeneCatalogDatasetRequestFileType `json:"files,omitempty"`
+	ElementFlankConfig *V1ElementFlankConfig `json:"element_flank_config,omitempty"`
 }
 
 // NewV1RefGeneCatalogDatasetRequest instantiates a new V1RefGeneCatalogDatasetRequest object
@@ -101,6 +102,38 @@ func (o *V1RefGeneCatalogDatasetRequest) SetFiles(v []V1RefGeneCatalogDatasetReq
 	o.Files = &v
 }
 
+// GetElementFlankConfig returns the ElementFlankConfig field value if set, zero value otherwise.
+func (o *V1RefGeneCatalogDatasetRequest) GetElementFlankConfig() V1ElementFlankConfig {
+	if o == nil || o.ElementFlankConfig == nil {
+		var ret V1ElementFlankConfig
+		return ret
+	}
+	return *o.ElementFlankConfig
+}
+
+// GetElementFlankConfigOk returns a tuple with the ElementFlankConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1RefGeneCatalogDatasetRequest) GetElementFlankConfigOk() (*V1ElementFlankConfig, bool) {
+	if o == nil || o.ElementFlankConfig == nil {
+		return nil, false
+	}
+	return o.ElementFlankConfig, true
+}
+
+// HasElementFlankConfig returns a boolean if a field has been set.
+func (o *V1RefGeneCatalogDatasetRequest) HasElementFlankConfig() bool {
+	if o != nil && o.ElementFlankConfig != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetElementFlankConfig gets a reference to the given V1ElementFlankConfig and assigns it to the ElementFlankConfig field.
+func (o *V1RefGeneCatalogDatasetRequest) SetElementFlankConfig(v V1ElementFlankConfig) {
+	o.ElementFlankConfig = &v
+}
+
 func (o V1RefGeneCatalogDatasetRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.OpaqueSolrQuery != nil  {
@@ -108,6 +141,9 @@ func (o V1RefGeneCatalogDatasetRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.Files != nil && len(o.GetFiles()) > 0  {
 		toSerialize["files"] = o.Files
+	}
+	if o.ElementFlankConfig != nil  {
+		toSerialize["element_flank_config"] = o.ElementFlankConfig
 	}
 	return json.Marshal(toSerialize)
 }

@@ -1,4 +1,4 @@
-# V1MicroBiggeDatasetRequestElementFlankConfig
+# V1ElementFlankConfig
 
 ## Properties
 
@@ -8,45 +8,45 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewV1MicroBiggeDatasetRequestElementFlankConfig
+### NewV1ElementFlankConfig
 
-`func NewV1MicroBiggeDatasetRequestElementFlankConfig() *V1MicroBiggeDatasetRequestElementFlankConfig`
+`func NewV1ElementFlankConfig() *V1ElementFlankConfig`
 
-NewV1MicroBiggeDatasetRequestElementFlankConfig instantiates a new V1MicroBiggeDatasetRequestElementFlankConfig object
+NewV1ElementFlankConfig instantiates a new V1ElementFlankConfig object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewV1MicroBiggeDatasetRequestElementFlankConfigWithDefaults
+### NewV1ElementFlankConfigWithDefaults
 
-`func NewV1MicroBiggeDatasetRequestElementFlankConfigWithDefaults() *V1MicroBiggeDatasetRequestElementFlankConfig`
+`func NewV1ElementFlankConfigWithDefaults() *V1ElementFlankConfig`
 
-NewV1MicroBiggeDatasetRequestElementFlankConfigWithDefaults instantiates a new V1MicroBiggeDatasetRequestElementFlankConfig object
+NewV1ElementFlankConfigWithDefaults instantiates a new V1ElementFlankConfig object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetLength
 
-`func (o *V1MicroBiggeDatasetRequestElementFlankConfig) GetLength() int32`
+`func (o *V1ElementFlankConfig) GetLength() int32`
 
 GetLength returns the Length field if non-nil, zero value otherwise.
 
 ### GetLengthOk
 
-`func (o *V1MicroBiggeDatasetRequestElementFlankConfig) GetLengthOk() (*int32, bool)`
+`func (o *V1ElementFlankConfig) GetLengthOk() (*int32, bool)`
 
 GetLengthOk returns a tuple with the Length field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLength
 
-`func (o *V1MicroBiggeDatasetRequestElementFlankConfig) SetLength(v int32)`
+`func (o *V1ElementFlankConfig) SetLength(v int32)`
 
 SetLength sets Length field to given value.
 
 ### HasLength
 
-`func (o *V1MicroBiggeDatasetRequestElementFlankConfig) HasLength() bool`
+`func (o *V1ElementFlankConfig) HasLength() bool`
 
 HasLength returns a boolean if a field has been set.
 

@@ -5751,6 +5751,11 @@ components:
         cli_download_command_line:
           type: string
       type: object
+    v1ElementFlankConfig:
+      properties:
+        length:
+          type: integer
+      type: object
     v1Error:
       example:
         invalid_identifiers:
@@ -7528,12 +7533,7 @@ components:
             $ref: '#/components/schemas/v1MicroBiggeDatasetRequestFileType'
           type: array
         element_flank_config:
-          $ref: '#/components/schemas/v1MicroBiggeDatasetRequestElementFlankConfig'
-      type: object
-    v1MicroBiggeDatasetRequestElementFlankConfig:
-      properties:
-        length:
-          type: integer
+          $ref: '#/components/schemas/v1ElementFlankConfig'
       type: object
     v1NomenclatureAuthority:
       example:
@@ -8584,6 +8584,8 @@ components:
           items:
             $ref: '#/components/schemas/v1RefGeneCatalogDatasetRequestFileType'
           type: array
+        element_flank_config:
+          $ref: '#/components/schemas/v1ElementFlankConfig'
       type: object
     v1Sars2ProteinDatasetRequest:
       properties:
@@ -11528,6 +11530,14 @@ components:
       - UNRECOGNIZED_GENE_SYMBOL
       - UNRECOGNIZED_ACCESSION
       - UNRECOGNIZED_TAX_TOKEN
+      type: string
+    v1reportsAssemblyStatus:
+      default: ASSEMBLY_STATUS_UNKNOWN
+      enum:
+      - ASSEMBLY_STATUS_UNKNOWN
+      - current
+      - previous
+      - suppressed
       type: string
     v1reportsGeneDescriptorGeneType:
       default: UNKNOWN
