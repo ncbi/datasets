@@ -50,6 +50,7 @@ docs/V1DownloadSummaryAvailableFiles.md
 docs/V1DownloadSummaryDehydrated.md
 docs/V1DownloadSummaryFileSummary.md
 docs/V1DownloadSummaryHydrated.md
+docs/V1ElementFlankConfig.md
 docs/V1Error.md
 docs/V1ErrorAssemblyErrorCode.md
 docs/V1ErrorGeneErrorCode.md
@@ -75,7 +76,6 @@ docs/V1MaturePeptide.md
 docs/V1Message.md
 docs/V1MethodPayloadRequest.md
 docs/V1MicroBiggeDatasetRequest.md
-docs/V1MicroBiggeDatasetRequestElementFlankConfig.md
 docs/V1MicroBiggeDatasetRequestFileType.md
 docs/V1NomenclatureAuthority.md
 docs/V1Organism.md
@@ -128,6 +128,7 @@ docs/V1VirusTableField.md
 docs/V1Warning.md
 docs/V1WarningGeneWarningCode.md
 docs/V1WarningReplacedId.md
+docs/V1reportsAssemblyStatus.md
 docs/V1reportsBioProject.md
 docs/V1reportsBioSampleAttribute.md
 docs/V1reportsBioSampleContact.md
@@ -198,6 +199,7 @@ model_v1_download_summary_available_files.go
 model_v1_download_summary_dehydrated.go
 model_v1_download_summary_file_summary.go
 model_v1_download_summary_hydrated.go
+model_v1_element_flank_config.go
 model_v1_error.go
 model_v1_error_assembly_error_code.go
 model_v1_error_gene_error_code.go
@@ -223,7 +225,6 @@ model_v1_mature_peptide.go
 model_v1_message.go
 model_v1_method_payload_request.go
 model_v1_micro_bigge_dataset_request.go
-model_v1_micro_bigge_dataset_request_element_flank_config.go
 model_v1_micro_bigge_dataset_request_file_type.go
 model_v1_nomenclature_authority.go
 model_v1_organism.go
@@ -276,6 +277,7 @@ model_v1_virus_table_field.go
 model_v1_warning.go
 model_v1_warning_gene_warning_code.go
 model_v1_warning_replaced_id.go
+model_v1reports_assembly_status.go
 model_v1reports_bio_project.go
 model_v1reports_bio_sample_attribute.go
 model_v1reports_bio_sample_contact.go

@@ -1,4 +1,4 @@
-# V1MicroBiggeDatasetRequestElementFlankConfig
+# V1ElementFlankConfig
 
 
 ## Properties
