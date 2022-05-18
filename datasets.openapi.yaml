@@ -179,6 +179,20 @@ paths:
           example-1:
             value: false
             summary: Return all assemblies
+      - name: filters.exclude_atypical
+        description: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones that are atypical
+          example-1:
+            value: true
+            summary: Only return genomes that have not been classified as atypical
       - name: filters.assembly_level
         description: 'Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.'
         in: query
@@ -334,6 +348,48 @@ paths:
           example-1:
             value: false
             summary: Return all assemblies
+      - name: filters.exclude_paired_reports
+        description: 'For paired (GCA/GCF) records, only return the primary record'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all assemblies
+          example-1:
+            value: true
+            summary: Only return single record for GCA/GCF pairs
+      - name: filters.exclude_atypical
+        description: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones that are atypical
+          example-1:
+            value: true
+            summary: Only return genomes that have not been classified as atypical
+      - name: filters.assembly_version
+        description: 'Return all assemblies, including replaced and suppressed, or only current assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v1AssemblyDatasetDescriptorsFilterAssemblyVersion'
+          default: current
+        examples:
+          example-0:
+            value: current
+            summary: Only return current assemblies
+          example-1:
+            value: all_assemblies
+            summary: Return all assemblies, including suppressed and replaced
       - name: filters.assembly_level
         description: 'Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.'
         in: query
@@ -500,6 +556,48 @@ paths:
           example-1:
             value: false
             summary: Return all assemblies
+      - name: filters.exclude_paired_reports
+        description: 'For paired (GCA/GCF) records, only return the primary record'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all assemblies
+          example-1:
+            value: true
+            summary: Only return single record for GCA/GCF pairs
+      - name: filters.exclude_atypical
+        description: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones that are atypical
+          example-1:
+            value: true
+            summary: Only return genomes that have not been classified as atypical
+      - name: filters.assembly_version
+        description: 'Return all assemblies, including replaced and suppressed, or only current assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v1AssemblyDatasetDescriptorsFilterAssemblyVersion'
+          default: current
+        examples:
+          example-0:
+            value: current
+            summary: Only return current assemblies
+          example-1:
+            value: all_assemblies
+            summary: Return all assemblies, including suppressed and replaced
       - name: filters.assembly_level
         description: 'Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.'
         in: query
@@ -3942,13 +4040,22 @@ components:
           title: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
         refseq_only:
           type: boolean
-          title: 'If true, only return RefSeq (GCF_) genome assemblies. Deprecated - use assembly_type instead.'
+          title: 'If true, only return RefSeq (GCF_) genome assemblies. Deprecated - use assembly_source instead.'
         assembly_source:
           $ref: '#/components/schemas/v1AssemblyDatasetDescriptorsFilterAssemblySource'
           title: 'Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies'
         has_annotation:
           type: boolean
           title: 'Return only annotated genome assemblies'
+        exclude_paired_reports:
+          type: boolean
+          title: 'For paired (GCA/GCF) records, only return the primary record'
+        exclude_atypical:
+          type: boolean
+          title: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        assembly_version:
+          $ref: '#/components/schemas/v1AssemblyDatasetDescriptorsFilterAssemblyVersion'
+          title: 'Return all assemblies, including replaced and suppressed, or only current assemblies'
         assembly_level:
           type: array
           items:
@@ -5492,6 +5599,14 @@ components:
         - refseq
         - genbank
       default: all
+    
+    v1AssemblyDatasetDescriptorsFilterAssemblyVersion:
+      type: string
+      enum:
+        - current
+        - all_assemblies
+      default: current
+      title: 'The assembly status - current, or all assemblies including replaced and suppressed'
     
     v1AssemblyDatasetDescriptorsRequestContentType:
       type: string

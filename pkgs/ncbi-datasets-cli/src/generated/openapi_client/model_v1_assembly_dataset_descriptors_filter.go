@@ -21,6 +21,9 @@ type V1AssemblyDatasetDescriptorsFilter struct {
 	RefseqOnly *bool `json:"refseq_only,omitempty"`
 	AssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource `json:"assembly_source,omitempty"`
 	HasAnnotation *bool `json:"has_annotation,omitempty"`
+	ExcludePairedReports *bool `json:"exclude_paired_reports,omitempty"`
+	ExcludeAtypical *bool `json:"exclude_atypical,omitempty"`
+	AssemblyVersion *V1AssemblyDatasetDescriptorsFilterAssemblyVersion `json:"assembly_version,omitempty"`
 	AssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel `json:"assembly_level,omitempty"`
 	FirstReleaseDate *time.Time `json:"first_release_date,omitempty"`
 	LastReleaseDate *time.Time `json:"last_release_date,omitempty"`
@@ -35,6 +38,8 @@ func NewV1AssemblyDatasetDescriptorsFilter() *V1AssemblyDatasetDescriptorsFilter
 	this := V1AssemblyDatasetDescriptorsFilter{}
 	var assemblySource V1AssemblyDatasetDescriptorsFilterAssemblySource = V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_ALL
 	this.AssemblySource = &assemblySource
+	var assemblyVersion V1AssemblyDatasetDescriptorsFilterAssemblyVersion = V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYVERSION_CURRENT
+	this.AssemblyVersion = &assemblyVersion
 	return &this
 }
 
@@ -45,6 +50,8 @@ func NewV1AssemblyDatasetDescriptorsFilterWithDefaults() *V1AssemblyDatasetDescr
 	this := V1AssemblyDatasetDescriptorsFilter{}
 	var assemblySource V1AssemblyDatasetDescriptorsFilterAssemblySource = V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_ALL
 	this.AssemblySource = &assemblySource
+	var assemblyVersion V1AssemblyDatasetDescriptorsFilterAssemblyVersion = V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYVERSION_CURRENT
+	this.AssemblyVersion = &assemblyVersion
 	return &this
 }
 
@@ -174,6 +181,102 @@ func (o *V1AssemblyDatasetDescriptorsFilter) HasHasAnnotation() bool {
 // SetHasAnnotation gets a reference to the given bool and assigns it to the HasAnnotation field.
 func (o *V1AssemblyDatasetDescriptorsFilter) SetHasAnnotation(v bool) {
 	o.HasAnnotation = &v
+}
+
+// GetExcludePairedReports returns the ExcludePairedReports field value if set, zero value otherwise.
+func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludePairedReports() bool {
+	if o == nil || o.ExcludePairedReports == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ExcludePairedReports
+}
+
+// GetExcludePairedReportsOk returns a tuple with the ExcludePairedReports field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludePairedReportsOk() (*bool, bool) {
+	if o == nil || o.ExcludePairedReports == nil {
+		return nil, false
+	}
+	return o.ExcludePairedReports, true
+}
+
+// HasExcludePairedReports returns a boolean if a field has been set.
+func (o *V1AssemblyDatasetDescriptorsFilter) HasExcludePairedReports() bool {
+	if o != nil && o.ExcludePairedReports != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetExcludePairedReports gets a reference to the given bool and assigns it to the ExcludePairedReports field.
+func (o *V1AssemblyDatasetDescriptorsFilter) SetExcludePairedReports(v bool) {
+	o.ExcludePairedReports = &v
+}
+
+// GetExcludeAtypical returns the ExcludeAtypical field value if set, zero value otherwise.
+func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludeAtypical() bool {
+	if o == nil || o.ExcludeAtypical == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ExcludeAtypical
+}
+
+// GetExcludeAtypicalOk returns a tuple with the ExcludeAtypical field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludeAtypicalOk() (*bool, bool) {
+	if o == nil || o.ExcludeAtypical == nil {
+		return nil, false
+	}
+	return o.ExcludeAtypical, true
+}
+
+// HasExcludeAtypical returns a boolean if a field has been set.
+func (o *V1AssemblyDatasetDescriptorsFilter) HasExcludeAtypical() bool {
+	if o != nil && o.ExcludeAtypical != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetExcludeAtypical gets a reference to the given bool and assigns it to the ExcludeAtypical field.
+func (o *V1AssemblyDatasetDescriptorsFilter) SetExcludeAtypical(v bool) {
+	o.ExcludeAtypical = &v
+}
+
+// GetAssemblyVersion returns the AssemblyVersion field value if set, zero value otherwise.
+func (o *V1AssemblyDatasetDescriptorsFilter) GetAssemblyVersion() V1AssemblyDatasetDescriptorsFilterAssemblyVersion {
+	if o == nil || o.AssemblyVersion == nil {
+		var ret V1AssemblyDatasetDescriptorsFilterAssemblyVersion
+		return ret
+	}
+	return *o.AssemblyVersion
+}
+
+// GetAssemblyVersionOk returns a tuple with the AssemblyVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1AssemblyDatasetDescriptorsFilter) GetAssemblyVersionOk() (*V1AssemblyDatasetDescriptorsFilterAssemblyVersion, bool) {
+	if o == nil || o.AssemblyVersion == nil {
+		return nil, false
+	}
+	return o.AssemblyVersion, true
+}
+
+// HasAssemblyVersion returns a boolean if a field has been set.
+func (o *V1AssemblyDatasetDescriptorsFilter) HasAssemblyVersion() bool {
+	if o != nil && o.AssemblyVersion != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetAssemblyVersion gets a reference to the given V1AssemblyDatasetDescriptorsFilterAssemblyVersion and assigns it to the AssemblyVersion field.
+func (o *V1AssemblyDatasetDescriptorsFilter) SetAssemblyVersion(v V1AssemblyDatasetDescriptorsFilterAssemblyVersion) {
+	o.AssemblyVersion = &v
 }
 
 // GetAssemblyLevel returns the AssemblyLevel field value if set, zero value otherwise.
@@ -317,6 +420,15 @@ func (o V1AssemblyDatasetDescriptorsFilter) MarshalJSON() ([]byte, error) {
 	}
 	if o.HasAnnotation != nil  {
 		toSerialize["has_annotation"] = o.HasAnnotation
+	}
+	if o.ExcludePairedReports != nil  {
+		toSerialize["exclude_paired_reports"] = o.ExcludePairedReports
+	}
+	if o.ExcludeAtypical != nil  {
+		toSerialize["exclude_atypical"] = o.ExcludeAtypical
+	}
+	if o.AssemblyVersion != nil  {
+		toSerialize["assembly_version"] = o.AssemblyVersion
 	}
 	if o.AssemblyLevel != nil && len(o.GetAssemblyLevel()) > 0  {
 		toSerialize["assembly_level"] = o.AssemblyLevel

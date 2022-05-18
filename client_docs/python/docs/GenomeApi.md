@@ -63,6 +63,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) if omitted the server will use the default value of False
     filters_assembly_source = V1AssemblyDatasetDescriptorsFilterAssemblySource("refseq") # V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional)
     filters_has_annotation = True # bool | Return only annotated genome assemblies (optional) if omitted the server will use the default value of False
+    filters_exclude_atypical = False # bool | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical (optional) if omitted the server will use the default value of False
     filters_assembly_level = [
         V1AssemblyDatasetDescriptorsFilterAssemblyLevel("["chromosome","complete_genome"]"),
     ] # [V1AssemblyDatasetDescriptorsFilterAssemblyLevel] | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. (optional)
@@ -86,7 +87,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get genome metadata by accession
-        api_response = api_instance.assembly_descriptors_by_accessions(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, page_size=page_size, page_token=page_token)
+        api_response = api_instance.assembly_descriptors_by_accessions(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_exclude_atypical=filters_exclude_atypical, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_accessions: %s\n" % e)
@@ -101,6 +102,7 @@ Name | Type | Description  | Notes
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [optional] if omitted the server will use the default value of False
  **filters_assembly_source** | **V1AssemblyDatasetDescriptorsFilterAssemblySource**| Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies | [optional]
  **filters_has_annotation** | **bool**| Return only annotated genome assemblies | [optional] if omitted the server will use the default value of False
+ **filters_exclude_atypical** | **bool**| If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical | [optional] if omitted the server will use the default value of False
  **filters_assembly_level** | [**[V1AssemblyDatasetDescriptorsFilterAssemblyLevel]**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md)| Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. | [optional]
  **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date By default, do not filter. | [optional]
  **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date By default, do not filter. | [optional]
@@ -148,6 +150,7 @@ import ncbi.datasets.openapi
 from ncbi.datasets.openapi.api import genome_api
 from ncbi.datasets.openapi.model.v1_assembly_metadata_request_content_type import V1AssemblyMetadataRequestContentType
 from ncbi.datasets.openapi.model.v1_assembly_metadata import V1AssemblyMetadata
+from ncbi.datasets.openapi.model.v1_assembly_dataset_descriptors_filter_assembly_version import V1AssemblyDatasetDescriptorsFilterAssemblyVersion
 from ncbi.datasets.openapi.model.v1_assembly_dataset_descriptors_filter_assembly_level import V1AssemblyDatasetDescriptorsFilterAssemblyLevel
 from ncbi.datasets.openapi.model.rpc_status import RpcStatus
 from ncbi.datasets.openapi.model.v1_assembly_dataset_descriptors_filter_assembly_source import V1AssemblyDatasetDescriptorsFilterAssemblySource
@@ -179,6 +182,9 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) if omitted the server will use the default value of False
     filters_assembly_source = V1AssemblyDatasetDescriptorsFilterAssemblySource("refseq") # V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional)
     filters_has_annotation = True # bool | Return only annotated genome assemblies (optional) if omitted the server will use the default value of False
+    filters_exclude_paired_reports = False # bool | For paired (GCA/GCF) records, only return the primary record (optional) if omitted the server will use the default value of False
+    filters_exclude_atypical = False # bool | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical (optional) if omitted the server will use the default value of False
+    filters_assembly_version = V1AssemblyDatasetDescriptorsFilterAssemblyVersion("current") # V1AssemblyDatasetDescriptorsFilterAssemblyVersion | Return all assemblies, including replaced and suppressed, or only current assemblies (optional)
     filters_assembly_level = [
         V1AssemblyDatasetDescriptorsFilterAssemblyLevel("["chromosome","complete_genome"]"),
     ] # [V1AssemblyDatasetDescriptorsFilterAssemblyLevel] | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. (optional)
@@ -203,7 +209,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get genome metadata by bioproject accession
-        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, returned_content=returned_content, page_size=page_size, page_token=page_token)
+        api_response = api_instance.assembly_descriptors_by_bioproject(accessions, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_exclude_paired_reports=filters_exclude_paired_reports, filters_exclude_atypical=filters_exclude_atypical, filters_assembly_version=filters_assembly_version, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, returned_content=returned_content, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_bioproject: %s\n" % e)
@@ -218,6 +224,9 @@ Name | Type | Description  | Notes
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [optional] if omitted the server will use the default value of False
  **filters_assembly_source** | **V1AssemblyDatasetDescriptorsFilterAssemblySource**| Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies | [optional]
  **filters_has_annotation** | **bool**| Return only annotated genome assemblies | [optional] if omitted the server will use the default value of False
+ **filters_exclude_paired_reports** | **bool**| For paired (GCA/GCF) records, only return the primary record | [optional] if omitted the server will use the default value of False
+ **filters_exclude_atypical** | **bool**| If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical | [optional] if omitted the server will use the default value of False
+ **filters_assembly_version** | **V1AssemblyDatasetDescriptorsFilterAssemblyVersion**| Return all assemblies, including replaced and suppressed, or only current assemblies | [optional]
  **filters_assembly_level** | [**[V1AssemblyDatasetDescriptorsFilterAssemblyLevel]**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md)| Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. | [optional]
  **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date By default, do not filter. | [optional]
  **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date By default, do not filter. | [optional]
@@ -266,6 +275,7 @@ import ncbi.datasets.openapi
 from ncbi.datasets.openapi.api import genome_api
 from ncbi.datasets.openapi.model.v1_assembly_metadata_request_content_type import V1AssemblyMetadataRequestContentType
 from ncbi.datasets.openapi.model.v1_assembly_metadata import V1AssemblyMetadata
+from ncbi.datasets.openapi.model.v1_assembly_dataset_descriptors_filter_assembly_version import V1AssemblyDatasetDescriptorsFilterAssemblyVersion
 from ncbi.datasets.openapi.model.v1_assembly_dataset_descriptors_filter_assembly_level import V1AssemblyDatasetDescriptorsFilterAssemblyLevel
 from ncbi.datasets.openapi.model.rpc_status import RpcStatus
 from ncbi.datasets.openapi.model.v1_assembly_dataset_descriptors_filter_assembly_source import V1AssemblyDatasetDescriptorsFilterAssemblySource
@@ -295,6 +305,9 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     filters_reference_only = True # bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) if omitted the server will use the default value of False
     filters_assembly_source = V1AssemblyDatasetDescriptorsFilterAssemblySource("refseq") # V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional)
     filters_has_annotation = True # bool | Return only annotated genome assemblies (optional) if omitted the server will use the default value of False
+    filters_exclude_paired_reports = False # bool | For paired (GCA/GCF) records, only return the primary record (optional) if omitted the server will use the default value of False
+    filters_exclude_atypical = False # bool | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical (optional) if omitted the server will use the default value of False
+    filters_assembly_version = V1AssemblyDatasetDescriptorsFilterAssemblyVersion("current") # V1AssemblyDatasetDescriptorsFilterAssemblyVersion | Return all assemblies, including replaced and suppressed, or only current assemblies (optional)
     filters_assembly_level = [
         V1AssemblyDatasetDescriptorsFilterAssemblyLevel("["chromosome","complete_genome"]"),
     ] # [V1AssemblyDatasetDescriptorsFilterAssemblyLevel] | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. (optional)
@@ -320,7 +333,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get genome metadata by taxonomic identifier
-        api_response = api_instance.assembly_descriptors_by_taxon(taxon, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, tax_exact_match=tax_exact_match, returned_content=returned_content, page_size=page_size, page_token=page_token)
+        api_response = api_instance.assembly_descriptors_by_taxon(taxon, filters_reference_only=filters_reference_only, filters_assembly_source=filters_assembly_source, filters_has_annotation=filters_has_annotation, filters_exclude_paired_reports=filters_exclude_paired_reports, filters_exclude_atypical=filters_exclude_atypical, filters_assembly_version=filters_assembly_version, filters_assembly_level=filters_assembly_level, filters_first_release_date=filters_first_release_date, filters_last_release_date=filters_last_release_date, filters_search_text=filters_search_text, tax_exact_match=tax_exact_match, returned_content=returned_content, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling GenomeApi->assembly_descriptors_by_taxon: %s\n" % e)
@@ -335,6 +348,9 @@ Name | Type | Description  | Notes
  **filters_reference_only** | **bool**| If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [optional] if omitted the server will use the default value of False
  **filters_assembly_source** | **V1AssemblyDatasetDescriptorsFilterAssemblySource**| Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies | [optional]
  **filters_has_annotation** | **bool**| Return only annotated genome assemblies | [optional] if omitted the server will use the default value of False
+ **filters_exclude_paired_reports** | **bool**| For paired (GCA/GCF) records, only return the primary record | [optional] if omitted the server will use the default value of False
+ **filters_exclude_atypical** | **bool**| If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical | [optional] if omitted the server will use the default value of False
+ **filters_assembly_version** | **V1AssemblyDatasetDescriptorsFilterAssemblyVersion**| Return all assemblies, including replaced and suppressed, or only current assemblies | [optional]
  **filters_assembly_level** | [**[V1AssemblyDatasetDescriptorsFilterAssemblyLevel]**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md)| Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. | [optional]
  **filters_first_release_date** | **datetime**| Only return genome assemblies that were released on or after the specified date By default, do not filter. | [optional]
  **filters_last_release_date** | **datetime**| Only return genome assemblies that were released on or before to the specified date By default, do not filter. | [optional]
@@ -1008,6 +1024,9 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
             refseq_only=True,
             assembly_source=V1AssemblyDatasetDescriptorsFilterAssemblySource("all"),
             has_annotation=True,
+            exclude_paired_reports=True,
+            exclude_atypical=True,
+            assembly_version=V1AssemblyDatasetDescriptorsFilterAssemblyVersion("current"),
             assembly_level=[
                 V1AssemblyDatasetDescriptorsFilterAssemblyLevel("chromosome"),
             ],

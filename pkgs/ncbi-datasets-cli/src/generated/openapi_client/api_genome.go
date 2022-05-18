@@ -37,6 +37,7 @@ type ApiAssemblyDescriptorsByAccessionsRequest struct {
 	filtersReferenceOnly *bool	
 	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource	
 	filtersHasAnnotation *bool	
+	filtersExcludeAtypical *bool	
 	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel	
 	filtersFirstReleaseDate *time.Time	
 	filtersLastReleaseDate *time.Time	
@@ -59,6 +60,11 @@ func (r *ApiAssemblyDescriptorsByAccessionsRequest) FiltersAssemblySource(filter
 // Return only annotated genome assemblies
 func (r *ApiAssemblyDescriptorsByAccessionsRequest) FiltersHasAnnotation(filtersHasAnnotation bool) *ApiAssemblyDescriptorsByAccessionsRequest {
 	r.filtersHasAnnotation = &filtersHasAnnotation
+	return r
+}
+// If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical
+func (r *ApiAssemblyDescriptorsByAccessionsRequest) FiltersExcludeAtypical(filtersExcludeAtypical bool) *ApiAssemblyDescriptorsByAccessionsRequest {
+	r.filtersExcludeAtypical = &filtersExcludeAtypical
 	return r
 }
 // Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.
@@ -144,6 +150,9 @@ func (a *GenomeApiService) AssemblyDescriptorsByAccessionsExecute(r ApiAssemblyD
 	}
 	if r.filtersHasAnnotation != nil {
 		localVarQueryParams.Add("filters.has_annotation", parameterToString(*r.filtersHasAnnotation, ""))
+	}
+	if r.filtersExcludeAtypical != nil {
+		localVarQueryParams.Add("filters.exclude_atypical", parameterToString(*r.filtersExcludeAtypical, ""))
 	}
 	if r.filtersAssemblyLevel != nil {
 		t := *r.filtersAssemblyLevel
@@ -271,6 +280,9 @@ type ApiAssemblyDescriptorsByBioprojectRequest struct {
 	filtersReferenceOnly *bool	
 	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource	
 	filtersHasAnnotation *bool	
+	filtersExcludePairedReports *bool	
+	filtersExcludeAtypical *bool	
+	filtersAssemblyVersion *V1AssemblyDatasetDescriptorsFilterAssemblyVersion	
 	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel	
 	filtersFirstReleaseDate *time.Time	
 	filtersLastReleaseDate *time.Time	
@@ -294,6 +306,21 @@ func (r *ApiAssemblyDescriptorsByBioprojectRequest) FiltersAssemblySource(filter
 // Return only annotated genome assemblies
 func (r *ApiAssemblyDescriptorsByBioprojectRequest) FiltersHasAnnotation(filtersHasAnnotation bool) *ApiAssemblyDescriptorsByBioprojectRequest {
 	r.filtersHasAnnotation = &filtersHasAnnotation
+	return r
+}
+// For paired (GCA/GCF) records, only return the primary record
+func (r *ApiAssemblyDescriptorsByBioprojectRequest) FiltersExcludePairedReports(filtersExcludePairedReports bool) *ApiAssemblyDescriptorsByBioprojectRequest {
+	r.filtersExcludePairedReports = &filtersExcludePairedReports
+	return r
+}
+// If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical
+func (r *ApiAssemblyDescriptorsByBioprojectRequest) FiltersExcludeAtypical(filtersExcludeAtypical bool) *ApiAssemblyDescriptorsByBioprojectRequest {
+	r.filtersExcludeAtypical = &filtersExcludeAtypical
+	return r
+}
+// Return all assemblies, including replaced and suppressed, or only current assemblies
+func (r *ApiAssemblyDescriptorsByBioprojectRequest) FiltersAssemblyVersion(filtersAssemblyVersion V1AssemblyDatasetDescriptorsFilterAssemblyVersion) *ApiAssemblyDescriptorsByBioprojectRequest {
+	r.filtersAssemblyVersion = &filtersAssemblyVersion
 	return r
 }
 // Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.
@@ -384,6 +411,15 @@ func (a *GenomeApiService) AssemblyDescriptorsByBioprojectExecute(r ApiAssemblyD
 	}
 	if r.filtersHasAnnotation != nil {
 		localVarQueryParams.Add("filters.has_annotation", parameterToString(*r.filtersHasAnnotation, ""))
+	}
+	if r.filtersExcludePairedReports != nil {
+		localVarQueryParams.Add("filters.exclude_paired_reports", parameterToString(*r.filtersExcludePairedReports, ""))
+	}
+	if r.filtersExcludeAtypical != nil {
+		localVarQueryParams.Add("filters.exclude_atypical", parameterToString(*r.filtersExcludeAtypical, ""))
+	}
+	if r.filtersAssemblyVersion != nil {
+		localVarQueryParams.Add("filters.assembly_version", parameterToString(*r.filtersAssemblyVersion, ""))
 	}
 	if r.filtersAssemblyLevel != nil {
 		t := *r.filtersAssemblyLevel
@@ -514,6 +550,9 @@ type ApiAssemblyDescriptorsByTaxonRequest struct {
 	filtersReferenceOnly *bool	
 	filtersAssemblySource *V1AssemblyDatasetDescriptorsFilterAssemblySource	
 	filtersHasAnnotation *bool	
+	filtersExcludePairedReports *bool	
+	filtersExcludeAtypical *bool	
+	filtersAssemblyVersion *V1AssemblyDatasetDescriptorsFilterAssemblyVersion	
 	filtersAssemblyLevel *[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel	
 	filtersFirstReleaseDate *time.Time	
 	filtersLastReleaseDate *time.Time	
@@ -538,6 +577,21 @@ func (r *ApiAssemblyDescriptorsByTaxonRequest) FiltersAssemblySource(filtersAsse
 // Return only annotated genome assemblies
 func (r *ApiAssemblyDescriptorsByTaxonRequest) FiltersHasAnnotation(filtersHasAnnotation bool) *ApiAssemblyDescriptorsByTaxonRequest {
 	r.filtersHasAnnotation = &filtersHasAnnotation
+	return r
+}
+// For paired (GCA/GCF) records, only return the primary record
+func (r *ApiAssemblyDescriptorsByTaxonRequest) FiltersExcludePairedReports(filtersExcludePairedReports bool) *ApiAssemblyDescriptorsByTaxonRequest {
+	r.filtersExcludePairedReports = &filtersExcludePairedReports
+	return r
+}
+// If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical
+func (r *ApiAssemblyDescriptorsByTaxonRequest) FiltersExcludeAtypical(filtersExcludeAtypical bool) *ApiAssemblyDescriptorsByTaxonRequest {
+	r.filtersExcludeAtypical = &filtersExcludeAtypical
+	return r
+}
+// Return all assemblies, including replaced and suppressed, or only current assemblies
+func (r *ApiAssemblyDescriptorsByTaxonRequest) FiltersAssemblyVersion(filtersAssemblyVersion V1AssemblyDatasetDescriptorsFilterAssemblyVersion) *ApiAssemblyDescriptorsByTaxonRequest {
+	r.filtersAssemblyVersion = &filtersAssemblyVersion
 	return r
 }
 // Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.
@@ -633,6 +687,15 @@ func (a *GenomeApiService) AssemblyDescriptorsByTaxonExecute(r ApiAssemblyDescri
 	}
 	if r.filtersHasAnnotation != nil {
 		localVarQueryParams.Add("filters.has_annotation", parameterToString(*r.filtersHasAnnotation, ""))
+	}
+	if r.filtersExcludePairedReports != nil {
+		localVarQueryParams.Add("filters.exclude_paired_reports", parameterToString(*r.filtersExcludePairedReports, ""))
+	}
+	if r.filtersExcludeAtypical != nil {
+		localVarQueryParams.Add("filters.exclude_atypical", parameterToString(*r.filtersExcludeAtypical, ""))
+	}
+	if r.filtersAssemblyVersion != nil {
+		localVarQueryParams.Add("filters.assembly_version", parameterToString(*r.filtersAssemblyVersion, ""))
 	}
 	if r.filtersAssemblyLevel != nil {
 		t := *r.filtersAssemblyLevel
