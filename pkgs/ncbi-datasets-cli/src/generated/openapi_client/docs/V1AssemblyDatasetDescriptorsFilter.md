@@ -8,6 +8,9 @@ Name | Type | Description | Notes
 **RefseqOnly** | Pointer to **bool** |  | [optional] 
 **AssemblySource** | Pointer to [**V1AssemblyDatasetDescriptorsFilterAssemblySource**](V1AssemblyDatasetDescriptorsFilterAssemblySource.md) |  | [optional] [default to V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYSOURCE_ALL]
 **HasAnnotation** | Pointer to **bool** |  | [optional] 
+**ExcludePairedReports** | Pointer to **bool** |  | [optional] 
+**ExcludeAtypical** | Pointer to **bool** |  | [optional] 
+**AssemblyVersion** | Pointer to [**V1AssemblyDatasetDescriptorsFilterAssemblyVersion**](V1AssemblyDatasetDescriptorsFilterAssemblyVersion.md) |  | [optional] [default to V1ASSEMBLYDATASETDESCRIPTORSFILTERASSEMBLYVERSION_CURRENT]
 **AssemblyLevel** | Pointer to [**[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md) |  | [optional] 
 **FirstReleaseDate** | Pointer to **time.Time** |  | [optional] 
 **LastReleaseDate** | Pointer to **time.Time** |  | [optional] 
@@ -131,6 +134,81 @@ SetHasAnnotation sets HasAnnotation field to given value.
 `func (o *V1AssemblyDatasetDescriptorsFilter) HasHasAnnotation() bool`
 
 HasHasAnnotation returns a boolean if a field has been set.
+
+### GetExcludePairedReports
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludePairedReports() bool`
+
+GetExcludePairedReports returns the ExcludePairedReports field if non-nil, zero value otherwise.
+
+### GetExcludePairedReportsOk
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludePairedReportsOk() (*bool, bool)`
+
+GetExcludePairedReportsOk returns a tuple with the ExcludePairedReports field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExcludePairedReports
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) SetExcludePairedReports(v bool)`
+
+SetExcludePairedReports sets ExcludePairedReports field to given value.
+
+### HasExcludePairedReports
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) HasExcludePairedReports() bool`
+
+HasExcludePairedReports returns a boolean if a field has been set.
+
+### GetExcludeAtypical
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludeAtypical() bool`
+
+GetExcludeAtypical returns the ExcludeAtypical field if non-nil, zero value otherwise.
+
+### GetExcludeAtypicalOk
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) GetExcludeAtypicalOk() (*bool, bool)`
+
+GetExcludeAtypicalOk returns a tuple with the ExcludeAtypical field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExcludeAtypical
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) SetExcludeAtypical(v bool)`
+
+SetExcludeAtypical sets ExcludeAtypical field to given value.
+
+### HasExcludeAtypical
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) HasExcludeAtypical() bool`
+
+HasExcludeAtypical returns a boolean if a field has been set.
+
+### GetAssemblyVersion
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) GetAssemblyVersion() V1AssemblyDatasetDescriptorsFilterAssemblyVersion`
+
+GetAssemblyVersion returns the AssemblyVersion field if non-nil, zero value otherwise.
+
+### GetAssemblyVersionOk
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) GetAssemblyVersionOk() (*V1AssemblyDatasetDescriptorsFilterAssemblyVersion, bool)`
+
+GetAssemblyVersionOk returns a tuple with the AssemblyVersion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAssemblyVersion
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) SetAssemblyVersion(v V1AssemblyDatasetDescriptorsFilterAssemblyVersion)`
+
+SetAssemblyVersion sets AssemblyVersion field to given value.
+
+### HasAssemblyVersion
+
+`func (o *V1AssemblyDatasetDescriptorsFilter) HasAssemblyVersion() bool`
+
+HasAssemblyVersion returns a boolean if a field has been set.
 
 ### GetAssemblyLevel
 

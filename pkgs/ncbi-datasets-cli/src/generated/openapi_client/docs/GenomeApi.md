@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 ## AssemblyDescriptorsByAccessions
 
-> V1AssemblyMetadata AssemblyDescriptorsByAccessions(ctx, accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).PageSize(pageSize).PageToken(pageToken).Execute()
+> V1AssemblyMetadata AssemblyDescriptorsByAccessions(ctx, accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersExcludeAtypical(filtersExcludeAtypical).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).PageSize(pageSize).PageToken(pageToken).Execute()
 
 Get genome metadata by accession
 
@@ -45,6 +45,7 @@ func main() {
     filtersReferenceOnly := true // bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) (default to false)
     filtersAssemblySource := openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblySource("all") // V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional) (default to "all")
     filtersHasAnnotation := true // bool | Return only annotated genome assemblies (optional) (default to false)
+    filtersExcludeAtypical := false // bool | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical (optional) (default to false)
     filtersAssemblyLevel := []openapiclient.V1AssemblyDatasetDescriptorsFilterAssemblyLevel{openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblyLevel("chromosome")} // []V1AssemblyDatasetDescriptorsFilterAssemblyLevel | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. (optional)
     filtersFirstReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or after the specified date By default, do not filter. (optional)
     filtersLastReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or before to the specified date By default, do not filter. (optional)
@@ -54,7 +55,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GenomeApi.AssemblyDescriptorsByAccessions(context.Background(), accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).PageSize(pageSize).PageToken(pageToken).Execute()
+    resp, r, err := api_client.GenomeApi.AssemblyDescriptorsByAccessions(context.Background(), accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersExcludeAtypical(filtersExcludeAtypical).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).PageSize(pageSize).PageToken(pageToken).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GenomeApi.AssemblyDescriptorsByAccessions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -83,6 +84,7 @@ Name | Type | Description  | Notes
  **filtersReferenceOnly** | **bool** | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [default to false]
  **filtersAssemblySource** | [**V1AssemblyDatasetDescriptorsFilterAssemblySource**](V1AssemblyDatasetDescriptorsFilterAssemblySource.md) | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies | [default to &quot;all&quot;]
  **filtersHasAnnotation** | **bool** | Return only annotated genome assemblies | [default to false]
+ **filtersExcludeAtypical** | **bool** | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical | [default to false]
  **filtersAssemblyLevel** | [**[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md) | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. | 
  **filtersFirstReleaseDate** | **time.Time** | Only return genome assemblies that were released on or after the specified date By default, do not filter. | 
  **filtersLastReleaseDate** | **time.Time** | Only return genome assemblies that were released on or before to the specified date By default, do not filter. | 
@@ -110,7 +112,7 @@ Name | Type | Description  | Notes
 
 ## AssemblyDescriptorsByBioproject
 
-> V1AssemblyMetadata AssemblyDescriptorsByBioproject(ctx, accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
+> V1AssemblyMetadata AssemblyDescriptorsByBioproject(ctx, accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersExcludePairedReports(filtersExcludePairedReports).FiltersExcludeAtypical(filtersExcludeAtypical).FiltersAssemblyVersion(filtersAssemblyVersion).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
 
 Get genome metadata by bioproject accession
 
@@ -134,6 +136,9 @@ func main() {
     filtersReferenceOnly := true // bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) (default to false)
     filtersAssemblySource := openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblySource("all") // V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional) (default to "all")
     filtersHasAnnotation := true // bool | Return only annotated genome assemblies (optional) (default to false)
+    filtersExcludePairedReports := false // bool | For paired (GCA/GCF) records, only return the primary record (optional) (default to false)
+    filtersExcludeAtypical := false // bool | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical (optional) (default to false)
+    filtersAssemblyVersion := openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblyVersion("current") // V1AssemblyDatasetDescriptorsFilterAssemblyVersion | Return all assemblies, including replaced and suppressed, or only current assemblies (optional) (default to "current")
     filtersAssemblyLevel := []openapiclient.V1AssemblyDatasetDescriptorsFilterAssemblyLevel{openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblyLevel("chromosome")} // []V1AssemblyDatasetDescriptorsFilterAssemblyLevel | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. (optional)
     filtersFirstReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or after the specified date By default, do not filter. (optional)
     filtersLastReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or before to the specified date By default, do not filter. (optional)
@@ -144,7 +149,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GenomeApi.AssemblyDescriptorsByBioproject(context.Background(), accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
+    resp, r, err := api_client.GenomeApi.AssemblyDescriptorsByBioproject(context.Background(), accessions).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersExcludePairedReports(filtersExcludePairedReports).FiltersExcludeAtypical(filtersExcludeAtypical).FiltersAssemblyVersion(filtersAssemblyVersion).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GenomeApi.AssemblyDescriptorsByBioproject``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -173,6 +178,9 @@ Name | Type | Description  | Notes
  **filtersReferenceOnly** | **bool** | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [default to false]
  **filtersAssemblySource** | [**V1AssemblyDatasetDescriptorsFilterAssemblySource**](V1AssemblyDatasetDescriptorsFilterAssemblySource.md) | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies | [default to &quot;all&quot;]
  **filtersHasAnnotation** | **bool** | Return only annotated genome assemblies | [default to false]
+ **filtersExcludePairedReports** | **bool** | For paired (GCA/GCF) records, only return the primary record | [default to false]
+ **filtersExcludeAtypical** | **bool** | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical | [default to false]
+ **filtersAssemblyVersion** | [**V1AssemblyDatasetDescriptorsFilterAssemblyVersion**](V1AssemblyDatasetDescriptorsFilterAssemblyVersion.md) | Return all assemblies, including replaced and suppressed, or only current assemblies | [default to &quot;current&quot;]
  **filtersAssemblyLevel** | [**[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md) | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. | 
  **filtersFirstReleaseDate** | **time.Time** | Only return genome assemblies that were released on or after the specified date By default, do not filter. | 
  **filtersLastReleaseDate** | **time.Time** | Only return genome assemblies that were released on or before to the specified date By default, do not filter. | 
@@ -201,7 +209,7 @@ Name | Type | Description  | Notes
 
 ## AssemblyDescriptorsByTaxon
 
-> V1AssemblyMetadata AssemblyDescriptorsByTaxon(ctx, taxon).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).TaxExactMatch(taxExactMatch).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
+> V1AssemblyMetadata AssemblyDescriptorsByTaxon(ctx, taxon).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersExcludePairedReports(filtersExcludePairedReports).FiltersExcludeAtypical(filtersExcludeAtypical).FiltersAssemblyVersion(filtersAssemblyVersion).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).TaxExactMatch(taxExactMatch).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
 
 Get genome metadata by taxonomic identifier
 
@@ -225,6 +233,9 @@ func main() {
     filtersReferenceOnly := true // bool | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. (optional) (default to false)
     filtersAssemblySource := openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblySource("all") // V1AssemblyDatasetDescriptorsFilterAssemblySource | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies (optional) (default to "all")
     filtersHasAnnotation := true // bool | Return only annotated genome assemblies (optional) (default to false)
+    filtersExcludePairedReports := false // bool | For paired (GCA/GCF) records, only return the primary record (optional) (default to false)
+    filtersExcludeAtypical := false // bool | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical (optional) (default to false)
+    filtersAssemblyVersion := openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblyVersion("current") // V1AssemblyDatasetDescriptorsFilterAssemblyVersion | Return all assemblies, including replaced and suppressed, or only current assemblies (optional) (default to "current")
     filtersAssemblyLevel := []openapiclient.V1AssemblyDatasetDescriptorsFilterAssemblyLevel{openapiclient.v1AssemblyDatasetDescriptorsFilterAssemblyLevel("chromosome")} // []V1AssemblyDatasetDescriptorsFilterAssemblyLevel | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. (optional)
     filtersFirstReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or after the specified date By default, do not filter. (optional)
     filtersLastReleaseDate := time.Now() // time.Time | Only return genome assemblies that were released on or before to the specified date By default, do not filter. (optional)
@@ -236,7 +247,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.GenomeApi.AssemblyDescriptorsByTaxon(context.Background(), taxon).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).TaxExactMatch(taxExactMatch).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
+    resp, r, err := api_client.GenomeApi.AssemblyDescriptorsByTaxon(context.Background(), taxon).FiltersReferenceOnly(filtersReferenceOnly).FiltersAssemblySource(filtersAssemblySource).FiltersHasAnnotation(filtersHasAnnotation).FiltersExcludePairedReports(filtersExcludePairedReports).FiltersExcludeAtypical(filtersExcludeAtypical).FiltersAssemblyVersion(filtersAssemblyVersion).FiltersAssemblyLevel(filtersAssemblyLevel).FiltersFirstReleaseDate(filtersFirstReleaseDate).FiltersLastReleaseDate(filtersLastReleaseDate).FiltersSearchText(filtersSearchText).TaxExactMatch(taxExactMatch).ReturnedContent(returnedContent).PageSize(pageSize).PageToken(pageToken).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `GenomeApi.AssemblyDescriptorsByTaxon``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -265,6 +276,9 @@ Name | Type | Description  | Notes
  **filtersReferenceOnly** | **bool** | If true, only return reference and representative (GCF_ and GCA_) genome assemblies. | [default to false]
  **filtersAssemblySource** | [**V1AssemblyDatasetDescriptorsFilterAssemblySource**](V1AssemblyDatasetDescriptorsFilterAssemblySource.md) | Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies | [default to &quot;all&quot;]
  **filtersHasAnnotation** | **bool** | Return only annotated genome assemblies | [default to false]
+ **filtersExcludePairedReports** | **bool** | For paired (GCA/GCF) records, only return the primary record | [default to false]
+ **filtersExcludeAtypical** | **bool** | If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical | [default to false]
+ **filtersAssemblyVersion** | [**V1AssemblyDatasetDescriptorsFilterAssemblyVersion**](V1AssemblyDatasetDescriptorsFilterAssemblyVersion.md) | Return all assemblies, including replaced and suppressed, or only current assemblies | [default to &quot;current&quot;]
  **filtersAssemblyLevel** | [**[]V1AssemblyDatasetDescriptorsFilterAssemblyLevel**](V1AssemblyDatasetDescriptorsFilterAssemblyLevel.md) | Only return genome assemblies that have one of the specified assembly levels. By default, do not filter. | 
  **filtersFirstReleaseDate** | **time.Time** | Only return genome assemblies that were released on or after the specified date By default, do not filter. | 
  **filtersLastReleaseDate** | **time.Time** | Only return genome assemblies that were released on or before to the specified date By default, do not filter. | 
