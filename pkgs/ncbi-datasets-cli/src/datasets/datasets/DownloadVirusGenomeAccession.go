@@ -11,23 +11,17 @@ import (
 	openapi "datasets_cli/v1/openapi"
 )
 
-func downloadVirusGenomeRequestWithAcc(args []string) (request openapi.ApiVirusGenomeDownloadAccessionRequest, err error) {
-	cli, err := createOAClient()
-	if err != nil {
-		return
-	}
-	request = cli.VirusApi.VirusGenomeDownloadAccession(nil, args)
-	return
-}
+func downloadVirusGenomeAccession(accessions []string, assmFilename string) (err error) {
+	request := openapi.NewV1VirusDatasetRequest()
+	request.SetAccessions(accessions)
 
-func downloadVirusGenomeAccession(request openapi.ApiVirusGenomeDownloadAccessionRequest, assmFilename string) (err error) {
-	request.RefseqOnly(argRefseqOnly)
-	request.AnnotatedOnly(argAnnotatedOnly)
-	request.ExcludeSequence(argExcludeSeq)
-	request.Host(argHost)
-	request.PangolinClassification(argLineage)
-	request.GeoLocation(argGeoLocation)
-	request.CompleteOnly(argCompleteOnly)
+	request.SetRefseqOnly(argRefseqOnly)
+	request.SetAnnotatedOnly(argAnnotatedOnly)
+	request.SetExcludeSequence(argExcludeSeq)
+	request.SetHost(argHost)
+	request.SetPangolinClassification(argLineage)
+	request.SetGeoLocation(argGeoLocation)
+	request.SetCompleteOnly(argCompleteOnly)
 
 	annotations := make([]openapi.V1AnnotationForVirusType, 0)
 	possible_annotations := []struct {
@@ -42,14 +36,14 @@ func downloadVirusGenomeAccession(request openapi.ApiVirusGenomeDownloadAccessio
 			annotations = append(annotations, annot.type_enum)
 		}
 	}
-	request.IncludeAnnotationType(annotations)
+	request.SetIncludeAnnotationType(annotations)
 
 	if argReleasedSince != "" {
 		date, e := fmtdate.Parse(dateFormat, argReleasedSince)
 		if e != nil {
 			return e
 		}
-		request.ReleasedSince(date)
+		request.SetReleasedSince(date)
 	}
 
 	f, e := os.Create(assmFilename)
@@ -57,7 +51,12 @@ func downloadVirusGenomeAccession(request openapi.ApiVirusGenomeDownloadAccessio
 		return fmt.Errorf("%s opening output file: %s", e, assmFilename)
 	}
 
-	_, resp, err := request.Execute()
+	cli, err := createOAClient()
+	if err != nil {
+		return
+	}
+
+	_, resp, err := cli.VirusApi.VirusGenomeDownloadPost(nil, request).Execute()
 	if err != nil {
 		return err
 	}
@@ -66,14 +65,6 @@ func downloadVirusGenomeAccession(request openapi.ApiVirusGenomeDownloadAccessio
 	}
 	length := int64(-1) // unknown length
 	return downloadData(f, resp, err, assmFilename, length)
-}
-
-func downloadVirusGenomeAcc(cmd *cobra.Command, args []string, assmFilename string) error {
-	request, err := downloadVirusGenomeRequestWithAcc(args)
-	if err != nil {
-		return err
-	}
-	return downloadVirusGenomeAccession(request, assmFilename)
 }
 
 var downloadVirusGenomeAccCmd = &cobra.Command{
@@ -104,7 +95,7 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
 		if argRetiredExcludeFlag {
 			cmd.PrintErrln(virusFlagWarningMessage)
 		}
-		return downloadVirusGenomeAcc(cmd, argIDArgs, argDownloadFilename)
+		return downloadVirusGenomeAccession(argIDArgs, argDownloadFilename)
 	},
 }
 
