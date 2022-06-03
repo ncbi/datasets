@@ -11344,6 +11344,8 @@ components:
       - PROT_FASTA
       - GENOME_GTF
       - CDS_FASTA
+      - ASM_STRUCT
+      - GENOME_FASTA
       type: string
     v1AnnotationForVirusType:
       default: DEFAULT

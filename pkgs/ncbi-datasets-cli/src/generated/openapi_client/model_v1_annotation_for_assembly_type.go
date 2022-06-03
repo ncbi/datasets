@@ -28,6 +28,8 @@ const (
 	V1ANNOTATIONFORASSEMBLYTYPE_PROT_FASTA V1AnnotationForAssemblyType = "PROT_FASTA"
 	V1ANNOTATIONFORASSEMBLYTYPE_GENOME_GTF V1AnnotationForAssemblyType = "GENOME_GTF"
 	V1ANNOTATIONFORASSEMBLYTYPE_CDS_FASTA V1AnnotationForAssemblyType = "CDS_FASTA"
+	V1ANNOTATIONFORASSEMBLYTYPE_ASM_STRUCT V1AnnotationForAssemblyType = "ASM_STRUCT"
+	V1ANNOTATIONFORASSEMBLYTYPE_GENOME_FASTA V1AnnotationForAssemblyType = "GENOME_FASTA"
 )
 
 // All allowed values of V1AnnotationForAssemblyType enum
@@ -40,6 +42,8 @@ var AllowedV1AnnotationForAssemblyTypeEnumValues = []V1AnnotationForAssemblyType
 	"PROT_FASTA",
 	"GENOME_GTF",
 	"CDS_FASTA",
+	"ASM_STRUCT",
+	"GENOME_FASTA",
 }
 
 func (v *V1AnnotationForAssemblyType) UnmarshalJSON(src []byte) error {
