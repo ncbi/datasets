@@ -14,7 +14,7 @@ Download and install the NCBI Datasets command-line tools, datasets and dataform
 
 `conda install -c conda-forge ncbi-datasets-cli`
 
-For other ways to install, see our command-line tool [quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/command-line-tools/).
+For other ways to install, see our command-line tool [quickstart](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/download-and-install/).
 
 ## Use the Datasets command-line tools
 
