@@ -8,7 +8,7 @@ info:
       The Datasets API is still in alpha, and we''re updating it often to add new functionality,
       iron out bugs and enhance usability.
 
-      For some larger downloads, you may want to download a [dehydrated bag](https://www.ncbi.nlm.nih.gov/datasets/docs/rehydrate/),
+      For some larger downloads, you may want to download a [dehydrated bag](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/how-tos/genomes/large-download/),
       and retrieve the individual data files at a later time.
 
     '
@@ -19,7 +19,7 @@ tags:
   description: '#### Options to explore, summarize and download assembled genomes,
     including the associated sequence, metadata and annotation.
 
-    These genome services allow you to explore [assembled genomes](https://www.ncbi.nlm.nih.gov/datasets/docs/which-genomes-are-in-datasets).  For
+    These genome services allow you to explore [assembled genomes](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/reference-docs/gca-and-gcf-explained/).  For
     a set of genomes of interest, identified by either assembly accession or taxonomic
     subtree, you can generate a summary, determine the package size, and download.
 
