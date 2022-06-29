@@ -7,6 +7,7 @@ import (
 var (
 	argAnnotatedOnly      bool
 	argReleasedSince      string
+	argUpdatedSince       string
 	argHost               string
 	argLineage            string
 	argGeoLocation        string

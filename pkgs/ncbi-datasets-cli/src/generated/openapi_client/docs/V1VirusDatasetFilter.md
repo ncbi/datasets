@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **RefseqOnly** | Pointer to **bool** |  | [optional] 
 **AnnotatedOnly** | Pointer to **bool** |  | [optional] 
 **ReleasedSince** | Pointer to **time.Time** |  | [optional] 
+**UpdatedSince** | Pointer to **time.Time** |  | [optional] 
 **Host** | Pointer to **string** |  | [optional] 
 **PangolinClassification** | Pointer to **string** |  | [optional] 
 **GeoLocation** | Pointer to **string** |  | [optional] 
@@ -157,6 +158,31 @@ SetReleasedSince sets ReleasedSince field to given value.
 `func (o *V1VirusDatasetFilter) HasReleasedSince() bool`
 
 HasReleasedSince returns a boolean if a field has been set.
+
+### GetUpdatedSince
+
+`func (o *V1VirusDatasetFilter) GetUpdatedSince() time.Time`
+
+GetUpdatedSince returns the UpdatedSince field if non-nil, zero value otherwise.
+
+### GetUpdatedSinceOk
+
+`func (o *V1VirusDatasetFilter) GetUpdatedSinceOk() (*time.Time, bool)`
+
+GetUpdatedSinceOk returns a tuple with the UpdatedSince field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUpdatedSince
+
+`func (o *V1VirusDatasetFilter) SetUpdatedSince(v time.Time)`
+
+SetUpdatedSince sets UpdatedSince field to given value.
+
+### HasUpdatedSince
+
+`func (o *V1VirusDatasetFilter) HasUpdatedSince() bool`
+
+HasUpdatedSince returns a boolean if a field has been set.
 
 ### GetHost
 

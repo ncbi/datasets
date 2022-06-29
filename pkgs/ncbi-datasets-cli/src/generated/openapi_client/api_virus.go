@@ -37,6 +37,7 @@ type ApiSars2ProteinDownloadRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	geoLocation *string	
 	completeOnly *bool	
@@ -58,6 +59,10 @@ func (r *ApiSars2ProteinDownloadRequest) AnnotatedOnly(annotatedOnly bool) *ApiS
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiSars2ProteinDownloadRequest) ReleasedSince(releasedSince time.Time) *ApiSars2ProteinDownloadRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiSars2ProteinDownloadRequest) UpdatedSince(updatedSince time.Time) *ApiSars2ProteinDownloadRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -138,6 +143,9 @@ func (a *VirusApiService) Sars2ProteinDownloadExecute(r ApiSars2ProteinDownloadR
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -254,6 +262,7 @@ type ApiSars2ProteinSummaryRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	geoLocation *string	
 	completeOnly *bool	
@@ -274,6 +283,10 @@ func (r *ApiSars2ProteinSummaryRequest) AnnotatedOnly(annotatedOnly bool) *ApiSa
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiSars2ProteinSummaryRequest) ReleasedSince(releasedSince time.Time) *ApiSars2ProteinSummaryRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiSars2ProteinSummaryRequest) UpdatedSince(updatedSince time.Time) *ApiSars2ProteinSummaryRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -349,6 +362,9 @@ func (a *VirusApiService) Sars2ProteinSummaryExecute(r ApiSars2ProteinSummaryReq
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -462,6 +478,7 @@ type ApiSars2ProteinTableRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	geoLocation *string	
 	completeOnly *bool	
@@ -483,6 +500,10 @@ func (r *ApiSars2ProteinTableRequest) AnnotatedOnly(annotatedOnly bool) *ApiSars
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiSars2ProteinTableRequest) ReleasedSince(releasedSince time.Time) *ApiSars2ProteinTableRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiSars2ProteinTableRequest) UpdatedSince(updatedSince time.Time) *ApiSars2ProteinTableRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -563,6 +584,9 @@ func (a *VirusApiService) Sars2ProteinTableExecute(r ApiSars2ProteinTableRequest
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -679,6 +703,7 @@ type ApiVirusGenomeDownloadRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	pangolinClassification *string	
 	geoLocation *string	
@@ -702,6 +727,10 @@ func (r *ApiVirusGenomeDownloadRequest) AnnotatedOnly(annotatedOnly bool) *ApiVi
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusGenomeDownloadRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeDownloadRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiVirusGenomeDownloadRequest) UpdatedSince(updatedSince time.Time) *ApiVirusGenomeDownloadRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -792,6 +821,9 @@ func (a *VirusApiService) VirusGenomeDownloadExecute(r ApiVirusGenomeDownloadReq
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -914,6 +946,7 @@ type ApiVirusGenomeDownloadAccessionRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	pangolinClassification *string	
 	geoLocation *string	
@@ -937,6 +970,10 @@ func (r *ApiVirusGenomeDownloadAccessionRequest) AnnotatedOnly(annotatedOnly boo
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusGenomeDownloadAccessionRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeDownloadAccessionRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiVirusGenomeDownloadAccessionRequest) UpdatedSince(updatedSince time.Time) *ApiVirusGenomeDownloadAccessionRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -1027,6 +1064,9 @@ func (a *VirusApiService) VirusGenomeDownloadAccessionExecute(r ApiVirusGenomeDo
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -1302,6 +1342,7 @@ type ApiVirusGenomeSummaryRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	pangolinClassification *string	
 	geoLocation *string	
@@ -1324,6 +1365,10 @@ func (r *ApiVirusGenomeSummaryRequest) AnnotatedOnly(annotatedOnly bool) *ApiVir
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusGenomeSummaryRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeSummaryRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiVirusGenomeSummaryRequest) UpdatedSince(updatedSince time.Time) *ApiVirusGenomeSummaryRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -1409,6 +1454,9 @@ func (a *VirusApiService) VirusGenomeSummaryExecute(r ApiVirusGenomeSummaryReque
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -1528,6 +1576,7 @@ type ApiVirusGenomeSummaryAccessionRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	pangolinClassification *string	
 	geoLocation *string	
@@ -1550,6 +1599,10 @@ func (r *ApiVirusGenomeSummaryAccessionRequest) AnnotatedOnly(annotatedOnly bool
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusGenomeSummaryAccessionRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeSummaryAccessionRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiVirusGenomeSummaryAccessionRequest) UpdatedSince(updatedSince time.Time) *ApiVirusGenomeSummaryAccessionRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -1635,6 +1688,9 @@ func (a *VirusApiService) VirusGenomeSummaryAccessionExecute(r ApiVirusGenomeSum
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -1898,6 +1954,7 @@ type ApiVirusGenomeTableRequest struct {
 	refseqOnly *bool	
 	annotatedOnly *bool	
 	releasedSince *time.Time	
+	updatedSince *time.Time	
 	host *string	
 	pangolinClassification *string	
 	geoLocation *string	
@@ -1920,6 +1977,10 @@ func (r *ApiVirusGenomeTableRequest) AnnotatedOnly(annotatedOnly bool) *ApiVirus
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusGenomeTableRequest) ReleasedSince(releasedSince time.Time) *ApiVirusGenomeTableRequest {
 	r.releasedSince = &releasedSince
+	return r
+}
+func (r *ApiVirusGenomeTableRequest) UpdatedSince(updatedSince time.Time) *ApiVirusGenomeTableRequest {
+	r.updatedSince = &updatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -2005,6 +2066,9 @@ func (a *VirusApiService) VirusGenomeTableExecute(r ApiVirusGenomeTableRequest) 
 	}
 	if r.releasedSince != nil {
 		localVarQueryParams.Add("released_since", parameterToString(*r.releasedSince, ""))
+	}
+	if r.updatedSince != nil {
+		localVarQueryParams.Add("updated_since", parameterToString(*r.updatedSince, ""))
 	}
 	if r.host != nil {
 		localVarQueryParams.Add("host", parameterToString(*r.host, ""))
@@ -2124,6 +2188,7 @@ type ApiVirusReportsByAcessionsRequest struct {
 	filterRefseqOnly *bool	
 	filterAnnotatedOnly *bool	
 	filterReleasedSince *time.Time	
+	filterUpdatedSince *time.Time	
 	filterHost *string	
 	filterPangolinClassification *string	
 	filterGeoLocation *string	
@@ -2148,6 +2213,10 @@ func (r *ApiVirusReportsByAcessionsRequest) FilterAnnotatedOnly(filterAnnotatedO
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusReportsByAcessionsRequest) FilterReleasedSince(filterReleasedSince time.Time) *ApiVirusReportsByAcessionsRequest {
 	r.filterReleasedSince = &filterReleasedSince
+	return r
+}
+func (r *ApiVirusReportsByAcessionsRequest) FilterUpdatedSince(filterUpdatedSince time.Time) *ApiVirusReportsByAcessionsRequest {
+	r.filterUpdatedSince = &filterUpdatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -2243,6 +2312,9 @@ func (a *VirusApiService) VirusReportsByAcessionsExecute(r ApiVirusReportsByAces
 	}
 	if r.filterReleasedSince != nil {
 		localVarQueryParams.Add("filter.released_since", parameterToString(*r.filterReleasedSince, ""))
+	}
+	if r.filterUpdatedSince != nil {
+		localVarQueryParams.Add("filter.updated_since", parameterToString(*r.filterUpdatedSince, ""))
 	}
 	if r.filterHost != nil {
 		localVarQueryParams.Add("filter.host", parameterToString(*r.filterHost, ""))
@@ -2512,6 +2584,7 @@ type ApiVirusReportsByTaxonRequest struct {
 	filterRefseqOnly *bool	
 	filterAnnotatedOnly *bool	
 	filterReleasedSince *time.Time	
+	filterUpdatedSince *time.Time	
 	filterHost *string	
 	filterPangolinClassification *string	
 	filterGeoLocation *string	
@@ -2536,6 +2609,10 @@ func (r *ApiVirusReportsByTaxonRequest) FilterAnnotatedOnly(filterAnnotatedOnly 
 // If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39;
 func (r *ApiVirusReportsByTaxonRequest) FilterReleasedSince(filterReleasedSince time.Time) *ApiVirusReportsByTaxonRequest {
 	r.filterReleasedSince = &filterReleasedSince
+	return r
+}
+func (r *ApiVirusReportsByTaxonRequest) FilterUpdatedSince(filterUpdatedSince time.Time) *ApiVirusReportsByTaxonRequest {
+	r.filterUpdatedSince = &filterUpdatedSince
 	return r
 }
 // If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default
@@ -2631,6 +2708,9 @@ func (a *VirusApiService) VirusReportsByTaxonExecute(r ApiVirusReportsByTaxonReq
 	}
 	if r.filterReleasedSince != nil {
 		localVarQueryParams.Add("filter.released_since", parameterToString(*r.filterReleasedSince, ""))
+	}
+	if r.filterUpdatedSince != nil {
+		localVarQueryParams.Add("filter.updated_since", parameterToString(*r.filterUpdatedSince, ""))
 	}
 	if r.filterHost != nil {
 		localVarQueryParams.Add("filter.host", parameterToString(*r.filterHost, ""))

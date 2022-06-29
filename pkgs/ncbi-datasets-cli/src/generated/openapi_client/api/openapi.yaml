@@ -2520,6 +2520,18 @@ paths:
           format: date-time
           type: string
         style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
       - description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) All hosts by default
         examples:
@@ -2686,6 +2698,18 @@ paths:
         explode: true
         in: query
         name: released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
         required: false
         schema:
           format: date-time
@@ -2896,6 +2920,18 @@ paths:
           format: date-time
           type: string
         style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
       - description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) All hosts by default
         examples:
@@ -3043,6 +3079,18 @@ paths:
         explode: true
         in: query
         name: released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
         required: false
         schema:
           format: date-time
@@ -3224,6 +3272,18 @@ paths:
           format: date-time
           type: string
         style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
       - description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) All hosts by default
         examples:
@@ -3386,6 +3446,18 @@ paths:
         explode: true
         in: query
         name: filter.released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: filter.updated_since
         required: false
         schema:
           format: date-time
@@ -3619,6 +3691,18 @@ paths:
         explode: true
         in: query
         name: filter.released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: filter.updated_since
         required: false
         schema:
           format: date-time
@@ -3896,6 +3980,18 @@ paths:
           format: date-time
           type: string
         style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
       - description: If set, limit results to genomes extracted from this host (Taxonomy
           ID or name) All hosts by default
         examples:
@@ -4074,6 +4170,18 @@ paths:
         explode: true
         in: query
         name: released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
         required: false
         schema:
           format: date-time
@@ -4305,6 +4413,18 @@ paths:
         explode: true
         in: query
         name: released_since
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - examples:
+          example-0:
+            summary: July 18, 2021
+            value: 2021-07-18
+        explode: true
+        in: query
+        name: updated_since
         required: false
         schema:
           format: date-time
@@ -8729,6 +8849,9 @@ components:
             a specified date (and optionally, time). April 1, 2020 midnight UTC should
             be formatted as '2020-04-01T00:00:00.000Z'
           type: string
+        updated_since:
+          format: date-time
+          type: string
         host:
           title: If set, limit results to genomes extracted from this host (Taxonomy
             ID or name) All hosts by default
@@ -9428,6 +9551,9 @@ components:
             a specified date (and optionally, time). April 1, 2020 midnight UTC should
             be formatted as '2020-04-01T00:00:00.000Z'
           type: string
+        updated_since:
+          format: date-time
+          type: string
         host:
           title: If set, limit results to genomes extracted from this host (Taxonomy
             ID or name) All hosts by default
@@ -9473,6 +9599,9 @@ components:
           title: If set, limit results to viral genomes that have been released after
             a specified date (and optionally, time). April 1, 2020 midnight UTC should
             be formatted as '2020-04-01T00:00:00.000Z'
+          type: string
+        updated_since:
+          format: date-time
           type: string
         host:
           title: If set, limit results to genomes extracted from this host (Taxonomy

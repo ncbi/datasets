@@ -46,6 +46,14 @@ func downloadVirusGenomeAccession(accessions []string, assmFilename string) (err
 		request.SetReleasedSince(date)
 	}
 
+	if argUpdatedSince != "" {
+		date, e := fmtdate.Parse(dateFormat, argUpdatedSince)
+		if e != nil {
+			return e
+		}
+		request.SetUpdatedSince(date)
+	}
+
 	f, e := os.Create(assmFilename)
 	if e != nil {
 		return fmt.Errorf("%s opening output file: %s", e, assmFilename)

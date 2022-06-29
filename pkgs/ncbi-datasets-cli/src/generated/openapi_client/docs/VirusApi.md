@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 ## Sars2ProteinDownload
 
-> *os.File Sars2ProteinDownload(ctx, proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
+> *os.File Sars2ProteinDownload(ctx, proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
 
 Download SARS-CoV-2 protein and CDS datasets by protein name
 
@@ -46,6 +46,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
     completeOnly := true // bool | only include complete genomes. (optional) (default to false)
@@ -54,7 +55,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.Sars2ProteinDownload(context.Background(), proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
+    resp, r, err := api_client.VirusApi.Sars2ProteinDownload(context.Background(), proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.Sars2ProteinDownload``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -83,6 +84,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
  **completeOnly** | **bool** | only include complete genomes. | [default to false]
@@ -109,7 +111,7 @@ Name | Type | Description  | Notes
 
 ## Sars2ProteinSummary
 
-> V1DownloadSummary Sars2ProteinSummary(ctx, proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Execute()
+> V1DownloadSummary Sars2ProteinSummary(ctx, proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Execute()
 
 Summary of SARS-CoV-2 protein and CDS datasets by protein name
 
@@ -133,6 +135,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
     completeOnly := true // bool | only include complete genomes. (optional) (default to false)
@@ -140,7 +143,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.Sars2ProteinSummary(context.Background(), proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Execute()
+    resp, r, err := api_client.VirusApi.Sars2ProteinSummary(context.Background(), proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).IncludeAnnotationType(includeAnnotationType).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.Sars2ProteinSummary``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -169,6 +172,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
  **completeOnly** | **bool** | only include complete genomes. | [default to false]
@@ -194,7 +198,7 @@ Name | Type | Description  | Notes
 
 ## Sars2ProteinTable
 
-> V1TabularOutput Sars2ProteinTable(ctx, proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
+> V1TabularOutput Sars2ProteinTable(ctx, proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
 
 Get SARS-CoV-2 protein metadata in a tabular format.
 
@@ -218,6 +222,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
     completeOnly := true // bool | only include complete genomes. (optional) (default to false)
@@ -226,7 +231,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.Sars2ProteinTable(context.Background(), proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
+    resp, r, err := api_client.VirusApi.Sars2ProteinTable(context.Background(), proteins).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.Sars2ProteinTable``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -255,6 +260,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
  **completeOnly** | **bool** | only include complete genomes. | [default to false]
@@ -281,7 +287,7 @@ Name | Type | Description  | Notes
 
 ## VirusGenomeDownload
 
-> *os.File VirusGenomeDownload(ctx, taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
+> *os.File VirusGenomeDownload(ctx, taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
 
 Download a coronavirus genome dataset by taxon
 
@@ -305,6 +311,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolinClassification := "pangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -315,7 +322,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusGenomeDownload(context.Background(), taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
+    resp, r, err := api_client.VirusApi.VirusGenomeDownload(context.Background(), taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusGenomeDownload``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -344,6 +351,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **pangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
@@ -372,7 +380,7 @@ Name | Type | Description  | Notes
 
 ## VirusGenomeDownloadAccession
 
-> *os.File VirusGenomeDownloadAccession(ctx, accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
+> *os.File VirusGenomeDownloadAccession(ctx, accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
 
 Download a coronavirus genome dataset by accession
 
@@ -396,6 +404,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolinClassification := "pangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -406,7 +415,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusGenomeDownloadAccession(context.Background(), accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
+    resp, r, err := api_client.VirusApi.VirusGenomeDownloadAccession(context.Background(), accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Filename(filename).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusGenomeDownloadAccession``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -435,6 +444,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **pangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
@@ -531,7 +541,7 @@ Name | Type | Description  | Notes
 
 ## VirusGenomeSummary
 
-> V1DownloadSummary VirusGenomeSummary(ctx, taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
+> V1DownloadSummary VirusGenomeSummary(ctx, taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
 
 Get summary data for Coronaviridae genomes by taxon
 
@@ -555,6 +565,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolinClassification := "pangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -564,7 +575,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusGenomeSummary(context.Background(), taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
+    resp, r, err := api_client.VirusApi.VirusGenomeSummary(context.Background(), taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusGenomeSummary``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -593,6 +604,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **pangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
@@ -620,7 +632,7 @@ Name | Type | Description  | Notes
 
 ## VirusGenomeSummaryAccession
 
-> V1DownloadSummary VirusGenomeSummaryAccession(ctx, accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
+> V1DownloadSummary VirusGenomeSummaryAccession(ctx, accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
 
 Get summary data for Coronaviridae genomes by accession
 
@@ -644,6 +656,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolinClassification := "pangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -653,7 +666,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusGenomeSummaryAccession(context.Background(), accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
+    resp, r, err := api_client.VirusApi.VirusGenomeSummaryAccession(context.Background(), accessions).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).ExcludeSequence(excludeSequence).IncludeAnnotationType(includeAnnotationType).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusGenomeSummaryAccession``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -682,6 +695,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **pangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
@@ -775,7 +789,7 @@ Name | Type | Description  | Notes
 
 ## VirusGenomeTable
 
-> V1TabularOutput VirusGenomeTable(ctx, taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
+> V1TabularOutput VirusGenomeTable(ctx, taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
 
 Get viral genomic metadata in a tabular format.
 
@@ -799,6 +813,7 @@ func main() {
     refseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     annotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     releasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updatedSince := time.Now() // time.Time |  (optional)
     host := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolinClassification := "pangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -808,7 +823,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusGenomeTable(context.Background(), taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
+    resp, r, err := api_client.VirusApi.VirusGenomeTable(context.Background(), taxon).RefseqOnly(refseqOnly).AnnotatedOnly(annotatedOnly).ReleasedSince(releasedSince).UpdatedSince(updatedSince).Host(host).PangolinClassification(pangolinClassification).GeoLocation(geoLocation).CompleteOnly(completeOnly).TableFields(tableFields).Format(format).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusGenomeTable``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -837,6 +852,7 @@ Name | Type | Description  | Notes
  **refseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **annotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **releasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **updatedSince** | **time.Time** |  | 
  **host** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **pangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **geoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
@@ -864,7 +880,7 @@ Name | Type | Description  | Notes
 
 ## VirusReportsByAcessions
 
-> V1reportsVirusDataReportPage VirusReportsByAcessions(ctx, accessions).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+> V1reportsVirusDataReportPage VirusReportsByAcessions(ctx, accessions).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterUpdatedSince(filterUpdatedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
 
 Get virus metadata by accession
 
@@ -888,6 +904,7 @@ func main() {
     filterRefseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     filterAnnotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     filterReleasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    filterUpdatedSince := time.Now() // time.Time |  (optional)
     filterHost := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     filterPangolinClassification := "filterPangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     filterGeoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -899,7 +916,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusReportsByAcessions(context.Background(), accessions).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+    resp, r, err := api_client.VirusApi.VirusReportsByAcessions(context.Background(), accessions).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterUpdatedSince(filterUpdatedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusReportsByAcessions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -928,6 +945,7 @@ Name | Type | Description  | Notes
  **filterRefseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **filterAnnotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **filterReleasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **filterUpdatedSince** | **time.Time** |  | 
  **filterHost** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **filterPangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **filterGeoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
@@ -1023,7 +1041,7 @@ Name | Type | Description  | Notes
 
 ## VirusReportsByTaxon
 
-> V1reportsVirusDataReportPage VirusReportsByTaxon(ctx, taxon).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+> V1reportsVirusDataReportPage VirusReportsByTaxon(ctx, taxon).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterUpdatedSince(filterUpdatedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
 
 Get virus metadata by taxon
 
@@ -1047,6 +1065,7 @@ func main() {
     filterRefseqOnly := true // bool | If true, limit results to RefSeq genomes. (optional) (default to false)
     filterAnnotatedOnly := true // bool | If true, limit results to annotated genomes. (optional) (default to false)
     filterReleasedSince := time.Now() // time.Time | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    filterUpdatedSince := time.Now() // time.Time |  (optional)
     filterHost := "human" // string | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     filterPangolinClassification := "filterPangolinClassification_example" // string | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     filterGeoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
@@ -1058,7 +1077,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.VirusApi.VirusReportsByTaxon(context.Background(), taxon).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
+    resp, r, err := api_client.VirusApi.VirusReportsByTaxon(context.Background(), taxon).FilterRefseqOnly(filterRefseqOnly).FilterAnnotatedOnly(filterAnnotatedOnly).FilterReleasedSince(filterReleasedSince).FilterUpdatedSince(filterUpdatedSince).FilterHost(filterHost).FilterPangolinClassification(filterPangolinClassification).FilterGeoLocation(filterGeoLocation).FilterCompleteOnly(filterCompleteOnly).ReturnedContent(returnedContent).TableFields(tableFields).PageSize(pageSize).PageToken(pageToken).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusReportsByTaxon``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -1087,6 +1106,7 @@ Name | Type | Description  | Notes
  **filterRefseqOnly** | **bool** | If true, limit results to RefSeq genomes. | [default to false]
  **filterAnnotatedOnly** | **bool** | If true, limit results to annotated genomes. | [default to false]
  **filterReleasedSince** | **time.Time** | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | 
+ **filterUpdatedSince** | **time.Time** |  | 
  **filterHost** | **string** | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | 
  **filterPangolinClassification** | **string** | If set, limit results to genomes classified to this lineage by the PangoLearn tool. | 
  **filterGeoLocation** | **string** | Assemblies from this location (country and state, or continent) | 
