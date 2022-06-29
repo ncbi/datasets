@@ -84,6 +84,14 @@ func downloadVirusGenome(request openapi.ApiVirusGenomeDownloadRequest, assmFile
 		request.ReleasedSince(date)
 	}
 
+	if argUpdatedSince != "" {
+		date, e := fmtdate.Parse(dateFormat, argUpdatedSince)
+		if e != nil {
+			return e
+		}
+		request.UpdatedSince(date)
+	}
+
 	f, e := os.Create(assmFilename)
 	if e != nil {
 		return fmt.Errorf("%s opening output file: %s", e, assmFilename)

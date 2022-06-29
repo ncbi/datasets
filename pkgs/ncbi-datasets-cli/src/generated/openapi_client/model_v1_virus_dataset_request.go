@@ -25,6 +25,7 @@ type V1VirusDatasetRequest struct {
 	RefseqOnly *bool `json:"refseq_only,omitempty"`
 	AnnotatedOnly *bool `json:"annotated_only,omitempty"`
 	ReleasedSince *time.Time `json:"released_since,omitempty"`
+	UpdatedSince *time.Time `json:"updated_since,omitempty"`
 	Host *string `json:"host,omitempty"`
 	PangolinClassification *string `json:"pangolin_classification,omitempty"`
 	GeoLocation *string `json:"geo_location,omitempty"`
@@ -312,6 +313,38 @@ func (o *V1VirusDatasetRequest) SetReleasedSince(v time.Time) {
 	o.ReleasedSince = &v
 }
 
+// GetUpdatedSince returns the UpdatedSince field value if set, zero value otherwise.
+func (o *V1VirusDatasetRequest) GetUpdatedSince() time.Time {
+	if o == nil || o.UpdatedSince == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.UpdatedSince
+}
+
+// GetUpdatedSinceOk returns a tuple with the UpdatedSince field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1VirusDatasetRequest) GetUpdatedSinceOk() (*time.Time, bool) {
+	if o == nil || o.UpdatedSince == nil {
+		return nil, false
+	}
+	return o.UpdatedSince, true
+}
+
+// HasUpdatedSince returns a boolean if a field has been set.
+func (o *V1VirusDatasetRequest) HasUpdatedSince() bool {
+	if o != nil && o.UpdatedSince != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetUpdatedSince gets a reference to the given time.Time and assigns it to the UpdatedSince field.
+func (o *V1VirusDatasetRequest) SetUpdatedSince(v time.Time) {
+	o.UpdatedSince = &v
+}
+
 // GetHost returns the Host field value if set, zero value otherwise.
 func (o *V1VirusDatasetRequest) GetHost() string {
 	if o == nil || o.Host == nil {
@@ -593,6 +626,9 @@ func (o V1VirusDatasetRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.ReleasedSince != nil  {
 		toSerialize["released_since"] = o.ReleasedSince
+	}
+	if o.UpdatedSince != nil  {
+		toSerialize["updated_since"] = o.UpdatedSince
 	}
 	if o.Host != nil  {
 		toSerialize["host"] = o.Host

@@ -35,4 +35,5 @@ func init() {
 	downloadVirusGenomeCmd.PersistentFlags().StringVar(&argLineage, "lineage", "", "limit to SARS-CoV-2 genomes classified as the specified lineage (variant) by pangolin using the pangoLEARN algorithm")
 	downloadVirusGenomeCmd.PersistentFlags().BoolVar(&argRefseqOnly, "refseq", false, "limit to RefSeq coronavirus genomes")
 	downloadVirusGenomeCmd.PersistentFlags().StringVar(&argReleasedSince, "released-since", "", "limit to coronavirus genomes released after a specified date ("+dateFormat+")")
+	downloadVirusGenomeCmd.PersistentFlags().StringVar(&argUpdatedSince, "updated-since", "", "limit to coronavirus genomes updated after a specified date ("+dateFormat+")")
 }

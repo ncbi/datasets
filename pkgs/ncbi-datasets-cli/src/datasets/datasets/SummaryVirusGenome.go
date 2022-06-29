@@ -28,6 +28,13 @@ func setBaseFilter() (openapi.V1VirusDatasetFilter, error) {
 		}
 		filter.SetReleasedSince(date)
 	}
+	if argUpdatedSince != "" {
+		date, e := fmtdate.Parse(dateFormat, argUpdatedSince)
+		if e != nil {
+			return filter, e
+		}
+		filter.SetUpdatedSince(date)
+	}
 	filter.SetHost(argHost)
 	filter.SetPangolinClassification(argLineage)
 	filter.SetGeoLocation(argGeoLocation)
@@ -52,5 +59,6 @@ func init() {
 	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argLineage, "lineage", "", "limit to SARS-CoV-2 genomes classified as the specified lineage (variant) by pangolin using the pangoLEARN algorithm")
 	summaryVirusGenomeCmd.PersistentFlags().BoolVar(&argRefseqOnly, "refseq", false, "limit to RefSeq coronavirus genomes")
 	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argReleasedSince, "released-since", "", "limit to coronavirus genomes released after a specified date ("+dateFormat+")")
+	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argUpdatedSince, "updated-since", "", "limit to coronavirus genomes updated after a specified date ("+dateFormat+")")
 	summaryVirusGenomeCmd.PersistentFlags().BoolVar(&argJsonLinesFormat, "as-json-lines", false, "Stream results as newline delimited JSON-Lines")
 }

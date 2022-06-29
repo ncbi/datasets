@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **refseq_only** | **bool** |  | [optional] 
 **annotated_only** | **bool** |  | [optional] 
 **released_since** | **datetime** |  | [optional] 
+**updated_since** | **datetime** |  | [optional] 
 **host** | **str** |  | [optional] 
 **geo_location** | **str** |  | [optional] 
 **complete_only** | **bool** |  | [optional] 

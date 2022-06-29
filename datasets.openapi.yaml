@@ -2259,6 +2259,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -2405,6 +2415,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -2583,6 +2603,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -2713,6 +2743,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -2866,6 +2906,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -3017,6 +3067,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: filter.updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: filter.host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -3215,6 +3275,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: filter.updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: filter.host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -3448,6 +3518,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -3603,6 +3683,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -3800,6 +3890,16 @@ paths:
           example-0:
             value: 2020-08-01
             summary: August 1, 2020
+      - name: updated_since
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 2021-07-18
+            summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
         in: query
@@ -4813,6 +4913,9 @@ components:
           type: string
           format: date-time
           title: 'If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as ''2020-04-01T00:00:00.000Z'''
+        updated_since:
+          type: string
+          format: date-time
         host:
           type: string
           title: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -5123,6 +5226,9 @@ components:
           type: string
           format: date-time
           title: 'If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as ''2020-04-01T00:00:00.000Z'''
+        updated_since:
+          type: string
+          format: date-time
         host:
           type: string
           title: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -5164,6 +5270,9 @@ components:
           type: string
           format: date-time
           title: 'If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as ''2020-04-01T00:00:00.000Z'''
+        updated_since:
+          type: string
+          format: date-time
         host:
           type: string
           title: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'

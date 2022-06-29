@@ -34,6 +34,14 @@ func downloadVirusProtein(cmd *cobra.Command, proteinNames []string, assmFilenam
 		request.ReleasedSince(date)
 	}
 
+	if argUpdatedSince != "" {
+		date, e := fmtdate.Parse(dateFormat, argUpdatedSince)
+		if e != nil {
+			return e
+		}
+		request.UpdatedSince(date)
+	}
+
 	annotations := make([]openapi.V1AnnotationForVirusType, 0)
 	possible_annotations := []struct {
 		flag      bool
@@ -136,4 +144,5 @@ func init() {
 	downloadVirusProteinCmd.PersistentFlags().StringVar(&argHost, "host", "", "limit to coronavirus genomes isolated from a specified host (NCBI Taxonomy ID, scientific or common name at any taxonomic rank)")
 	downloadVirusProteinCmd.PersistentFlags().BoolVar(&argRefseqOnly, "refseq", false, "limit to RefSeq coronavirus genomes")
 	downloadVirusProteinCmd.PersistentFlags().StringVar(&argReleasedSince, "released-since", "", "limit to coronavirus genomes released after a specified date ("+dateFormat+")")
+	downloadVirusProteinCmd.PersistentFlags().StringVar(&argUpdatedSince, "updated-since", "", "limit to coronavirus genomes updated after a specified date ("+dateFormat+")")
 }

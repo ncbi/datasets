@@ -64,6 +64,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
@@ -84,7 +85,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Download SARS-CoV-2 protein and CDS datasets by protein name
-        api_response = api_instance.sars2_protein_download(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type, filename=filename)
+        api_response = api_instance.sars2_protein_download(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_download: %s\n" % e)
@@ -99,6 +100,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
  **complete_only** | **bool**| only include complete genomes. | [optional] if omitted the server will use the default value of False
@@ -174,6 +176,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
@@ -193,7 +196,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Summary of SARS-CoV-2 protein and CDS datasets by protein name
-        api_response = api_instance.sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type)
+        api_response = api_instance.sars2_protein_summary(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, geo_location=geo_location, complete_only=complete_only, include_annotation_type=include_annotation_type)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_summary: %s\n" % e)
@@ -208,6 +211,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
  **complete_only** | **bool**| only include complete genomes. | [optional] if omitted the server will use the default value of False
@@ -283,6 +287,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
     complete_only = True # bool | only include complete genomes. (optional) if omitted the server will use the default value of False
@@ -303,7 +308,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get SARS-CoV-2 protein metadata in a tabular format.
-        api_response = api_instance.sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
+        api_response = api_instance.sars2_protein_table(proteins, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->sars2_protein_table: %s\n" % e)
@@ -318,6 +323,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
  **complete_only** | **bool**| only include complete genomes. | [optional] if omitted the server will use the default value of False
@@ -390,6 +396,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -412,7 +419,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Download a coronavirus genome dataset by taxon
-        api_response = api_instance.virus_genome_download(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
+        api_response = api_instance.virus_genome_download(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_genome_download: %s\n" % e)
@@ -427,6 +434,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
@@ -503,6 +511,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -525,7 +534,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Download a coronavirus genome dataset by accession
-        api_response = api_instance.virus_genome_download_accession(accessions, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
+        api_response = api_instance.virus_genome_download_accession(accessions, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type, filename=filename)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_genome_download_accession: %s\n" % e)
@@ -540,6 +549,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
@@ -621,6 +631,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
         refseq_only=True,
         annotated_only=True,
         released_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
+        updated_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
         host="host_example",
         pangolin_classification="pangolin_classification_example",
         geo_location="geo_location_example",
@@ -729,6 +740,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -750,7 +762,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get summary data for Coronaviridae genomes by taxon
-        api_response = api_instance.virus_genome_summary(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+        api_response = api_instance.virus_genome_summary(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_genome_summary: %s\n" % e)
@@ -765,6 +777,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
@@ -841,6 +854,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -862,7 +876,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get summary data for Coronaviridae genomes by accession
-        api_response = api_instance.virus_genome_summary_accession(accessions, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
+        api_response = api_instance.virus_genome_summary_accession(accessions, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, exclude_sequence=exclude_sequence, include_annotation_type=include_annotation_type)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_genome_summary_accession: %s\n" % e)
@@ -877,6 +891,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
@@ -958,6 +973,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
         refseq_only=True,
         annotated_only=True,
         released_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
+        updated_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
         host="host_example",
         pangolin_classification="pangolin_classification_example",
         geo_location="geo_location_example",
@@ -1056,6 +1072,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     pangolin_classification = "pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -1077,7 +1094,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get viral genomic metadata in a tabular format.
-        api_response = api_instance.virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
+        api_response = api_instance.virus_genome_table(taxon, refseq_only=refseq_only, annotated_only=annotated_only, released_since=released_since, updated_since=updated_since, host=host, pangolin_classification=pangolin_classification, geo_location=geo_location, complete_only=complete_only, table_fields=table_fields, format=format)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_genome_table: %s\n" % e)
@@ -1092,6 +1109,7 @@ Name | Type | Description  | Notes
  **refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **updated_since** | **datetime**|  | [optional]
  **host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
@@ -1168,6 +1186,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     filter_refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     filter_annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     filter_released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    filter_updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     filter_host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     filter_pangolin_classification = "filter.pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     filter_geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -1189,7 +1208,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get virus metadata by accession
-        api_response = api_instance.virus_reports_by_acessions(accessions, filter_refseq_only=filter_refseq_only, filter_annotated_only=filter_annotated_only, filter_released_since=filter_released_since, filter_host=filter_host, filter_pangolin_classification=filter_pangolin_classification, filter_geo_location=filter_geo_location, filter_complete_only=filter_complete_only, returned_content=returned_content, table_fields=table_fields, page_size=page_size, page_token=page_token)
+        api_response = api_instance.virus_reports_by_acessions(accessions, filter_refseq_only=filter_refseq_only, filter_annotated_only=filter_annotated_only, filter_released_since=filter_released_since, filter_updated_since=filter_updated_since, filter_host=filter_host, filter_pangolin_classification=filter_pangolin_classification, filter_geo_location=filter_geo_location, filter_complete_only=filter_complete_only, returned_content=returned_content, table_fields=table_fields, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_reports_by_acessions: %s\n" % e)
@@ -1204,6 +1223,7 @@ Name | Type | Description  | Notes
  **filter_refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **filter_annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **filter_released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **filter_updated_since** | **datetime**|  | [optional]
  **filter_host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **filter_pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **filter_geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
@@ -1285,6 +1305,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
             refseq_only=True,
             annotated_only=True,
             released_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
+            updated_since=dateutil_parser('1970-01-01T00:00:00.00Z'),
             host="host_example",
             pangolin_classification="pangolin_classification_example",
             geo_location="geo_location_example",
@@ -1381,6 +1402,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     filter_refseq_only = True # bool | If true, limit results to RefSeq genomes. (optional) if omitted the server will use the default value of False
     filter_annotated_only = True # bool | If true, limit results to annotated genomes. (optional) if omitted the server will use the default value of False
     filter_released_since = dateutil_parser('2020-08-01') # datetime | If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as '2020-04-01T00:00:00.000Z' (optional)
+    filter_updated_since = dateutil_parser('2021-07-18') # datetime |  (optional)
     filter_host = "human" # str | If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default (optional)
     filter_pangolin_classification = "filter.pangolin_classification_example" # str | If set, limit results to genomes classified to this lineage by the PangoLearn tool. (optional)
     filter_geo_location = "USA" # str | Assemblies from this location (country and state, or continent) (optional)
@@ -1402,7 +1424,7 @@ with ncbi.datasets.openapi.ApiClient(configuration) as api_client:
     # and optional values
     try:
         # Get virus metadata by taxon
-        api_response = api_instance.virus_reports_by_taxon(taxon, filter_refseq_only=filter_refseq_only, filter_annotated_only=filter_annotated_only, filter_released_since=filter_released_since, filter_host=filter_host, filter_pangolin_classification=filter_pangolin_classification, filter_geo_location=filter_geo_location, filter_complete_only=filter_complete_only, returned_content=returned_content, table_fields=table_fields, page_size=page_size, page_token=page_token)
+        api_response = api_instance.virus_reports_by_taxon(taxon, filter_refseq_only=filter_refseq_only, filter_annotated_only=filter_annotated_only, filter_released_since=filter_released_since, filter_updated_since=filter_updated_since, filter_host=filter_host, filter_pangolin_classification=filter_pangolin_classification, filter_geo_location=filter_geo_location, filter_complete_only=filter_complete_only, returned_content=returned_content, table_fields=table_fields, page_size=page_size, page_token=page_token)
         pprint(api_response)
     except ncbi.datasets.openapi.ApiException as e:
         print("Exception when calling VirusApi->virus_reports_by_taxon: %s\n" % e)
@@ -1417,6 +1439,7 @@ Name | Type | Description  | Notes
  **filter_refseq_only** | **bool**| If true, limit results to RefSeq genomes. | [optional] if omitted the server will use the default value of False
  **filter_annotated_only** | **bool**| If true, limit results to annotated genomes. | [optional] if omitted the server will use the default value of False
  **filter_released_since** | **datetime**| If set, limit results to viral genomes that have been released after a specified date (and optionally, time). April 1, 2020 midnight UTC should be formatted as &#39;2020-04-01T00:00:00.000Z&#39; | [optional]
+ **filter_updated_since** | **datetime**|  | [optional]
  **filter_host** | **str**| If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default | [optional]
  **filter_pangolin_classification** | **str**| If set, limit results to genomes classified to this lineage by the PangoLearn tool. | [optional]
  **filter_geo_location** | **str**| Assemblies from this location (country and state, or continent) | [optional]
