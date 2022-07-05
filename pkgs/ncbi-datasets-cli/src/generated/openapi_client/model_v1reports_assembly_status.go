@@ -24,6 +24,7 @@ const (
 	V1REPORTSASSEMBLYSTATUS_CURRENT V1reportsAssemblyStatus = "current"
 	V1REPORTSASSEMBLYSTATUS_PREVIOUS V1reportsAssemblyStatus = "previous"
 	V1REPORTSASSEMBLYSTATUS_SUPPRESSED V1reportsAssemblyStatus = "suppressed"
+	V1REPORTSASSEMBLYSTATUS_RETIRED V1reportsAssemblyStatus = "retired"
 )
 
 // All allowed values of V1reportsAssemblyStatus enum
@@ -32,6 +33,7 @@ var AllowedV1reportsAssemblyStatusEnumValues = []V1reportsAssemblyStatus{
 	"current",
 	"previous",
 	"suppressed",
+	"retired",
 }
 
 func (v *V1reportsAssemblyStatus) UnmarshalJSON(src []byte) error {

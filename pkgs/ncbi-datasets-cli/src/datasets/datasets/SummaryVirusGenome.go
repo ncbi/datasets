@@ -52,7 +52,7 @@ func init() {
 	* "none": returns only the number of matching virus data reports
 	* a number: returns the specified number of matching data reports
 	`)
-	summaryVirusGenomeCmd.PersistentFlags().BoolVarP(&argAnnotatedOnly, "annotated", "a", false, "Only include viral genomes with annotation")
+	summaryVirusGenomeCmd.PersistentFlags().BoolVarP(&argAnnotatedOnly, "annotated", "a", false, "only include viral genomes with annotation")
 	summaryVirusGenomeCmd.PersistentFlags().BoolVar(&argCompleteOnly, "complete-only", false, "only include complete coronavirus data reports")
 	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argGeoLocation, "geo-location", "", "limit to coronavirus genomes isolated from a specified geographic location (continent, country or U.S. state)")
 	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argHost, "host", "", "limit to coronavirus genomes isolated from a specified host (NCBI Taxonomy ID, scientific or common name at any taxonomic rank)")
@@ -60,5 +60,5 @@ func init() {
 	summaryVirusGenomeCmd.PersistentFlags().BoolVar(&argRefseqOnly, "refseq", false, "limit to RefSeq coronavirus genomes")
 	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argReleasedSince, "released-since", "", "limit to coronavirus genomes released after a specified date ("+dateFormat+")")
 	summaryVirusGenomeCmd.PersistentFlags().StringVar(&argUpdatedSince, "updated-since", "", "limit to coronavirus genomes updated after a specified date ("+dateFormat+")")
-	summaryVirusGenomeCmd.PersistentFlags().BoolVar(&argJsonLinesFormat, "as-json-lines", false, "Stream results as newline delimited JSON-Lines")
+	summaryVirusGenomeCmd.PersistentFlags().BoolVar(&argJsonLinesFormat, "as-json-lines", false, "stream results as newline delimited JSON-Lines")
 }
