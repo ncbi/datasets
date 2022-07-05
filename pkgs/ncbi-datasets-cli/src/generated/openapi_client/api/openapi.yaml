@@ -11508,8 +11508,8 @@ components:
       enum:
       - current
       - all_assemblies
-      title: The assembly status - current, or all assemblies including replaced and
-        suppressed
+      title: The assembly status - current (includes latest and retired), or all assemblies,
+        which adds replaced and suppressed
       type: string
     v1AssemblyDatasetDescriptorsRequestContentType:
       default: COMPLETE
@@ -11801,6 +11801,7 @@ components:
       - current
       - previous
       - suppressed
+      - retired
       type: string
     v1reportsGeneDescriptorGeneType:
       default: UNKNOWN

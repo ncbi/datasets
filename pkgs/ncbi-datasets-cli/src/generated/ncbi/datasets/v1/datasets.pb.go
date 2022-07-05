@@ -425,7 +425,7 @@ func (AssemblyDatasetDescriptorsFilter_AssemblySource) EnumDescriptor() ([]byte,
 	return file_ncbi_datasets_v1_datasets_proto_rawDescGZIP(), []int{1, 0}
 }
 
-// The assembly status - current, or all assemblies including replaced and suppressed
+// The assembly status - current (includes latest and retired), or all assemblies, which adds replaced and suppressed
 type AssemblyDatasetDescriptorsFilter_AssemblyVersion int32
 
 const (

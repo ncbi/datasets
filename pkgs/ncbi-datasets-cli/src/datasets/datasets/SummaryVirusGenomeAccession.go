@@ -181,5 +181,5 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
 }
 
 func init() {
-
+	registerHiddenStringPair(summaryVirusGenomeAccCmd.PersistentFlags(), &argInputFile, "input-file", "i", "", "read a list of nucleotide accessions from a text file - file should have 1 identifier per row and no spaces or quotes")
 }

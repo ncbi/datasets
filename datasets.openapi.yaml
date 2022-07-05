@@ -5717,7 +5717,7 @@ components:
         - current
         - all_assemblies
       default: current
-      title: 'The assembly status - current, or all assemblies including replaced and suppressed'
+      title: 'The assembly status - current (includes latest and retired), or all assemblies, which adds replaced and suppressed'
     
     v1AssemblyDatasetDescriptorsRequestContentType:
       type: string
@@ -6035,6 +6035,7 @@ components:
         - current
         - previous
         - suppressed
+        - retired
       default: ASSEMBLY_STATUS_UNKNOWN
     
     v1reportsGeneDescriptorGeneType:
