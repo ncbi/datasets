@@ -1,1 +1,1 @@
-This folder contains wonkshops and training information from NCBI Datasets
+This folder contains workshops and training information from NCBI Datasets
