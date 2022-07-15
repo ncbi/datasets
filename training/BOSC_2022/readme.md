@@ -9,7 +9,7 @@ All ideas are welcome and we will share them with our teams and incorporate them
 
 ### Important resources: 
 
-- JupyterHub: [link](https://codeathon.ncbi.nlm.nih.gov/  )
+- JupyterHub: [link]( https://codeathon.ncbi.nlm.nih.gov/hub/ )
 - Slack channel: #2022-cofest-ncbi-datasets-blast (add this channel to your list from the [BOSC Slack](https://join.slack.com/t/obf-bosc/shared_invite/zt-n5ur1gsj-z2C~69_4lYTFPg5tbWA8Ew))  
 - NCBI Datasets:  https://www.ncbi.nlm.nih.gov/datasets/  
 - ElasticBLAST: https://blast.ncbi.nlm.nih.gov/doc/elastic-blast/  
