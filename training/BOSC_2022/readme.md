@@ -21,6 +21,11 @@ We will be using the our Slack channel (#2022-cofest-ncbi-datasets-blast) for qu
 ### How to Log In
 We will be setting up user accounts for the participants in the beginning of each session (morning/afternoon). In general, your username will be he portion of the email address you share with us in Slack before the “@” symbol (up to 10 characters long). You will set your own password when you first log in. Please write this down somewhere because we will not see it.
 
+### How to load the Jupyter notebook:
+1. In the JupyterHub menu, select "File", then "Open from URL".
+2. Paste the raw Jupyter notebook URL: https://raw.githubusercontent.com/ncbi/datasets/487ea526b5f398f3958a1ce122d81f3e83340bc0/training/BOSC_2022/BOSC_CoFest_2022.ipynb 
+3. Check if the kernel is correct (right upper side of the notebook). It should be Python 3.7.
+
 
 ### How to get help
 - During the workshop: please message us in our Slack channel. 
