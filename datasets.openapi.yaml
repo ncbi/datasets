@@ -14,7 +14,6 @@ info:
     '
 servers:
 - url: https://api.ncbi.nlm.nih.gov/datasets/v1
-- url: https://dev.ncbi.nlm.nih.gov/datasets/v1
 tags:
 - name: Genome
   description: '#### Options to explore, summarize and download assembled genomes,
