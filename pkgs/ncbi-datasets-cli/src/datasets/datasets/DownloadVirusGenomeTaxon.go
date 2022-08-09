@@ -11,13 +11,26 @@ import (
 	openapi "datasets_cli/v1/openapi"
 )
 
+func contains(s []int32, e int32) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
+
 func checkTaxonWithinScope(cli *openapi.APIClient, taxon string) (is_cov bool) {
 	// conservatively set default to true
 	is_cov = true
-	query_min_ord, query_max_ord, err := findTaxonOrd(cli, taxon)
-	if err == nil {
-		cov_min_ord, cov_max_ord, err := findTaxonOrd(cli, "Coronaviridae")
-		if err == nil && (query_min_ord < cov_min_ord || query_max_ord > cov_max_ord) {
+	coronaviridaeTaxId := int32(10239)
+	request := cli.TaxonomyApi.TaxonomyMetadata(nil, []string{taxon})
+	org, resp, err := request.Execute()
+	if err = handleHTTPResponse(resp, err); err == nil {
+		taxNode := org.GetTaxonomyNodes()[0]
+		taxonomy := taxNode.GetTaxonomy()
+		lineage := taxonomy.GetLineage()
+		if !contains(lineage, coronaviridaeTaxId) {
 			is_cov = false
 		}
 	}

@@ -3530,8 +3530,8 @@ paths:
             summary: Virus Genome Fields
             value:
             - accession
-            - is_complete
-            - is_annotated
+            - is-complete
+            - is-annotated
         explode: true
         in: query
         name: table_fields
@@ -3613,9 +3613,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/v1reportsVirusDataReportPage'
             text/tab-separated-values:
-              schema:
-                type: string
-            application/x-tabular:
               schema:
                 type: string
           description: A successful response
@@ -3775,8 +3772,8 @@ paths:
             summary: Virus Genome Fields
             value:
             - accession
-            - is_complete
-            - is_annotated
+            - is-complete
+            - is-annotated
         explode: true
         in: query
         name: table_fields
@@ -3860,9 +3857,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-            application/x-tabular:
-              schema:
-                type: string
           description: A successful response
         default:
           content:
@@ -3894,9 +3888,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/v1reportsVirusDataReportPage'
             text/tab-separated-values:
-              schema:
-                type: string
-            application/x-tabular:
               schema:
                 type: string
           description: A successful response

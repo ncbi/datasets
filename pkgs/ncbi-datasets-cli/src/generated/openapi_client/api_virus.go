@@ -2358,7 +2358,7 @@ func (a *VirusApiService) VirusReportsByAcessionsExecute(r ApiVirusReportsByAces
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values", "application/x-tabular"}
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -2500,7 +2500,7 @@ func (a *VirusApiService) VirusReportsByPostExecute(r ApiVirusReportsByPostReque
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values", "application/x-tabular"}
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -2754,7 +2754,7 @@ func (a *VirusApiService) VirusReportsByTaxonExecute(r ApiVirusReportsByTaxonReq
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values", "application/x-tabular"}
+	localVarHTTPHeaderAccepts := []string{"application/json", "text/tab-separated-values"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
