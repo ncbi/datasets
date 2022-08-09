@@ -3002,9 +3002,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-            application/x-tabular:
-              schema:
-                type: string
         default:
           description: An unexpected error response.
           content:
@@ -3181,8 +3178,8 @@ paths:
           example-0:
             value:
               - accession
-              - is_complete
-              - is_annotated
+              - is-complete
+              - is-annotated
             summary: Virus Genome Fields
       - name: page_size
         description: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -3212,9 +3209,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/v1reportsVirusDataReportPage'
             text/tab-separated-values:
-              schema:
-                type: string
-            application/x-tabular:
               schema:
                 type: string
         default:
@@ -3389,8 +3383,8 @@ paths:
           example-0:
             value:
               - accession
-              - is_complete
-              - is_annotated
+              - is-complete
+              - is-annotated
             summary: Virus Genome Fields
       - name: page_size
         description: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -3420,9 +3414,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/v1reportsVirusDataReportPage'
             text/tab-separated-values:
-              schema:
-                type: string
-            application/x-tabular:
               schema:
                 type: string
         default:

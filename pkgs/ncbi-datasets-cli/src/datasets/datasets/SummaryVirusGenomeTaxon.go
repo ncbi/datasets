@@ -28,16 +28,13 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
 	Args: cobra.ExactArgs(1),
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		processAssmAccArgs(args)
 		request, err := summaryVirusGenomeRequestWithTax(args[0])
 		if err != nil {
 			return err
 		}
-
 		return printViralMetadataWithPost(request)
 	},
 }
 
 func init() {
-
 }
