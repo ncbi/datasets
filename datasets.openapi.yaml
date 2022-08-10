@@ -3131,49 +3131,6 @@ paths:
           type: array
           items:
             type: string
-            enum:
-              - accession
-              - bioprojects
-              - biosample-acc
-              - completeness
-              - gene-count
-              - geo-location
-              - geo-region
-              - host-common-name
-              - host-infraspecific-breed
-              - host-infraspecific-cultivar
-              - host-infraspecific-ecotype
-              - host-infraspecific-isolate
-              - host-infraspecific-sex
-              - host-infraspecific-strain
-              - host-name
-              - host-pangolin
-              - host-tax-id
-              - is-annotated
-              - is-complete
-              - isolate-collection-date
-              - isolate-lineage
-              - isolate-lineage-source
-              - length
-              - matpeptide-count
-              - mol-type
-              - nucleotide-completeness
-              - protein-count
-              - purpose-of-sampling
-              - release-date
-              - sourcedb
-              - sra-accs
-              - update-date
-              - virus-common-name
-              - virus-infraspecific-breed
-              - virus-infraspecific-cultivar
-              - virus-infraspecific-ecotype
-              - virus-infraspecific-isolate
-              - virus-infraspecific-sex
-              - virus-infraspecific-strain
-              - virus-name
-              - virus-pangolin
-              - virus-tax-id
         examples:
           example-0:
             value:
@@ -3336,49 +3293,6 @@ paths:
           type: array
           items:
             type: string
-            enum:
-              - accession
-              - bioprojects
-              - biosample-acc
-              - completeness
-              - gene-count
-              - geo-location
-              - geo-region
-              - host-common-name
-              - host-infraspecific-breed
-              - host-infraspecific-cultivar
-              - host-infraspecific-ecotype
-              - host-infraspecific-isolate
-              - host-infraspecific-sex
-              - host-infraspecific-strain
-              - host-name
-              - host-pangolin
-              - host-tax-id
-              - is-annotated
-              - is-complete
-              - isolate-collection-date
-              - isolate-lineage
-              - isolate-lineage-source
-              - length
-              - matpeptide-count
-              - mol-type
-              - nucleotide-completeness
-              - protein-count
-              - purpose-of-sampling
-              - release-date
-              - sourcedb
-              - sra-accs
-              - update-date
-              - virus-common-name
-              - virus-infraspecific-breed
-              - virus-infraspecific-cultivar
-              - virus-infraspecific-ecotype
-              - virus-infraspecific-isolate
-              - virus-infraspecific-sex
-              - virus-infraspecific-strain
-              - virus-name
-              - virus-pangolin
-              - virus-tax-id
         examples:
           example-0:
             value:
