@@ -910,7 +910,7 @@ func main() {
     filterGeoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
     filterCompleteOnly := true // bool | only include complete genomes. (optional) (default to false)
     returnedContent := openapiclient.v1VirusDataReportRequestContentType("COMPLETE") // V1VirusDataReportRequestContentType | Return either virus genome accessions, or complete virus metadata (optional) (default to "COMPLETE")
-    tableFields := []string{"TableFields_example"} // []string | Specify which fields to include in the tabular report (optional)
+    tableFields := []string{"Inner_example"} // []string | Specify which fields to include in the tabular report (optional)
     pageSize := int32(56) // int32 | The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
     pageToken := "pageToken_example" // string | A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
@@ -1071,7 +1071,7 @@ func main() {
     filterGeoLocation := "USA" // string | Assemblies from this location (country and state, or continent) (optional)
     filterCompleteOnly := true // bool | only include complete genomes. (optional) (default to false)
     returnedContent := openapiclient.v1VirusDataReportRequestContentType("COMPLETE") // V1VirusDataReportRequestContentType | Return either virus genome accessions, or complete virus metadata (optional) (default to "COMPLETE")
-    tableFields := []string{"TableFields_example"} // []string | Specify which fields to include in the tabular report (optional)
+    tableFields := []string{"Inner_example"} // []string | Specify which fields to include in the tabular report (optional)
     pageSize := int32(56) // int32 | The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results. (optional) (default to 20)
     pageToken := "pageToken_example" // string | A page token is returned from a `GetVirusDataReports` call with more than `page_size` results. Use this token, along with the previous `VirusDataReportRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved. (optional)
 
