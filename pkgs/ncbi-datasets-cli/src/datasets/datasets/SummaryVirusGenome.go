@@ -14,7 +14,7 @@ Print coronavirus genome metadata (data report) by nucleotide accession or taxon
 
 Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
 	Example: `  datasets summary virus genome accession NC_045512.2
-  datasets summary virus genome taxon SARS-COV-2 --host dog`,
+  datasets summary virus genome taxon sars-cov-2 --host dog`,
 }
 
 func setBaseFilter() (openapi.V1VirusDatasetFilter, error) {

@@ -23,7 +23,7 @@ var summaryVirusGenomeTaxCmd = &cobra.Command{
 Print coronavirus genome metadata (data report) by taxa in the Coronaviridae family. The data report is returned in JSON format.
 
 Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) documentation for information about getting started with the command-line tools.`,
-	Example: "  datasets summary virus genome taxon SARS-COV-2 --host dog",
+	Example: "  datasets summary virus genome taxon sars-cov-2 --host dog",
 
 	Args: cobra.ExactArgs(1),
 
