@@ -17,7 +17,7 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
   datasets summary gene symbol brca1 --taxon mouse
   datasets summary gene accession NP_000483.3
   datasets summary virus genome accession NC_045512.2
-  datasets summary virus genome taxon SARS-COV-2 --host dog`,
+  datasets summary virus genome taxon sars-cov-2 --host dog`,
 }
 
 func init() {

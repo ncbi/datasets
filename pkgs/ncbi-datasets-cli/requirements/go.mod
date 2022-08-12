@@ -29,6 +29,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.6.1
 	github.com/tealeg/xlsx/v3 v3.2.0
+	github.com/thediveo/enumflag v0.10.1
 	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sys v0.0.0-20200828194041-157a740278f4 // indirect

@@ -999,6 +999,12 @@ def go_repositories():
         sum = "h1:gh2+mYGi48GOnc6HwGgIt1P1+xGagihpOHTkctVsUwo=",
         version = "v3.2.0",
     )
+    go_repository(
+        name = "com_github_thediveo_enumflag",
+        importpath = "github.com/thediveo/enumflag",
+        sum = "h1:DB3Ag69VZ7BCv6jzKECrZ0ebZrHLzFRMIFYt96s4OxM=",
+        version = "v0.10.1",
+    )
 
     go_repository(
         name = "com_github_tmc_grpc_websocket_proxy",
