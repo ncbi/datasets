@@ -98,7 +98,7 @@ func (r ApiSars2ProteinDownloadRequest) Execute() (*os.File, *_nethttp.Response,
 /*
 Sars2ProteinDownload Download SARS-CoV-2 protein and CDS datasets by protein name
 
-Download a SARS-CoV-2 protein datasets
+Download SARS-CoV-2 protein datasets
  @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param proteins Which proteins to retrieve in the data package
  @return ApiSars2ProteinDownloadRequest
@@ -635,6 +635,287 @@ func (a *VirusApiService) Sars2ProteinTableExecute(r ApiSars2ProteinTableRequest
 		}
 	}
 
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusAccessionAvailabilityRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	accessions []string	
+    Headers map[string]string
+}
+
+
+func (r ApiVirusAccessionAvailabilityRequest) Execute() (V1VirusAvailability, *_nethttp.Response, error) {
+	return r.ApiService.VirusAccessionAvailabilityExecute(r)
+}
+
+/*
+VirusAccessionAvailability Check available viruses by accession GET
+
+Check available viruses GET
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accessions virus sequence accessions
+ @return ApiVirusAccessionAvailabilityRequest
+*/
+func (a *VirusApiService) VirusAccessionAvailability(ctx _context.Context, accessions []string) ApiVirusAccessionAvailabilityRequest {
+	return ApiVirusAccessionAvailabilityRequest{
+		ApiService: a,
+		ctx: ctx,
+		accessions: accessions,
+	}
+}
+
+// Execute executes the request
+//  @return V1VirusAvailability
+func (a *VirusApiService) VirusAccessionAvailabilityExecute(r ApiVirusAccessionAvailabilityRequest) (V1VirusAvailability, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1VirusAvailability
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusAccessionAvailability")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/accession/{accessions}/check"
+	localVarPath = strings.Replace(localVarPath, "{"+"accessions"+"}", _neturl.PathEscape(parameterToString(r.accessions, "csv")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuthHeader"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+	if localVarHTTPResponse.Header.Get("Content-Type") != "application/json" {
+		return localVarReturnValue, localVarHTTPResponse, nil
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v RpcStatus
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVirusAccessionAvailabilityPostRequest struct {
+	ctx _context.Context
+	ApiService *VirusApiService
+	v1VirusAvailabilityRequest *V1VirusAvailabilityRequest	
+    Headers map[string]string
+}
+
+func (r *ApiVirusAccessionAvailabilityPostRequest) V1VirusAvailabilityRequest(v1VirusAvailabilityRequest V1VirusAvailabilityRequest) *ApiVirusAccessionAvailabilityPostRequest {
+	r.v1VirusAvailabilityRequest = &v1VirusAvailabilityRequest
+	return r
+}
+
+func (r ApiVirusAccessionAvailabilityPostRequest) Execute() (V1VirusAvailability, *_nethttp.Response, error) {
+	return r.ApiService.VirusAccessionAvailabilityPostExecute(r)
+}
+
+/*
+VirusAccessionAvailabilityPost Check available viruses by accession POST
+
+Check available viruses POST
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiVirusAccessionAvailabilityPostRequest
+*/
+func (a *VirusApiService) VirusAccessionAvailabilityPost(ctx _context.Context, v1VirusAvailabilityRequest *V1VirusAvailabilityRequest) ApiVirusAccessionAvailabilityPostRequest {
+	return ApiVirusAccessionAvailabilityPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		v1VirusAvailabilityRequest: v1VirusAvailabilityRequest,
+	}
+}
+
+// Execute executes the request
+//  @return V1VirusAvailability
+func (a *VirusApiService) VirusAccessionAvailabilityPostExecute(r ApiVirusAccessionAvailabilityPostRequest) (V1VirusAvailability, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  V1VirusAvailability
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirusApiService.VirusAccessionAvailabilityPost")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virus/check"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.v1VirusAvailabilityRequest == nil {
+		return localVarReturnValue, nil, reportError("v1VirusAvailabilityRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// override localVarHeaderParams with the headers passed into the function
+	if len(r.Headers) > 0 {
+		for k, v := range r.Headers { 
+			localVarHeaderParams[k] = v
+		}
+	}
+
+	// body params
+	localVarPostBody = r.v1VirusAvailabilityRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

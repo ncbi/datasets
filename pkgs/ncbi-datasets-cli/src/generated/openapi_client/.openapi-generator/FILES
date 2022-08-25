@@ -121,6 +121,8 @@ docs/V1TaxonomyNodeCountByType.md
 docs/V1Transcript.md
 docs/V1TranscriptTranscriptType.md
 docs/V1VersionReply.md
+docs/V1VirusAvailability.md
+docs/V1VirusAvailabilityRequest.md
 docs/V1VirusDataReportRequest.md
 docs/V1VirusDataReportRequestContentType.md
 docs/V1VirusDatasetFilter.md
@@ -271,6 +273,8 @@ model_v1_taxonomy_node_count_by_type.go
 model_v1_transcript.go
 model_v1_transcript_transcript_type.go
 model_v1_version_reply.go
+model_v1_virus_availability.go
+model_v1_virus_availability_request.go
 model_v1_virus_data_report_request.go
 model_v1_virus_data_report_request_content_type.go
 model_v1_virus_dataset_filter.go

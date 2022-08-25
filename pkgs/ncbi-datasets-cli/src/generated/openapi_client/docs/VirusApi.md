@@ -7,6 +7,8 @@ Method | HTTP request | Description
 [**Sars2ProteinDownload**](VirusApi.md#Sars2ProteinDownload) | **Get** /virus/taxon/sars2/protein/{proteins}/download | Download SARS-CoV-2 protein and CDS datasets by protein name
 [**Sars2ProteinSummary**](VirusApi.md#Sars2ProteinSummary) | **Get** /virus/taxon/sars2/protein/{proteins} | Summary of SARS-CoV-2 protein and CDS datasets by protein name
 [**Sars2ProteinTable**](VirusApi.md#Sars2ProteinTable) | **Get** /virus/taxon/sars2/protein/{proteins}/table | Get SARS-CoV-2 protein metadata in a tabular format.
+[**VirusAccessionAvailability**](VirusApi.md#VirusAccessionAvailability) | **Get** /virus/accession/{accessions}/check | Check available viruses by accession GET
+[**VirusAccessionAvailabilityPost**](VirusApi.md#VirusAccessionAvailabilityPost) | **Post** /virus/check | Check available viruses by accession POST
 [**VirusGenomeDownload**](VirusApi.md#VirusGenomeDownload) | **Get** /virus/taxon/{taxon}/genome/download | Download a coronavirus genome dataset by taxon
 [**VirusGenomeDownloadAccession**](VirusApi.md#VirusGenomeDownloadAccession) | **Get** /virus/accession/{accessions}/genome/download | Download a coronavirus genome dataset by accession
 [**VirusGenomeDownloadPost**](VirusApi.md#VirusGenomeDownloadPost) | **Post** /virus/genome/download | Get a coronavirus genome dataset by post
@@ -278,6 +280,142 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## VirusAccessionAvailability
+
+> V1VirusAvailability VirusAccessionAvailability(ctx, accessions).Execute()
+
+Check available viruses by accession GET
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    accessions := []string{"Inner_example"} // []string | virus sequence accessions
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.VirusApi.VirusAccessionAvailability(context.Background(), accessions).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusAccessionAvailability``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `VirusAccessionAvailability`: V1VirusAvailability
+    fmt.Fprintf(os.Stdout, "Response from `VirusApi.VirusAccessionAvailability`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accessions** | [**[]string**](string.md) | virus sequence accessions | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVirusAccessionAvailabilityRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**V1VirusAvailability**](V1VirusAvailability.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## VirusAccessionAvailabilityPost
+
+> V1VirusAvailability VirusAccessionAvailabilityPost(ctx).V1VirusAvailabilityRequest(v1VirusAvailabilityRequest).Execute()
+
+Check available viruses by accession POST
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    v1VirusAvailabilityRequest := *openapiclient.NewV1VirusAvailabilityRequest() // V1VirusAvailabilityRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.VirusApi.VirusAccessionAvailabilityPost(context.Background()).V1VirusAvailabilityRequest(v1VirusAvailabilityRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `VirusApi.VirusAccessionAvailabilityPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `VirusAccessionAvailabilityPost`: V1VirusAvailability
+    fmt.Fprintf(os.Stdout, "Response from `VirusApi.VirusAccessionAvailabilityPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiVirusAccessionAvailabilityPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **v1VirusAvailabilityRequest** | [**V1VirusAvailabilityRequest**](V1VirusAvailabilityRequest.md) |  | 
+
+### Return type
+
+[**V1VirusAvailability**](V1VirusAvailability.md)
+
+### Authorization
+
+[ApiKeyAuthHeader](../README.md#ApiKeyAuthHeader)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
