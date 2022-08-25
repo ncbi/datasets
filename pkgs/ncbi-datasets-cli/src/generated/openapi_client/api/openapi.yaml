@@ -3814,6 +3814,68 @@ paths:
       summary: Get virus metadata by POST
       tags:
       - Virus
+  /virus/accession/{accessions}/check:
+    get:
+      description: Check available viruses GET
+      operationId: virus_accession_availability
+      parameters:
+      - description: virus sequence accessions
+        examples:
+          example-0:
+            summary: SARS-COV-2 isolate Wuhan-Hu-1 and Middle East respiratory syndrome-related
+              coronavirus, complete genomes
+            value: NC_045512.2,NC_038294.1
+        explode: false
+        in: path
+        name: accessions
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1VirusAvailability'
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Check available viruses by accession GET
+      tags:
+      - Virus
+  /virus/check:
+    post:
+      description: Check available viruses POST
+      operationId: virus_accession_availability_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1VirusAvailabilityRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1VirusAvailability'
+          description: A successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+          description: An unexpected error response.
+      summary: Check available viruses by accession POST
+      tags:
+      - Virus
   /virus/taxon/{taxon}/genome/download:
     get:
       description: Download a coronavirus genome dataset by taxon
@@ -4253,7 +4315,7 @@ paths:
       - Virus
   /virus/taxon/sars2/protein/{proteins}/download:
     get:
-      description: Download a SARS-CoV-2 protein datasets
+      description: Download SARS-CoV-2 protein datasets
       operationId: sars2_protein_download
       parameters:
       - description: Which proteins to retrieve in the data package
@@ -9411,6 +9473,34 @@ components:
           type: integer
         patch_ver:
           type: integer
+      type: object
+    v1VirusAvailability:
+      example:
+        valid_accessions:
+        - valid_accessions
+        - valid_accessions
+        invalid_accessions:
+        - invalid_accessions
+        - invalid_accessions
+        message: message
+      properties:
+        valid_accessions:
+          items:
+            type: string
+          type: array
+        invalid_accessions:
+          items:
+            type: string
+          type: array
+        message:
+          type: string
+      type: object
+    v1VirusAvailabilityRequest:
+      properties:
+        accessions:
+          items:
+            type: string
+          type: array
       type: object
     v1VirusDataReportRequest:
       properties:

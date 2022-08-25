@@ -3,6 +3,7 @@ package datasets
 import (
 	"errors"
 	"fmt"
+	_nethttp "net/http"
 	"os"
 
 	"github.com/metakeule/fmtdate"
@@ -10,6 +11,8 @@ import (
 
 	openapi "datasets_cli/v1/openapi"
 )
+
+var cli *openapi.APIClient
 
 func downloadVirusGenomeAccession(accessions []string, assmFilename string) (err error) {
 	request := openapi.NewV1VirusDatasetRequest()
@@ -59,11 +62,6 @@ func downloadVirusGenomeAccession(accessions []string, assmFilename string) (err
 		return fmt.Errorf("%s opening output file: %s", e, assmFilename)
 	}
 
-	cli, err := createOAClient()
-	if err != nil {
-		return
-	}
-
 	_, resp, err := cli.VirusApi.VirusGenomeDownloadPost(nil, request).Execute()
 	if err != nil {
 		return err
@@ -73,6 +71,12 @@ func downloadVirusGenomeAccession(accessions []string, assmFilename string) (err
 	}
 	length := int64(-1) // unknown length
 	return downloadData(f, resp, err, assmFilename, length)
+}
+
+func getVirusAvailability(argIDs []string) (openapi.V1VirusAvailability, *_nethttp.Response, error) {
+
+	availabilityRequest := cli.VirusApi.VirusAccessionAvailability(nil, argIDs)
+	return cli.VirusApi.VirusAccessionAvailabilityExecute(availabilityRequest)
 }
 
 var downloadVirusGenomeAccCmd = &cobra.Command{
@@ -97,6 +101,24 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
 		if len(argIDArgs) == 0 {
 			return errors.New("Input accessions not specified")
 		}
+
+		cli, err = createOAClient()
+		if err != nil {
+			return
+		}
+		virusAvailability, _, err := getVirusAvailability(argIDArgs)
+		if err != nil {
+			cmd.PrintErrln("There was a problem validating your requested accessions")
+			return
+		}
+		if len(virusAvailability.GetInvalidAccessions()) > 0 {
+			cmd.Println(virusAvailability.GetMessage())
+		}
+		if len(virusAvailability.GetValidAccessions()) == 0 {
+			cmd.PrintErrln("No valid accessions provided")
+			return
+		}
+
 		if argRetiredIncludeFlag {
 			err = errors.New(virusFlagErrorMessage)
 		}
