@@ -4553,6 +4553,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v1Annotation'
+        gene_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1GeneGroup'
     v1GeneDescriptors:
       type: object
       properties:
@@ -4564,6 +4568,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v1Error'
+    v1GeneGroup:
+      type: object
+      properties:
+        id:
+          type: string
+        method:
+          type: string
     v1GeneMatch:
       type: object
       properties:

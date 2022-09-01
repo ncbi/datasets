@@ -6361,6 +6361,11 @@ components:
             ribosomal_slippage: 6
             begin: begin
             order: 0
+        gene_groups:
+        - method: method
+          id: id
+        - method: method
+          id: id
         omim_ids:
         - omim_ids
         - omim_ids
@@ -6449,6 +6454,10 @@ components:
           items:
             $ref: '#/components/schemas/v1Annotation'
           type: array
+        gene_groups:
+          items:
+            $ref: '#/components/schemas/v1GeneGroup'
+          type: array
       type: object
     v1GeneDescriptors:
       properties:
@@ -6460,6 +6469,16 @@ components:
           items:
             $ref: '#/components/schemas/v1Error'
           type: array
+      type: object
+    v1GeneGroup:
+      example:
+        method: method
+        id: id
+      properties:
+        id:
+          type: string
+        method:
+          type: string
       type: object
     v1GeneMatch:
       example:
@@ -6755,6 +6774,11 @@ components:
               ribosomal_slippage: 6
               begin: begin
               order: 0
+          gene_groups:
+          - method: method
+            id: id
+          - method: method
+            id: id
           omim_ids:
           - omim_ids
           - omim_ids
@@ -7147,6 +7171,11 @@ components:
                 ribosomal_slippage: 6
                 begin: begin
                 order: 0
+            gene_groups:
+            - method: method
+              id: id
+            - method: method
+              id: id
             omim_ids:
             - omim_ids
             - omim_ids
@@ -7516,6 +7545,11 @@ components:
                 ribosomal_slippage: 6
                 begin: begin
                 order: 0
+            gene_groups:
+            - method: method
+              id: id
+            - method: method
+              id: id
             omim_ids:
             - omim_ids
             - omim_ids
@@ -8224,6 +8258,11 @@ components:
                   ribosomal_slippage: 6
                   begin: begin
                   order: 0
+              gene_groups:
+              - method: method
+                id: id
+              - method: method
+                id: id
               omim_ids:
               - omim_ids
               - omim_ids
@@ -8593,6 +8632,11 @@ components:
                   ribosomal_slippage: 6
                   begin: begin
                   order: 0
+              gene_groups:
+              - method: method
+                id: id
+              - method: method
+                id: id
               omim_ids:
               - omim_ids
               - omim_ids

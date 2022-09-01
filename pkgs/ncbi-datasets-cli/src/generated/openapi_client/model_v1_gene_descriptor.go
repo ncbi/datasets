@@ -39,6 +39,7 @@ type V1GeneDescriptor struct {
 	Synonyms *[]string `json:"synonyms,omitempty"`
 	ReplacedGeneIds *[]string `json:"replaced_gene_ids,omitempty"`
 	Annotations *[]V1Annotation `json:"annotations,omitempty"`
+	GeneGroups *[]V1GeneGroup `json:"gene_groups,omitempty"`
 }
 
 // NewV1GeneDescriptor instantiates a new V1GeneDescriptor object
@@ -806,6 +807,38 @@ func (o *V1GeneDescriptor) SetAnnotations(v []V1Annotation) {
 	o.Annotations = &v
 }
 
+// GetGeneGroups returns the GeneGroups field value if set, zero value otherwise.
+func (o *V1GeneDescriptor) GetGeneGroups() []V1GeneGroup {
+	if o == nil || o.GeneGroups == nil {
+		var ret []V1GeneGroup
+		return ret
+	}
+	return *o.GeneGroups
+}
+
+// GetGeneGroupsOk returns a tuple with the GeneGroups field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *V1GeneDescriptor) GetGeneGroupsOk() (*[]V1GeneGroup, bool) {
+	if o == nil || o.GeneGroups == nil {
+		return nil, false
+	}
+	return o.GeneGroups, true
+}
+
+// HasGeneGroups returns a boolean if a field has been set.
+func (o *V1GeneDescriptor) HasGeneGroups() bool {
+	if o != nil && o.GeneGroups != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetGeneGroups gets a reference to the given []V1GeneGroup and assigns it to the GeneGroups field.
+func (o *V1GeneDescriptor) SetGeneGroups(v []V1GeneGroup) {
+	o.GeneGroups = &v
+}
+
 func (o V1GeneDescriptor) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.GeneId != nil  {
@@ -876,6 +909,9 @@ func (o V1GeneDescriptor) MarshalJSON() ([]byte, error) {
 	}
 	if o.Annotations != nil && len(o.GetAnnotations()) > 0  {
 		toSerialize["annotations"] = o.Annotations
+	}
+	if o.GeneGroups != nil && len(o.GetGeneGroups()) > 0  {
+		toSerialize["gene_groups"] = o.GeneGroups
 	}
 	return json.Marshal(toSerialize)
 }
