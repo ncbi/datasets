@@ -68,6 +68,7 @@ docs/V1GeneDescriptor.md
 docs/V1GeneDescriptorGeneType.md
 docs/V1GeneDescriptorRnaType.md
 docs/V1GeneDescriptors.md
+docs/V1GeneGroup.md
 docs/V1GeneMatch.md
 docs/V1GeneMetadata.md
 docs/V1GenomicLocation.md
@@ -220,6 +221,7 @@ model_v1_gene_descriptor.go
 model_v1_gene_descriptor_gene_type.go
 model_v1_gene_descriptor_rna_type.go
 model_v1_gene_descriptors.go
+model_v1_gene_group.go
 model_v1_gene_match.go
 model_v1_gene_metadata.go
 model_v1_genomic_location.go

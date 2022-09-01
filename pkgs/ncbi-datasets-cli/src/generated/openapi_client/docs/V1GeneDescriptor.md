@@ -27,6 +27,7 @@ Name | Type | Description | Notes
 **Synonyms** | Pointer to **[]string** |  | [optional] 
 **ReplacedGeneIds** | Pointer to **[]string** |  | [optional] 
 **Annotations** | Pointer to [**[]V1Annotation**](V1Annotation.md) |  | [optional] 
+**GeneGroups** | Pointer to [**[]V1GeneGroup**](V1GeneGroup.md) |  | [optional] 
 
 ## Methods
 
@@ -621,6 +622,31 @@ SetAnnotations sets Annotations field to given value.
 `func (o *V1GeneDescriptor) HasAnnotations() bool`
 
 HasAnnotations returns a boolean if a field has been set.
+
+### GetGeneGroups
+
+`func (o *V1GeneDescriptor) GetGeneGroups() []V1GeneGroup`
+
+GetGeneGroups returns the GeneGroups field if non-nil, zero value otherwise.
+
+### GetGeneGroupsOk
+
+`func (o *V1GeneDescriptor) GetGeneGroupsOk() (*[]V1GeneGroup, bool)`
+
+GetGeneGroupsOk returns a tuple with the GeneGroups field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetGeneGroups
+
+`func (o *V1GeneDescriptor) SetGeneGroups(v []V1GeneGroup)`
+
+SetGeneGroups sets GeneGroups field to given value.
+
+### HasGeneGroups
+
+`func (o *V1GeneDescriptor) HasGeneGroups() bool`
+
+HasGeneGroups returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
