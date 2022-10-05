@@ -15,6 +15,8 @@
 
 * `PDB_FILES` (value: `"PDB_FILES"`)
 
+* `BIOSAMPLE` (value: `"BIOSAMPLE"`)
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -26,6 +26,7 @@ const (
 	V1ANNOTATIONFORVIRUSTYPE_GENOME_GBFF V1AnnotationForVirusType = "GENOME_GBFF"
 	V1ANNOTATIONFORVIRUSTYPE_GENOME_GPFF V1AnnotationForVirusType = "GENOME_GPFF"
 	V1ANNOTATIONFORVIRUSTYPE_PDB_FILES V1AnnotationForVirusType = "PDB_FILES"
+	V1ANNOTATIONFORVIRUSTYPE_BIOSAMPLE V1AnnotationForVirusType = "BIOSAMPLE"
 )
 
 // All allowed values of V1AnnotationForVirusType enum
@@ -36,6 +37,7 @@ var AllowedV1AnnotationForVirusTypeEnumValues = []V1AnnotationForVirusType{
 	"GENOME_GBFF",
 	"GENOME_GPFF",
 	"PDB_FILES",
+	"BIOSAMPLE",
 }
 
 func (v *V1AnnotationForVirusType) UnmarshalJSON(src []byte) error {

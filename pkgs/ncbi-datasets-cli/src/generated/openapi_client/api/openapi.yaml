@@ -11524,6 +11524,7 @@ components:
       - GENOME_GBFF
       - GENOME_GPFF
       - PDB_FILES
+      - BIOSAMPLE
       type: string
     v1AssemblyDatasetDescriptorsFilterAssemblyLevel:
       default: chromosome
