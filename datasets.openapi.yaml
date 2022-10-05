@@ -5686,6 +5686,7 @@ components:
         - GENOME_GBFF
         - GENOME_GPFF
         - PDB_FILES
+        - BIOSAMPLE
       default: DEFAULT
     
     v1AssemblyDatasetDescriptorsFilterAssemblyLevel:
