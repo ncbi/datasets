@@ -5,8 +5,7 @@ info:
   description: '### NCBI Datasets is a resource that lets you easily gather data from
       NCBI.
 
-      The Datasets API is still in alpha, and we''re updating it often to add new functionality,
-      iron out bugs and enhance usability.
+      The Datasets version 1 API is considred stable and will not be subject to breaking changes.
 
       For some larger downloads, you may want to download a [dehydrated bag](https://www.ncbi.nlm.nih.gov/datasets/docs/v1/how-tos/genomes/large-download/),
       and retrieve the individual data files at a later time.
@@ -67,12 +66,12 @@ tags:
 
     * dataset_catalog.json (a list of files and file types included in the dataset)
 
-    You may also request a tab-delimited table of metadata that describes the available
-    coronavirus genome and protein data.
 
-    Coronavirus genome datasets are available for all taxa in the Coronaviridae family,
-    including SARS-CoV-2. Various parameters may be used for filtering and specifying
-    the contents of the genome dataset.
+    You may also request a tab-delimited table of metadata that describes the available
+    virus genome and protein data.
+
+    Virus genome datasets are available for all viruses, including SARS-CoV-2.
+    Various parameters may be used for filtering and specifying the contents of the genome dataset.
 
     Protein datasets are available for SARS-CoV-2 only.
 
