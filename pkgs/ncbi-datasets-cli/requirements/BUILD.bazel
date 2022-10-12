@@ -1,9 +1,0 @@
-load("@bazel_gazelle//:def.bzl", "gazelle")
-
-# DO NOT JUST RUN THIS TASK.  Only use with update-repos as shown here:
-# bazel run -s //requirements:gazelle -- update-repos -from_file=requirements/go.mod -to_macro=requirements/repositories.bzl%go_repositories
-# gazelle:proto disable_global
-# gazelle:prefix ncbi.nlm.nih.gov/datasets
-gazelle(
-    name = "gazelle",
-)
