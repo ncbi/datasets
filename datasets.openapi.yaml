@@ -6980,6 +6980,13 @@ components:
         - maternal_haplotype_of_diploid
         - paternal_haplotype_of_diploid
         - polyploid_member
+        - principal_pseudohaplotype
+        - maternal_haplotype
+        - paternal_haplotype
+        - haplotype_1
+        - haplotype_2
+        - haplotype_3
+        - haplotype_4
       default: LINKED_ASSEMBLY_TYPE_UNKNOWN
     
     v2reportsOrientation:
