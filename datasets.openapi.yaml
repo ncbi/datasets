@@ -5638,6 +5638,9 @@ components:
         comments:
           type: string
           title: 'Freeform comments add as tabular field once newline/tab escaping is implemented in dataformat  [(ncbi.datasets.options.tabular) = {mnemonic: "comments", column_name: "Comments"}];'
+        diploid_role:
+          $ref: '#/components/schemas/v2reportsLinkedAssemblyType'
+          title: '[(ncbi.datasets.options.tabular) = {mnemonic: "type", column_name: "Type"}];'
     v2reportsAssemblyRevision:
       type: object
       properties:
@@ -6101,7 +6104,7 @@ components:
           type: string
           title: 'The linked assembly accession'
         assembly_type:
-          $ref: '#/components/schemas/v2reportsLinkedAssemblyLinkedAssemblyType'
+          $ref: '#/components/schemas/v2reportsLinkedAssemblyType'
           title: 'The linked assembly type'
     v2reportsMaturePeptide:
       type: object
@@ -6331,6 +6334,9 @@ components:
           type: number
           format: float
           title: 'The percentage of GC base-pairs in the chromosome'
+        unlocalized_count:
+          type: integer
+          title: 'Number of scaffolds that are unlocalized on a given chromosome'
         role:
           type: string
     v2reportsTranscript:
@@ -6463,6 +6469,18 @@ components:
           type: array
           items:
             type: string
+        submitter:
+          $ref: '#/components/schemas/v2reportsVirusAssemblySubmitterInfo'
+          title: 'Name, affiliation, and country of the submitter(s)'
+        lab_host:
+          type: string
+          title: 'This sequence is from viruses passaged in this host'
+        is_lab_host:
+          type: boolean
+          title: 'If true, this sequence is from viruses passaged in a laboratory'
+        is_vaccine_strain:
+          type: boolean
+          title: 'If true, this sequence is derived from a virus used as a vaccine or potential vaccine'
     v2reportsVirusAssemblyCollectionLocation:
       type: object
       properties:
@@ -6472,6 +6490,19 @@ components:
         geographic_region:
           type: string
           title: 'Region of virus specimen collection'
+    v2reportsVirusAssemblySubmitterInfo:
+      type: object
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+        affiliation:
+          type: string
+          title: 'The submitter''s organization and/or institution'
+        country:
+          type: string
+          title: 'The country representing the submitter''s affilation'
     v2reportsVirusDataReportPage:
       type: object
       properties:
@@ -6971,15 +7002,11 @@ components:
         - OTHER
       default: UNKNOWN
     
-    v2reportsLinkedAssemblyLinkedAssemblyType:
+    v2reportsLinkedAssemblyType:
       type: string
       enum:
         - LINKED_ASSEMBLY_TYPE_UNKNOWN
         - alternate_pseudohaplotype
-        - haploid_principal_pseudohaplotype_of_diploid
-        - maternal_haplotype_of_diploid
-        - paternal_haplotype_of_diploid
-        - polyploid_member
         - principal_pseudohaplotype
         - maternal_haplotype
         - paternal_haplotype
@@ -6987,6 +7014,10 @@ components:
         - haplotype_2
         - haplotype_3
         - haplotype_4
+        - haploid_principal_pseudohaplotype_of_diploid
+        - maternal_haplotype_of_diploid
+        - paternal_haplotype_of_diploid
+        - polyploid_member
       default: LINKED_ASSEMBLY_TYPE_UNKNOWN
     
     v2reportsOrientation:
