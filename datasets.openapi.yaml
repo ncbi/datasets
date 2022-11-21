@@ -458,6 +458,16 @@ paths:
         required: false
         schema:
           type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /genome/taxon/{taxons}/dataset_report:
     get:
       summary: Get dataset reports by taxons
@@ -502,6 +512,20 @@ paths:
           example-2:
             value: Homo sapiens
             summary: Scientific Name
+      - name: bioprojects
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: PRJNA489243
+            summary: Vertebrate Genomes Project
+          example-1:
+            value: PRJNA31257
+            summary: Human Genome Project
       - name: filters.reference_only
         description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
         in: query
@@ -706,6 +730,16 @@ paths:
         required: false
         schema:
           type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /genome/bioproject/{bioprojects}/dataset_report:
     get:
       summary: Get dataset reports by bioproject
@@ -948,6 +982,16 @@ paths:
         required: false
         schema:
           type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /genome/dataset_report:
     post:
       summary: Get dataset reports by accessions
@@ -1104,6 +1148,12 @@ paths:
           example-1:
             value: ucsc-style-name
             summary: UCSC Name
+      - name: count_assembly_unplaced
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: page_size
         description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -4683,6 +4733,10 @@ components:
         page_token:
           type: string
           title: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2SortField'
     v2AssemblyDatasetRequest:
       type: object
       properties:
@@ -4765,6 +4819,8 @@ components:
           type: array
           items:
             type: string
+        count_assembly_unplaced:
+          type: boolean
         page_size:
           type: integer
           title: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -5162,6 +5218,13 @@ components:
           type: number
           format: float
           title: 'From 0 to 100, chance of an error'
+    v2SortField:
+      type: object
+      properties:
+        field:
+          type: string
+        direction:
+          $ref: '#/components/schemas/v2SortDirection'
     v2TabularOutput:
       type: object
       properties:
@@ -6337,6 +6400,9 @@ components:
         unlocalized_count:
           type: integer
           title: 'Number of scaffolds that are unlocalized on a given chromosome'
+        assembly_unplaced_count:
+          type: integer
+          title: 'Number of unplaced scaffolds for a given assembly accession'
         role:
           type: string
     v2reportsTranscript:
