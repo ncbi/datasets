@@ -5619,6 +5619,8 @@ components:
         wgs_info:
           $ref: '#/components/schemas/v2reportsWGSInfo'
           title: 'Metadata pertaining to the Whole Genome Shotgun (WGS) record for the genome assemblies that are complete genomes. Those that are clone-based do not have WGS-master records.'
+        type_material:
+          $ref: '#/components/schemas/v2reportsTypeMaterial'
     v2reportsAssemblyDataReportPage:
       type: object
       properties:
@@ -6437,6 +6439,13 @@ components:
           $ref: '#/components/schemas/v2reportsTranscriptTranscriptType'
         count:
           type: integer
+    v2reportsTypeMaterial:
+      type: object
+      properties:
+        type_label:
+          type: string
+        type_display_text:
+          type: string
     v2reportsVirusAnnotationReport:
       type: object
       properties:
