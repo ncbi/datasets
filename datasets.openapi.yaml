@@ -4922,6 +4922,8 @@ components:
           type: string
         count:
           type: integer
+        accession:
+          type: string
     v2GeneChromosomeSummaryRequest:
       type: object
       properties:
