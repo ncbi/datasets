@@ -1,0 +1,18 @@
+name: ncbi_datasets
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pandas
+  - ncbi-datasets-cli
+  - blast
+  - jq
+  - jupyter
+  - tree
+  - seqkit
+  - mafft
+  - fasttree
+  - biopython
+  - matplotlib
+prefix: /opt/anaconda3/envs/ncbi_datasets
