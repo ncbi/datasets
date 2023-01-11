@@ -5959,6 +5959,9 @@ components:
           title: 'Metadata pertaining to the Whole Genome Shotgun (WGS) record for the genome assemblies that are complete genomes. Those that are clone-based do not have WGS-master records.'
         type_material:
           $ref: '#/components/schemas/v2reportsTypeMaterial'
+        checkm_info:
+          $ref: '#/components/schemas/v2reportsCheckM'
+          title: 'Metadata on the completeness and contamination of this assembly'
     v2reportsAssemblyDataReportPage:
       type: object
       properties:
@@ -6251,6 +6254,30 @@ components:
           type: string
           format: uint64
           title: 'BUSCO score: Total Count'
+    v2reportsCheckM:
+      type: object
+      properties:
+        checkm_marker_set:
+          type: string
+          title: 'What taxonomic group is used as the basis for comparison with this assembly with regards to checkM values'
+        checkm_marker_set_rank:
+          type: string
+          title: 'CheckM taxonomic rank of checkm_marker_set'
+        checkm_version:
+          type: string
+          title: 'CheckM software version'
+        completeness:
+          type: number
+          format: float
+          title: 'What percent complete is this assembly'
+        contamination:
+          type: number
+          format: float
+          title: 'What is the contamination percentage for this assembly'
+        completeness_percentile:
+          type: number
+          format: float
+          title: 'The percent of assemblies under the taxonomic grouping ''checkm_marker_set'' that this assembly is as-or-more complete than.'
     v2reportsConservedDomain:
       type: object
       properties:
@@ -6275,10 +6302,6 @@ components:
           type: string
         message:
           type: string
-        valid_identifiers:
-          type: array
-          items:
-            type: string
         invalid_identifiers:
           type: array
           items:
@@ -7380,6 +7403,7 @@ components:
       enum:
         - UNKNOWN_GENE_ERROR_CODE
         - INCOMPLETE_LOOKUP_SYMBOL
+        - INVALID_TAXON_GENE_ARGUMENT
       default: UNKNOWN_GENE_ERROR_CODE
     
     v2reportsErrorVirusErrorCode:
@@ -7510,6 +7534,8 @@ components:
         - UNRECOGNIZED_GENE_SYMBOL
         - UNRECOGNIZED_ACCESSION
         - UNRECOGNIZED_TAX_TOKEN
+        - NO_GENE_ANNOTATION_FOUND
+        - NON_SPECIES_TAXON
       default: UNKNOWN_GENE_WARNING_CODE
     protobufAny:
       type: object
