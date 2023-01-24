@@ -1576,6 +1576,36 @@ paths:
           example-1:
             value: GCF_000001405.40
             summary: Human
+  /genome/taxon/{species_taxon}/checkm_histogram:
+    get:
+      summary: Get CheckM histogram by species taxon
+      description: 'Get CheckM histogram by species taxon. CheckM histograms are only available for certain bacterial species.'
+      tags:
+        - Genome
+      operationId: checkm_histogram_by_taxon
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyCheckMHistogramReply'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: species_taxon
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: 202956
+            summary: Acinetobacter towneri
   /genome/accession/{accessions}/download:
     get:
       summary: Get a genome dataset by accession
@@ -4985,6 +5015,35 @@ components:
       in: header
       name: api-key
   schemas:
+    v2AssemblyCheckMHistogramReply:
+      type: object
+      properties:
+        species_taxid:
+          type: integer
+        histogram_intervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2AssemblyCheckMHistogramReplyHistogramInterval'
+    v2AssemblyCheckMHistogramReplyHistogramInterval:
+      type: object
+      properties:
+        start_pos:
+          type: number
+          format: float
+          title: 'Starting position for this interval'
+        stop_pos:
+          type: number
+          format: float
+          title: 'ending position for this interval'
+        count:
+          type: number
+          format: float
+          title: 'number of elements in this interval'
+    v2AssemblyCheckMHistogramRequest:
+      type: object
+      properties:
+        species_taxon:
+          type: string
     v2AssemblyDatasetAvailability:
       type: object
       properties:
@@ -5977,6 +6036,10 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
         _report_type:
           type: string
         _report_fields:
@@ -6260,6 +6323,9 @@ components:
         checkm_marker_set:
           type: string
           title: 'What taxonomic group is used as the basis for comparison with this assembly with regards to checkM values'
+        checkm_species_tax_id:
+          type: integer
+          title: 'The species-level taxid for this assemblies checkM dataset'
         checkm_marker_set_rank:
           type: string
           title: 'CheckM taxonomic rank of checkm_marker_set'
@@ -7396,6 +7462,7 @@ components:
         - INVALID_BIOPROJECT_IDS
         - NO_ASSEMBLIES_FOR_BIOPROJECTS
         - INVALID_TAXON
+        - MISSING_SEARCH_FIELD
       default: UNKNOWN_ASSEMBLY_ERROR_CODE
     
     v2reportsErrorGeneErrorCode:
@@ -7535,7 +7602,7 @@ components:
         - UNRECOGNIZED_ACCESSION
         - UNRECOGNIZED_TAX_TOKEN
         - NO_GENE_ANNOTATION_FOUND
-        - NON_SPECIES_TAXON
+        - ABOVE_SPECIES_TAXON
       default: UNKNOWN_GENE_WARNING_CODE
     protobufAny:
       type: object
