@@ -8,7 +8,7 @@ info:
       The Datasets version 2 API is still in alpha, and we''re updating it often to add new functionality,
       iron out bugs and enhance usability.
 
-      For some larger downloads, you may want to download a [dehydrated bag](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/how-tos/genomes/large-download/),
+      For some larger downloads, you may want to download a [dehydrated zip archive](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/how-tos/genomes/large-download/),
       and retrieve the individual data files at a later time.
 
     '
@@ -6095,6 +6095,10 @@ components:
         atypical:
           $ref: '#/components/schemas/v2reportsAtypicalInfo'
           title: 'Information on atypical genomes - genomes that have assembly issues or are otherwise atypical'
+        genome_notes:
+          type: array
+          items:
+            type: string
         sequencing_tech:
           type: string
           title: 'Sequencing technology used to sequence this genome'
