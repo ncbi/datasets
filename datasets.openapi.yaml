@@ -5943,6 +5943,26 @@ components:
         format:
           $ref: '#/components/schemas/v2TableFormat'
           title: 'Choose download format (tsv, csv or jsonl)'
+    v2reportsANIMatch:
+      type: object
+      properties:
+        assembly:
+          type: string
+        organism_name:
+          type: string
+        category:
+          $ref: '#/components/schemas/v2reportsANITypeCategory'
+        ani:
+          type: number
+          format: float
+        assembly_coverage:
+          type: number
+          format: float
+          title: 'AKA qcoverage'
+        type_assembly_coverage:
+          type: number
+          format: float
+          title: 'AKA scoverage'
     v2reportsAnnotation:
       type: object
       properties:
@@ -6021,6 +6041,8 @@ components:
         checkm_info:
           $ref: '#/components/schemas/v2reportsCheckM'
           title: 'Metadata on the completeness and contamination of this assembly'
+        average_nucleotide_identity:
+          $ref: '#/components/schemas/v2reportsAverageNucleotideIdentity'
     v2reportsAssemblyDataReportPage:
       type: object
       properties:
@@ -6185,6 +6207,27 @@ components:
           type: array
           items:
             type: string
+    v2reportsAverageNucleotideIdentity:
+      type: object
+      properties:
+        taxonomy_check_status:
+          $ref: '#/components/schemas/v2reportsAverageNucleotideIdentityTaxonomyCheckStatus'
+        match_status:
+          $ref: '#/components/schemas/v2reportsAverageNucleotideIdentityMatchStatus'
+        submitted_organism:
+          type: string
+          title: 'Column 5 of ANI Report'
+        submitted_species:
+          type: string
+          title: 'Column 6 of ANI Report'
+        category:
+          $ref: '#/components/schemas/v2reportsANITypeCategory'
+        submitted_ani_match:
+          $ref: '#/components/schemas/v2reportsANIMatch'
+        best_ani_match:
+          $ref: '#/components/schemas/v2reportsANIMatch'
+        comment:
+          type: string
     v2reportsBioProject:
       type: object
       properties:
@@ -7431,6 +7474,21 @@ components:
         - cds_span
       default: unspecified
     
+    v2reportsANITypeCategory:
+      type: string
+      enum:
+        - ANI_CATEGORY_UNKNOWN
+        - claderef
+        - category_na
+        - neotype
+        - no_type
+        - pathovar
+        - reftype
+        - suspected_type
+        - syntype
+        - type
+      default: ANI_CATEGORY_UNKNOWN
+    
     v2reportsAssemblyLevel:
       type: string
       enum:
@@ -7450,6 +7508,33 @@ components:
         - suppressed
         - retired
       default: ASSEMBLY_STATUS_UNKNOWN
+    
+    v2reportsAverageNucleotideIdentityMatchStatus:
+      type: string
+      enum:
+        - BEST_MATCH_STATUS_UNKNOWN
+        - approved_mismatch
+        - below_threshold_match
+        - below_threshold_mismatch
+        - best_match_status
+        - derived_species_match
+        - genus_match
+        - low_coverage
+        - mismatch
+        - status_na
+        - species_match
+        - subspecies_match
+        - synonym_match
+      default: BEST_MATCH_STATUS_UNKNOWN
+    
+    v2reportsAverageNucleotideIdentityTaxonomyCheckStatus:
+      type: string
+      enum:
+        - TAXONOMY_CHECK_STATUS_UNKNOWN
+        - OK
+        - Failed
+        - Inconclusive
+      default: TAXONOMY_CHECK_STATUS_UNKNOWN
     
     v2reportsContentType:
       type: string
