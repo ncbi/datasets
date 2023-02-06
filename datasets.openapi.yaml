@@ -5275,6 +5275,8 @@ components:
           $ref: '#/components/schemas/v2DownloadSummaryFileSummary'
         cds_fasta:
           $ref: '#/components/schemas/v2DownloadSummaryFileSummary'
+        sequence_report:
+          $ref: '#/components/schemas/v2DownloadSummaryFileSummary'
     v2DownloadSummaryDehydrated:
       type: object
       properties:
