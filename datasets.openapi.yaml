@@ -401,6 +401,18 @@ paths:
           example-2:
             value: C57BL/6J
             summary: C57BL/6J
+      - name: filters.is_metagenome_derived
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        examples:
+          example-0:
+            value: metagenome_derived_only
+            summary: Return only metagenome derived assemblies
+          example-1:
+            value: metagenome_derived_exclude
+            summary: Exclude metagenome derived assemblies
       - name: chromosomes
         in: query
         required: false
@@ -785,6 +797,18 @@ paths:
           example-2:
             value: C57BL/6J
             summary: C57BL/6J
+      - name: filters.is_metagenome_derived
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        examples:
+          example-0:
+            value: metagenome_derived_only
+            summary: Return only metagenome derived assemblies
+          example-1:
+            value: metagenome_derived_exclude
+            summary: Exclude metagenome derived assemblies
       - name: chromosomes
         in: query
         required: false
@@ -1149,6 +1173,18 @@ paths:
           example-2:
             value: C57BL/6J
             summary: C57BL/6J
+      - name: filters.is_metagenome_derived
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        examples:
+          example-0:
+            value: metagenome_derived_only
+            summary: Return only metagenome derived assemblies
+          example-1:
+            value: metagenome_derived_exclude
+            summary: Exclude metagenome derived assemblies
       - name: chromosomes
         in: query
         required: false
@@ -5094,6 +5130,8 @@ components:
           type: array
           items:
             type: string
+        is_metagenome_derived:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
     v2AssemblyDatasetReportsRequest:
       type: object
       properties:
@@ -7199,6 +7237,14 @@ components:
       default: current
       title: 'The assembly status - current (includes latest and retired), or all assemblies, which adds replaced and suppressed'
     
+    v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter:
+      type: string
+      enum:
+        - METAGENOME_DERIVED_UNSET
+        - metagenome_derived_only
+        - metagenome_derived_exclude
+      default: METAGENOME_DERIVED_UNSET
+    
     v2AssemblyDatasetReportsRequestContentType:
       type: string
       enum:
@@ -7224,13 +7270,6 @@ components:
         - BLAST_LINK
       default: DEFAULT
       title: 'Types of assembly links that may be returned'
-    
-    v2AssemblyMetadataRequestContentType:
-      type: string
-      enum:
-        - COMPLETE
-        - ASSM_ACC
-      default: COMPLETE
     
     v2CountType:
       type: string
