@@ -6132,6 +6132,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsBioProjectLineage'
+        bioproject_accession:
+          type: string
         submission_date:
           type: string
           title: 'Date the assembly was submitted to NCBI'
