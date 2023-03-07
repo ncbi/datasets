@@ -6166,6 +6166,9 @@ components:
         sequencing_tech:
           type: string
           title: 'Sequencing technology used to sequence this genome'
+        assembly_method:
+          type: string
+          title: 'Genome assembly method'
         biosample:
           $ref: '#/components/schemas/v2reportsBioSampleDescriptor'
           title: 'NCBI BioSample from which the sequences in the genome assembly were obtained.'
@@ -6239,6 +6242,9 @@ components:
           type: number
           format: float
           title: 'The percentage of GC base-pairs in the assembly'
+        genome_coverage:
+          type: string
+          title: 'Genome assembly coverage'
     v2reportsAtypicalInfo:
       type: object
       properties:
