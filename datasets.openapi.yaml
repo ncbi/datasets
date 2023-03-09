@@ -1837,6 +1837,18 @@ paths:
           type: array
           items:
             type: string
+      - name: aux_report
+        description: 'list additional reports to include with download. Data report is included by default.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+        examples:
+          example-0:
+            value: PRODUCT_REPORT
+            summary: Select additional report types to include with download. The base data report will always be included.
       - name: table_fields
         description: 'Specify which fields to include in the tabular report'
         in: query
@@ -1855,18 +1867,12 @@ paths:
           example-1:
             value: gene-id
             summary: Just GeneID
-      - name: aux_report
-        description: 'list additional reports to include with download. Data report is included by default.'
+      - name: table_report_type
+        description: 'Specify the report from which the table fields will be taken'
         in: query
         required: false
         schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
-        examples:
-          example-0:
-            value: PRODUCT_REPORT
-            summary: Select additional report types to include with download. The base data report will always be included.
+          $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
       - name: filename
         description: Output file name.
         in: query
@@ -2559,6 +2565,18 @@ paths:
           type: array
           items:
             type: string
+      - name: aux_report
+        description: 'list additional reports to include with download. Data report is included by default.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+        examples:
+          example-0:
+            value: PRODUCT_REPORT
+            summary: Select additional report types to include with download. The base data report will always be included.
       - name: table_fields
         description: 'Specify which fields to include in the tabular report'
         in: query
@@ -2577,18 +2595,12 @@ paths:
           example-1:
             value: gene-id
             summary: Just GeneID
-      - name: aux_report
-        description: 'list additional reports to include with download. Data report is included by default.'
+      - name: table_report_type
+        description: 'Specify the report from which the table fields will be taken'
         in: query
         required: false
         schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
-        examples:
-          example-0:
-            value: PRODUCT_REPORT
-            summary: Select additional report types to include with download. The base data report will always be included.
+          $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
   /gene/download_summary:
     post:
       summary: Get gene download summary
@@ -5450,14 +5462,17 @@ components:
           type: array
           items:
             type: string
-        table_fields:
-          type: array
-          items:
-            type: string
         aux_report:
           type: array
           items:
             $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+        table_fields:
+          type: array
+          items:
+            type: string
+        table_report_type:
+          $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+          title: 'Specify the report from which the table fields will be taken'
     v2GeneLinksReply:
       type: object
       properties:
