@@ -5355,6 +5355,21 @@ components:
           type: string
         cli_download_command_line:
           type: string
+    v2FeatureRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+        query:
+          type: string
+        sort:
+          type: string
+        page_size:
+          type: integer
+          title: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        page_token:
+          type: string
+          title: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
     v2GeneChromosomeSummaryReply:
       type: object
       properties:
@@ -6260,6 +6275,9 @@ components:
         genome_coverage:
           type: string
           title: 'Genome assembly coverage'
+        number_of_organelles:
+          type: integer
+          title: 'number of organelles'
     v2reportsAtypicalInfo:
       type: object
       properties:
