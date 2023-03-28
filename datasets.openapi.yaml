@@ -5360,8 +5360,13 @@ components:
       properties:
         accession:
           type: string
+        symbols:
+          type: array
+          items:
+            type: string
         query:
           type: string
+          title: 'Secret parameters'
         sort:
           type: string
         page_size:
@@ -5369,7 +5374,7 @@ components:
           title: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         page_token:
           type: string
-          title: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+          title: 'A page token is returned from a `GetFeatures` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
     v2GeneChromosomeSummaryReply:
       type: object
       properties:
@@ -6506,6 +6511,115 @@ components:
         gene_counts:
           $ref: '#/components/schemas/v2reportsGeneCounts'
           title: 'Counts of gene types'
+    v2reportsFeatureDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsFeatureReportMatch'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        total_count:
+          type: integer
+          title: 'The total count of available genes (ignoring the page_size parameter).'
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _first_page:
+          type: boolean
+    v2reportsFeatureDescriptor:
+      type: object
+      properties:
+        gene_id:
+          type: string
+          format: uint64
+          title: 'NCBI Gene ID'
+        symbol:
+          type: string
+          title: 'gene symbol'
+        description:
+          type: string
+          title: 'gene name'
+        tax_id:
+          type: string
+          format: uint64
+          title: 'NCBI Taxonomy ID for the organism'
+        taxname:
+          type: string
+          title: 'Taxonomic name of the organism'
+        common_name:
+          type: string
+          title: 'Common name of the organism'
+        type:
+          $ref: '#/components/schemas/v2reportsGeneType'
+        rna_type:
+          $ref: '#/components/schemas/v2reportsRnaType'
+        orientation:
+          $ref: '#/components/schemas/v2reportsOrientation'
+        reference_standards:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGenomicRegion'
+        genomic_regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGenomicRegion'
+        transcripts:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsTranscript'
+        proteins:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsProtein'
+        chromosomes:
+          type: array
+          items:
+            type: string
+        swiss_prot_accessions:
+          type: array
+          items:
+            type: string
+        ensembl_gene_ids:
+          type: array
+          items:
+            type: string
+        omim_ids:
+          type: array
+          items:
+            type: string
+        synonyms:
+          type: array
+          items:
+            type: string
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAnnotation'
+    v2reportsFeatureReportMatch:
+      type: object
+      properties:
+        feature:
+          $ref: '#/components/schemas/v2reportsFeatureDescriptor'
+        query:
+          type: array
+          items:
+            type: string
+        warning:
+          $ref: '#/components/schemas/v2reportsWarning'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsError'
     v2reportsGeneCounts:
       type: object
       properties:
