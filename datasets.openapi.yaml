@@ -5364,6 +5364,18 @@ components:
           type: array
           items:
             type: string
+        chromosomes:
+          type: array
+          items:
+            type: string
+        gene_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        search_text:
+          type: array
+          items:
+            type: string
         query:
           type: string
           title: 'Secret parameters'
@@ -5375,6 +5387,20 @@ components:
         page_token:
           type: string
           title: 'A page token is returned from a `GetFeatures` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+    v2FeatureTableSummaryReply:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Assembly from which available values are taken'
+        chromosomes:
+          type: array
+          items:
+            type: string
+        gene_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
     v2GeneChromosomeSummaryReply:
       type: object
       properties:
