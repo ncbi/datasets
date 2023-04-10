@@ -4652,6 +4652,12 @@ paths:
           example-0:
             value: ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
+      - name: use_psg
+        description: 'Experimental approach to retrieving sequence data.'
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: filename
         description: Output file name.
         in: query
@@ -4813,6 +4819,12 @@ paths:
           example-0:
             value: ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
+      - name: use_psg
+        description: 'Experimental approach to retrieving sequence data.'
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: filename
         description: Output file name.
         in: query
@@ -6044,6 +6056,9 @@ components:
         format:
           $ref: '#/components/schemas/v2TableFormat'
           title: 'Choose download format (tsv, csv or jsonl)'
+        use_psg:
+          type: boolean
+          title: 'Experimental approach to retrieving sequence data.'
     v2reportsANIMatch:
       type: object
       properties:
