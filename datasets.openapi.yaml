@@ -592,6 +592,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2SortDirection'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /genome/taxon/{taxons}/dataset_report:
     get:
       summary: Get dataset reports by taxons
@@ -988,6 +994,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2SortDirection'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /genome/bioproject/{bioprojects}/dataset_report:
     get:
       summary: Get dataset reports by bioproject
@@ -1364,6 +1376,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2SortDirection'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /genome/dataset_report:
     post:
       summary: Get dataset reports by accessions
@@ -1539,6 +1557,11 @@ paths:
         required: false
         schema:
           type: string
+      - name: include_tabular_header
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /genome/sequence_reports:
     post:
       summary: Get sequence reports by accessions
@@ -5194,6 +5217,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2SortField'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+          title: 'Whether this request for tabular data should include the header row'
     v2AssemblyDatasetRequest:
       type: object
       properties:
@@ -5284,6 +5310,8 @@ components:
         page_token:
           type: string
           title: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
     v2DatasetRequest:
       type: object
       properties:
@@ -7552,6 +7580,14 @@ components:
         - OTHER
       default: UNKNOWN
       title: 'NB: GeneType values match Entrez Gene'
+    
+    v2IncludeTabularHeader:
+      type: string
+      enum:
+        - INCLUDE_TABULAR_HEADER_FIRST_PAGE_ONLY
+        - INCLUDE_TABULAR_HEADER_ALWAYS
+        - INCLUDE_TABULAR_HEADER_NEVER
+      default: INCLUDE_TABULAR_HEADER_FIRST_PAGE_ONLY
     
     v2MicroBiggeDatasetRequestFileType:
       type: string
