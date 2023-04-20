@@ -5395,6 +5395,19 @@ components:
           type: string
         cli_download_command_line:
           type: string
+    v2FeatureDatasetRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+        feature_ids:
+          type: array
+          items:
+            type: string
+        include_annotation_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2FeatureDatasetRequestAnnotationType'
     v2FeatureRequest:
       type: object
       properties:
@@ -5416,11 +5429,10 @@ components:
           type: array
           items:
             type: string
-        query:
-          type: string
-          title: 'Secret parameters'
         sort:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/v2SortField'
         page_size:
           type: integer
           title: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -6689,6 +6701,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsError'
+        row_id:
+          type: string
     v2reportsGeneCounts:
       type: object
       properties:
@@ -7527,6 +7541,15 @@ components:
         - FASTA_5P_UTR
         - FASTA_3P_UTR
       default: FASTA_UNSPECIFIED
+    
+    v2FeatureDatasetRequestAnnotationType:
+      type: string
+      enum:
+        - DEFAULT
+        - GENOME_FASTA
+        - RNA_FASTA
+        - PROT_FASTA
+      default: DEFAULT
     
     v2GeneDatasetReportsRequestContentType:
       type: string
