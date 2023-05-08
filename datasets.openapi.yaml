@@ -5220,6 +5220,9 @@ components:
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
           title: 'Whether this request for tabular data should include the header row'
+        report_template:
+          type: string
+          title: 'Optional pre-defined template for processing a tabular data request'
     v2AssemblyDatasetRequest:
       type: object
       properties:
@@ -5312,6 +5315,9 @@ components:
           title: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
+        report_template:
+          type: string
+          title: 'Optional pre-defined template for processing a tabular data request'
     v2DatasetRequest:
       type: object
       properties:
@@ -5436,6 +5442,16 @@ components:
         page_size:
           type: integer
           title: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        table_fields:
+          type: array
+          items:
+            type: string
+        report_template:
+          type: string
+          title: 'Optional pre-defined template for processing a tabular data request'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+          title: 'Whether this request for tabular data should include the header row'
         page_token:
           type: string
           title: 'A page token is returned from a `GetFeatures` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
@@ -5519,6 +5535,9 @@ components:
           type: array
           items:
             type: string
+        report_template:
+          type: string
+          title: 'Optional pre-defined template for processing a tabular data request'
         page_size:
           type: integer
           title: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -5754,6 +5773,16 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _first_page:
+          type: boolean
+        _report_template:
+          type: string
     v2SleepReply:
       type: object
       properties:
@@ -5966,6 +5995,9 @@ components:
           type: array
           items:
             type: string
+        report_template:
+          type: string
+          title: 'Optional pre-defined template for processing a tabular data request'
         page_size:
           type: integer
           title: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -6005,6 +6037,9 @@ components:
           type: array
           items:
             type: string
+        report_template:
+          type: string
+          title: 'Optional pre-defined template for processing a tabular data request'
         page_size:
           type: integer
           title: 'The maximum number of virus data reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -6226,6 +6261,8 @@ components:
             type: string
         _first_page:
           type: boolean
+        _report_template:
+          type: string
     v2reportsAssemblyInfo:
       type: object
       properties:
@@ -6617,6 +6654,8 @@ components:
             type: string
         _first_page:
           type: boolean
+        _report_template:
+          type: string
     v2reportsFeatureDescriptor:
       type: object
       properties:
@@ -6746,6 +6785,8 @@ components:
             type: string
         _first_page:
           type: boolean
+        _report_template:
+          type: string
     v2reportsGeneDescriptor:
       type: object
       properties:
@@ -7232,6 +7273,8 @@ components:
             type: string
         _first_page:
           type: boolean
+        _report_template:
+          type: string
     v2reportsVirusAssembly:
       type: object
       properties:
@@ -7353,6 +7396,8 @@ components:
             type: string
         _first_page:
           type: boolean
+        _report_template:
+          type: string
     v2reportsVirusGene:
       type: object
       properties:
