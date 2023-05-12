@@ -5220,7 +5220,7 @@ components:
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
           title: 'Whether this request for tabular data should include the header row'
-        report_template:
+        table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
     v2AssemblyDatasetRequest:
@@ -5315,7 +5315,7 @@ components:
           title: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
-        report_template:
+        table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
     v2DatasetRequest:
@@ -5446,7 +5446,7 @@ components:
           type: array
           items:
             type: string
-        report_template:
+        table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
         include_tabular_header:
@@ -5535,7 +5535,7 @@ components:
           type: array
           items:
             type: string
-        report_template:
+        table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
         page_size:
@@ -5781,7 +5781,7 @@ components:
             type: string
         _first_page:
           type: boolean
-        _report_template:
+        _report_format:
           type: string
     v2SleepReply:
       type: object
@@ -5995,7 +5995,7 @@ components:
           type: array
           items:
             type: string
-        report_template:
+        table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
         page_size:
@@ -6037,7 +6037,7 @@ components:
           type: array
           items:
             type: string
-        report_template:
+        table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
         page_size:
@@ -6261,7 +6261,7 @@ components:
             type: string
         _first_page:
           type: boolean
-        _report_template:
+        _report_format:
           type: string
     v2reportsAssemblyInfo:
       type: object
@@ -6289,7 +6289,10 @@ components:
           type: string
         submission_date:
           type: string
-          title: 'Date the assembly was submitted to NCBI'
+          title: 'Date the assembly was submitted to NCBI (being replaced by release date - should maintain until most CLI users upgrade)'
+        release_date:
+          type: string
+          title: 'Date the assembly was made available by NCBI  Uncomment after reports updated [(ncbi.datasets.options.tabular) = {mnemonic: "release-date", column_name: "Release Date"}];'
         description:
           type: string
           title: 'Long description for this genome'
@@ -6654,7 +6657,7 @@ components:
             type: string
         _first_page:
           type: boolean
-        _report_template:
+        _report_format:
           type: string
     v2reportsFeatureDescriptor:
       type: object
@@ -6785,7 +6788,7 @@ components:
             type: string
         _first_page:
           type: boolean
-        _report_template:
+        _report_format:
           type: string
     v2reportsGeneDescriptor:
       type: object
@@ -7273,7 +7276,7 @@ components:
             type: string
         _first_page:
           type: boolean
-        _report_template:
+        _report_format:
           type: string
     v2reportsVirusAssembly:
       type: object
@@ -7396,7 +7399,7 @@ components:
             type: string
         _first_page:
           type: boolean
-        _report_template:
+        _report_format:
           type: string
     v2reportsVirusGene:
       type: object
