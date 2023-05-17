@@ -5469,6 +5469,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2GeneType'
+        empty_columns:
+          type: array
+          items:
+            type: string
     v2GeneChromosomeSummaryReply:
       type: object
       properties:
