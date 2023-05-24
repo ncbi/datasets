@@ -504,7 +504,7 @@ paths:
             value: assembly-status
             summary: 
           example-9:
-            value: submission-date
+            value: release-date
             summary: 
           example-10:
             value: is-ref-genome
@@ -906,7 +906,7 @@ paths:
             value: assembly-status
             summary: 
           example-9:
-            value: submission-date
+            value: release-date
             summary: 
           example-10:
             value: is-ref-genome
@@ -1288,7 +1288,7 @@ paths:
             value: assembly-status
             summary: 
           example-9:
-            value: submission-date
+            value: release-date
             summary: 
           example-10:
             value: is-ref-genome
@@ -5569,6 +5569,10 @@ components:
       properties:
         accession:
           type: string
+        annotation_ids:
+          type: array
+          items:
+            type: string
         symbols:
           type: array
           items:
@@ -6296,7 +6300,7 @@ components:
           title: 'Date the assembly was submitted to NCBI (being replaced by release date - should maintain until most CLI users upgrade)'
         release_date:
           type: string
-          title: 'Date the assembly was made available by NCBI  Uncomment after reports updated [(ncbi.datasets.options.tabular) = {mnemonic: "release-date", column_name: "Release Date"}];'
+          title: 'Date the assembly was made available by NCBI'
         description:
           type: string
           title: 'Long description for this genome'
@@ -6352,6 +6356,8 @@ components:
           type: string
         assembly_level:
           $ref: '#/components/schemas/v2reportsAssemblyLevel'
+        release_date:
+          type: string
         submission_date:
           type: string
         sequencing_technology:
