@@ -6807,6 +6807,8 @@ components:
         description:
           type: string
           title: 'gene name'
+        name:
+          type: string
         tax_id:
           type: string
           format: uint64
