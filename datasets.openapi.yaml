@@ -5585,6 +5585,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2GeneType'
+        gene_types_str:
+          type: array
+          items:
+            type: string
         search_text:
           type: array
           items:
@@ -5623,6 +5627,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2GeneType'
+        available_gene_types:
+          type: array
+          items:
+            type: string
         empty_columns:
           type: array
           items:
@@ -6821,10 +6829,16 @@ components:
           title: 'Common name of the organism'
         type:
           $ref: '#/components/schemas/v2reportsGeneType'
+          title: 'Deprecated'
+        gene_type:
+          type: string
+          title: 'WIP - SEQUI-5271 - TODO fix breaking changes'
         rna_type:
           $ref: '#/components/schemas/v2reportsRnaType'
         orientation:
           $ref: '#/components/schemas/v2reportsOrientation'
+        locus_tag:
+          type: string
         reference_standards:
           type: array
           items:
