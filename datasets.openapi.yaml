@@ -5435,7 +5435,7 @@ components:
       type: object
       properties:
         gene_type:
-          $ref: '#/components/schemas/v2GeneType'
+          type: string
         count:
           type: integer
     v2GeneCountsByTaxonRequest:
@@ -5584,10 +5584,6 @@ components:
         gene_types:
           type: array
           items:
-            $ref: '#/components/schemas/v2GeneType'
-        gene_types_str:
-          type: array
-          items:
             type: string
         search_text:
           type: array
@@ -5624,10 +5620,6 @@ components:
           items:
             type: string
         gene_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2GeneType'
-        available_gene_types:
           type: array
           items:
             type: string
@@ -7676,6 +7668,7 @@ components:
         - GENOME_FASTA
         - RNA_FASTA
         - PROT_FASTA
+        - CDS_FASTA
       default: DEFAULT
     
     v2IncludeTabularHeader:
