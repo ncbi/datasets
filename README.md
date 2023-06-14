@@ -10,15 +10,11 @@ NCBI Datasets tools are under active development. To submit feedback, please cre
 [![Platforms badge](https://anaconda.org/conda-forge/ncbi-datasets-cli/badges/platforms.svg)](https://anaconda.org/conda-forge/ncbi-datasets-cli)
 [![Total downloads badge](https://anaconda.org/conda-forge/ncbi-datasets-cli/badges/downloads.svg)](https://anaconda.org/conda-forge/ncbi-datasets-cli)
 
-We recently released version 14 (CLI v14.x) of the datasets CLI with smaller data packages, improved access to metadata, simpler command syntax, and other improvements based on user feedback. To access these features and more, download and install the latest version (CLI v14.x) of the Datasets CLI tools, **datasets** and **dataformat**, using conda:
+Install the latest version (CLI v15.x) of the Datasets CLI tools, **datasets** and **dataformat**, using conda:
 
 `conda install -c conda-forge ncbi-datasets-cli`
 
-For additional ways to install CLI v14.x, see our CLI tools [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) instructions. 
-
-You may also download the previous CLI tools version (CLI v13.x) using conda:
-
-`conda install -c conda-forge ncbi-datasets-cli"<14"`
+For other installation options, see our CLI tools [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) instructions. 
 
 ## Use the Datasets command-line tools
 
