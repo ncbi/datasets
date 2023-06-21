@@ -5373,6 +5373,8 @@ components:
           $ref: '#/components/schemas/v2DownloadSummaryFileSummary'
         sequence_report:
           $ref: '#/components/schemas/v2DownloadSummaryFileSummary'
+        annotation_report:
+          $ref: '#/components/schemas/v2DownloadSummaryFileSummary'
     v2DownloadSummaryDehydrated:
       type: object
       properties:
@@ -5551,19 +5553,6 @@ components:
           type: array
           items:
             type: integer
-    v2GenomeAnnotationDatasetRequest:
-      type: object
-      properties:
-        accession:
-          type: string
-        annotation_ids:
-          type: array
-          items:
-            type: string
-        include_annotation_type:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2GenomeAnnotationDatasetRequestAnnotationType'
     v2GenomeAnnotationRequest:
       type: object
       properties:
@@ -5593,6 +5582,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2SortField'
+        include_annotation_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GenomeAnnotationRequestAnnotationType'
         page_size:
           type: integer
           title: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -7661,14 +7654,13 @@ components:
       default: UNKNOWN
       title: 'NB: GeneType values match Entrez Gene'
     
-    v2GenomeAnnotationDatasetRequestAnnotationType:
+    v2GenomeAnnotationRequestAnnotationType:
       type: string
       enum:
         - DEFAULT
         - GENOME_FASTA
         - RNA_FASTA
         - PROT_FASTA
-        - CDS_FASTA
       default: DEFAULT
     
     v2IncludeTabularHeader:
