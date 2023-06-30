@@ -5566,6 +5566,10 @@ components:
           type: array
           items:
             type: string
+        locations:
+          type: array
+          items:
+            type: string
         chromosomes:
           type: array
           items:
@@ -5594,7 +5598,7 @@ components:
           items:
             type: string
         table_format:
-          type: string
+          $ref: '#/components/schemas/v2GenomeAnnotationRequestGenomeAnnotationTableFormat'
           title: 'Optional pre-defined template for processing a tabular data request'
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
@@ -6293,7 +6297,7 @@ components:
           title: 'Date the assembly was submitted to NCBI (being replaced by release date - should maintain until most CLI users upgrade)'
         release_date:
           type: string
-          title: 'Date the assembly was made available by NCBI'
+          title: 'Date the assembly was made available by NCBI. This field is not returned by versions of the datasets Command Line Interface (CLI) program < 15.'
         description:
           type: string
           title: 'Long description for this genome'
@@ -7065,6 +7069,18 @@ components:
         annotation_name:
           type: string
           title: 'Annotation name from paired record'
+        only_genbank:
+          type: string
+          title: 'Sequences that are only included in the GenBank assembly'
+        only_refseq:
+          type: string
+          title: 'Sequences that are only included in the RefSeq assembly'
+        changed:
+          type: string
+          title: 'Sequences present on both the GenBank and the RefSeq assemblies that have been changed, e.g., contaminated sequence in the GenBank assembly has been replaced with a gap'
+        manual_diff:
+          type: string
+          title: 'Additional details about sequence differences between the GenBank and RefSeq assemblies'
     v2reportsProductDescriptor:
       type: object
       properties:
@@ -7662,6 +7678,14 @@ components:
         - RNA_FASTA
         - PROT_FASTA
       default: DEFAULT
+    
+    v2GenomeAnnotationRequestGenomeAnnotationTableFormat:
+      type: string
+      enum:
+        - NO_TABLE
+        - SUMMARY
+        - PRODUCT
+      default: NO_TABLE
     
     v2IncludeTabularHeader:
       type: string
