@@ -5570,10 +5570,6 @@ components:
           type: array
           items:
             type: string
-        chromosomes:
-          type: array
-          items:
-            type: string
         gene_types:
           type: array
           items:
@@ -7548,7 +7544,7 @@ components:
         - current
         - all_assemblies
       default: current
-      title: 'The assembly status - current (includes latest and retired), or all assemblies, which adds replaced and suppressed'
+      title: 'The assembly status - current (latest), or all assemblies, which adds replaced and suppressed'
     
     v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter:
       type: string
