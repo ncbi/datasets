@@ -6335,6 +6335,9 @@ components:
         comments:
           type: string
           title: 'Freeform comments add as tabular field once newline/tab escaping is implemented in dataformat  [(ncbi.datasets.options.tabular) = {mnemonic: "comments", column_name: "Comments"}];'
+        suppression_reason:
+          type: string
+          title: 'The reason for the assembly is suppressed, for suppressed assemblies'
         diploid_role:
           $ref: '#/components/schemas/v2reportsLinkedAssemblyType'
           title: '[(ncbi.datasets.options.tabular) = {mnemonic: "type", column_name: "Type"}];'
@@ -7976,18 +7979,15 @@ components:
       type: string
       enum:
         - LINKED_ASSEMBLY_TYPE_UNKNOWN
-        - alternate_pseudohaplotype
-        - principal_pseudohaplotype
-        - maternal_haplotype
-        - paternal_haplotype
+        - alternate_pseudohaplotype_of_diploid
+        - principal_pseudohaplotype_of_diploid
+        - maternal_haplotype_of_diploid
+        - paternal_haplotype_of_diploid
         - haplotype_1
         - haplotype_2
         - haplotype_3
         - haplotype_4
-        - haploid_principal_pseudohaplotype_of_diploid
-        - maternal_haplotype_of_diploid
-        - paternal_haplotype_of_diploid
-        - polyploid_member
+        - haploid
       default: LINKED_ASSEMBLY_TYPE_UNKNOWN
     
     v2reportsOrientation:
