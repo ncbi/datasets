@@ -413,28 +413,6 @@ paths:
           example-1:
             value: metagenome_derived_exclude
             summary: Exclude metagenome derived assemblies
-      - name: chromosomes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
-        examples:
-          example-0:
-            value:
-              - 1
-              - 2
-              - 3
-              - X
-              - Y
-              - MT
-            summary: Selected chromosomes #1
-          example-1:
-            value:
-              - X
-              - Y
-            summary: Human sex chromosomes
       - name: table_fields
         in: query
         required: false
@@ -815,28 +793,6 @@ paths:
           example-1:
             value: metagenome_derived_exclude
             summary: Exclude metagenome derived assemblies
-      - name: chromosomes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
-        examples:
-          example-0:
-            value:
-              - 1
-              - 2
-              - 3
-              - X
-              - Y
-              - MT
-            summary: Selected chromosomes #1
-          example-1:
-            value:
-              - X
-              - Y
-            summary: Human sex chromosomes
       - name: table_fields
         in: query
         required: false
@@ -1197,28 +1153,6 @@ paths:
           example-1:
             value: metagenome_derived_exclude
             summary: Exclude metagenome derived assemblies
-      - name: chromosomes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
-        examples:
-          example-0:
-            value:
-              - 1
-              - 2
-              - 3
-              - X
-              - Y
-              - MT
-            summary: Selected chromosomes #1
-          example-1:
-            value:
-              - X
-              - Y
-            summary: Human sex chromosomes
       - name: table_fields
         in: query
         required: false
