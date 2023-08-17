@@ -2810,6 +2810,90 @@ paths:
           example-0:
             value: Annotation Release 109.20211119
             summary: Human annotation release
+  /taxonomy/taxon/{taxons}/filtered_subtree2:
+    get:
+      summary: Use taxonomic identifiers to get a filtered taxonomic subtree
+      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get a filtered taxonomic subtree that includes the full parent lineage and all immediate children from the selected taxonomic ranks in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_filtered_subtree2
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: taxons
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - 9606
+              - 10090
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value:
+              - human
+              - mouse
+            summary: Common Name
+          example-2:
+            value:
+              - Homo sapiens
+              - Mus musculus
+            summary: Scientific Name
+      - name: specified_limit
+        description: 'Limit to specified species'
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: rank_limits
+        description: 'Limit to the provided ranks.  If empty, accept any rank.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2OrganismRankType'
+  /taxonomy/filtered_subtree2:
+    post:
+      summary: Use taxonomic identifiers to get a filtered taxonomic subtree by post
+      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get a filtered taxonomic subtree that includes the full parent lineage and all immediate children from the selected taxonomic ranks in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_filtered_subtree_post2
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeRequest'
   /taxonomy/taxon/{taxons}:
     get:
       summary: Use taxonomic identifiers to get taxonomic metadata
@@ -3006,12 +3090,19 @@ paths:
             value: hum
             summary: hum
       - name: tax_rank_filter
-        description: 'Set the scope of searched tax ranks'
+        description: 'Set the scope of searched tax ranks when filtering by gene or genome.  Not used for ''all'''
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxRankFilter'
           default: species
+      - name: taxon_resource_filter
+        description: 'Limit results to those with gene or genome counts (no filter by default)'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
+          default: TAXON_RESOURCE_FILTER_ALL
   /virus/taxon/{taxon}/genome:
     get:
       summary: Get summary data for Coronaviridae genomes by taxon
@@ -5588,7 +5679,10 @@ components:
           title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
         tax_rank_filter:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxRankFilter'
-          title: 'Set the scope of searched tax ranks'
+          title: 'Set the scope of searched tax ranks when filtering by gene or genome.  Not used for ''all'''
+        taxon_resource_filter:
+          $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
+          title: 'Limit results to those with gene or genome counts (no filter by default)'
     v2OrthologRequest:
       type: object
       properties:
@@ -7694,6 +7788,14 @@ components:
         - species
         - higher_taxon
       default: species
+    
+    v2OrganismQueryRequestTaxonResourceFilter:
+      type: string
+      enum:
+        - TAXON_RESOURCE_FILTER_ALL
+        - TAXON_RESOURCE_FILTER_GENOME
+        - TAXON_RESOURCE_FILTER_GENE
+      default: TAXON_RESOURCE_FILTER_ALL
     
     v2OrthologRequestContentType:
       type: string
