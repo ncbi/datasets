@@ -3103,6 +3103,42 @@ paths:
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
           default: TAXON_RESOURCE_FILTER_ALL
+  /taxonomy/taxon/{taxon}/links:
+    get:
+      summary: Retrieve external links associated with a taxonomic identifier.
+      description: 'Using an NCBI Taxonomy ID at any rank, get the external links associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_links
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyLinksResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: taxon
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: 9606
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
   /virus/taxon/{taxon}/genome:
     get:
       summary: Get summary data for Coronaviridae genomes by taxon
@@ -5885,6 +5921,37 @@ components:
           $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponseEdge'
       additionalProperties:
         $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponseEdge'
+    v2TaxonomyLinksRequest:
+      type: object
+      properties:
+        taxon:
+          type: string
+    v2TaxonomyLinksResponse:
+      type: object
+      properties:
+        tax_id:
+          type: string
+        encyclopedia_of_life:
+          type: string
+        global_biodiversity_information_facility:
+          type: string
+        inaturalist:
+          type: string
+        viralzone:
+          type: string
+        wikipedia:
+          type: string
+        generic_links:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2TaxonomyLinksResponseGenericLink'
+    v2TaxonomyLinksResponseGenericLink:
+      type: object
+      properties:
+        link_name:
+          type: string
+        link_url:
+          type: string
     v2TaxonomyMatch:
       type: object
       properties:
@@ -5935,6 +6002,19 @@ components:
         common_name:
           type: string
           title: 'Common name'
+        genbank_common_name:
+          type: string
+          title: 'GenBank common name'
+        acronyms:
+          type: array
+          items:
+            type: string
+        genbank_acronym:
+          type: string
+          title: 'GenBank acronym'
+        blast_name:
+          type: string
+          title: 'blast name for organism'
         lineage:
           type: array
           items:
@@ -5961,6 +6041,12 @@ components:
           title: 'ordinal values for any node are the full range of the ordinal values in the subtree underneath this node, and are used for faster range-based lookups'
         max_ord:
           type: integer
+        extinct:
+          type: boolean
+          title: 'True if organism is extinct'
+        genomic_moltype:
+          type: string
+          title: 'genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
         _indexed_names:
           type: array
           items:
