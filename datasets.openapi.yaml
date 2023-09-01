@@ -1608,7 +1608,7 @@ paths:
       operationId: download_assembly_package
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -1708,7 +1708,7 @@ paths:
       operationId: download_assembly_package_post
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -1747,7 +1747,7 @@ paths:
       operationId: download_gene_package
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -1846,7 +1846,7 @@ paths:
       operationId: download_gene_package_post
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -1886,7 +1886,7 @@ paths:
       operationId: download_prokaryote_gene_package
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -1965,7 +1965,7 @@ paths:
       operationId: download_prokaryote_gene_package_post
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -3139,6 +3139,190 @@ paths:
           example-2:
             value: Homo sapiens
             summary: Scientific Name
+  /taxonomy/taxon/{taxon}/image:
+    get:
+      summary: Retrieve image associated with a taxonomic identifier
+      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_image
+      responses:
+        '200':
+          description: A successful response
+          content:
+            image/jpeg:
+              schema:
+                format: binary
+                type: string
+                description: Image stream (jpeg/png/tiff)
+            image/png:
+              schema:
+                format: binary
+                type: string
+                description: Image stream (jpeg/png/tiff)
+            image/tiff:
+              schema:
+                format: binary
+                type: string
+                description: Image stream (jpeg/png/tiff)
+            image/svg+xml:
+              schema:
+                format: binary
+                type: string
+                description: SVG Image stream
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: taxon
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: 9606
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+      - name: image_size
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2ImageSize'
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
+  /taxonomy/image:
+    post:
+      summary: Retrieve image associated with a taxonomic identifier by post
+      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_image_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            image/jpeg:
+              schema:
+                format: binary
+                type: string
+                description: Image stream (jpeg/png/tiff)
+            image/png:
+              schema:
+                format: binary
+                type: string
+                description: Image stream (jpeg/png/tiff)
+            image/tiff:
+              schema:
+                format: binary
+                type: string
+                description: Image stream (jpeg/png/tiff)
+            image/svg+xml:
+              schema:
+                format: binary
+                type: string
+                description: SVG Image stream
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyImageRequest'
+            example:
+              taxon:
+              - 9606
+      parameters:
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
+  /taxonomy/taxon/{taxon}/image/metadata:
+    get:
+      summary: Retrieve image metadata associated with a taxonomic identifier
+      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image metadata associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_image_metadata
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyImageMetadataResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: taxon
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: 9606
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+  /taxonomy/image/metadata:
+    post:
+      summary: Retrieve image metadata associated with a taxonomic identifier by post
+      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image metadata associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_image_metadata_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyImageMetadataResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyImageMetadataRequest'
+            example:
+              taxon:
+              - 9606
   /virus/taxon/{taxon}/genome:
     get:
       summary: Get summary data for Coronaviridae genomes by taxon
@@ -4587,7 +4771,7 @@ paths:
       operationId: virus_genome_download
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -4758,7 +4942,7 @@ paths:
       operationId: virus_genome_download_accession
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -4925,7 +5109,7 @@ paths:
       operationId: virus_genome_download_post
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -4961,7 +5145,7 @@ paths:
       operationId: sars2_protein_download
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -5121,7 +5305,7 @@ paths:
       operationId: sars2_protein_download_post
       responses:
         '200':
-          description: Download selected genome assemblies and associated annotation data as a zip file
+          description: A successful response
           content:
             application/zip:
               schema:
@@ -5921,6 +6105,35 @@ components:
           $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponseEdge'
       additionalProperties:
         $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponseEdge'
+    v2TaxonomyImageMetadataRequest:
+      type: object
+      properties:
+        taxon:
+          type: string
+    v2TaxonomyImageMetadataResponse:
+      type: object
+      properties:
+        tax_id:
+          type: string
+        src:
+          type: string
+        license:
+          type: string
+        attribution:
+          type: string
+        source:
+          type: string
+        image_sizes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2ImageSize'
+    v2TaxonomyImageRequest:
+      type: object
+      properties:
+        taxon:
+          type: string
+        image_size:
+          $ref: '#/components/schemas/v2ImageSize'
     v2TaxonomyLinksRequest:
       type: object
       properties:
@@ -7799,6 +8012,14 @@ components:
         - SUMMARY
         - PRODUCT
       default: NO_TABLE
+    
+    v2ImageSize:
+      type: string
+      enum:
+        - UNSPECIFIED
+        - SMALL
+        - MEDIUM
+      default: UNSPECIFIED
     
     v2IncludeTabularHeader:
       type: string
