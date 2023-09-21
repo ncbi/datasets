@@ -3076,6 +3076,9 @@ paths:
                 format: binary
                 type: string
                 description: Image stream (jpeg/png/tiff)
+            image/gif:
+              schema:
+                $ref: '#/components/schemas/v2HttpBody'
             image/tiff:
               schema:
                 format: binary
@@ -3113,13 +3116,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2ImageSize'
-      - name: filename
-        description: Output file name.
-        in: query
-        required: false
-        schema:
-          type: string
-          default: ncbi_dataset.zip
   /taxonomy/image:
     post:
       summary: Retrieve image associated with a taxonomic identifier by post
@@ -3166,14 +3162,6 @@ paths:
             example:
               taxon:
               - 9606
-      parameters:
-      - name: filename
-        description: Output file name.
-        in: query
-        required: false
-        schema:
-          type: string
-          default: ncbi_dataset.zip
   /virus/taxon/{taxon}/genome:
     get:
       summary: Get summary data for Coronaviridae genomes by taxon
@@ -5716,6 +5704,16 @@ components:
           type: array
           items:
             type: string
+    v2HttpBody:
+      type: object
+      properties:
+        content_type:
+          type: string
+          title: 'The HTTP Content-Type header value specifying the content type of the body.'
+        data:
+          type: string
+          format: byte
+          title: 'The HTTP request/response body as raw binary.'
     v2MethodPayloadRequest:
       type: object
       properties:
