@@ -1996,6 +1996,278 @@ paths:
         schema:
           type: string
           default: ncbi_dataset.zip
+  /genome/accession/{accession}/annotation_report/download:
+    get:
+      summary: Get an annotation report dataset by accession
+      description: 'Download an annotation report including fasta sequence and a detailed annotation report by genomic accession.'
+      tags:
+        - Genome
+      operationId: download_genome_annotation_package
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+                description: Zip compressed stream
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: accession
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: annotation_ids
+        description: 'Limit the reports by internal, unstable annotation ids.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: symbols
+        description: 'Filter parameters'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: locations
+        description: 'Locations with a chromosome or accession and optional start-stop range: chromosome|accession[:start-end]'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: gene_types
+        description: 'granular gene_types'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: search_text
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: accession
+            summary: 
+          example-1:
+            value: versionless-accession
+            summary: 
+          example-2:
+            value: search-text
+            summary: 
+          example-3:
+            value: tax-id
+            summary: 
+          example-4:
+            value: tax-ordinal-range
+            summary: 
+          example-5:
+            value: organism-name
+            summary: 
+          example-6:
+            value: submitter
+            summary: 
+          example-7:
+            value: assembly-level-enum
+            summary: 
+          example-8:
+            value: assembly-status
+            summary: 
+          example-9:
+            value: release-date
+            summary: 
+          example-10:
+            value: is-ref-genome
+            summary: 
+          example-11:
+            value: is-rep-genome
+            summary: 
+          example-12:
+            value: is-refseq
+            summary: 
+          example-13:
+            value: is-primary
+            summary: 
+          example-14:
+            value: is-current
+            summary: 
+          example-15:
+            value: paired-assembly-is-current
+            summary: 
+          example-16:
+            value: paired-assembly-annotation-name
+            summary: 
+          example-17:
+            value: has-annotation
+            summary: 
+          example-18:
+            value: is-atypical
+            summary: 
+          example-19:
+            value: bioproject-accession
+            summary: 
+          example-20:
+            value: total-sequence-length
+            summary: 
+          example-21:
+            value: pair-is-current
+            summary: 
+          example-22:
+            value: pair-has-genbank-annotation
+            summary: 
+          example-23:
+            value: pair-has-refseq-annotation
+            summary: 
+          example-24:
+            value: pair-has-annotation
+            summary: 
+          example-25:
+            value: contig-n50
+            summary: 
+          example-26:
+            value: scaffold-n50
+            summary: 
+          example-27:
+            value: busco-complete
+            summary: 
+          example-28:
+            value: genbank-accession
+            summary: 
+          example-29:
+            value: refseq-accession
+            summary: 
+          example-30:
+            value: annotation-name
+            summary: 
+          example-31:
+            value: wgs-accession
+            summary: 
+          example-32:
+            value: sequencing-tech
+            summary: 
+          example-33:
+            value: biosample-accession
+            summary: 
+          example-34:
+            value: gene-count
+            summary: 
+          example-35:
+            value: protein-count
+            summary: 
+          example-36:
+            value: modifier
+            summary: 
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+      - name: include_annotation_type
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GenomeAnnotationRequestAnnotationType'
+      - name: page_size
+        description: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GenomeAnnotationRequestGenomeAnnotationTableFormat'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_token
+        description: 'A page token is returned from a `GetFeatures` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
+  /genome/annotation_report/download:
+    post:
+      summary: Get an annotation report dataset by accession
+      description: 'Download an annotation report including fasta sequence and a detailed annotation report by genomic accession.'
+      tags:
+        - Genome
+      operationId: download_genome_annotation_package_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+                description: Zip compressed stream
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+      parameters:
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
   /genome/accession/{accessions}/check:
     get:
       summary: Check the validity of genome accessions
@@ -2810,6 +3082,654 @@ paths:
           example-0:
             value: Annotation Release 109.20211119
             summary: Human annotation release
+  /genome/accession/{accession}/annotation_report:
+    get:
+      summary: Get genome annotation reports by genome accession
+      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Genome
+      operationId: genome_annotation_report
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGenomeAnnotationReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: accession
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: annotation_ids
+        description: 'Limit the reports by internal, unstable annotation ids.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: symbols
+        description: 'Filter parameters'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: locations
+        description: 'Locations with a chromosome or accession and optional start-stop range: chromosome|accession[:start-end]'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: gene_types
+        description: 'granular gene_types'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: search_text
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: accession
+            summary: 
+          example-1:
+            value: versionless-accession
+            summary: 
+          example-2:
+            value: search-text
+            summary: 
+          example-3:
+            value: tax-id
+            summary: 
+          example-4:
+            value: tax-ordinal-range
+            summary: 
+          example-5:
+            value: organism-name
+            summary: 
+          example-6:
+            value: submitter
+            summary: 
+          example-7:
+            value: assembly-level-enum
+            summary: 
+          example-8:
+            value: assembly-status
+            summary: 
+          example-9:
+            value: release-date
+            summary: 
+          example-10:
+            value: is-ref-genome
+            summary: 
+          example-11:
+            value: is-rep-genome
+            summary: 
+          example-12:
+            value: is-refseq
+            summary: 
+          example-13:
+            value: is-primary
+            summary: 
+          example-14:
+            value: is-current
+            summary: 
+          example-15:
+            value: paired-assembly-is-current
+            summary: 
+          example-16:
+            value: paired-assembly-annotation-name
+            summary: 
+          example-17:
+            value: has-annotation
+            summary: 
+          example-18:
+            value: is-atypical
+            summary: 
+          example-19:
+            value: bioproject-accession
+            summary: 
+          example-20:
+            value: total-sequence-length
+            summary: 
+          example-21:
+            value: pair-is-current
+            summary: 
+          example-22:
+            value: pair-has-genbank-annotation
+            summary: 
+          example-23:
+            value: pair-has-refseq-annotation
+            summary: 
+          example-24:
+            value: pair-has-annotation
+            summary: 
+          example-25:
+            value: contig-n50
+            summary: 
+          example-26:
+            value: scaffold-n50
+            summary: 
+          example-27:
+            value: busco-complete
+            summary: 
+          example-28:
+            value: genbank-accession
+            summary: 
+          example-29:
+            value: refseq-accession
+            summary: 
+          example-30:
+            value: annotation-name
+            summary: 
+          example-31:
+            value: wgs-accession
+            summary: 
+          example-32:
+            value: sequencing-tech
+            summary: 
+          example-33:
+            value: biosample-accession
+            summary: 
+          example-34:
+            value: gene-count
+            summary: 
+          example-35:
+            value: protein-count
+            summary: 
+          example-36:
+            value: modifier
+            summary: 
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+      - name: page_size
+        description: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GenomeAnnotationRequestGenomeAnnotationTableFormat'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_token
+        description: 'A page token is returned from a `GetFeatures` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+  /genome/annotation_report:
+    post:
+      summary: Get genome annotation reports by genome accession
+      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Genome
+      operationId: genome_annotation_report_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGenomeAnnotationReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+  /genome/accession/{accession}/id/{annotation_ids}/annotation_summary:
+    get:
+      summary: Get genome annotation report summary information
+      description: 'Get genome annotation report summary information by genome accession. The return facets can be used in subsequent queries.'
+      tags:
+        - Genome
+      operationId: annotation_report_facets
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2GenomeAnnotationTableSummaryReply'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: accession
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: annotation_ids
+        description: 'Limit the reports by internal, unstable annotation ids.'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: accession
+            summary: 
+          example-1:
+            value: versionless-accession
+            summary: 
+          example-2:
+            value: search-text
+            summary: 
+          example-3:
+            value: tax-id
+            summary: 
+          example-4:
+            value: tax-ordinal-range
+            summary: 
+          example-5:
+            value: organism-name
+            summary: 
+          example-6:
+            value: submitter
+            summary: 
+          example-7:
+            value: assembly-level-enum
+            summary: 
+          example-8:
+            value: assembly-status
+            summary: 
+          example-9:
+            value: release-date
+            summary: 
+          example-10:
+            value: is-ref-genome
+            summary: 
+          example-11:
+            value: is-rep-genome
+            summary: 
+          example-12:
+            value: is-refseq
+            summary: 
+          example-13:
+            value: is-primary
+            summary: 
+          example-14:
+            value: is-current
+            summary: 
+          example-15:
+            value: paired-assembly-is-current
+            summary: 
+          example-16:
+            value: paired-assembly-annotation-name
+            summary: 
+          example-17:
+            value: has-annotation
+            summary: 
+          example-18:
+            value: is-atypical
+            summary: 
+          example-19:
+            value: bioproject-accession
+            summary: 
+          example-20:
+            value: total-sequence-length
+            summary: 
+          example-21:
+            value: pair-is-current
+            summary: 
+          example-22:
+            value: pair-has-genbank-annotation
+            summary: 
+          example-23:
+            value: pair-has-refseq-annotation
+            summary: 
+          example-24:
+            value: pair-has-annotation
+            summary: 
+          example-25:
+            value: contig-n50
+            summary: 
+          example-26:
+            value: scaffold-n50
+            summary: 
+          example-27:
+            value: busco-complete
+            summary: 
+          example-28:
+            value: genbank-accession
+            summary: 
+          example-29:
+            value: refseq-accession
+            summary: 
+          example-30:
+            value: annotation-name
+            summary: 
+          example-31:
+            value: wgs-accession
+            summary: 
+          example-32:
+            value: sequencing-tech
+            summary: 
+          example-33:
+            value: biosample-accession
+            summary: 
+          example-34:
+            value: gene-count
+            summary: 
+          example-35:
+            value: protein-count
+            summary: 
+          example-36:
+            value: modifier
+            summary: 
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+  /genome/accession/{accession}/annotation_report/download_summary:
+    get:
+      summary: Preview feature dataset download
+      description: 'Get a download feature summary by accession in a JSON output format.'
+      tags:
+        - Genome
+      operationId: genome_annotation_download_summary
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2DownloadSummary'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: accession
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: annotation_ids
+        description: 'Limit the reports by internal, unstable annotation ids.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: symbols
+        description: 'Filter parameters'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: locations
+        description: 'Locations with a chromosome or accession and optional start-stop range: chromosome|accession[:start-end]'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: gene_types
+        description: 'granular gene_types'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: search_text
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: accession
+            summary: 
+          example-1:
+            value: versionless-accession
+            summary: 
+          example-2:
+            value: search-text
+            summary: 
+          example-3:
+            value: tax-id
+            summary: 
+          example-4:
+            value: tax-ordinal-range
+            summary: 
+          example-5:
+            value: organism-name
+            summary: 
+          example-6:
+            value: submitter
+            summary: 
+          example-7:
+            value: assembly-level-enum
+            summary: 
+          example-8:
+            value: assembly-status
+            summary: 
+          example-9:
+            value: release-date
+            summary: 
+          example-10:
+            value: is-ref-genome
+            summary: 
+          example-11:
+            value: is-rep-genome
+            summary: 
+          example-12:
+            value: is-refseq
+            summary: 
+          example-13:
+            value: is-primary
+            summary: 
+          example-14:
+            value: is-current
+            summary: 
+          example-15:
+            value: paired-assembly-is-current
+            summary: 
+          example-16:
+            value: paired-assembly-annotation-name
+            summary: 
+          example-17:
+            value: has-annotation
+            summary: 
+          example-18:
+            value: is-atypical
+            summary: 
+          example-19:
+            value: bioproject-accession
+            summary: 
+          example-20:
+            value: total-sequence-length
+            summary: 
+          example-21:
+            value: pair-is-current
+            summary: 
+          example-22:
+            value: pair-has-genbank-annotation
+            summary: 
+          example-23:
+            value: pair-has-refseq-annotation
+            summary: 
+          example-24:
+            value: pair-has-annotation
+            summary: 
+          example-25:
+            value: contig-n50
+            summary: 
+          example-26:
+            value: scaffold-n50
+            summary: 
+          example-27:
+            value: busco-complete
+            summary: 
+          example-28:
+            value: genbank-accession
+            summary: 
+          example-29:
+            value: refseq-accession
+            summary: 
+          example-30:
+            value: annotation-name
+            summary: 
+          example-31:
+            value: wgs-accession
+            summary: 
+          example-32:
+            value: sequencing-tech
+            summary: 
+          example-33:
+            value: biosample-accession
+            summary: 
+          example-34:
+            value: gene-count
+            summary: 
+          example-35:
+            value: protein-count
+            summary: 
+          example-36:
+            value: modifier
+            summary: 
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+      - name: include_annotation_type
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GenomeAnnotationRequestAnnotationType'
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GenomeAnnotationRequestGenomeAnnotationTableFormat'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+  /genome/annotation_report/download_summary:
+    post:
+      summary: Preview feature download by POST
+      description: 'The ''GET'' version of feature download summary is limited by the size of the GET URL (2KB).  The POST operation is provided to allow users to supply a larger number of annotation_ids in a single request.'
+      tags:
+        - Genome
+      operationId: genome_annotation_download_summary_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2DownloadSummary'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GenomeAnnotationRequest'
   /taxonomy/taxon/{taxons}:
     get:
       summary: Use taxonomic identifiers to get taxonomic metadata
@@ -3159,6 +4079,71 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyImageRequest'
+            example:
+              taxon:
+              - 9606
+  /taxonomy/taxon/{taxon}/image/metadata:
+    get:
+      summary: Retrieve image metadata associated with a taxonomic identifier
+      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image metadata associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_image_metadata
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyImageMetadataResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: taxon
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: 9606
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+  /taxonomy/image/metadata:
+    post:
+      summary: Retrieve image metadata associated with a taxonomic identifier by post
+      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image metadata associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_image_metadata_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyImageMetadataResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyImageMetadataRequest'
             example:
               taxon:
               - 9606
