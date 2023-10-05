@@ -1569,6 +1569,36 @@ paths:
           example-1:
             value: GCF_000001405.40
             summary: Human
+  /genome/links:
+    post:
+      summary: Get assembly links by accessions
+      description: 'Get links to available assembly resources by accessions.'
+      tags:
+        - Genome
+      operationId: genome_links_by_accession_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyLinksReply'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2AssemblyLinksRequest'
+            example:
+              accessions:
+                accessions:
+                - GCF_000001405.40
   /genome/taxon/{species_taxon}/checkm_histogram:
     get:
       summary: Get CheckM histogram by species taxon
@@ -3037,6 +3067,36 @@ paths:
               - 59067
               - 50615
             summary: IL21 & IL21R GeneIDs
+  /gene/links:
+    post:
+      summary: Get gene links by gene ID
+      description: 'Get links to available gene resources by gene ID.'
+      tags:
+        - Gene
+      operationId: gene_links_by_id_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2GeneLinksReply'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GeneLinksRequest'
+            example:
+              gene_ids:
+              - 59067
+              - 50615
   /gene/taxon/{taxon}/annotation/{annotation_name}/chromosome_summary:
     get:
       summary: Get summary of chromosomes for a particular taxon's annotation
@@ -3975,6 +4035,35 @@ paths:
           example-2:
             value: Homo sapiens
             summary: Scientific Name
+  /taxonomy/links:
+    post:
+      summary: Retrieve external links associated with a taxonomic identifier.
+      description: 'Using an NCBI Taxonomy ID at any rank, get the external links associated with the taxon.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_links_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyLinksResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyLinksRequest'
+            example:
+              taxon:
+              - 9606
   /taxonomy/taxon/{taxon}/image:
     get:
       summary: Retrieve image associated with a taxonomic identifier
@@ -7495,13 +7584,12 @@ components:
           title: 'URL to blast page for this assembly'
         comments:
           type: string
-          title: 'Freeform comments add as tabular field once newline/tab escaping is implemented in dataformat  [(ncbi.datasets.options.tabular) = {mnemonic: "comments", column_name: "Comments"}];'
+          title: 'Freeform comments'
         suppression_reason:
           type: string
           title: 'The reason for the assembly is suppressed, for suppressed assemblies'
         diploid_role:
           $ref: '#/components/schemas/v2reportsLinkedAssemblyType'
-          title: '[(ncbi.datasets.options.tabular) = {mnemonic: "type", column_name: "Type"}];'
     v2reportsAssemblyRevision:
       type: object
       properties:
