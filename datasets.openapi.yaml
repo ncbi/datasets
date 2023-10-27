@@ -7050,6 +7050,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2ImageSize'
+        format:
+          type: string
     v2TaxonomyImageRequest:
       type: object
       properties:
@@ -9062,6 +9064,7 @@ components:
       enum:
         - COMPLETE
         - TAXIDS
+        - METADATA
       default: COMPLETE
     
     v2ViralSequenceType:
