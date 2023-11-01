@@ -413,6 +413,13 @@ paths:
           example-1:
             value: metagenome_derived_exclude
             summary: Exclude metagenome derived assemblies
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: table_fields
         in: query
         required: false
@@ -793,6 +800,13 @@ paths:
           example-1:
             value: metagenome_derived_exclude
             summary: Exclude metagenome derived assemblies
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: table_fields
         in: query
         required: false
@@ -1153,6 +1167,13 @@ paths:
           example-1:
             value: metagenome_derived_exclude
             summary: Exclude metagenome derived assemblies
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: table_fields
         in: query
         required: false
@@ -6354,6 +6375,9 @@ components:
             type: string
         filters:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilter'
+        tax_exact_match:
+          type: boolean
+          title: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         chromosomes:
           type: array
           items:
