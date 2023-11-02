@@ -6500,6 +6500,134 @@ components:
         table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
+    v2CPPTaxonomyMatch:
+      type: object
+      properties:
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsWarning'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsError'
+        query:
+          type: array
+          items:
+            type: string
+        taxonomy:
+          $ref: '#/components/schemas/v2CPPTaxonomyNode'
+    v2CPPTaxonomyMetadataResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        taxonomy_nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyMatch'
+    v2CPPTaxonomyNode:
+      type: object
+      properties:
+        tax_id:
+          type: string
+          format: uint64
+          title: 'The tax ID'
+        rank:
+          $ref: '#/components/schemas/v2OrganismRankType'
+          title: 'Taxonomic rank, such as species'
+        primary_scientific_name:
+          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
+          title: 'The scientific name (previously called organism name) and the authority.  TODO: Change to current_scientific_name'
+        group_name:
+          type: string
+          title: 'The group name.  I.e. ''even-toed ungulates'' for cow'
+        primary_common_name:
+          type: string
+          title: 'Common name of the organism  Notes: Specifically ''genbank common name'' object; other ''common name'' objects fall on the second \ page and are separated out of here.  While this could be combined, same issues exist that make it more of a challenge for primary_synonym - seems to be more user friendly to keep as a separate entry.'
+        other_common_names:
+          type: array
+          items:
+            type: string
+        notes:
+          type: array
+          items:
+            type: string
+        links_from_type:
+          type: string
+          title: 'Links from type https://www.ncbi.nlm.nih.gov/nuccore/?term=txid28901[Organism:exp]+AND+%22sequence+from+type%22[Filter]'
+    v2CPPTaxonomyNodeNameAndAuthority:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Name value. This could be the scientific name, common name, synonym, etc. depending on the context of its use.'
+        authority:
+          type: string
+          title: 'The authority is basically the author(s) name and the year which published this; although there could be variety.  Not uncommon to be none.'
+        authority_classifier:
+          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityAuthorityClassifier'
+          title: 'Authority classifier is related to the notes section'
+        authority_note:
+          type: string
+          title: 'Free-form text to allow the specific note test for this classifier.'
+        type_strains:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeTypeMaterial'
+        primary_synonym:
+          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
+          title: 'The main synonym of the scientific name.'
+        homotypic_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
+        heterotypic_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
+        other_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
+        informal_names:
+          type: array
+          items:
+            type: string
+        primary_basionym:
+          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
+          title: 'The Basionym is the original name in which the new name (current scientific name) is based off of.  Notes: This could be blank.  There can only be one for the current scientific name although there could be others for alias'' etc. (captured elsewhere).'
+        publications:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityPublication'
+    v2CPPTaxonomyNodeNameAndAuthorityPublication:
+      type: object
+      properties:
+        name:
+          type: string
+        citation:
+          type: string
+    v2CPPTaxonomyNodeTypeMaterial:
+      type: object
+      properties:
+        type_strain_name:
+          type: string
+        type_strain_id:
+          type: string
+          title: 'ATCC'
+        bio_collection_id:
+          type: string
+        bio_collection_name:
+          type: string
+        collection_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeCollectionType'
+        holotype:
+          type: string
     v2DatasetRequest:
       type: object
       properties:
@@ -8857,6 +8985,23 @@ components:
         - BLAST_LINK
       default: DEFAULT
       title: 'Types of assembly links that may be returned'
+    
+    v2CPPTaxonomyNodeCollectionType:
+      type: string
+      enum:
+        - no_collection_type
+        - collection_culture_collection
+        - specimen_voucher
+      default: no_collection_type
+      title: 'List will be provided from Taxonomy Group'
+    
+    v2CPPTaxonomyNodeNameAndAuthorityAuthorityClassifier:
+      type: string
+      enum:
+        - no_authority_classifier
+        - effective_name
+        - nomen_approbbatum
+      default: no_authority_classifier
     
     v2CountType:
       type: string
