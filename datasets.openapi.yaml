@@ -1396,6 +1396,32 @@ paths:
           example-0:
             value: GCF_000001405.40
             summary: Human
+  /genome/revision_history:
+    post:
+      summary: Get revision history for assembly by accession
+      description: ''
+      tags:
+        - Genome
+      operationId: assembly_revision_history_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyRevisionHistory'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2AssemblyRevisionHistoryRequest'
   /genome/accession/{accession}/sequence_reports:
     get:
       summary: Get sequence reports by accessions
