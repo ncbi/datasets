@@ -1676,6 +1676,32 @@ paths:
           example-0:
             value: 202956
             summary: Acinetobacter towneri
+  /genome/checkm_histogram:
+    post:
+      summary: Get CheckM histogram by species taxon
+      description: 'Get CheckM histogram by species taxon. CheckM histograms are only available for certain bacterial species.'
+      tags:
+        - Genome
+      operationId: checkm_histogram_by_taxon_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyCheckMHistogramReply'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2AssemblyCheckMHistogramRequest'
   /genome/accession/{accessions}/download:
     get:
       summary: Get a genome dataset by accession
@@ -6564,9 +6590,9 @@ components:
         rank:
           $ref: '#/components/schemas/v2OrganismRankType'
           title: 'Taxonomic rank, such as species'
-        primary_scientific_name:
+        current_scientific_name:
           $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-          title: 'The scientific name (previously called organism name) and the authority.  TODO: Change to current_scientific_name'
+          title: 'The scientific name (previously called organism name) and the authority.'
         group_name:
           type: string
           title: 'The group name.  I.e. ''even-toed ungulates'' for cow'
