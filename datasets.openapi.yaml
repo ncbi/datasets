@@ -4477,6 +4477,32 @@ paths:
           example-0:
             value: ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
+  /virus/genome:
+    post:
+      summary: Get summary data for Coronaviridae genomes by post
+      description: 'Get summary data and download by command line instructions for Coronaviridae genomes by taxon.'
+      tags:
+        - Virus
+      operationId: virus_genome_summary_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2DownloadSummary'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2VirusDatasetRequest'
   /virus/taxon/sars2/protein/{proteins}:
     get:
       summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
@@ -4628,6 +4654,32 @@ paths:
           example-0:
             value: ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
+  /virus/taxon/sars2/protein:
+    post:
+      summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
+      description: 'Download a summary of available SARS-CoV-2 protein datasets'
+      tags:
+        - Virus
+      operationId: sars2_protein_summary_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2DownloadSummary'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
   /virus/taxon/{taxon}/genome/table:
     get:
       summary: Get viral genomic metadata in a tabular format.
@@ -6648,7 +6700,7 @@ components:
           type: array
           items:
             type: string
-        primary_basionym:
+        current_basionym:
           $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
           title: 'The Basionym is the original name in which the new name (current scientific name) is based off of.  Notes: This could be blank.  There can only be one for the current scientific name although there could be others for alias'' etc. (captured elsewhere).'
         publications:
