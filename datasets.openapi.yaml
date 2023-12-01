@@ -6648,7 +6648,7 @@ components:
         group_name:
           type: string
           title: 'The group name.  I.e. ''even-toed ungulates'' for cow'
-        primary_common_name:
+        curator_common_name:
           type: string
           title: 'Common name of the organism  Notes: Specifically ''genbank common name'' object; other ''common name'' objects fall on the second \ page and are separated out of here.  While this could be combined, same issues exist that make it more of a challenge for primary_synonym - seems to be more user friendly to keep as a separate entry.'
         other_common_names:
@@ -6730,7 +6730,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2CPPTaxonomyNodeCollectionType'
-        holotype:
+        type_class:
           type: string
     v2DatasetRequest:
       type: object
