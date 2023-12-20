@@ -6655,7 +6655,7 @@ components:
           type: array
           items:
             type: string
-        notes:
+        general_notes:
           type: array
           items:
             type: string
@@ -6681,7 +6681,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2CPPTaxonomyNodeTypeMaterial'
-        primary_synonym:
+        synonym:
           $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
           title: 'The main synonym of the scientific name.'
         homotypic_synonyms:
@@ -6700,13 +6700,26 @@ components:
           type: array
           items:
             type: string
-        current_basionym:
+        basionym:
           $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
           title: 'The Basionym is the original name in which the new name (current scientific name) is based off of.  Notes: This could be blank.  There can only be one for the current scientific name although there could be others for alias'' etc. (captured elsewhere).'
         publications:
           type: array
           items:
             $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityPublication'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityNote'
+    v2CPPTaxonomyNodeNameAndAuthorityNote:
+      type: object
+      properties:
+        name:
+          type: string
+        note:
+          type: string
+        note_classifier:
+          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityNoteClassifier'
     v2CPPTaxonomyNodeNameAndAuthorityPublication:
       type: object
       properties:
@@ -9106,6 +9119,13 @@ components:
         - effective_name
         - nomen_approbbatum
       default: no_authority_classifier
+    
+    v2CPPTaxonomyNodeNameAndAuthorityNoteClassifier:
+      type: string
+      enum:
+        - no_note_classifier
+      default: no_note_classifier
+      title: 'Not sure yet what the note classifiers are going to be, so reserving this.'
     
     v2CountType:
       type: string
