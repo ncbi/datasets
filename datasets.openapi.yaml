@@ -4000,7 +4000,7 @@ paths:
         schema:
           type: array
           items:
-            $ref: '#/components/schemas/v2OrganismRankType'
+            $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy/filtered_subtree:
     post:
       summary: Use taxonomic identifiers to get a filtered taxonomic subtree by post
@@ -6604,147 +6604,6 @@ components:
         table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
-    v2CPPTaxonomyMatch:
-      type: object
-      properties:
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsWarning'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsError'
-        query:
-          type: array
-          items:
-            type: string
-        taxonomy:
-          $ref: '#/components/schemas/v2CPPTaxonomyNode'
-    v2CPPTaxonomyMetadataResponse:
-      type: object
-      properties:
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsMessage'
-        taxonomy_nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyMatch'
-    v2CPPTaxonomyNode:
-      type: object
-      properties:
-        tax_id:
-          type: string
-          format: uint64
-          title: 'The tax ID'
-        rank:
-          $ref: '#/components/schemas/v2OrganismRankType'
-          title: 'Taxonomic rank, such as species'
-        current_scientific_name:
-          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-          title: 'The scientific name (previously called organism name) and the authority.'
-        group_name:
-          type: string
-          title: 'The group name.  I.e. ''even-toed ungulates'' for cow'
-        curator_common_name:
-          type: string
-          title: 'Common name of the organism  Notes: Specifically ''genbank common name'' object; other ''common name'' objects fall on the second \ page and are separated out of here.  While this could be combined, same issues exist that make it more of a challenge for primary_synonym - seems to be more user friendly to keep as a separate entry.'
-        other_common_names:
-          type: array
-          items:
-            type: string
-        general_notes:
-          type: array
-          items:
-            type: string
-        links_from_type:
-          type: string
-          title: 'Links from type https://www.ncbi.nlm.nih.gov/nuccore/?term=txid28901[Organism:exp]+AND+%22sequence+from+type%22[Filter]'
-    v2CPPTaxonomyNodeNameAndAuthority:
-      type: object
-      properties:
-        name:
-          type: string
-          title: 'Name value. This could be the scientific name, common name, synonym, etc. depending on the context of its use.'
-        authority:
-          type: string
-          title: 'The authority is basically the author(s) name and the year which published this; although there could be variety.  Not uncommon to be none.'
-        authority_classifier:
-          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityAuthorityClassifier'
-          title: 'Authority classifier is related to the notes section'
-        authority_note:
-          type: string
-          title: 'Free-form text to allow the specific note test for this classifier.'
-        type_strains:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeTypeMaterial'
-        synonym:
-          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-          title: 'The main synonym of the scientific name.'
-        homotypic_synonyms:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-        heterotypic_synonyms:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-        other_synonyms:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-        informal_names:
-          type: array
-          items:
-            type: string
-        basionym:
-          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthority'
-          title: 'The Basionym is the original name in which the new name (current scientific name) is based off of.  Notes: This could be blank.  There can only be one for the current scientific name although there could be others for alias'' etc. (captured elsewhere).'
-        publications:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityPublication'
-        notes:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityNote'
-    v2CPPTaxonomyNodeNameAndAuthorityNote:
-      type: object
-      properties:
-        name:
-          type: string
-        note:
-          type: string
-        note_classifier:
-          $ref: '#/components/schemas/v2CPPTaxonomyNodeNameAndAuthorityNoteClassifier'
-    v2CPPTaxonomyNodeNameAndAuthorityPublication:
-      type: object
-      properties:
-        name:
-          type: string
-        citation:
-          type: string
-    v2CPPTaxonomyNodeTypeMaterial:
-      type: object
-      properties:
-        type_strain_name:
-          type: string
-        type_strain_id:
-          type: string
-          title: 'ATCC'
-        bio_collection_id:
-          type: string
-        bio_collection_name:
-          type: string
-        collection_type:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2CPPTaxonomyNodeCollectionType'
-        type_class:
-          type: string
     v2DatasetRequest:
       type: object
       properties:
@@ -7201,6 +7060,12 @@ components:
         matched_term:
           type: string
           title: 'Matched term'
+        rank:
+          $ref: '#/components/schemas/v2reportsRankType'
+          title: 'Rank'
+        group_name:
+          type: string
+          title: 'Group name (blast group)'
     v2SequenceReportPage:
       type: object
       properties:
@@ -7263,7 +7128,7 @@ components:
         rank_limits:
           type: array
           items:
-            $ref: '#/components/schemas/v2OrganismRankType'
+            $ref: '#/components/schemas/v2reportsRankType'
     v2TaxonomyFilteredSubtreeResponse:
       type: object
       properties:
@@ -7434,7 +7299,7 @@ components:
           type: integer
           title: 'The number of descendants (grand total) that are specified.'
         rank:
-          $ref: '#/components/schemas/v2OrganismRankType'
+          $ref: '#/components/schemas/v2reportsRankType'
           title: 'The rank of the organism.  An enumerated set of values.'
         has_described_species_name:
           type: boolean
@@ -7462,7 +7327,7 @@ components:
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/v2CountType'
+          $ref: '#/components/schemas/v2reportsCountType'
         count:
           type: integer
     v2VersionReply:
@@ -8124,6 +7989,25 @@ components:
           type: number
           format: float
           title: 'The percent of assemblies under the taxonomic grouping ''checkm_marker_set'' that this assembly is as-or-more complete than.'
+    v2reportsClassification:
+      type: object
+      properties:
+        superkingdom:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        kingdom:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        phylum:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        class:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        order:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        family:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        genus:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        species:
+          $ref: '#/components/schemas/v2reportsTaxData'
     v2reportsConservedDomain:
       type: object
       properties:
@@ -8519,6 +8403,76 @@ components:
           $ref: '#/components/schemas/v2reportsError'
         warning:
           $ref: '#/components/schemas/v2reportsWarning'
+    v2reportsNameAndAuthority:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Name value. This could be the scientific name, common name, synonym, etc. depending on the context of its use.'
+        authority:
+          type: string
+          title: 'The authority that this name was created by. The authority is typically represented by the author(s) name and the year in which it was published.'
+        authority_classifier:
+          $ref: '#/components/schemas/v2reportsNameAndAuthorityAuthorityClassifier'
+          title: 'Any specific classifications related to this entry''s authority.'
+        authority_note:
+          type: string
+          title: 'Free-form text to allow a specific note related to this authority.'
+        type_strains:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsTaxonomyTypeMaterial'
+        synonym:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'The primary synonym of the scientific name.  Notes: - Also called the ''genbank synonym'''
+        homotypic_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsNameAndAuthority'
+        heterotypic_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsNameAndAuthority'
+        other_synonyms:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsNameAndAuthority'
+        informal_names:
+          type: array
+          items:
+            type: string
+        basionym:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'The Basionym is the original name in which the new name (current scientific name) is based off of.  Notes: - Can be empty. - There can only be one for the current scientific name, although there could   be others for alias'' etc. (captured elsewhere).'
+        publications:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsNameAndAuthorityPublication'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsNameAndAuthorityNote'
+    v2reportsNameAndAuthorityNote:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Name of the notation.'
+        note:
+          type: string
+          title: 'Note text.'
+        note_classifier:
+          $ref: '#/components/schemas/v2reportsNameAndAuthorityNoteClassifier'
+          title: 'Note classification'
+    v2reportsNameAndAuthorityPublication:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Name of the publication (article, book, etc.).'
+        citation:
+          type: string
+          title: 'Citation to the publication.'
     v2reportsNomenclatureAuthority:
       type: object
       properties:
@@ -8751,6 +8705,200 @@ components:
           title: 'Number of unplaced scaffolds for a given assembly accession'
         role:
           type: string
+    v2reportsTaxData:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+    v2reportsTaxonomyDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsTaxonomyReportMatch'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        total_count:
+          type: integer
+          title: 'The total count of available genes (ignoring the page_size parameter).'
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _first_page:
+          type: boolean
+        _report_format:
+          type: string
+    v2reportsTaxonomyNamesDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsTaxonomyNamesReportMatch'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        next_page_token:
+          type: string
+          title: 'A page token.  A token that can be used in a future request as `page_token` to retrieve the next page. If this field is emtpy then there are no subsequent pages available.'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _first_page:
+          type: boolean
+        _report_format:
+          type: string
+    v2reportsTaxonomyNamesDescriptor:
+      type: object
+      properties:
+        tax_id:
+          type: string
+          format: uint64
+          title: 'The taxonomy node ID'
+        rank:
+          $ref: '#/components/schemas/v2reportsRankType'
+          title: 'Taxonomic rank.  Examples: - SPECIES'
+        current_scientific_name:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'Main structure of the taxonomic node.  Contains the scientific name along with the authority.  Also has other information such as publications, notes, and synonyms.'
+        group_name:
+          type: string
+          title: 'Group name for the species.  Examples: - ''even-toed ungulates'' for cow'
+        curator_common_name:
+          type: string
+          title: 'Common name of the organism  Notes: - Also called ''genbank common name'' - Other ''common names'' are included in a separate list.'
+        other_common_names:
+          type: array
+          items:
+            type: string
+        general_notes:
+          type: array
+          items:
+            type: string
+        links_from_type:
+          type: string
+          title: 'Links from type  Examples: - https://www.ncbi.nlm.nih.gov/nuccore/?term=txid28901[Organism:exp]+AND+%22sequence+from+type%22[Filter]'
+    v2reportsTaxonomyNamesReportMatch:
+      type: object
+      properties:
+        taxonomy:
+          $ref: '#/components/schemas/v2reportsTaxonomyNamesDescriptor'
+          title: 'Detailed taxonomic information related to the requested node.'
+        query:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsWarning'
+        warning:
+          $ref: '#/components/schemas/v2reportsWarning'
+          title: 'Warnings associated with this request.  Any warning associated with this request.  This is represented by a Warning object which is separately documented.'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsError'
+    v2reportsTaxonomyNode:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+          title: 'NCBI Taxonomy identifier'
+        rank:
+          $ref: '#/components/schemas/v2reportsRankType'
+          title: 'The rank of the organism.  An enumerated set of values.  This is from datasets.proto should be moved.'
+        current_scientific_name:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+        basionym:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+        curator_common_name:
+          type: string
+        group_name:
+          type: string
+          title: 'group name for organism'
+        has_type_material:
+          type: boolean
+        classification:
+          $ref: '#/components/schemas/v2reportsClassification'
+        lineage:
+          type: array
+          items:
+            type: integer
+        children:
+          type: array
+          items:
+            type: integer
+        counts:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsTaxonomyNodeCountByType'
+        genomic_moltype:
+          type: string
+          title: 'genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
+    v2reportsTaxonomyNodeCountByType:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/v2reportsCountType'
+        count:
+          type: integer
+    v2reportsTaxonomyReportMatch:
+      type: object
+      properties:
+        taxonomy:
+          $ref: '#/components/schemas/v2reportsTaxonomyNode'
+        query:
+          type: array
+          items:
+            type: string
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsWarning'
+        warning:
+          $ref: '#/components/schemas/v2reportsWarning'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsError'
+    v2reportsTaxonomyTypeMaterial:
+      type: object
+      properties:
+        type_strain_name:
+          type: string
+          title: 'The strain name of the type material.'
+        type_strain_id:
+          type: string
+          title: 'The strain ID of the type material.'
+        bio_collection_id:
+          type: string
+          title: 'The biocollection ID of the type material.'
+        bio_collection_name:
+          type: string
+          title: 'The biocollection name of the type material.'
+        collection_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsCollectionType'
+        type_class:
+          type: string
+          title: 'Type material classification.'
     v2reportsTranscript:
       type: object
       properties:
@@ -9103,50 +9251,6 @@ components:
       default: DEFAULT
       title: 'Types of assembly links that may be returned'
     
-    v2CPPTaxonomyNodeCollectionType:
-      type: string
-      enum:
-        - no_collection_type
-        - collection_culture_collection
-        - specimen_voucher
-      default: no_collection_type
-      title: 'List will be provided from Taxonomy Group'
-    
-    v2CPPTaxonomyNodeNameAndAuthorityAuthorityClassifier:
-      type: string
-      enum:
-        - no_authority_classifier
-        - effective_name
-        - nomen_approbbatum
-      default: no_authority_classifier
-    
-    v2CPPTaxonomyNodeNameAndAuthorityNoteClassifier:
-      type: string
-      enum:
-        - no_note_classifier
-      default: no_note_classifier
-      title: 'Not sure yet what the note classifiers are going to be, so reserving this.'
-    
-    v2CountType:
-      type: string
-      enum:
-        - COUNT_TYPE_UNSPECIFIED
-        - COUNT_TYPE_ASSEMBLY
-        - COUNT_TYPE_GENE
-        - COUNT_TYPE_tRNA
-        - COUNT_TYPE_rRNA
-        - COUNT_TYPE_snRNA
-        - COUNT_TYPE_scRNA
-        - COUNT_TYPE_snoRNA
-        - COUNT_TYPE_PROTEIN_CODING
-        - COUNT_TYPE_PSEUDO
-        - COUNT_TYPE_TRANSPOSON
-        - COUNT_TYPE_miscRNA
-        - COUNT_TYPE_ncRNA
-        - COUNT_TYPE_BIOLOGICAL_REGION
-        - COUNT_TYPE_OTHER
-      default: COUNT_TYPE_UNSPECIFIED
-    
     v2Fasta:
       type: string
       enum:
@@ -9255,56 +9359,6 @@ components:
         - contig_fasta
         - protein_fasta
       default: FILE_TYPE_UNSPECIFIED
-    
-    v2OrganismRankType:
-      type: string
-      enum:
-        - NO_RANK
-        - SUPERKINGDOM
-        - KINGDOM
-        - SUBKINGDOM
-        - SUPERPHYLUM
-        - SUBPHYLUM
-        - PHYLUM
-        - CLADE
-        - SUPERCLASS
-        - CLASS
-        - SUBCLASS
-        - INFRACLASS
-        - COHORT
-        - SUBCOHORT
-        - SUPERORDER
-        - ORDER
-        - SUBORDER
-        - INFRAORDER
-        - PARVORDER
-        - SUPERFAMILY
-        - FAMILY
-        - SUBFAMILY
-        - GENUS
-        - SUBGENUS
-        - SPECIES_GROUP
-        - SPECIES_SUBGROUP
-        - SPECIES
-        - SUBSPECIES
-        - TRIBE
-        - SUBTRIBE
-        - FORMA
-        - VARIETAS
-        - STRAIN
-        - SECTION
-        - SUBSECTION
-        - PATHOGROUP
-        - SUBVARIETY
-        - GENOTYPE
-        - SEROTYPE
-        - ISOLATE
-        - MORPH
-        - SERIES
-        - FORMA_SPECIALIS
-        - SEROGROUP
-        - BIOTYPE
-      default: NO_RANK
     
     v2OrganismQueryRequestTaxRankFilter:
       type: string
@@ -9475,6 +9529,14 @@ components:
         - Inconclusive
       default: TAXONOMY_CHECK_STATUS_UNKNOWN
     
+    v2reportsCollectionType:
+      type: string
+      enum:
+        - no_collection_type
+        - collection_culture_collection
+        - specimen_voucher
+      default: no_collection_type
+    
     v2reportsContentType:
       type: string
       enum:
@@ -9482,6 +9544,26 @@ components:
         - ASSM_ACC
         - PAIRED_ACC
       default: COMPLETE
+    
+    v2reportsCountType:
+      type: string
+      enum:
+        - COUNT_TYPE_UNSPECIFIED
+        - COUNT_TYPE_ASSEMBLY
+        - COUNT_TYPE_GENE
+        - COUNT_TYPE_tRNA
+        - COUNT_TYPE_rRNA
+        - COUNT_TYPE_snRNA
+        - COUNT_TYPE_scRNA
+        - COUNT_TYPE_snoRNA
+        - COUNT_TYPE_PROTEIN_CODING
+        - COUNT_TYPE_PSEUDO
+        - COUNT_TYPE_TRANSPOSON
+        - COUNT_TYPE_miscRNA
+        - COUNT_TYPE_ncRNA
+        - COUNT_TYPE_BIOLOGICAL_REGION
+        - COUNT_TYPE_OTHER
+      default: COUNT_TYPE_UNSPECIFIED
     
     v2reportsErrorAssemblyErrorCode:
       type: string
@@ -9551,6 +9633,21 @@ components:
         - haploid
       default: LINKED_ASSEMBLY_TYPE_UNKNOWN
     
+    v2reportsNameAndAuthorityAuthorityClassifier:
+      type: string
+      enum:
+        - no_authority_classifier
+        - effective_name
+        - nomen_approbbatum
+      default: no_authority_classifier
+      title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published under some rules (depending on the controlling authority or having been included in an approved list.'
+    
+    v2reportsNameAndAuthorityNoteClassifier:
+      type: string
+      enum:
+        - no_note_classifier
+      default: no_note_classifier
+    
     v2reportsOrientation:
       type: string
       enum:
@@ -9572,6 +9669,57 @@ components:
         - PURPOSE_OF_SAMPLING_UNKNOWN
         - PURPOSE_OF_SAMPLING_BASELINE_SURVEILLANCE
       default: PURPOSE_OF_SAMPLING_UNKNOWN
+    
+    v2reportsRankType:
+      type: string
+      enum:
+        - NO_RANK
+        - SUPERKINGDOM
+        - KINGDOM
+        - SUBKINGDOM
+        - SUPERPHYLUM
+        - SUBPHYLUM
+        - PHYLUM
+        - CLADE
+        - SUPERCLASS
+        - CLASS
+        - SUBCLASS
+        - INFRACLASS
+        - COHORT
+        - SUBCOHORT
+        - SUPERORDER
+        - ORDER
+        - SUBORDER
+        - INFRAORDER
+        - PARVORDER
+        - SUPERFAMILY
+        - FAMILY
+        - SUBFAMILY
+        - GENUS
+        - SUBGENUS
+        - SPECIES_GROUP
+        - SPECIES_SUBGROUP
+        - SPECIES
+        - SUBSPECIES
+        - TRIBE
+        - SUBTRIBE
+        - FORMA
+        - VARIETAS
+        - STRAIN
+        - SECTION
+        - SUBSECTION
+        - PATHOGROUP
+        - SUBVARIETY
+        - GENOTYPE
+        - SEROTYPE
+        - ISOLATE
+        - MORPH
+        - SERIES
+        - FORMA_SPECIALIS
+        - SEROGROUP
+        - BIOTYPE
+      default: NO_RANK
+      title: 'Rank level'
     
     v2reportsRnaType:
       type: string
