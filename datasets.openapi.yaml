@@ -8422,9 +8422,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsTaxonomyTypeMaterial'
-        synonym:
-          $ref: '#/components/schemas/v2reportsNameAndAuthority'
-          title: 'The primary synonym of the scientific name.  Notes: - Also called the ''genbank synonym'''
+        curator_synonym:
+          type: string
+          title: 'The primary synonym of the scientific name.  Notes: - Also called the ''genbank synonym'' - Detailed information about this synonym is contained in the other   synonym entries as appropriate (homotypic, heterotypic, etc.).  This   field is only a string of the synonym name.'
         homotypic_synonyms:
           type: array
           items:
