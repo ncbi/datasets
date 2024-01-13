@@ -9188,15 +9188,12 @@ components:
     v2AnnotationForAssemblyType:
       type: string
       enum:
-        - DEFAULT
         - GENOME_GFF
         - GENOME_GBFF
-        - GENOME_GB
         - RNA_FASTA
         - PROT_FASTA
         - GENOME_GTF
         - CDS_FASTA
-        - ASM_STRUCT
         - GENOME_FASTA
         - SEQUENCE_REPORT
       default: DEFAULT
@@ -9243,7 +9240,6 @@ components:
     v2AssemblyLinksReplyAssemblyLinkType:
       type: string
       enum:
-        - DEFAULT
         - GDV_LINK
         - FTP_LINK
         - ASSEMBLY_PUBMED
@@ -9291,7 +9287,6 @@ components:
     v2GeneLinksReplyGeneLinkType:
       type: string
       enum:
-        - DEFAULT
         - GENE_LINK
         - GDV_LINK
         - ORTHOLOG_LINK
@@ -9320,7 +9315,6 @@ components:
     v2GenomeAnnotationRequestAnnotationType:
       type: string
       enum:
-        - DEFAULT
         - GENOME_FASTA
         - RNA_FASTA
         - PROT_FASTA
