@@ -3913,6 +3913,19 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
+      - name: page_size
+        description: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
   /taxonomy:
     post:
       summary: Use taxonomic identifiers to get taxonomic metadata by post
@@ -7115,6 +7128,23 @@ components:
       properties:
         data:
           type: string
+    v2TaxonomyDatasetRequest:
+      type: object
+      properties:
+        tax_ids:
+          type: array
+          items:
+            type: integer
+        include_lineage:
+          type: boolean
+          title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_ids'
+        include_subtree:
+          type: boolean
+          title: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
+        aux_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2TaxonomyDatasetRequestTaxonomyReportType'
     v2TaxonomyFilteredSubtreeRequest:
       type: object
       properties:
@@ -7251,6 +7281,12 @@ components:
         returned_content:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
           title: 'Return either tax-ids alone, or entire taxononmy-metadata records'
+        page_size:
+          type: integer
+          title: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        page_token:
+          type: string
+          title: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
     v2TaxonomyMetadataResponse:
       type: object
       properties:
@@ -8028,6 +8064,8 @@ components:
           $ref: '#/components/schemas/v2reportsErrorGeneErrorCode'
         virus_error_code:
           $ref: '#/components/schemas/v2reportsErrorVirusErrorCode'
+        taxonomy_error_code:
+          $ref: '#/components/schemas/v2reportsErrorTaxonomyErrorCode'
         reason:
           type: string
         message:
@@ -8725,7 +8763,7 @@ components:
             $ref: '#/components/schemas/v2reportsMessage'
         total_count:
           type: integer
-          title: 'The total count of available genes (ignoring the page_size parameter).'
+          title: 'The total count of available taxons (ignoring the page_size parameter).'
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
@@ -8750,6 +8788,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsMessage'
+        total_count:
+          type: integer
+          title: 'The total count of available taxons (ignoring the page_size parameter).'
         next_page_token:
           type: string
           title: 'A page token.  A token that can be used in a future request as `page_token` to retrieve the next page. If this field is emtpy then there are no subsequent pages available.'
@@ -8803,10 +8844,6 @@ components:
           type: array
           items:
             type: string
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsWarning'
         warning:
           $ref: '#/components/schemas/v2reportsWarning'
           title: 'Warnings associated with this request.  Any warning associated with this request.  This is represented by a Warning object which is separately documented.'
@@ -8867,10 +8904,6 @@ components:
           type: array
           items:
             type: string
-        warnings:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsWarning'
         warning:
           $ref: '#/components/schemas/v2reportsWarning'
         errors:
@@ -9392,6 +9425,13 @@ components:
         - jsonl
       default: tsv
     
+    v2TaxonomyDatasetRequestTaxonomyReportType:
+      type: string
+      enum:
+        - TAXONOMY_SUMMARY
+        - NAMES_REPORT
+      default: TAXONOMY_SUMMARY
+    
     v2TaxonomyFilteredSubtreeResponseEdgeChildStatus:
       type: string
       enum:
@@ -9577,6 +9617,13 @@ components:
         - INVALID_TAXON_GENE_ARGUMENT
       default: UNKNOWN_GENE_ERROR_CODE
     
+    v2reportsErrorTaxonomyErrorCode:
+      type: string
+      enum:
+        - UNKNOWN_TAXONOMY_ERROR_CODE
+        - INVALID_TAXONOMY_TAXON
+      default: UNKNOWN_TAXONOMY_ERROR_CODE
+    
     v2reportsErrorVirusErrorCode:
       type: string
       enum:
@@ -9633,6 +9680,7 @@ components:
         - no_authority_classifier
         - effective_name
         - nomen_approbbatum
+        - ictv_accepted
       default: no_authority_classifier
       title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published under some rules (depending on the controlling authority or having been included in an approved list.'
     
