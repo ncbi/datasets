@@ -4043,7 +4043,7 @@ paths:
   /taxonomy/taxon_suggest/{taxon_query}:
     get:
       summary: Get a list of taxonomy names and IDs given a partial taxonomic name
-      description: 'This endpoint retrieves a list of taxonomy names and IDs given a partial taxonomic name of any rank.'
+      description: 'This endpoint retrieves a list of taxonomy names and IDs given a possibly partial taxonomic name of any rank.'
       tags:
         - Taxonomy
       operationId: tax_name_query
@@ -4085,6 +4085,39 @@ paths:
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
           default: TAXON_RESOURCE_FILTER_ALL
+      - name: exact_match
+        description: 'If true, only return results that exactly match the provided name or tax-id'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+  /taxonomy/taxon_suggest:
+    post:
+      summary: Get a list of taxonomy names and IDs given a partial taxonomic name
+      description: 'This endpoint retrieves a list of taxonomy names and IDs given a possibly partial taxonomic name of any rank, by post.'
+      tags:
+        - Taxonomy
+      operationId: tax_name_query_by_post
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2SciNameAndIds'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2OrganismQueryRequest'
   /taxonomy/taxon/{taxon}/links:
     get:
       summary: Retrieve external links associated with a taxonomic identifier.
@@ -6967,6 +7000,9 @@ components:
         taxon_resource_filter:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
           title: 'Limit results to those with gene or genome counts (no filter by default)'
+        exact_match:
+          type: boolean
+          title: 'If true, only return results that exactly match the provided name or tax-id'
     v2OrthologRequest:
       type: object
       properties:
