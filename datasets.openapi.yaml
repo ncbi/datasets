@@ -1702,6 +1702,41 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyCheckMHistogramRequest'
+  /biosample/accession/{accessions}/biosample_report:
+    get:
+      summary: Get BioSample dataset reports by accession(s)
+      description: 'Get BioSample dataset reports by accession(s).  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - BioSample
+      operationId: BioSample_dataset_report
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsBioSampleDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+      parameters:
+      - name: accessions
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: SAMEA103927779
+            summary: BioSample Identifier
   /genome/accession/{accessions}/download:
     get:
       summary: Get a genome dataset by accession
@@ -3920,12 +3955,23 @@ paths:
         schema:
           type: integer
           default: 20
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_token
         description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
           type: string
+      - name: table_format
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
   /taxonomy:
     post:
       summary: Use taxonomic identifiers to get taxonomic metadata by post
@@ -6650,6 +6696,13 @@ components:
         table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
+    v2BioSampleDatasetReportsRequest:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
     v2DatasetRequest:
       type: object
       properties:
@@ -7171,12 +7224,6 @@ components:
           type: array
           items:
             type: integer
-        include_lineage:
-          type: boolean
-          title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_ids'
-        include_subtree:
-          type: boolean
-          title: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
         aux_reports:
           type: array
           items:
@@ -7320,9 +7367,14 @@ components:
         page_size:
           type: integer
           title: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+          title: 'Whether this request for tabular data should include the header row'
         page_token:
           type: string
           title: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        table_format:
+          $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
     v2TaxonomyMetadataResponse:
       type: object
       properties:
@@ -7402,6 +7454,33 @@ components:
           $ref: '#/components/schemas/v2reportsCountType'
         count:
           type: integer
+    v2TaxonomyRelatedIdRequest:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+        include_lineage:
+          type: boolean
+          title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_ids'
+        include_subtree:
+          type: boolean
+          title: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
+        page_size:
+          type: integer
+          title: 'The maximum number of taxids to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        page_token:
+          type: string
+          title: 'A page token is returned from a `GetRelatedTaxids` call with more than `page_size` results. Use this token, along with the previous `TaxonomyRelatedIdRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+    v2TaxonomyTaxIdsPage:
+      type: object
+      properties:
+        tax_ids:
+          type: array
+          items:
+            type: integer
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
     v2VersionReply:
       type: object
       properties:
@@ -7932,6 +8011,76 @@ components:
       properties:
         lab:
           type: string
+          title: 'Submitter lab name.'
+    v2reportsBioSampleDataReport:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'BioSample Accession identifier'
+        last_updated:
+          type: string
+          title: 'When the biosample object was last updated.'
+        publication_date:
+          type: string
+          title: 'BioSample object publication date.'
+        submission_date:
+          type: string
+          title: 'BioSample object submission date.'
+        sample_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsBioSampleId'
+        description:
+          $ref: '#/components/schemas/v2reportsBioSampleDescription'
+          title: 'BioSample description.'
+        owner:
+          $ref: '#/components/schemas/v2reportsBioSampleOwner'
+          title: 'BioSample owner.'
+        models:
+          type: array
+          items:
+            type: string
+        bioprojects:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsBioProject'
+        package:
+          type: string
+          title: 'Package identifier.'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsBioSampleAttribute'
+        status:
+          $ref: '#/components/schemas/v2reportsBioSampleStatus'
+          title: 'Current status of the object.'
+    v2reportsBioSampleDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsBioSampleDataReport'
+        total_count:
+          type: integer
+          title: 'The total count of available datasets (ignoring the page_size parameter).'
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _report_format:
+          type: string
+          title: 'bool _first_page = 502;'
     v2reportsBioSampleDescription:
       type: object
       properties:
@@ -8805,6 +8954,7 @@ components:
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
         _report_type:
           type: string
+          title: 'this'
         _report_fields:
           type: array
           items:
@@ -8813,6 +8963,7 @@ components:
           type: boolean
         _report_format:
           type: string
+          title: 'The template name'
     v2reportsTaxonomyNamesDataReportPage:
       type: object
       properties:
@@ -9483,6 +9634,13 @@ components:
         - TAXIDS
         - METADATA
       default: COMPLETE
+    
+    v2TaxonomyMetadataRequestTableFormat:
+      type: string
+      enum:
+        - SUMMARY
+      default: SUMMARY
+      title: 'Optional pre-defined template for processing a tabular data request'
     
     v2ViralSequenceType:
       type: string
