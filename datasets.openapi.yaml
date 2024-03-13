@@ -14,6 +14,7 @@ info:
     '
 servers:
 - url: https://api.ncbi.nlm.nih.gov/datasets/v2alpha
+- url: https://dev.ncbi.nlm.nih.gov/datasets/v2alpha
 tags:
 - name: Genome
   description: '#### Options to explore, summarize and download assembled genomes,
@@ -108,18 +109,18 @@ paths:
         - Genome
       operationId: genome_download_summary
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'NCBI genome assembly accessions'
@@ -193,18 +194,18 @@ paths:
         - Genome
       operationId: genome_download_summary_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -222,6 +223,12 @@ paths:
         - Genome
       operationId: genome_dataset_report
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -231,12 +238,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         in: path
@@ -591,6 +592,12 @@ paths:
         - Genome
       operationId: genome_dataset_reports_by_taxon
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -600,12 +607,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxons
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -978,6 +979,12 @@ paths:
         - Genome
       operationId: genome_dataset_reports_by_bioproject
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -987,12 +994,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: bioprojects
         in: path
@@ -1345,6 +1346,12 @@ paths:
         - Genome
       operationId: genome_dataset_report_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1354,12 +1361,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -1374,18 +1375,18 @@ paths:
         - Genome
       operationId: assembly_revision_history_by_get
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyRevisionHistory'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accession
         in: path
@@ -1404,18 +1405,18 @@ paths:
         - Genome
       operationId: assembly_revision_history_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyRevisionHistory'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -1430,6 +1431,12 @@ paths:
         - Genome
       operationId: genome_sequence_report
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1445,12 +1452,6 @@ paths:
             application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2SequenceReportPage'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accession
         in: path
@@ -1551,6 +1552,12 @@ paths:
         - Genome
       operationId: genome_sequence_report_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1566,12 +1573,6 @@ paths:
             application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2SequenceReportPage'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -1586,18 +1587,18 @@ paths:
         - Genome
       operationId: genome_links_by_accession
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyLinksReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'NCBI genome assembly accessions, limited to 1000'
@@ -1624,18 +1625,18 @@ paths:
         - Genome
       operationId: genome_links_by_accession_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyLinksReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -1654,18 +1655,18 @@ paths:
         - Genome
       operationId: checkm_histogram_by_taxon
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyCheckMHistogramReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: species_taxon
         in: path
@@ -1684,18 +1685,18 @@ paths:
         - Genome
       operationId: checkm_histogram_by_taxon_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyCheckMHistogramReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -1710,6 +1711,12 @@ paths:
         - BioSample
       operationId: BioSample_dataset_report
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1719,12 +1726,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         in: path
@@ -1745,6 +1746,12 @@ paths:
         - Genome
       operationId: download_assembly_package
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1753,12 +1760,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'NCBI genome assembly accessions'
@@ -1845,6 +1846,12 @@ paths:
         - Genome
       operationId: download_assembly_package_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1853,12 +1860,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -1884,6 +1885,12 @@ paths:
         - Gene
       operationId: download_gene_package
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1892,12 +1899,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: gene_ids
         description: 'NCBI gene ids'
@@ -1983,6 +1984,12 @@ paths:
         - Gene
       operationId: download_gene_package_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -1991,12 +1998,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -2023,6 +2024,12 @@ paths:
         - Prokaryote
       operationId: download_prokaryote_gene_package
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2031,12 +2038,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'WP prokaryote protein accession'
@@ -2102,6 +2103,12 @@ paths:
         - Prokaryote
       operationId: download_prokaryote_gene_package_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2110,12 +2117,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -2142,6 +2143,12 @@ paths:
         - Genome
       operationId: download_genome_annotation_package
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2150,12 +2157,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accession
         in: path
@@ -2378,6 +2379,12 @@ paths:
         - Genome
       operationId: download_genome_annotation_package_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2386,18 +2393,109 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+      parameters:
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
+  /taxonomy/taxon/{tax_ids}/download:
+    get:
+      summary: Get a taxonomy data package by tax ID
+      description: 'Download a taxonomy report and names data package.'
+      tags:
+        - Taxonomy
+      operationId: download_taxonomy_package
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+                description: Zip compressed stream
+      parameters:
+      - name: tax_ids
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+        examples:
+          example-0:
+            value:
+              - 9606
+              - 10090
+            summary: NCBI Taxonomy Identifier
+      - name: aux_reports
+        description: 'list additional reports to include with download. TAXONOMY_REPORT is included by default.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2TaxonomyDatasetRequestTaxonomyReportType'
+        examples:
+          example-0:
+            value:
+              - NAMES_REPORT
+              - TAXONOMY_SUMMARY
+            summary: Select additional report types to include with download. The base data report will always be included.
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
+  /taxonomy/download:
+    post:
+      summary: Get a taxonomy data package by tax_id
+      description: 'Download a taxonomy report and names data package.'
+      tags:
+        - Taxonomy
+      operationId: download_taxonomy_package_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+                description: Zip compressed stream
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyDatasetRequest'
+            example:
+              tax_ids:
+              - 9606
+              - 10090
       parameters:
       - name: filename
         description: Output file name.
@@ -2414,18 +2512,18 @@ paths:
         - Genome
       operationId: check_assembly_availability
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyDatasetAvailability'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'NCBI genome assembly accessions'
@@ -2452,18 +2550,18 @@ paths:
         - Genome
       operationId: check_assembly_availability_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2AssemblyDatasetAvailability'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -2481,18 +2579,18 @@ paths:
         - Version
       operationId: version
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2VersionReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
   /gene/id/{gene_ids}:
     get:
       summary: Get gene reports by GeneID
@@ -2501,6 +2599,12 @@ paths:
         - Gene
       operationId: gene_reports_by_id
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2510,12 +2614,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: returned_content
         description: 'Return either gene-ids, or entire gene metadata'
@@ -2579,6 +2677,12 @@ paths:
         - Gene
       operationId: gene_metadata_by_accession
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2588,12 +2692,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: returned_content
         description: 'Return either gene-ids, or entire gene metadata'
@@ -2659,6 +2757,12 @@ paths:
         - Gene
       operationId: gene_metadata_by_tax_and_symbol
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2668,12 +2772,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: returned_content
         description: 'Return either gene-ids, or entire gene metadata'
@@ -2748,6 +2846,12 @@ paths:
         - Gene
       operationId: gene_reports_by_taxon
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2757,12 +2861,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: returned_content
         description: 'Return either gene-ids, or entire gene metadata'
@@ -2847,6 +2945,12 @@ paths:
         - Gene
       operationId: gene_metadata_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -2856,12 +2960,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -2880,18 +2978,18 @@ paths:
         - Gene
       operationId: gene_download_summary_by_id
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: gene_ids
         description: 'NCBI gene ids'
@@ -2976,18 +3074,18 @@ paths:
         - Gene
       operationId: gene_download_summary_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -3006,18 +3104,18 @@ paths:
         - Gene
       operationId: gene_counts_for_taxon
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2GeneCountsByTaxonReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         description: 'Taxon for provided gene symbol'
@@ -3043,18 +3141,18 @@ paths:
         - Gene
       operationId: gene_counts_for_taxon_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2GeneCountsByTaxonReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -3069,18 +3167,18 @@ paths:
         - Gene
       operationId: gene_orthologs_by_id
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: gene_id
         in: path
@@ -3145,18 +3243,18 @@ paths:
         - Gene
       operationId: gene_links_by_id
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2GeneLinksReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: gene_ids
         description: 'NCBI gene ids, limited to 1000 ids'
@@ -3183,18 +3281,18 @@ paths:
         - Gene
       operationId: gene_links_by_id_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2GeneLinksReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -3213,18 +3311,18 @@ paths:
         - Gene
       operationId: gene_chromosome_summary
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2GeneChromosomeSummaryReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         in: path
@@ -3258,6 +3356,12 @@ paths:
         - Genome
       operationId: genome_annotation_report
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -3267,12 +3371,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accession
         in: path
@@ -3481,6 +3579,12 @@ paths:
         - Genome
       operationId: genome_annotation_report_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -3490,12 +3594,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -3510,18 +3608,18 @@ paths:
         - Genome
       operationId: annotation_report_facets
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2GenomeAnnotationTableSummaryReply'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accession
         in: path
@@ -3658,6 +3756,32 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2SortDirection'
+  /genome/annotation_summary:
+    post:
+      summary: Get genome annotation report summary information
+      description: 'Get genome annotation report summary information by genome accession. The return facets can be used in subsequent queries.'
+      tags:
+        - Genome
+      operationId: annotation_report_facets_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2GenomeAnnotationTableSummaryReply'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GenomeAnnotationRequest'
   /genome/accession/{accession}/annotation_report/download_summary:
     get:
       summary: Preview feature dataset download
@@ -3666,18 +3790,18 @@ paths:
         - Genome
       operationId: genome_annotation_download_summary
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accession
         in: path
@@ -3880,18 +4004,18 @@ paths:
         - Genome
       operationId: genome_annotation_download_summary_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -3906,18 +4030,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_metadata
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyMetadataResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxons
         in: path
@@ -3980,18 +4104,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_metadata_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyMetadataResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4002,6 +4126,305 @@ paths:
               taxons:
               - 9606
               - mouse
+  /taxonomy/taxon/{taxons}/dataset_report:
+    get:
+      summary: Use taxonomic identifiers to get taxonomic data report
+      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about a taxonomic node including taxonomic identifiers, lineage information, child nodes, and gene and genome counts in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_data_report
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsTaxonomyDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: taxons
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - 9606
+              - 10090
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value:
+              - human
+              - mouse
+            summary: Common Name
+          example-2:
+            value:
+              - Homo sapiens
+              - Mus musculus
+            summary: Scientific Name
+      - name: returned_content
+        description: 'Return either tax-ids alone, or entire taxononmy-metadata records'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
+      - name: page_size
+        description: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_token
+        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: table_format
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+  /taxonomy/dataset_report:
+    post:
+      summary: Use taxonomic identifiers to get taxonomic names data report by post
+      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about a taxonomic node including taxonomic identifiers, lineage information, child nodes, and gene and genome counts in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_data_report_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsTaxonomyDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
+            example:
+              taxons:
+              - 9606
+              - mouse
+  /taxonomy/taxon/{taxons}/name_report:
+    get:
+      summary: Use taxonomic identifiers to get taxonomic names data report
+      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about associated taxonomic names.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_names
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsTaxonomyNamesDataReportPage'
+      parameters:
+      - name: taxons
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - 9606
+              - 10090
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value:
+              - human
+              - mouse
+            summary: Common Name
+          example-2:
+            value:
+              - Homo sapiens
+              - Mus musculus
+            summary: Scientific Name
+      - name: returned_content
+        description: 'Return either tax-ids alone, or entire taxononmy-metadata records'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
+      - name: page_size
+        description: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_token
+        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: table_format
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+  /taxonomy/name_report:
+    post:
+      summary: Use taxonomic identifiers to get taxonomic names data report by post
+      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about associated taxonomic names.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_names_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsTaxonomyNamesDataReportPage'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
+            example:
+              taxons:
+              - 9606
+              - mouse
+  /taxonomy/taxon/{tax_id}/related_ids:
+    get:
+      summary: Use taxonomic identifier to get related taxonomic identifiers, such as children
+      description: 'Using a single NCBI Taxonomy ID at any rank, get a list of related taxonomic IDs in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_related_ids
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyTaxIdsPage'
+      parameters:
+      - name: tax_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        examples:
+          example-0:
+            value: 9606
+            summary: NCBI Taxonomy Identifier
+      - name: include_lineage
+        description: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_ids'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: include_subtree
+        description: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: page_size
+        description: 'The maximum number of taxids to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from a `GetRelatedTaxids` call with more than `page_size` results. Use this token, along with the previous `TaxonomyRelatedIdRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+  /taxonomy/related_ids:
+    post:
+      summary: Use taxonomic identifier to get related taxonomic identifiers, such as children
+      description: 'Using a single NCBI Taxonomy ID at any rank, get a list of related taxonomic IDs in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: taxonomy_related_ids_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2TaxonomyTaxIdsPage'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2TaxonomyRelatedIdRequest'
+            example:
+              tax_id: 9606
   /taxonomy/taxon/{taxons}/filtered_subtree:
     get:
       summary: Use taxonomic identifiers to get a filtered taxonomic subtree
@@ -4010,18 +4433,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_filtered_subtree
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxons
         in: path
@@ -4068,18 +4491,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_filtered_subtree_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4094,18 +4517,18 @@ paths:
         - Taxonomy
       operationId: tax_name_query
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2SciNameAndIds'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon_query
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -4146,18 +4569,18 @@ paths:
         - Taxonomy
       operationId: tax_name_query_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2SciNameAndIds'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4172,18 +4595,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_links
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyLinksResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         in: path
@@ -4208,18 +4631,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_links_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyLinksResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4237,6 +4660,12 @@ paths:
         - Taxonomy
       operationId: taxonomy_image
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -4263,12 +4692,6 @@ paths:
                 format: binary
                 type: string
                 description: SVG Image stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         in: path
@@ -4298,6 +4721,12 @@ paths:
         - Taxonomy
       operationId: taxonomy_image_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -4321,12 +4750,6 @@ paths:
                 format: binary
                 type: string
                 description: SVG Image stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4344,18 +4767,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_image_metadata
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyImageMetadataResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         in: path
@@ -4380,18 +4803,18 @@ paths:
         - Taxonomy
       operationId: taxonomy_image_metadata_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TaxonomyImageMetadataResponse'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4409,18 +4832,18 @@ paths:
         - Virus
       operationId: virus_genome_summary
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'genome sequence accessions'
@@ -4577,18 +5000,18 @@ paths:
         - Virus
       operationId: virus_genome_summary_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4603,18 +5026,18 @@ paths:
         - Virus
       operationId: sars2_protein_summary
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: proteins
         description: 'Which proteins to retrieve in the data package'
@@ -4754,18 +5177,18 @@ paths:
         - Virus
       operationId: sars2_protein_summary_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2DownloadSummary'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -4780,18 +5203,18 @@ paths:
         - Virus
       operationId: virus_genome_table
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TabularOutput'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'genome sequence accessions'
@@ -4980,18 +5403,18 @@ paths:
         - Virus
       operationId: sars2_protein_table
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2TabularOutput'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: proteins
         description: 'Which proteins to retrieve in the data package'
@@ -5163,6 +5586,12 @@ paths:
         - Virus
       operationId: virus_reports_by_taxon
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5172,12 +5601,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -5329,6 +5752,12 @@ paths:
         - Virus
       operationId: virus_reports_by_acessions
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5338,12 +5767,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'genome sequence accessions'
@@ -5491,6 +5914,12 @@ paths:
         - Virus
       operationId: virus_reports_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5500,12 +5929,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -5523,6 +5946,12 @@ paths:
         - Virus
       operationId: virus_annotation_reports_by_taxon
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5532,12 +5961,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -5668,6 +6091,12 @@ paths:
         - Virus
       operationId: virus_annotation_reports_by_acessions
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5677,12 +6106,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'genome sequence accessions'
@@ -5809,6 +6232,12 @@ paths:
         - Virus
       operationId: virus_annotation_reports_by_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5818,12 +6247,6 @@ paths:
             text/tab-separated-values:
               schema:
                 type: string
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -5841,18 +6264,18 @@ paths:
         - Virus
       operationId: virus_accession_availability
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2VirusAvailability'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'virus accessions'
@@ -5874,18 +6297,18 @@ paths:
         - Virus
       operationId: virus_accession_availability_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2VirusAvailability'
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -5900,6 +6323,12 @@ paths:
         - Virus
       operationId: virus_genome_download
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -5908,12 +6337,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -6071,6 +6494,12 @@ paths:
         - Virus
       operationId: virus_genome_download_accession
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -6079,12 +6508,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: accessions
         description: 'genome sequence accessions'
@@ -6238,6 +6661,12 @@ paths:
         - Virus
       operationId: virus_genome_download_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -6246,12 +6675,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -6274,6 +6697,12 @@ paths:
         - Virus
       operationId: sars2_protein_download
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -6282,12 +6711,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       parameters:
       - name: proteins
         description: 'Which proteins to retrieve in the data package'
@@ -6434,6 +6857,12 @@ paths:
         - Virus
       operationId: sars2_protein_download_post
       responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
         '200':
           description: A successful response
           content:
@@ -6442,12 +6871,6 @@ paths:
                 format: binary
                 type: string
                 description: Zip compressed stream
-        default:
-          description: An unexpected error response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
       requestBody:
         required: true
         content:
@@ -8635,12 +9058,6 @@ components:
         authority:
           type: string
           title: 'The authority that this name was created by. The authority is typically represented by the author(s) name and the year in which it was published.'
-        authority_classifier:
-          $ref: '#/components/schemas/v2reportsNameAndAuthorityAuthorityClassifier'
-          title: 'Any specific classifications related to this entry''s authority.'
-        authority_note:
-          type: string
-          title: 'Free-form text to allow a specific note related to this authority.'
         type_strains:
           type: array
           items:
@@ -8675,6 +9092,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsNameAndAuthorityNote'
+        formal:
+          type: boolean
+          title: 'Formal name  Indicates whether the name is formal (i.e. compliant)'
     v2reportsNameAndAuthorityNote:
       type: object
       properties:
@@ -9021,6 +9441,22 @@ components:
         links_from_type:
           type: string
           title: 'Links from type  Examples: - https://www.ncbi.nlm.nih.gov/nuccore/?term=txid28901[Organism:exp]+AND+%22sequence+from+type%22[Filter]'
+        citations:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsTaxonomyNamesDescriptorCitation'
+        current_scientific_name_is_formal:
+          type: boolean
+    v2reportsTaxonomyNamesDescriptorCitation:
+      type: object
+      properties:
+        full_citation:
+          type: string
+        short_citation:
+          type: string
+        pmid:
+          type: string
+          format: uint64
     v2reportsTaxonomyNamesReportMatch:
       type: object
       properties:
@@ -9060,7 +9496,7 @@ components:
           type: boolean
         classification:
           $ref: '#/components/schemas/v2reportsClassification'
-        lineage:
+        parents:
           type: array
           items:
             type: integer
@@ -9868,7 +10304,7 @@ components:
         - haploid
       default: LINKED_ASSEMBLY_TYPE_UNKNOWN
     
-    v2reportsNameAndAuthorityAuthorityClassifier:
+    v2reportsNameAndAuthorityNoteClassifier:
       type: string
       enum:
         - no_authority_classifier
@@ -9877,12 +10313,6 @@ components:
         - ictv_accepted
       default: no_authority_classifier
       title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published under some rules (depending on the controlling authority or having been included in an approved list.'
-    
-    v2reportsNameAndAuthorityNoteClassifier:
-      type: string
-      enum:
-        - no_note_classifier
-      default: no_note_classifier
     
     v2reportsOrientation:
       type: string
