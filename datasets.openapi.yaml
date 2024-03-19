@@ -186,6 +186,12 @@ paths:
               - RNA_FASTA
               - CDS_FASTA, SEQUENCE_REPORT
             summary: All
+      - name: _exp_debug_values
+        description: 'Supports debugging, e.g. by controlling data download speeds'
+        in: query
+        required: false
+        schema:
+          type: string
   /genome/download_summary:
     post:
       summary: Preview genome dataset download by POST
@@ -1831,6 +1837,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetRequestResolution'
+      - name: _exp_debug_values
+        description: 'Supports debugging, e.g. by controlling data download speeds'
+        in: query
+        required: false
+        schema:
+          type: string
       - name: filename
         description: Output file name.
         in: query
@@ -2542,6 +2554,12 @@ paths:
           example-1:
             value: GCF_000001405.40
             summary: Human
+      - name: _exp_debug_values
+        description: 'Supports debugging, e.g. by controlling data download speeds'
+        in: query
+        required: false
+        schema:
+          type: string
   /genome/check:
     post:
       summary: Check the validity of many genome accessions in a single request
@@ -3235,6 +3253,32 @@ paths:
         required: false
         schema:
           type: string
+  /gene/ortholog:
+    post:
+      summary: Get gene orthologs by gene ID
+      description: 'Get a gene summary for an ortholog set by gene ID in a JSON output format by POST'
+      tags:
+        - Gene
+      operationId: gene_orthologs_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2OrthologRequest'
   /gene/id/{gene_ids}/links:
     get:
       summary: Get gene links by gene ID
@@ -7045,6 +7089,9 @@ components:
         include_tsv:
           type: boolean
           title: 'Set to true to include a TSV representation of the data-report.'
+        _exp_debug_values:
+          type: string
+          title: 'Supports debugging, e.g. by controlling data download speeds'
     v2AssemblyLinksReply:
       type: object
       properties:
