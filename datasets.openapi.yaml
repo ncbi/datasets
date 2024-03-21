@@ -3253,7 +3253,7 @@ paths:
         required: false
         schema:
           type: string
-  /gene/ortholog:
+  /gene/orthologs:
     post:
       summary: Get gene orthologs by gene ID
       description: 'Get a gene summary for an ortholog set by gene ID in a JSON output format by POST'
