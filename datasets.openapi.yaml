@@ -9101,7 +9101,7 @@ components:
       properties:
         name:
           type: string
-          title: 'Name value. This could be the scientific name, common name, synonym, etc. depending on the context of its use.'
+          title: 'This could be the scientific name, common name, synonym, etc. depending on the context.'
         authority:
           type: string
           title: 'The authority that this name was created by. The authority is typically represented by the author(s) name and the year in which it was published.'
@@ -9111,7 +9111,7 @@ components:
             $ref: '#/components/schemas/v2reportsTaxonomyTypeMaterial'
         curator_synonym:
           type: string
-          title: 'The primary synonym of the scientific name.  Notes: - Also called the ''genbank synonym'' - Detailed information about this synonym is contained in the other   synonym entries as appropriate (homotypic, heterotypic, etc.).  This   field is only a string of the synonym name.'
+          title: 'The primary synonym of the scientific name.'
         homotypic_synonyms:
           type: array
           items:
@@ -9130,7 +9130,7 @@ components:
             type: string
         basionym:
           $ref: '#/components/schemas/v2reportsNameAndAuthority'
-          title: 'The Basionym is the original name in which the new name (current scientific name) is based off of.  Notes: - Can be empty. - There can only be one for the current scientific name, although there could   be others for alias'' etc. (captured elsewhere).'
+          title: 'The originally described name, no longer in use. Attached to the type material and species description.'
         publications:
           type: array
           items:
@@ -9141,7 +9141,7 @@ components:
             $ref: '#/components/schemas/v2reportsNameAndAuthorityNote'
         formal:
           type: boolean
-          title: 'Formal name  Indicates whether the name is formal (i.e. compliant)'
+          title: 'Indicates whether the name is formal (i.e. compliant)'
     v2reportsNameAndAuthorityNote:
       type: object
       properties:
@@ -9400,8 +9400,10 @@ components:
       properties:
         name:
           type: string
+          title: 'Taxonomic name'
         id:
           type: integer
+          title: 'NCBI Taxonomy identifier'
     v2reportsTaxonomyDataReportPage:
       type: object
       properties:
@@ -9464,19 +9466,19 @@ components:
         tax_id:
           type: string
           format: uint64
-          title: 'The taxonomy node ID'
+          title: 'NCBI Taxonomy identifier'
         rank:
           $ref: '#/components/schemas/v2reportsRankType'
-          title: 'Taxonomic rank.  Examples: - SPECIES'
+          title: 'The taxonomic rank of the taxonomic node.'
         current_scientific_name:
           $ref: '#/components/schemas/v2reportsNameAndAuthority'
-          title: 'Main structure of the taxonomic node.  Contains the scientific name along with the authority.  Also has other information such as publications, notes, and synonyms.'
+          title: 'The currently accepted name chosen out of all synonyms for the taxonomic node.'
         group_name:
           type: string
-          title: 'Group name for the species.  Examples: - ''even-toed ungulates'' for cow'
+          title: 'Group name for the species.'
         curator_common_name:
           type: string
-          title: 'Common name of the organism  Notes: - Also called ''genbank common name'' - Other ''common names'' are included in a separate list.'
+          title: 'The canonical common name.'
         other_common_names:
           type: array
           items:
@@ -9487,7 +9489,7 @@ components:
             type: string
         links_from_type:
           type: string
-          title: 'Links from type  Examples: - https://www.ncbi.nlm.nih.gov/nuccore/?term=txid28901[Organism:exp]+AND+%22sequence+from+type%22[Filter]'
+          title: 'TBD'
         citations:
           type: array
           items:
@@ -9529,20 +9531,25 @@ components:
           title: 'NCBI Taxonomy identifier'
         rank:
           $ref: '#/components/schemas/v2reportsRankType'
-          title: 'The rank of the organism.  An enumerated set of values.  This is from datasets.proto should be moved.'
+          title: 'The taxonomic rank of the taxonomic node.'
         current_scientific_name:
           $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'The currently accepted name chosen out of all synonyms for the taxonomic node.'
         basionym:
           $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'The originally described name, no longer in use. Attached to the type material and species description.'
         curator_common_name:
           type: string
+          title: 'The canonical common name.'
         group_name:
           type: string
-          title: 'group name for organism'
+          title: 'A common name describing large, well-known taxa.'
         has_type_material:
           type: boolean
+          title: 'A boolean that indicates whether or not type material is available for the species.'
         classification:
           $ref: '#/components/schemas/v2reportsClassification'
+          title: 'A subset of parent nodes including well-established ranks.'
         parents:
           type: array
           items:
@@ -9557,7 +9564,7 @@ components:
             $ref: '#/components/schemas/v2reportsTaxonomyNodeCountByType'
         genomic_moltype:
           type: string
-          title: 'genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
+          title: 'Genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
     v2reportsTaxonomyNodeCountByType:
       type: object
       properties:
@@ -10359,7 +10366,7 @@ components:
         - nomen_approbbatum
         - ictv_accepted
       default: no_authority_classifier
-      title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published under some rules (depending on the controlling authority or having been included in an approved list.'
+      title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published or having been included in an approved list.'
     
     v2reportsOrientation:
       type: string
