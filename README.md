@@ -35,7 +35,7 @@ Homo sapiens	GRCh38.p14	GCF_000001405.40	Genome Reference Consortium
 ```
 
 The Datasets CLI schematic below also outlines the available commands for the **datasets** CLI. 
-![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/datasets_schema_complete_v14.png)
+![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/datasets_schema_taxonomy.png)
 
 ### Download large numbers of genomes
 
