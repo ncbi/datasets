@@ -4130,7 +4130,7 @@ paths:
         schema:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_token
-        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
@@ -4140,6 +4140,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+      - name: children
+        description: 'Flag for tax explosion.'
+        in: query
+        required: false
+        schema:
+          type: boolean
   /taxonomy:
     post:
       summary: Use taxonomic identifiers to get taxonomic metadata by post
@@ -4237,7 +4243,7 @@ paths:
         schema:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_token
-        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
@@ -4247,6 +4253,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+      - name: children
+        description: 'Flag for tax explosion.'
+        in: query
+        required: false
+        schema:
+          type: boolean
   /taxonomy/dataset_report:
     post:
       summary: Use taxonomic identifiers to get taxonomic names data report by post
@@ -4344,7 +4356,7 @@ paths:
         schema:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_token
-        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+        description: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
@@ -4354,6 +4366,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+      - name: children
+        description: 'Flag for tax explosion.'
+        in: query
+        required: false
+        schema:
+          type: boolean
   /taxonomy/name_report:
     post:
       summary: Use taxonomic identifiers to get taxonomic names data report by post
@@ -7842,9 +7860,12 @@ components:
           title: 'Whether this request for tabular data should include the header row'
         page_token:
           type: string
-          title: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `next_page_token` is empty, all results have been retrieved.'
+          title: 'A page token is returned from `GetTaxonomyDataReportFor` and `GetTaxonomyNamesDataReportFor` calls with more than `page_size` results. When `page_token` is empty, all results have been retrieved.'
         table_format:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+        children:
+          type: boolean
+          title: 'Flag for tax explosion.'
     v2TaxonomyMetadataResponse:
       type: object
       properties:
