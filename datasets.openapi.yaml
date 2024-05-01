@@ -420,6 +420,48 @@ paths:
           example-1:
             value: metagenome_derived_only
             summary: Return only metagenome derived assemblies
+      - name: filters.is_type_material
+        description: 'If true, include only type materials'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type materials
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as type materials
+      - name: filters.is_ictv_exemplar
+        description: 'If true, include only ICTV Exemplars'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type ICTV exemplar
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as ICTV exemplar
+      - name: filters.exclude_multi_isolate
+        description: 'If true, exclude large multi-isolate projects'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of large multi-isolate projects
+          example-1:
+            value: true
+            summary: Exclude genomes that are classified as large multi-isolate projects
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -681,6 +723,48 @@ paths:
           example-1:
             value: metagenome_derived_only
             summary: Return only metagenome derived assemblies
+      - name: filters.is_type_material
+        description: 'If true, include only type materials'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type materials
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as type materials
+      - name: filters.is_ictv_exemplar
+        description: 'If true, include only ICTV Exemplars'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type ICTV exemplar
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as ICTV exemplar
+      - name: filters.exclude_multi_isolate
+        description: 'If true, exclude large multi-isolate projects'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of large multi-isolate projects
+          example-1:
+            value: true
+            summary: Exclude genomes that are classified as large multi-isolate projects
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -936,6 +1020,48 @@ paths:
           example-1:
             value: metagenome_derived_only
             summary: Return only metagenome derived assemblies
+      - name: filters.is_type_material
+        description: 'If true, include only type materials'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type materials
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as type materials
+      - name: filters.is_ictv_exemplar
+        description: 'If true, include only ICTV Exemplars'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type ICTV exemplar
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as ICTV exemplar
+      - name: filters.exclude_multi_isolate
+        description: 'If true, exclude large multi-isolate projects'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of large multi-isolate projects
+          example-1:
+            value: true
+            summary: Exclude genomes that are classified as large multi-isolate projects
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -2212,6 +2338,12 @@ paths:
           example-1:
             value: gene-id
             summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_size
         description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -2292,6 +2424,12 @@ paths:
           example-1:
             value: gene-id
             summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_size
         description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -2381,6 +2519,12 @@ paths:
           example-1:
             value: gene-id
             summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_size
         description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -2458,6 +2602,12 @@ paths:
           example-1:
             value: gene-id
             summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_size
         description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -6241,6 +6391,15 @@ components:
             type: string
         is_metagenome_derived:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        is_type_material:
+          type: boolean
+          title: 'If true, include only type materials'
+        is_ictv_exemplar:
+          type: boolean
+          title: 'If true, include only ICTV Exemplars'
+        exclude_multi_isolate:
+          type: boolean
+          title: 'If true, exclude large multi-isolate projects'
     v2AssemblyDatasetReportsRequest:
       type: object
       properties:
@@ -6547,6 +6706,9 @@ components:
         table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+          title: 'Whether this request for tabular data should include the header row'
         page_size:
           type: integer
           title: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -8395,6 +8557,67 @@ components:
         identifier:
           type: string
           title: 'The nomenclature authority identifier for this gene record'
+    v2reportsOrganelle:
+      type: object
+      properties:
+        definition:
+          type: string
+          title: 'e.g. Homo sapiens mitochondrion, complete genome'
+        description:
+          $ref: '#/components/schemas/v2reportsOrganelleType'
+        genbank_info:
+          $ref: '#/components/schemas/v2reportsSequenceInformation'
+        refseq_info:
+          $ref: '#/components/schemas/v2reportsSequenceInformation'
+        organism:
+          $ref: '#/components/schemas/v2reportsOrganism'
+          title: 'Taxon from which the virus sample was isolated'
+        bioprojects:
+          type: array
+          items:
+            type: string
+        gene_counts:
+          $ref: '#/components/schemas/v2reportsOrganelleGeneCounts'
+        length:
+          type: integer
+          title: 'Genome length'
+        topology:
+          $ref: '#/components/schemas/v2reportsOrganelleTopology'
+    v2reportsOrganelleDataReports:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        organelles:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsOrganelle'
+        total_count:
+          type: integer
+          title: 'The total count of available datasets (ignoring the cutoff parameter). Only provided for the first page of results (when `page_token` is empty in the request).'
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+    v2reportsOrganelleGeneCounts:
+      type: object
+      properties:
+        total:
+          type: integer
+          title: 'Total number of annotated genes'
+        protein_coding:
+          type: integer
+          title: 'Count of annotated genes that encode a protein'
+        rrna:
+          type: integer
+          title: 'Count of ribosomal RNAs'
+        trna:
+          type: integer
+          title: 'Count of transfer RNAs'
+        lncrna:
+          type: integer
+          title: 'Count of long, non-coding RNAs'
     v2reportsOrganelleInfo:
       type: object
       properties:
@@ -8617,6 +8840,23 @@ components:
           type: integer
           title: 'Number of unplaced scaffolds for a given assembly accession'
         role:
+          type: string
+        sequence_name:
+          type: string
+          title: 'The sequence name'
+    v2reportsSequenceInformation:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'The accession.version of the organelle genomic nucleotide sequence.'
+        submission_date:
+          type: string
+          title: 'Date record was submitted to GenBank or Curated into RefSeq (ISO 8601)'
+        submitter:
+          type: string
+          title: 'The submitter, e.g. NCBI Genome Project for RefSeq'
+        submitter_institution:
           type: string
     v2reportsTaxData:
       type: object
@@ -9590,6 +9830,27 @@ components:
         - ictv_accepted
       default: no_authority_classifier
       title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published or having been included in an approved list.'
+    
+    v2reportsOrganelleTopology:
+      type: string
+      enum:
+        - TOPOLOGY_UNKNOWN
+        - CIRCULAR
+        - LINEAR
+      default: TOPOLOGY_UNKNOWN
+    
+    v2reportsOrganelleType:
+      type: string
+      enum:
+        - ORGANELLE_TYPE_UNKNOWN
+        - MITOCHONDRION
+        - CHLOROPLAST
+        - PLASTID
+        - KINETOPLAST
+        - APICOPLAST
+        - CHROMATOPHORE
+        - CYANELLE
+      default: ORGANELLE_TYPE_UNKNOWN
     
     v2reportsOrientation:
       type: string
