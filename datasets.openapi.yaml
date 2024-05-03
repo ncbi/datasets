@@ -3498,6 +3498,14 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: ranks
+        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy:
     post:
       summary: Use taxonomic identifiers to get taxonomic metadata by post
@@ -3611,6 +3619,14 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: ranks
+        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy/dataset_report:
     post:
       summary: Use taxonomic identifiers to get taxonomic names data report by post
@@ -3724,6 +3740,14 @@ paths:
         required: false
         schema:
           type: boolean
+      - name: ranks
+        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy/name_report:
     post:
       summary: Use taxonomic identifiers to get taxonomic names data report by post
@@ -3785,7 +3809,7 @@ paths:
             value: 9606
             summary: NCBI Taxonomy Identifier
       - name: include_lineage
-        description: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_ids'
+        description: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_id'
         in: query
         required: false
         schema:
@@ -3798,6 +3822,14 @@ paths:
         schema:
           type: boolean
           default: false
+      - name: ranks
+        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsRankType'
       - name: page_size
         description: 'The maximum number of taxids to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -7230,6 +7262,10 @@ components:
         children:
           type: boolean
           title: 'Flag for tax explosion.'
+        ranks:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsRankType'
     v2TaxonomyMetadataResponse:
       type: object
       properties:
@@ -7316,10 +7352,14 @@ components:
           type: integer
         include_lineage:
           type: boolean
-          title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_ids'
+          title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_id'
         include_subtree:
           type: boolean
           title: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
+        ranks:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsRankType'
         page_size:
           type: integer
           title: 'The maximum number of taxids to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
