@@ -1,6 +1,11 @@
 # NCBI Datasets and ElasticBLAST at Cofest (BOSC 2022)
 July 15, 2022, 9:15 a.m to 4 p.m. CT
 
+---
+⚠️ This workshop uses NCBI Datasets command-line tools (CLI) v13.x. The NCBI Datasets command-line tools (CLI) v13.x and older, as well as the API v1, will be deprecated in June 2024 and then retired in December 2024.
+
+---
+
 Welcome to the NCBI Datasets and ElasticBLAST session at Cofest (BOSC 2022). Here you will have a chance to learn more about both tools, explore options and learn how to use them for your research. We have a Jupyter Notebook with tutorials and we are also here to answer any questions.
 
 ### How can you help us? 
