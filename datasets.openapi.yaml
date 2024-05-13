@@ -20,7 +20,7 @@ tags:
   description: '#### Options to explore, summarize and download assembled genomes,
     including the associated sequence, metadata and annotation.
 
-    These genome services allow you to explore [assembled genomes](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/gca-and-gcf-explained/).  For
+    These genome services allow you to explore genome [assemblies](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/glossary/#assembly).  For
     a set of genomes of interest, identified by either assembly accession or taxonomic
     subtree, you can generate a summary, determine the package size, and download.
 
@@ -861,6 +861,594 @@ paths:
           example-1:
             value: PRJNA31257
             summary: Human Genome Project
+      - name: filters.reference_only
+        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to reference & representative genomes
+          example-1:
+            value: false
+            summary: Include reference and non-reference genomes
+      - name: filters.assembly_source
+        description: 'Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
+          default: all
+        examples:
+          example-0:
+            value: refseq
+            summary: Limit to RefSeq genomes
+          example-1:
+            value: genbank
+            summary: Limit to GenBank genomes
+          example-2:
+            value: all
+            summary: All genomes
+      - name: filters.has_annotation
+        description: 'Return only annotated genome assemblies'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to annotated assemblies
+          example-1:
+            value: false
+            summary: Return all assemblies
+      - name: filters.exclude_paired_reports
+        description: 'For paired (GCA/GCF) records, only return the primary record'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all assemblies
+          example-1:
+            value: true
+            summary: Only return single record for GCA/GCF pairs
+      - name: filters.exclude_atypical
+        description: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones that are atypical
+          example-1:
+            value: true
+            summary: Only return genomes that have not been classified as atypical
+      - name: filters.assembly_version
+        description: 'Return all assemblies, including replaced and suppressed, or only current assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
+          default: current
+        examples:
+          example-0:
+            value: current
+            summary: Only return current assemblies
+          example-1:
+            value: all_assemblies
+            summary: Return all assemblies, including suppressed and replaced
+      - name: filters.assembly_level
+        description: 'Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAssemblyLevel'
+        examples:
+          example-0:
+            value:
+              - chromosome
+              - complete_genome
+            summary: Chromosome and complete genome
+          example-1:
+            value:
+              - scaffold
+              - chromosome
+              - complete_genome
+            summary: Scaffold and higher
+      - name: filters.first_release_date
+        description: 'Only return genome assemblies that were released on or after the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2015
+            summary: Jan 10, 2015
+      - name: filters.last_release_date
+        description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2021
+            summary: Jan 10, 2021
+      - name: filters.search_text
+        description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: Genome Reference Consortium
+            summary: Genome Reference Consortium
+          example-1:
+            value: GRCh38
+            summary: GRCh38
+          example-2:
+            value: C57BL/6J
+            summary: C57BL/6J
+      - name: filters.is_metagenome_derived
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        examples:
+          example-0:
+            value: metagenome_derived_exclude
+            summary: Exclude metagenome derived assemblies
+          example-1:
+            value: metagenome_derived_only
+            summary: Return only metagenome derived assemblies
+      - name: filters.is_type_material
+        description: 'If true, include only type materials'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type materials
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as type materials
+      - name: filters.is_ictv_exemplar
+        description: 'If true, include only ICTV Exemplars'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type ICTV exemplar
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as ICTV exemplar
+      - name: filters.exclude_multi_isolate
+        description: 'If true, exclude large multi-isolate projects'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of large multi-isolate projects
+          example-1:
+            value: true
+            summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: table_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - assminfo-accession
+              - assminfo-name
+            summary: Genome Accession and Name
+          example-1:
+            value: assminfo-accession
+            summary: Just accession
+      - name: returned_content
+        description: 'Return either assembly accessions, or complete assembly reports'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetReportsRequestContentType'
+      - name: page_size
+        description: 'The maximum number of genome assembly reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+  /genome/biosample/{biosample_ids}/dataset_report:
+    get:
+      summary: Get dataset reports by biosample id
+      description: 'Get dataset reports by biosample id.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Genome
+      operationId: genome_dataset_reports_by_biosample_id
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: biosample_ids
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: SAMEA103927779
+            summary: BioSample Identifier
+      - name: filters.reference_only
+        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to reference & representative genomes
+          example-1:
+            value: false
+            summary: Include reference and non-reference genomes
+      - name: filters.assembly_source
+        description: 'Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
+          default: all
+        examples:
+          example-0:
+            value: refseq
+            summary: Limit to RefSeq genomes
+          example-1:
+            value: genbank
+            summary: Limit to GenBank genomes
+          example-2:
+            value: all
+            summary: All genomes
+      - name: filters.has_annotation
+        description: 'Return only annotated genome assemblies'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to annotated assemblies
+          example-1:
+            value: false
+            summary: Return all assemblies
+      - name: filters.exclude_paired_reports
+        description: 'For paired (GCA/GCF) records, only return the primary record'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all assemblies
+          example-1:
+            value: true
+            summary: Only return single record for GCA/GCF pairs
+      - name: filters.exclude_atypical
+        description: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones that are atypical
+          example-1:
+            value: true
+            summary: Only return genomes that have not been classified as atypical
+      - name: filters.assembly_version
+        description: 'Return all assemblies, including replaced and suppressed, or only current assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
+          default: current
+        examples:
+          example-0:
+            value: current
+            summary: Only return current assemblies
+          example-1:
+            value: all_assemblies
+            summary: Return all assemblies, including suppressed and replaced
+      - name: filters.assembly_level
+        description: 'Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAssemblyLevel'
+        examples:
+          example-0:
+            value:
+              - chromosome
+              - complete_genome
+            summary: Chromosome and complete genome
+          example-1:
+            value:
+              - scaffold
+              - chromosome
+              - complete_genome
+            summary: Scaffold and higher
+      - name: filters.first_release_date
+        description: 'Only return genome assemblies that were released on or after the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2015
+            summary: Jan 10, 2015
+      - name: filters.last_release_date
+        description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2021
+            summary: Jan 10, 2021
+      - name: filters.search_text
+        description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: Genome Reference Consortium
+            summary: Genome Reference Consortium
+          example-1:
+            value: GRCh38
+            summary: GRCh38
+          example-2:
+            value: C57BL/6J
+            summary: C57BL/6J
+      - name: filters.is_metagenome_derived
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        examples:
+          example-0:
+            value: metagenome_derived_exclude
+            summary: Exclude metagenome derived assemblies
+          example-1:
+            value: metagenome_derived_only
+            summary: Return only metagenome derived assemblies
+      - name: filters.is_type_material
+        description: 'If true, include only type materials'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type materials
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as type materials
+      - name: filters.is_ictv_exemplar
+        description: 'If true, include only ICTV Exemplars'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type ICTV exemplar
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as ICTV exemplar
+      - name: filters.exclude_multi_isolate
+        description: 'If true, exclude large multi-isolate projects'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of large multi-isolate projects
+          example-1:
+            value: true
+            summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: table_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - assminfo-accession
+              - assminfo-name
+            summary: Genome Accession and Name
+          example-1:
+            value: assminfo-accession
+            summary: Just accession
+      - name: returned_content
+        description: 'Return either assembly accessions, or complete assembly reports'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetReportsRequestContentType'
+      - name: page_size
+        description: 'The maximum number of genome assembly reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+  /genome/assembly_name/{assembly_names}/dataset_report:
+    get:
+      summary: Get dataset reports by assembly name (exact)
+      description: 'Get dataset reports by assembly name (exact).  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      tags:
+        - Genome
+      operationId: genome_dataset_reports_by_assembly_name
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: assembly_names
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: HanXRQr2.0-SUNRISE
+            summary: Assembly name (exact)
       - name: filters.reference_only
         description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
         in: query
@@ -6443,6 +7031,14 @@ components:
           type: array
           items:
             type: string
+        biosample_ids:
+          type: array
+          items:
+            type: string
+        assembly_names:
+          type: array
+          items:
+            type: string
         accessions:
           type: array
           items:
@@ -9739,6 +10335,8 @@ components:
         - species_match
         - subspecies_match
         - synonym_match
+        - lineage_match
+        - below_threshold_lineage_match
       default: BEST_MATCH_STATUS_UNKNOWN
     
     v2reportsAverageNucleotideIdentityTaxonomyCheckStatus:
@@ -9794,6 +10392,9 @@ components:
         - NO_ASSEMBLIES_FOR_BIOPROJECTS
         - INVALID_TAXON
         - MISSING_SEARCH_FIELD
+        - INVALID_BIOSAMPLE_IDS
+        - NO_ASSEMBLIES_FOR_BIOSAMPLE_IDS
+        - NO_ASSEMBLIES_FOR_ASSEMBLY_NAMES
       default: UNKNOWN_ASSEMBLY_ERROR_CODE
     
     v2reportsErrorGeneErrorCode:
