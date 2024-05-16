@@ -462,6 +462,21 @@ paths:
           example-1:
             value: true
             summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: filters.type_material_category
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
+        examples:
+          example-0:
+            value: TYPE_MATERIAL
+            summary: A Type Material with no classification
+          example-1:
+            value: TYPE_MATERIAL_CLADE
+            summary: A Type Material of the Clade classification
+          example-2:
+            value: TYPE_MATERIAL_NEOTYPE
+            summary: A Type Material of the Neotype classification
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -765,6 +780,21 @@ paths:
           example-1:
             value: true
             summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: filters.type_material_category
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
+        examples:
+          example-0:
+            value: TYPE_MATERIAL
+            summary: A Type Material with no classification
+          example-1:
+            value: TYPE_MATERIAL_CLADE
+            summary: A Type Material of the Clade classification
+          example-2:
+            value: TYPE_MATERIAL_NEOTYPE
+            summary: A Type Material of the Neotype classification
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -1062,6 +1092,21 @@ paths:
           example-1:
             value: true
             summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: filters.type_material_category
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
+        examples:
+          example-0:
+            value: TYPE_MATERIAL
+            summary: A Type Material with no classification
+          example-1:
+            value: TYPE_MATERIAL_CLADE
+            summary: A Type Material of the Clade classification
+          example-2:
+            value: TYPE_MATERIAL_NEOTYPE
+            summary: A Type Material of the Neotype classification
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -1356,6 +1401,21 @@ paths:
           example-1:
             value: true
             summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: filters.type_material_category
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
+        examples:
+          example-0:
+            value: TYPE_MATERIAL
+            summary: A Type Material with no classification
+          example-1:
+            value: TYPE_MATERIAL_CLADE
+            summary: A Type Material of the Clade classification
+          example-2:
+            value: TYPE_MATERIAL_NEOTYPE
+            summary: A Type Material of the Neotype classification
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -1650,6 +1710,21 @@ paths:
           example-1:
             value: true
             summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: filters.type_material_category
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
+        examples:
+          example-0:
+            value: TYPE_MATERIAL
+            summary: A Type Material with no classification
+          example-1:
+            value: TYPE_MATERIAL_CLADE
+            summary: A Type Material of the Clade classification
+          example-2:
+            value: TYPE_MATERIAL_NEOTYPE
+            summary: A Type Material of the Neotype classification
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -7020,6 +7095,8 @@ components:
         exclude_multi_isolate:
           type: boolean
           title: 'If true, exclude large multi-isolate projects'
+        type_material_category:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
     v2AssemblyDatasetReportsRequest:
       type: object
       properties:
@@ -10030,6 +10107,18 @@ components:
         - metagenome_derived_only
         - metagenome_derived_exclude
       default: METAGENOME_DERIVED_UNSET
+    
+    v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory:
+      type: string
+      enum:
+        - NONE
+        - TYPE_MATERIAL
+        - TYPE_MATERIAL_CLADE
+        - TYPE_MATERIAL_NEOTYPE
+        - TYPE_MATERIAL_REFTYPE
+        - PATHOVAR_TYPE
+        - TYPE_MATERIAL_SYN
+      default: NONE
     
     v2AssemblyDatasetReportsRequestContentType:
       type: string
