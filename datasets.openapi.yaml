@@ -9288,7 +9288,7 @@ components:
         bioprojects:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/v2reportsBioProject'
         gene_counts:
           $ref: '#/components/schemas/v2reportsOrganelleGeneCounts'
         length:
