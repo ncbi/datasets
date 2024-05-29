@@ -224,7 +224,7 @@ paths:
   /genome/accession/{accessions}/dataset_report:
     get:
       summary: Get dataset reports by accessions
-      description: 'Get dataset reports by accessions.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get dataset reports by accessions.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_dataset_report
@@ -239,6 +239,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
             text/tab-separated-values:
@@ -538,7 +541,7 @@ paths:
   /genome/taxon/{taxons}/dataset_report:
     get:
       summary: Get dataset reports by taxons
-      description: 'Get dataset reports by taxons.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get dataset reports by taxons.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_taxon
@@ -553,6 +556,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
             text/tab-separated-values:
@@ -856,7 +862,7 @@ paths:
   /genome/bioproject/{bioprojects}/dataset_report:
     get:
       summary: Get dataset reports by bioproject
-      description: 'Get dataset reports by bioprojects.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get dataset reports by bioprojects.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_bioproject
@@ -871,6 +877,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
             text/tab-separated-values:
@@ -1168,7 +1177,7 @@ paths:
   /genome/biosample/{biosample_ids}/dataset_report:
     get:
       summary: Get dataset reports by biosample id
-      description: 'Get dataset reports by biosample id.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get dataset reports by biosample id.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_biosample_id
@@ -1183,6 +1192,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
             text/tab-separated-values:
@@ -1474,10 +1486,324 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
+  /genome/wgs/{wgs_accessions}/dataset_report:
+    get:
+      summary: Get dataset reports by wgs accession
+      description: 'Get dataset reports by wgs accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Genome
+      operationId: genome_dataset_reports_by_wgs
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: wgs_accessions
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - JAHLSK02
+              - JAAKGM02
+            summary: Human wgs accessions
+      - name: filters.reference_only
+        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to reference & representative genomes
+          example-1:
+            value: false
+            summary: Include reference and non-reference genomes
+      - name: filters.assembly_source
+        description: 'Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
+          default: all
+        examples:
+          example-0:
+            value: refseq
+            summary: Limit to RefSeq genomes
+          example-1:
+            value: genbank
+            summary: Limit to GenBank genomes
+          example-2:
+            value: all
+            summary: All genomes
+      - name: filters.has_annotation
+        description: 'Return only annotated genome assemblies'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: true
+            summary: Limit to annotated assemblies
+          example-1:
+            value: false
+            summary: Return all assemblies
+      - name: filters.exclude_paired_reports
+        description: 'For paired (GCA/GCF) records, only return the primary record'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all assemblies
+          example-1:
+            value: true
+            summary: Only return single record for GCA/GCF pairs
+      - name: filters.exclude_atypical
+        description: 'If true, exclude atypical genomes, i.e. genomes that have assembly issues or are otherwise atypical'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones that are atypical
+          example-1:
+            value: true
+            summary: Only return genomes that have not been classified as atypical
+      - name: filters.assembly_version
+        description: 'Return all assemblies, including replaced and suppressed, or only current assemblies'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
+          default: current
+        examples:
+          example-0:
+            value: current
+            summary: Only return current assemblies
+          example-1:
+            value: all_assemblies
+            summary: Return all assemblies, including suppressed and replaced
+      - name: filters.assembly_level
+        description: 'Only return genome assemblies that have one of the specified assembly levels. By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAssemblyLevel'
+        examples:
+          example-0:
+            value:
+              - chromosome
+              - complete_genome
+            summary: Chromosome and complete genome
+          example-1:
+            value:
+              - scaffold
+              - chromosome
+              - complete_genome
+            summary: Scaffold and higher
+      - name: filters.first_release_date
+        description: 'Only return genome assemblies that were released on or after the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2015
+            summary: Jan 10, 2015
+      - name: filters.last_release_date
+        description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2021
+            summary: Jan 10, 2021
+      - name: filters.search_text
+        description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: Genome Reference Consortium
+            summary: Genome Reference Consortium
+          example-1:
+            value: GRCh38
+            summary: GRCh38
+          example-2:
+            value: C57BL/6J
+            summary: C57BL/6J
+      - name: filters.is_metagenome_derived
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter'
+        examples:
+          example-0:
+            value: metagenome_derived_exclude
+            summary: Exclude metagenome derived assemblies
+          example-1:
+            value: metagenome_derived_only
+            summary: Return only metagenome derived assemblies
+      - name: filters.is_type_material
+        description: 'If true, include only type materials'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type materials
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as type materials
+      - name: filters.is_ictv_exemplar
+        description: 'If true, include only ICTV Exemplars'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of type ICTV exemplar
+          example-1:
+            value: true
+            summary: Only return genomes that are classified as ICTV exemplar
+      - name: filters.exclude_multi_isolate
+        description: 'If true, exclude large multi-isolate projects'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        examples:
+          example-0:
+            value: false
+            summary: Return all selected genomes, including ones of large multi-isolate projects
+          example-1:
+            value: true
+            summary: Exclude genomes that are classified as large multi-isolate projects
+      - name: filters.type_material_category
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory'
+        examples:
+          example-0:
+            value: TYPE_MATERIAL
+            summary: A Type Material with no classification
+          example-1:
+            value: TYPE_MATERIAL_CLADE
+            summary: A Type Material of the Clade classification
+          example-2:
+            value: TYPE_MATERIAL_NEOTYPE
+            summary: A Type Material of the Neotype classification
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: table_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - assminfo-accession
+              - assminfo-name
+            summary: Genome Accession and Name
+          example-1:
+            value: assminfo-accession
+            summary: Just accession
+      - name: returned_content
+        description: 'Return either assembly accessions, or complete assembly reports'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2AssemblyDatasetReportsRequestContentType'
+      - name: page_size
+        description: 'The maximum number of genome assembly reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /genome/assembly_name/{assembly_names}/dataset_report:
     get:
       summary: Get dataset reports by assembly name (exact)
-      description: 'Get dataset reports by assembly name (exact).  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get dataset reports by assembly name (exact).  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_assembly_name
@@ -1492,6 +1818,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
             text/tab-separated-values:
@@ -1786,7 +2115,7 @@ paths:
   /genome/dataset_report:
     post:
       summary: Get dataset reports by accessions
-      description: 'Get a dataset report by accession.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a dataset report by accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_dataset_report_by_post
@@ -1801,6 +2130,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsAssemblyDataReportPage'
             text/tab-separated-values:
@@ -1992,7 +2324,7 @@ paths:
   /genome/sequence_reports:
     post:
       summary: Get sequence reports by accessions
-      description: 'Get a sequence report by accession.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a sequence report by accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_sequence_report_by_post
@@ -2151,7 +2483,7 @@ paths:
   /biosample/accession/{accessions}/biosample_report:
     get:
       summary: Get BioSample dataset reports by accession(s)
-      description: 'Get BioSample dataset reports by accession(s).  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get BioSample dataset reports by accession(s).  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - BioSample
       operationId: BioSample_dataset_report
@@ -2166,6 +2498,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsBioSampleDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsBioSampleDataReportPage'
             text/tab-separated-values:
@@ -2939,7 +3274,7 @@ paths:
   /gene/id/{gene_ids}:
     get:
       summary: Get gene reports by GeneID
-      description: 'Get a gene summary by GeneID. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a gene summary by GeneID. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
       operationId: gene_reports_by_id
@@ -2954,6 +3289,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
             text/tab-separated-values:
@@ -3023,7 +3361,7 @@ paths:
   /gene/accession/{accessions}:
     get:
       summary: Get gene metadata by RefSeq Accession
-      description: 'Get a gene summary by RefSeq Accession. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a gene summary by RefSeq Accession. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
       operationId: gene_metadata_by_accession
@@ -3038,6 +3376,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
             text/tab-separated-values:
@@ -3109,7 +3450,7 @@ paths:
   /gene/symbol/{symbols}/taxon/{taxon}:
     get:
       summary: Get gene metadata by gene symbol
-      description: 'Get a gene summary by by gene symbol. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a gene summary by by gene symbol. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
       operationId: gene_metadata_by_tax_and_symbol
@@ -3124,6 +3465,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
             text/tab-separated-values:
@@ -3204,7 +3548,7 @@ paths:
   /gene/taxon/{taxon}:
     get:
       summary: Get gene reports by taxonomic identifier
-      description: 'Get a gene summary for a specified NCBI Taxonomy ID or name (common or scientific). By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a gene summary for a specified NCBI Taxonomy ID or name (common or scientific). By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
       operationId: gene_reports_by_taxon
@@ -3219,6 +3563,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
             text/tab-separated-values:
@@ -3309,7 +3656,7 @@ paths:
   /gene:
     post:
       summary: Get gene metadata as JSON
-      description: 'Get a gene summary. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get a gene summary. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
       operationId: gene_metadata_by_post
@@ -3324,6 +3671,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
             text/tab-separated-values:
@@ -3746,7 +4096,7 @@ paths:
   /genome/accession/{accession}/annotation_report:
     get:
       summary: Get genome annotation reports by genome accession
-      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_annotation_report
@@ -3761,6 +4111,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGenomeAnnotationReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGenomeAnnotationReportPage'
             text/tab-separated-values:
@@ -3857,7 +4210,7 @@ paths:
   /genome/annotation_report:
     post:
       summary: Get genome annotation reports by genome accession
-      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
       operationId: genome_annotation_report_by_post
@@ -3872,6 +4225,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGenomeAnnotationReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsGenomeAnnotationReportPage'
             text/tab-separated-values:
@@ -4219,6 +4575,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2reportsTaxonomyDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsTaxonomyDataReportPage'
             text/tab-separated-values:
               schema:
                 type: string
@@ -4308,6 +4667,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsTaxonomyDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsTaxonomyDataReportPage'
             text/tab-separated-values:
@@ -5690,7 +6052,7 @@ paths:
   /virus/taxon/{taxon}/dataset_report:
     get:
       summary: Get virus metadata by taxon
-      description: 'Get virus metadata by taxon. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get virus metadata by taxon. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Virus
       operationId: virus_reports_by_taxon
@@ -5705,6 +6067,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsVirusDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsVirusDataReportPage'
             text/tab-separated-values:
@@ -5856,7 +6221,7 @@ paths:
   /virus/accession/{accessions}/dataset_report:
     get:
       summary: Get virus metadata by accession
-      description: 'Get virus metadata by accesion. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get virus metadata by accesion. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Virus
       operationId: virus_reports_by_acessions
@@ -5871,6 +6236,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsVirusDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsVirusDataReportPage'
             text/tab-separated-values:
@@ -6018,7 +6386,7 @@ paths:
   /virus:
     post:
       summary: Get virus metadata by POST
-      description: 'Get virus metadata. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get virus metadata. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Virus
       operationId: virus_reports_by_post
@@ -6033,6 +6401,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsVirusDataReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsVirusDataReportPage'
             text/tab-separated-values:
@@ -6050,7 +6421,7 @@ paths:
   /virus/taxon/{taxon}/annotation_report:
     get:
       summary: Get virus annotation report by taxon
-      description: 'Get virus annotation report by taxon. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get virus annotation report by taxon. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Virus
       operationId: virus_annotation_reports_by_taxon
@@ -6065,6 +6436,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsVirusAnnotationReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsVirusAnnotationReportPage'
             text/tab-separated-values:
@@ -6195,7 +6569,7 @@ paths:
   /virus/accession/{accessions}/annotation_report:
     get:
       summary: Get virus annotation report by accession
-      description: 'Get virus annotation report by accesion. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get virus annotation report by accesion. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Virus
       operationId: virus_annotation_reports_by_acessions
@@ -6210,6 +6584,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsVirusAnnotationReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsVirusAnnotationReportPage'
             text/tab-separated-values:
@@ -6336,7 +6713,7 @@ paths:
   /virus/annotation_report:
     post:
       summary: Get virus annotation report by POST
-      description: 'Get virus annotation report. By default, in paged JSON format, but also available as tabular (accept: x-tabular) or json-lines (accept: x-jsonlines)'
+      description: 'Get virus annotation report. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Virus
       operationId: virus_annotation_reports_by_post
@@ -6351,6 +6728,9 @@ paths:
           description: A successful response
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsVirusAnnotationReportPage'
+            application/x-ndjson:
               schema:
                 $ref: '#/components/schemas/v2reportsVirusAnnotationReportPage'
             text/tab-separated-values:
@@ -7113,6 +7493,10 @@ components:
           items:
             type: string
         assembly_names:
+          type: array
+          items:
+            type: string
+        wgs_accessions:
           type: array
           items:
             type: string
@@ -8623,6 +9007,58 @@ components:
         status:
           $ref: '#/components/schemas/v2reportsBioSampleStatus'
           title: 'Current status of the object.'
+        age:
+          type: string
+        biomaterial_provider:
+          type: string
+        breed:
+          type: string
+        collected_by:
+          type: string
+        collection_date:
+          type: string
+        cultivar:
+          type: string
+        dev_stage:
+          type: string
+        ecotype:
+          type: string
+        geo_loc_name:
+          type: string
+        host:
+          type: string
+        host_disease:
+          type: string
+        identified_by:
+          type: string
+        ifsac_category:
+          type: string
+        isolate:
+          type: string
+        isolate_name_alias:
+          type: string
+        isolation_source:
+          type: string
+        lat_lon:
+          type: string
+        project_name:
+          type: string
+        sample_name:
+          type: string
+        serovar:
+          type: string
+        sex:
+          type: string
+        source_type:
+          type: string
+        strain:
+          type: string
+        sub_species:
+          type: string
+        tissue:
+          type: string
+        serotype:
+          type: string
     v2reportsBioSampleDataReportPage:
       type: object
       properties:
@@ -8693,6 +9129,58 @@ components:
             $ref: '#/components/schemas/v2reportsBioSampleAttribute'
         status:
           $ref: '#/components/schemas/v2reportsBioSampleStatus'
+        age:
+          type: string
+        biomaterial_provider:
+          type: string
+        breed:
+          type: string
+        collected_by:
+          type: string
+        collection_date:
+          type: string
+        cultivar:
+          type: string
+        dev_stage:
+          type: string
+        ecotype:
+          type: string
+        geo_loc_name:
+          type: string
+        host:
+          type: string
+        host_disease:
+          type: string
+        identified_by:
+          type: string
+        ifsac_category:
+          type: string
+        isolate:
+          type: string
+        isolate_name_alias:
+          type: string
+        isolation_source:
+          type: string
+        lat_lon:
+          type: string
+        project_name:
+          type: string
+        sample_name:
+          type: string
+        serovar:
+          type: string
+        sex:
+          type: string
+        source_type:
+          type: string
+        strain:
+          type: string
+        sub_species:
+          type: string
+        tissue:
+          type: string
+        serotype:
+          type: string
     v2reportsBioSampleId:
       type: object
       properties:
@@ -9284,11 +9772,14 @@ components:
           $ref: '#/components/schemas/v2reportsSequenceInformation'
         organism:
           $ref: '#/components/schemas/v2reportsOrganism'
-          title: 'Taxon from which the virus sample was isolated'
+          title: 'Taxon for the organelle'
         bioprojects:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsBioProject'
+        biosample:
+          $ref: '#/components/schemas/v2reportsOrganelleBiosample'
+          title: 'The associated BioSample.'
         gene_counts:
           $ref: '#/components/schemas/v2reportsOrganelleGeneCounts'
         length:
@@ -9296,6 +9787,12 @@ components:
           title: 'Genome length'
         topology:
           $ref: '#/components/schemas/v2reportsOrganelleTopology'
+    v2reportsOrganelleBiosample:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'BioSample Accession identifier'
     v2reportsOrganelleDataReports:
       type: object
       properties:
@@ -9569,8 +10066,6 @@ components:
         submitter:
           type: string
           title: 'The submitter, e.g. NCBI Genome Project for RefSeq'
-        submitter_institution:
-          type: string
     v2reportsTaxData:
       type: object
       properties:
@@ -10484,6 +10979,8 @@ components:
         - INVALID_BIOSAMPLE_IDS
         - NO_ASSEMBLIES_FOR_BIOSAMPLE_IDS
         - NO_ASSEMBLIES_FOR_ASSEMBLY_NAMES
+        - INVALID_WGS_ACCESSIONS
+        - NO_ASSEMBLIES_FOR_WGS_ACCESSIONS
       default: UNKNOWN_ASSEMBLY_ERROR_CODE
     
     v2reportsErrorGeneErrorCode:
@@ -10567,6 +11064,7 @@ components:
         - TOPOLOGY_UNKNOWN
         - CIRCULAR
         - LINEAR
+        - TANDEM
       default: TOPOLOGY_UNKNOWN
     
     v2reportsOrganelleType:
