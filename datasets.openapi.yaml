@@ -1210,7 +1210,7 @@ paths:
             type: string
         examples:
           example-0:
-            value: SAMEA103927779
+            value: SAMN15960293
             summary: BioSample Identifier
       - name: filters.reference_only
         description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
@@ -2200,6 +2200,62 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyRevisionHistoryRequest'
+  /genome/sequence_accession/{accession}/sequence_assemblies:
+    get:
+      summary: Get assembly accessions for a sequence accession
+      description: 'Get assembly accessions for a sequence (nucleotide) accession'
+      tags:
+        - Genome
+      operationId: assembly_accessions_for_sequence_accession
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyAccessions'
+      parameters:
+      - name: accession
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: NC_000001.11
+            summary: Human chromosome accession
+  /genome/sequence_assemblies:
+    post:
+      summary: Get assembly accessions for a sequence accession
+      description: 'Get assembly accessions for a sequence (nucleotide) accession'
+      tags:
+        - Genome
+      operationId: assembly_accessions_for_sequence_accession_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyAccessions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2SequenceAccessionRequest'
   /genome/accession/{accession}/sequence_reports:
     get:
       summary: Get sequence reports by accessions
@@ -2516,7 +2572,7 @@ paths:
             type: string
         examples:
           example-0:
-            value: SAMEA103927779
+            value: SAMN15960293
             summary: BioSample Identifier
   /genome/accession/{accessions}/download:
     get:
@@ -5297,8 +5353,8 @@ paths:
               - 9606
   /virus/taxon/{taxon}/genome:
     get:
-      summary: Get summary data for Coronaviridae genomes by taxon
-      description: 'Get summary data and download by command line instructions for Coronaviridae genomes by taxon.'
+      summary: Get summary data for virus genomes by taxon
+      description: 'Get summary data and download by command line instructions for virus genomes by taxon.'
       tags:
         - Virus
       operationId: virus_genome_summary
@@ -5326,8 +5382,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_045512.2
-            summary: SARS-COV-2 isolate Wuhan-Hu-1, complete genome
+            value: NC_038294.1
+            summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
         in: path
@@ -5336,14 +5392,14 @@ paths:
           type: string
         examples:
           example-0:
-            value: 2697049
-            summary: SARS-COV-2
-          example-1:
-            value: 11118
-            summary: Coronaviridae
-          example-2:
             value: 1335626
             summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -5465,8 +5521,8 @@ paths:
             summary: Select additional report types to include with download. The base data report will always be included.
   /virus/genome:
     post:
-      summary: Get summary data for Coronaviridae genomes by post
-      description: 'Get summary data and download by command line instructions for Coronaviridae genomes by taxon.'
+      summary: Get summary data for virus genomes by post
+      description: 'Get summary data and download by command line instructions for virus genomes by taxon.'
       tags:
         - Virus
       operationId: virus_genome_summary_by_post
@@ -5668,8 +5724,8 @@ paths:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
   /virus/taxon/{taxon}/genome/table:
     get:
-      summary: Get viral genomic metadata in a tabular format.
-      description: 'Get viral genomic metadata in tabular format for Coronaviridae genomes by taxon.'
+      summary: Get virus genome metadata in a tabular format.
+      description: 'Get virus genome metadata in tabular format for virus genomes by taxon.'
       tags:
         - Virus
       operationId: virus_genome_table
@@ -5697,8 +5753,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_045512.2
-            summary: SARS-COV-2 isolate Wuhan-Hu-1, complete genome
+            value: NC_038294.1
+            summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
         in: path
@@ -5707,14 +5763,14 @@ paths:
           type: string
         examples:
           example-0:
-            value: 2697049
-            summary: SARS-COV-2
-          example-1:
-            value: 11118
-            summary: Coronaviridae
-          example-2:
             value: 1335626
             summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -6084,14 +6140,14 @@ paths:
           type: string
         examples:
           example-0:
-            value: 2697049
-            summary: SARS-COV-2
-          example-1:
-            value: 11118
-            summary: Coronaviridae
-          example-2:
             value: 1335626
             summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -6255,8 +6311,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_045512.2,NC_038294.1
-            summary: SARS-COV-2 isolate Wuhan-Hu-1 and Middle East respiratory syndrome-related coronavirus, complete genomes
+            value: NC_038294.1
+            summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -6416,7 +6472,7 @@ paths:
             schema:
               $ref: '#/components/schemas/v2VirusDataReportRequest'
             example:
-              taxon: 2697049
+              taxon: 1335626
               refseq_only: true
   /virus/taxon/{taxon}/annotation_report:
     get:
@@ -6453,14 +6509,14 @@ paths:
           type: string
         examples:
           example-0:
-            value: 2697049
-            summary: SARS-COV-2
-          example-1:
-            value: 11118
-            summary: Coronaviridae
-          example-2:
             value: 1335626
             summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -6603,8 +6659,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_045512.2,NC_038294.1
-            summary: SARS-COV-2 isolate Wuhan-Hu-1 and Middle East respiratory syndrome-related coronavirus, complete genomes
+            value: NC_038294.1
+            summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -6743,7 +6799,7 @@ paths:
             schema:
               $ref: '#/components/schemas/v2VirusAnnotationReportRequest'
             example:
-              taxon: 2697049
+              taxon: 1335626
               refseq_only: true
   /virus/accession/{accessions}/check:
     get:
@@ -6776,8 +6832,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_045512.2,NC_038294.1
-            summary: SARS-COV-2 isolate Wuhan-Hu-1 and Middle East respiratory syndrome-related coronavirus, complete genomes
+            value: NC_038294.1
+            summary: Middle East respiratory syndrome-related coronavirus, complete genome
   /virus/check:
     post:
       summary: Check available viruses by accession
@@ -6806,8 +6862,8 @@ paths:
               $ref: '#/components/schemas/v2VirusAvailabilityRequest'
   /virus/taxon/{taxon}/genome/download:
     get:
-      summary: Download a coronavirus genome dataset by taxon
-      description: 'Download a coronavirus genome dataset by taxon'
+      summary: Download a virus genome dataset by taxon
+      description: 'Download a virus genome dataset by taxon'
       tags:
         - Virus
       operationId: virus_genome_download
@@ -6835,14 +6891,14 @@ paths:
           type: string
         examples:
           example-0:
-            value: 2697049
-            summary: SARS-COV-2
-          example-1:
-            value: 11118
-            summary: Coronaviridae
-          example-2:
             value: 1335626
             summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -6977,8 +7033,8 @@ paths:
           default: ncbi_dataset.zip
   /virus/accession/{accessions}/genome/download:
     get:
-      summary: Download a coronavirus genome dataset by accession
-      description: 'Download a coronavirus genome dataset by accession'
+      summary: Download a virus genome dataset by accession
+      description: 'Download a virus genome dataset by accession'
       tags:
         - Virus
       operationId: virus_genome_download_accession
@@ -7008,8 +7064,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_045512.2
-            summary: SARS-COV-2 isolate Wuhan-Hu-1, complete genome
+            value: NC_038294.1
+            summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -7144,7 +7200,7 @@ paths:
           default: ncbi_dataset.zip
   /virus/genome/download:
     post:
-      summary: Get a coronavirus genome dataset by post
+      summary: Get a virus genome dataset by post
       description: 'The ''GET'' version of download is limited by the size of the GET URL (2KB, which works out to about 140 genomic accessions).  The POST operation is provided to allow users to supply a larger number of accessions in a single request.'
       tags:
         - Virus
@@ -7385,6 +7441,13 @@ components:
       in: header
       name: api-key
   schemas:
+    v2AssemblyAccessions:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
     v2AssemblyCheckMHistogramReply:
       type: object
       properties:
@@ -8109,6 +8172,11 @@ components:
         group_name:
           type: string
           title: 'Group name (blast group)'
+    v2SequenceAccessionRequest:
+      type: object
+      properties:
+        accession:
+          type: string
     v2SequenceReportPage:
       type: object
       properties:
@@ -10637,6 +10705,7 @@ components:
         - FTP_LINK
         - ASSEMBLY_PUBMED
         - BLAST_LINK
+        - ASSEMBLY_NUCCORE
       default: DEFAULT
       title: 'Types of assembly links that may be returned'
     
