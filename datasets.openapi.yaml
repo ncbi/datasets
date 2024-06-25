@@ -4493,6 +4493,112 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+  /organelle/accessions/{accessions}/dataset_report:
+    get:
+      summary: Get Organelle dataset report by accession
+      description: 'Get Organelle dataset report by accession.'
+      tags:
+        - Organelle
+      operationId: organelle_datareport_by_accession
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+      parameters:
+      - name: accessions
+        description: 'NCBI assembly accession'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: returned_content
+        description: 'Return either assembly accessions, or entire assembly-metadata records'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
+  /organelle/taxon/{taxon}/dataset_report:
+    get:
+      summary: Get Organelle dataset report by taxon
+      description: 'Get Organelle dataset report by taxon.'
+      tags:
+        - Organelle
+      operationId: organelle_datareport_by_taxon
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+      parameters:
+      - name: taxon
+        description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: returned_content
+        description: 'Return either assembly accessions, or entire assembly-metadata records'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
+      - name: page_size
+        description: 'The maximum number of organelle assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        description: 'A page token is returned from an `OrganelleMetadata` call with more than `page_size` results. Use this token, along with the previous `OrganelleMetadata` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+  /organelle/dataset_report:
+    post:
+      summary: Get Organelle dataset report by http post
+      description: 'Get Organelle dataset report by http post.'
+      tags:
+        - Organelle
+      operationId: organelle_datareport_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2OrganelleMetadataRequest'
   /taxonomy/taxon/{taxons}:
     get:
       summary: Use taxonomic identifiers to get taxonomic metadata
@@ -8043,6 +8149,39 @@ components:
       properties:
         length:
           type: integer
+    v2OrganelleDownloadRequest:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
+        exclude_sequence:
+          type: boolean
+          title: 'Set to true to omit the genomic sequence.'
+        include_annotation_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2AnnotationForOrganelleType'
+    v2OrganelleMetadataRequest:
+      type: object
+      properties:
+        taxon:
+          type: string
+          title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        accessions:
+          type: array
+          items:
+            type: string
+        returned_content:
+          $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
+          title: 'Return either assembly accessions, or entire assembly-metadata records'
+        page_size:
+          type: integer
+          title: 'The maximum number of organelle assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        page_token:
+          type: string
+          title: 'A page token is returned from an `OrganelleMetadata` call with more than `page_size` results. Use this token, along with the previous `OrganelleMetadata` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
     v2OrganismQueryRequest:
       type: object
       properties:
@@ -10647,6 +10786,16 @@ components:
         - SEQUENCE_REPORT
       default: DEFAULT
     
+    v2AnnotationForOrganelleType:
+      type: string
+      enum:
+        - PROT_FASTA
+        - GENOME_GBFF
+        - GENOME_GFF
+        - GENE_TABLE
+        - GENOME_TABLE
+      default: DEFAULT
+    
     v2AssemblyDatasetDescriptorsFilterAssemblySource:
       type: string
       enum:
@@ -10815,6 +10964,13 @@ components:
         - contig_fasta
         - protein_fasta
       default: FILE_TYPE_UNSPECIFIED
+    
+    v2OrganelleMetadataRequestContentType:
+      type: string
+      enum:
+        - COMPLETE
+        - ASSM_ACC
+      default: COMPLETE
     
     v2OrganismQueryRequestTaxRankFilter:
       type: string
