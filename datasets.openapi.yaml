@@ -2144,6 +2144,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyDatasetReportsRequest'
+            example:
+              accessions:
+                - GCF_000001405.40
   /genome/accession/{accession}/revision_history:
     get:
       summary: Get revision history for assembly by accession
@@ -2200,6 +2203,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyRevisionHistoryRequest'
+            example:
+              accession: "GCF_000001405.40"
   /genome/sequence_accession/{accession}/sequence_assemblies:
     get:
       summary: Get assembly accessions for a sequence accession
@@ -2256,6 +2261,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2SequenceAccessionRequest'
+            example:
+              accession: "NC_000001.11"
   /genome/accession/{accession}/sequence_reports:
     get:
       summary: Get sequence reports by accessions
@@ -2412,6 +2419,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblySequenceReportsRequest'
+            example:
+              accession: "GCF_000001405.40"
   /genome/accession/{accessions}/links:
     get:
       summary: Get assembly links by accessions
@@ -2478,7 +2487,6 @@ paths:
               $ref: '#/components/schemas/v2AssemblyLinksRequest'
             example:
               accessions:
-                accessions:
                 - GCF_000001405.40
   /genome/taxon/{species_taxon}/checkm_histogram:
     get:
@@ -2536,6 +2544,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyCheckMHistogramRequest'
+            example:
+              species_taxon: "202956"
   /biosample/accession/{accessions}/biosample_report:
     get:
       summary: Get BioSample dataset reports by accession(s)
@@ -3005,6 +3015,10 @@ paths:
         required: true
         schema:
           type: string
+        examples:
+          example-0:
+            value: GCF_000001635.27
+            summary: Mouse
       - name: annotation_ids
         description: 'Limit the reports by internal, unstable annotation ids.'
         in: query
@@ -3129,6 +3143,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+            example:
+              accession: "GCF_000001635.27"
       parameters:
       - name: filename
         description: Output file name.
@@ -3934,6 +3950,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GeneCountsByTaxonRequest'
+            example:
+              taxon: "9606"
   /gene/id/{gene_id}/orthologs:
     get:
       summary: Get gene orthologs by gene ID
@@ -4036,6 +4054,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrthologRequest'
+            example:
+              gene_id: "2778"
   /gene/id/{gene_ids}/links:
     get:
       summary: Get gene links by gene ID
@@ -4132,13 +4152,13 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: 9117
             summary: NCBI Taxonomy Identifier
           example-1:
-            value: human
+            value: Whooping crane
             summary: Common Name
           example-2:
-            value: Homo sapiens
+            value: Grus americana
             summary: Scientific Name
       - name: annotation_name
         in: path
@@ -4147,8 +4167,8 @@ paths:
           type: string
         examples:
           example-0:
-            value: Annotation Release 109.20211119
-            summary: Human annotation release
+            value: GCF_028858705.1-RS_2023_03
+            summary: Grus americana Annotation Release
   /genome/accession/{accession}/annotation_report:
     get:
       summary: Get genome annotation reports by genome accession
@@ -4181,6 +4201,10 @@ paths:
         required: true
         schema:
           type: string
+        examples:
+          example-0:
+            value: GCF_000001635.27
+            summary: Mouse
       - name: annotation_ids
         description: 'Limit the reports by internal, unstable annotation ids.'
         in: query
@@ -4295,6 +4319,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+            example:
+              accession: "GCF_000001635.27"
   /genome/accession/{accession}/id/{annotation_ids}/annotation_summary:
     get:
       summary: Get genome annotation report summary information
@@ -4321,6 +4347,10 @@ paths:
         required: true
         schema:
           type: string
+        examples:
+          example-0:
+            value: GCF_000001635.27
+            summary: Mouse
       - name: annotation_ids
         description: 'Limit the reports by internal, unstable annotation ids.'
         in: path
@@ -4365,6 +4395,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+            example:
+              accession: "GCF_000001635.27"
   /genome/accession/{accession}/annotation_report/download_summary:
     get:
       summary: Preview feature dataset download
@@ -4391,6 +4423,10 @@ paths:
         required: true
         schema:
           type: string
+        examples:
+          example-0:
+            value: GCF_000001635.27
+            summary: Mouse
       - name: annotation_ids
         description: 'Limit the reports by internal, unstable annotation ids.'
         in: query
@@ -4493,6 +4529,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
+            example:
+              accession: "GCF_000001635.27"
   /organelle/accessions/{accessions}/dataset_report:
     get:
       summary: Get Organelle dataset report by accession
@@ -4514,6 +4552,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/v2reportsOrganelleDataReports'
       parameters:
+      - name: taxons
+        description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
       - name: accessions
         description: 'NCBI assembly accession'
         in: path
@@ -4522,16 +4568,74 @@ paths:
           type: array
           items:
             type: string
+      - name: organelle_types
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsOrganelleType'
+      - name: first_release_date
+        description: 'Only return organelle assemblies that were released on or after the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2015
+            summary: Jan 10, 2015
+      - name: last_release_date
+        description: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2021
+            summary: Jan 10, 2021
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
       - name: returned_content
         description: 'Return either assembly accessions, or entire assembly-metadata records'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
-  /organelle/taxon/{taxon}/dataset_report:
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2OrganelleMetadataRequestOrganelleTableFormat'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+  /organelle/taxon/{taxons}/dataset_report:
     get:
-      summary: Get Organelle dataset report by taxon
-      description: 'Get Organelle dataset report by taxon.'
+      summary: Get Organelle dataset report by taxons
+      description: 'Get Organelle dataset report by taxons.'
       tags:
         - Organelle
       operationId: organelle_datareport_by_taxon
@@ -4549,12 +4653,60 @@ paths:
               schema:
                 $ref: '#/components/schemas/v2reportsOrganelleDataReports'
       parameters:
-      - name: taxon
+      - name: taxons
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
         in: path
         required: true
         schema:
+          type: array
+          items:
+            type: string
+      - name: organelle_types
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsOrganelleType'
+      - name: first_release_date
+        description: 'Only return organelle assemblies that were released on or after the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
           type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2015
+            summary: Jan 10, 2015
+      - name: last_release_date
+        description: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        examples:
+          example-0:
+            value: 01/10/2021
+            summary: Jan 10, 2021
+      - name: tax_exact_match
+        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
       - name: returned_content
         description: 'Return either assembly accessions, or entire assembly-metadata records'
         in: query
@@ -4573,6 +4725,18 @@ paths:
         required: false
         schema:
           type: string
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2OrganelleMetadataRequestOrganelleTableFormat'
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /organelle/dataset_report:
     post:
       summary: Get Organelle dataset report by http post
@@ -4636,7 +4800,7 @@ paths:
           example-1:
             value:
               - human
-              - mouse
+              - house mouse
             summary: Common Name
           example-2:
             value:
@@ -4715,8 +4879,8 @@ paths:
               $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
             example:
               taxons:
-              - 9606
-              - mouse
+              - "9606"
+              - house mouse
   /taxonomy/taxon/{taxons}/dataset_report:
     get:
       summary: Use taxonomic identifiers to get taxonomic data report
@@ -4760,7 +4924,7 @@ paths:
           example-1:
             value:
               - human
-              - mouse
+              - house mouse
             summary: Common Name
           example-2:
             value:
@@ -4845,8 +5009,8 @@ paths:
               $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
             example:
               taxons:
-              - 9606
-              - mouse
+              - "9606"
+              - house mouse
   /taxonomy/taxon/{taxons}/name_report:
     get:
       summary: Use taxonomic identifiers to get taxonomic names data report
@@ -4884,7 +5048,7 @@ paths:
           example-1:
             value:
               - human
-              - mouse
+              - house mouse
             summary: Common Name
           example-2:
             value:
@@ -4963,8 +5127,8 @@ paths:
               $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
             example:
               taxons:
-              - 9606
-              - mouse
+              - "9606"
+              - house mouse
   /taxonomy/taxon/{tax_id}/related_ids:
     get:
       summary: Use taxonomic identifier to get related taxonomic identifiers, such as children
@@ -5142,6 +5306,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeRequest'
+            example:
+              taxons:
+              - "9606"
+              - "10090"
   /taxonomy/taxon_suggest/{taxon_query}:
     get:
       summary: Get a list of taxonomy names and IDs given a partial taxonomic name
@@ -5220,6 +5388,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganismQueryRequest'
+            example:
+              taxon_query: "hum"
   /taxonomy/taxon/{taxon}/links:
     get:
       summary: Retrieve external links associated with a taxonomic identifier.
@@ -5283,8 +5453,7 @@ paths:
             schema:
               $ref: '#/components/schemas/v2TaxonomyLinksRequest'
             example:
-              taxon:
-              - 9606
+              taxon: "9606"
   /taxonomy/taxon/{taxon}/image:
     get:
       summary: Retrieve image associated with a taxonomic identifier
@@ -5390,8 +5559,7 @@ paths:
             schema:
               $ref: '#/components/schemas/v2TaxonomyImageRequest'
             example:
-              taxon:
-              - 9606
+              taxon: "9606"
   /taxonomy/taxon/{taxon}/image/metadata:
     get:
       summary: Retrieve image metadata associated with a taxonomic identifier
@@ -5455,8 +5623,7 @@ paths:
             schema:
               $ref: '#/components/schemas/v2TaxonomyImageMetadataRequest'
             example:
-              taxon:
-              - 9606
+              taxon: "9606"
   /virus/taxon/{taxon}/genome:
     get:
       summary: Get summary data for virus genomes by taxon
@@ -5651,6 +5818,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusDatasetRequest'
+            example:
+              accessions:
+                - NC_038294.1
   /virus/taxon/sars2/protein/{proteins}:
     get:
       summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
@@ -5828,6 +5998,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
+            example:
+              proteins:
+                - spike
   /virus/taxon/{taxon}/genome/table:
     get:
       summary: Get virus genome metadata in a tabular format.
@@ -6966,6 +7139,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusAvailabilityRequest'
+            example:
+              accessions:
+                - NC_038294.1
   /virus/taxon/{taxon}/genome/download:
     get:
       summary: Download a virus genome dataset by taxon
@@ -7332,6 +7508,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusDatasetRequest'
+            example:
+              accessions:
+                - NC_038294.1
       parameters:
       - name: filename
         description: Output file name.
@@ -7528,6 +7707,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
+            example:
+              proteins:
+                - spike
       parameters:
       - name: filename
         description: Output file name.
@@ -8166,13 +8348,33 @@ components:
     v2OrganelleMetadataRequest:
       type: object
       properties:
-        taxon:
-          type: string
-          title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        taxons:
+          type: array
+          items:
+            type: string
         accessions:
           type: array
           items:
             type: string
+        organelle_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsOrganelleType'
+        first_release_date:
+          type: string
+          format: date-time
+          title: 'Only return organelle assemblies that were released on or after the specified date By default, do not filter.'
+        last_release_date:
+          type: string
+          format: date-time
+          title: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
+        tax_exact_match:
+          type: boolean
+          title: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2OrganelleSort'
         returned_content:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
           title: 'Return either assembly accessions, or entire assembly-metadata records'
@@ -8182,6 +8384,19 @@ components:
         page_token:
           type: string
           title: 'A page token is returned from an `OrganelleMetadata` call with more than `page_size` results. Use this token, along with the previous `OrganelleMetadata` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        table_format:
+          $ref: '#/components/schemas/v2OrganelleMetadataRequestOrganelleTableFormat'
+          title: 'Optional pre-defined template for processing a tabular data request'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+          title: 'Whether this request for tabular data should include the header row'
+    v2OrganelleSort:
+      type: object
+      properties:
+        field:
+          type: string
+        direction:
+          $ref: '#/components/schemas/v2SortDirection'
     v2OrganismQueryRequest:
       type: object
       properties:
@@ -9510,6 +9725,8 @@ components:
           $ref: '#/components/schemas/v2reportsErrorAssemblyErrorCode'
         gene_error_code:
           $ref: '#/components/schemas/v2reportsErrorGeneErrorCode'
+        organelle_error_code:
+          $ref: '#/components/schemas/v2reportsErrorOrganelleErrorCode'
         virus_error_code:
           $ref: '#/components/schemas/v2reportsErrorVirusErrorCode'
         taxonomy_error_code:
@@ -9968,14 +10185,11 @@ components:
     v2reportsOrganelle:
       type: object
       properties:
-        definition:
-          type: string
-          title: 'e.g. Homo sapiens mitochondrion, complete genome'
         description:
           $ref: '#/components/schemas/v2reportsOrganelleType'
-        genbank_info:
+        genbank:
           $ref: '#/components/schemas/v2reportsSequenceInformation'
-        refseq_info:
+        refseq:
           $ref: '#/components/schemas/v2reportsSequenceInformation'
         organism:
           $ref: '#/components/schemas/v2reportsOrganism'
@@ -9994,6 +10208,8 @@ components:
           title: 'Genome length'
         topology:
           $ref: '#/components/schemas/v2reportsOrganelleTopology'
+        gene_count:
+          type: integer
     v2reportsOrganelleBiosample:
       type: object
       properties:
@@ -10007,7 +10223,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsMessage'
-        organelles:
+        reports:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsOrganelle'
@@ -10017,6 +10233,16 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+        _report_type:
+          type: string
+        _report_fields:
+          type: array
+          items:
+            type: string
+        _first_page:
+          type: boolean
+        _report_format:
+          type: string
     v2reportsOrganelleGeneCounts:
       type: object
       properties:
@@ -10854,7 +11080,8 @@ components:
         - FTP_LINK
         - ASSEMBLY_PUBMED
         - BLAST_LINK
-        - ASSEMBLY_NUCCORE
+        - ASSEMBLY_NUCCORE_REFSEQ
+        - ASSEMBLY_NUCCORE_GENBANK
       default: DEFAULT
       title: 'Types of assembly links that may be returned'
     
@@ -10972,6 +11199,13 @@ components:
         - ASSM_ACC
       default: COMPLETE
     
+    v2OrganelleMetadataRequestOrganelleTableFormat:
+      type: string
+      enum:
+        - ORGANELLE_TABLE_FORMAT_NO_TABLE
+        - SUMMARY
+      default: ORGANELLE_TABLE_FORMAT_NO_TABLE
+    
     v2OrganismQueryRequestTaxRankFilter:
       type: string
       enum:
@@ -10985,6 +11219,7 @@ components:
         - TAXON_RESOURCE_FILTER_ALL
         - TAXON_RESOURCE_FILTER_GENOME
         - TAXON_RESOURCE_FILTER_GENE
+        - TAXON_RESOURCE_FILTER_ORGANELLE
       default: TAXON_RESOURCE_FILTER_ALL
     
     v2OrthologRequestContentType:
@@ -11191,6 +11426,7 @@ components:
         - COUNT_TYPE_ncRNA
         - COUNT_TYPE_BIOLOGICAL_REGION
         - COUNT_TYPE_OTHER
+        - COUNT_TYPE_ORGANELLE
       default: COUNT_TYPE_UNSPECIFIED
     
     v2reportsErrorAssemblyErrorCode:
@@ -11215,6 +11451,14 @@ components:
         - INCOMPLETE_LOOKUP_SYMBOL
         - INVALID_TAXON_GENE_ARGUMENT
       default: UNKNOWN_GENE_ERROR_CODE
+    
+    v2reportsErrorOrganelleErrorCode:
+      type: string
+      enum:
+        - UNKNOWN_ORGANELLE_ERROR_CODE
+        - INVALID_ORGANELLE_TAXON
+        - NO_ORGANELLES_FOR_ACCESSION
+      default: UNKNOWN_ORGANELLE_ERROR_CODE
     
     v2reportsErrorTaxonomyErrorCode:
       type: string
@@ -11287,22 +11531,22 @@ components:
       type: string
       enum:
         - TOPOLOGY_UNKNOWN
-        - CIRCULAR
-        - LINEAR
-        - TANDEM
+        - Circular
+        - Linear
+        - Tandem
       default: TOPOLOGY_UNKNOWN
     
     v2reportsOrganelleType:
       type: string
       enum:
         - ORGANELLE_TYPE_UNKNOWN
-        - MITOCHONDRION
-        - CHLOROPLAST
-        - PLASTID
-        - KINETOPLAST
-        - APICOPLAST
-        - CHROMATOPHORE
-        - CYANELLE
+        - Mitochondrion
+        - Chloroplast
+        - Plastid
+        - Kinetoplast
+        - Apicoplast
+        - Chromatophore
+        - Cyanelle
       default: ORGANELLE_TYPE_UNKNOWN
     
     v2reportsOrientation:

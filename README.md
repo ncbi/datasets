@@ -6,7 +6,7 @@ NCBI Datasets tools are under active development. To submit feedback, please cre
 
 :warning: The NCBI Datasets command-line tools (CLI) v13.x and older, as well as the API v1, will be deprecated in June 2024 and then retired in December 2024. Please download and install the latest version using the instructions below.
 
-## Install the Datasets command-line tools
+## Install the NCBI Datasets command-line tools
 
 [![Anaconda.org badge](https://anaconda.org/conda-forge/ncbi-datasets-cli/badges/version.svg)](https://anaconda.org/conda-forge/ncbi-datasets-cli)
 [![Platforms badge](https://anaconda.org/conda-forge/ncbi-datasets-cli/badges/platforms.svg)](https://anaconda.org/conda-forge/ncbi-datasets-cli)
@@ -18,7 +18,7 @@ Install the latest version (CLI v16.x) of the NCBI Datasets CLI tools, *datasets
 
 For other installation options, see our CLI tools [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) instructions. 
 
-## Use the Datasets command-line tools
+## Use the NCBI Datasets command-line tools
 
 Use *datasets* to download biological sequence data across all domains of life from NCBI.
 
@@ -61,7 +61,7 @@ Try this example for the human reference genome:
 
 For more information, see [how to download large genome data packages](https://www.ncbi.nlm.nih.gov/datasets/docs/how-tos/genomes/large-download/).
 
-## Datasets data packages
+## NCBI Datasets data packages
 NCBI Datasets provides sequence, annotation, metadata and other biological data as [NCBI Datasets Data Package zip archives](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/).
 
 We currently offer four types of data package: 
@@ -70,5 +70,10 @@ We currently offer four types of data package:
 1. A specialized [NCBI Datasets Virus Data Package](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/virus-genome/).
 1. An [NCBI Datasets Taxonomy Data Package](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/taxonomy/)
 
-## Datasets data reports
+## NCBI Datasets data reports
 NCBI Datasets data packages include data report files that contain metadata about the requested records. [Data report schemas](https://www.ncbi.nlm.nih.gov/datasets/docs/reference-docs/data-reports/) describe each type of data report, including available fields, with descriptions and examples.
+
+## Citing NCBI Datasets
+### Exploring and retrieving sequence and metadata for species across the tree of life with NCBI Datasets
+
+O'Leary NA, Cox E, Holmes JB, Anderson WR, Falk R, Hem V, Tsuchiya MTN, Schuler GD, Zhang X, Torcivia J, Ketter A, Breen L, Cothran J, Bajwa H, Tinne J, Meric PA, Hlavina W, Schneider VA. [Exploring and retrieving sequence and metadata for species across the tree of life with NCBI Datasets.](https://www.nature.com/articles/s41597-024-03571-y) Sci Data. 2024 Jul 5;11(1):732. doi: 10.1038/s41597-024-03571-y. PMID: 38969627; PMCID: PMC11226681.
