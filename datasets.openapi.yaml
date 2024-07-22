@@ -3323,6 +3323,94 @@ paths:
             example:
               accessions:
               - GCF_000001405.40
+  /organelle/accession/{accessions}/download:
+    get:
+      summary: Get a organelle data package by accesions
+      description: 'Download a organelle data report and annotation data package.'
+      tags:
+        - Organelle
+      operationId: download_organelle_package
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+                description: Zip compressed stream
+      parameters:
+      - name: accessions
+        description: 'NCBI organelle assembly accessions'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: exclude_sequence
+        description: 'Set to true to omit the genomic sequence.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: include_annotation_type
+        description: 'Select additional types of annotation to include in the data package.  If unset, no annotation is provided.'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2AnnotationForOrganelleType'
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
+  /organelle/download:
+    post:
+      summary: Get a organelle data package by post
+      description: 'Download a organelle report and annotation data package by post.'
+      tags:
+        - Organelle
+      operationId: download_organelle_package_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/zip:
+              schema:
+                format: binary
+                type: string
+                description: Zip compressed stream
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2OrganelleDownloadRequest'
+      parameters:
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
   /version:
     get:
       summary: Retrieve service version
@@ -11015,11 +11103,9 @@ components:
     v2AnnotationForOrganelleType:
       type: string
       enum:
-        - PROT_FASTA
-        - GENOME_GBFF
-        - GENOME_GFF
-        - GENE_TABLE
-        - GENOME_TABLE
+        - GENOME_FASTA
+        - CDS_FASTA
+        - PROTEIN_FASTA
       default: DEFAULT
     
     v2AssemblyDatasetDescriptorsFilterAssemblySource:
