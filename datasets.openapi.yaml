@@ -3354,6 +3354,15 @@ paths:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: NC_001643.1
+            summary: Chimpanzee
+          example-1:
+            value:
+              - NC_001643.1
+              - NC_002082.1
+            summary: Chimpanzee and Common Gibbon
       - name: exclude_sequence
         description: 'Set to true to omit the genomic sequence.'
         in: query
@@ -3403,6 +3412,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganelleDownloadRequest'
+            example:
+              accessions:
+                - NC_001643.1
       parameters:
       - name: filename
         description: Output file name.
@@ -4648,6 +4660,15 @@ paths:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 9443
+            summary: Primates
+          example-1:
+            value:
+              - 9606
+              - 10090
+            summary: Human and Mouse
       - name: accessions
         description: 'NCBI assembly accession'
         in: path
@@ -4656,6 +4677,15 @@ paths:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: NC_001643.1
+            summary: Chimpanzee
+          example-1:
+            value:
+              - NC_001643.1
+              - NC_002082.1
+            summary: Chimpanzee and Common Gibbon
       - name: organelle_types
         in: query
         required: false
@@ -4749,6 +4779,15 @@ paths:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 9443
+            summary: Primates
+          example-1:
+            value:
+              - 9606
+              - 10090
+            summary: Human and Mouse
       - name: organelle_types
         in: query
         required: false
@@ -4851,6 +4890,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganelleMetadataRequest'
+            example:
+              accessions:
+                - NC_001643.1
   /taxonomy/taxon/{taxons}:
     get:
       summary: Use taxonomic identifiers to get taxonomic metadata
