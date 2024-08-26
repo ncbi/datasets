@@ -8207,6 +8207,11 @@ components:
           type: string
         cli_download_command_line:
           type: string
+    v2ElementFlankConfig:
+      type: object
+      properties:
+        length:
+          type: integer
     v2GeneChromosomeSummaryReply:
       type: object
       properties:
@@ -8455,12 +8460,7 @@ components:
           items:
             $ref: '#/components/schemas/v2MicroBiggeDatasetRequestFileType'
         element_flank_config:
-          $ref: '#/components/schemas/v2MicroBiggeDatasetRequestElementFlankConfig'
-    v2MicroBiggeDatasetRequestElementFlankConfig:
-      type: object
-      properties:
-        length:
-          type: integer
+          $ref: '#/components/schemas/v2ElementFlankConfig'
     v2OrganelleDownloadRequest:
       type: object
       properties:
@@ -8583,6 +8583,17 @@ components:
       properties:
         length:
           type: integer
+    v2RefGeneCatalogDatasetRequest:
+      type: object
+      properties:
+        opaque_solr_query:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2RefGeneCatalogDatasetRequestFileType'
+        element_flank_config:
+          $ref: '#/components/schemas/v2ElementFlankConfig'
     v2Sars2ProteinDatasetRequest:
       type: object
       properties:
@@ -11357,6 +11368,15 @@ components:
         - IDS_ONLY
       default: COMPLETE
     
+    v2RefGeneCatalogDatasetRequestFileType:
+      type: string
+      enum:
+        - FILE_TYPE_UNSPECIFIED
+        - FILE_TYPE_NUCLEOTIDE
+        - FILE_TYPE_NUCLEOTIDE_WITH_FLANK
+        - FILE_TYPE_PROTEIN
+      default: FILE_TYPE_UNSPECIFIED
+    
     v2SortDirection:
       type: string
       enum:
@@ -11387,6 +11407,7 @@ components:
         - HAS_MORE_CHILDREN
         - NO_VISIBLE_CHILDREN
       default: UNSPECIFIED
+      title: 'If these are changed before v1 is retired, code that converts v2 to v1 responses in python/private/src/ncbi_private/datasets/services/taxonomy/v1/dataset.py may need to be updated.'
     
     v2TaxonomyMetadataRequestContentType:
       type: string
