@@ -5881,6 +5881,19 @@ paths:
           example-1:
             value: TX
             summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
+          example-1:
+            value: TX
+            summary: Texas
       - name: complete_only
         description: 'only include complete genomes.'
         in: query
@@ -6059,6 +6072,19 @@ paths:
           example-0:
             value: USA
             summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
           example-1:
             value: TX
             summary: Texas
@@ -6258,6 +6284,19 @@ paths:
           example-1:
             value: TX
             summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
+          example-1:
+            value: TX
+            summary: Texas
       - name: complete_only
         description: 'only include complete genomes.'
         in: query
@@ -6439,6 +6478,19 @@ paths:
           example-0:
             value: USA
             summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
           example-1:
             value: TX
             summary: Texas
@@ -6635,6 +6687,19 @@ paths:
           example-1:
             value: TX
             summary: Texas
+      - name: filter.usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
+          example-1:
+            value: TX
+            summary: Texas
       - name: filter.complete_only
         description: 'only include complete genomes.'
         in: query
@@ -6797,6 +6862,19 @@ paths:
           example-0:
             value: USA
             summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: filter.usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
           example-1:
             value: TX
             summary: Texas
@@ -6990,6 +7068,19 @@ paths:
           example-1:
             value: TX
             summary: Texas
+      - name: filter.usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
+          example-1:
+            value: TX
+            summary: Texas
       - name: filter.complete_only
         description: 'only include complete genomes.'
         in: query
@@ -7131,6 +7222,19 @@ paths:
           example-0:
             value: USA
             summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: filter.usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
           example-1:
             value: TX
             summary: Texas
@@ -7389,6 +7493,19 @@ paths:
           example-1:
             value: TX
             summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
+          example-1:
+            value: TX
+            summary: Texas
       - name: complete_only
         description: 'only include complete genomes.'
         in: query
@@ -7553,6 +7670,19 @@ paths:
           example-0:
             value: USA
             summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
           example-1:
             value: TX
             summary: Texas
@@ -7759,6 +7889,19 @@ paths:
           example-0:
             value: USA
             summary: USA
+          example-1:
+            value: TX
+            summary: Texas
+      - name: usa_state
+        description: 'Assemblies from this state (official two letter code only)'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: CA
+            summary: California
           example-1:
             value: TX
             summary: Texas
@@ -8620,6 +8763,9 @@ components:
         geo_location:
           type: string
           title: 'Assemblies from this location (country and state, or continent)'
+        usa_state:
+          type: string
+          title: 'Assemblies from this state (official two letter code only)'
         complete_only:
           type: boolean
           title: 'only include complete genomes.'
@@ -9036,6 +9182,9 @@ components:
         geo_location:
           type: string
           title: 'Assemblies from this location (country and state, or continent)'
+        usa_state:
+          type: string
+          title: 'Assemblies from this state (official two letter code only)'
         complete_only:
           type: boolean
           title: 'only include complete genomes.'
@@ -9131,6 +9280,9 @@ components:
         geo_location:
           type: string
           title: 'Assemblies from this location (country and state, or continent)'
+        usa_state:
+          type: string
+          title: 'Assemblies from this state (official two letter code only)'
         complete_only:
           type: boolean
           title: 'only include complete genomes.'
@@ -9166,6 +9318,9 @@ components:
         geo_location:
           type: string
           title: 'Assemblies from this location (country and state, or continent)'
+        usa_state:
+          type: string
+          title: 'Assemblies from this state (official two letter code only)'
         complete_only:
           type: boolean
           title: 'only include complete genomes.'
@@ -11014,6 +11169,9 @@ components:
         geographic_region:
           type: string
           title: 'Region of virus specimen collection'
+        usa_state:
+          type: string
+          title: 'Two letter abbreviation of the state of the virus specifime collection (if United States)'
     v2reportsVirusAssemblySubmitterInfo:
       type: object
       properties:
