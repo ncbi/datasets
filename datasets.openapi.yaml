@@ -186,12 +186,6 @@ paths:
               - RNA_FASTA
               - CDS_FASTA, SEQUENCE_REPORT
             summary: All
-      - name: _exp_debug_values
-        description: 'Supports debugging, e.g. by controlling data download speeds'
-        in: query
-        required: false
-        schema:
-          type: string
   /genome/download_summary:
     post:
       summary: Preview genome dataset download by POST
@@ -2677,12 +2671,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetRequestResolution'
-      - name: _exp_debug_values
-        description: 'Supports debugging, e.g. by controlling data download speeds'
-        in: query
-        required: false
-        schema:
-          type: string
       - name: filename
         description: Output file name.
         in: query
@@ -3288,12 +3276,6 @@ paths:
           example-1:
             value: GCF_000001405.40
             summary: Human
-      - name: _exp_debug_values
-        description: 'Supports debugging, e.g. by controlling data download speeds'
-        in: query
-        required: false
-        schema:
-          type: string
   /genome/check:
     post:
       summary: Check the validity of many genome accessions in a single request
@@ -5869,7 +5851,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -5879,8 +5861,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -6069,7 +6051,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -6079,8 +6061,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -6278,7 +6260,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -6288,8 +6270,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -6481,7 +6463,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -6491,8 +6473,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -6687,7 +6669,7 @@ paths:
         schema:
           type: string
       - name: filter.geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -6697,8 +6679,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: filter.usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -6865,7 +6847,7 @@ paths:
         schema:
           type: string
       - name: filter.geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -6875,8 +6857,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: filter.usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -7082,7 +7064,7 @@ paths:
         schema:
           type: string
       - name: filter.geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -7092,8 +7074,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: filter.usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -7253,7 +7235,7 @@ paths:
         schema:
           type: string
       - name: filter.geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -7263,8 +7245,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: filter.usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -7521,7 +7503,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -7531,8 +7513,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -7701,7 +7683,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -7711,8 +7693,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -7926,7 +7908,7 @@ paths:
         schema:
           type: string
       - name: geo_location
-        description: 'Assemblies from this location (country and state, or continent)'
+        description: 'Assemblies from this location (country or continent)'
         in: query
         required: false
         schema:
@@ -7936,8 +7918,8 @@ paths:
             value: USA
             summary: USA
           example-1:
-            value: TX
-            summary: Texas
+            value: Asia
+            summary: Asia
       - name: usa_state
         description: 'Assemblies from this state (official two letter code only)'
         in: query
@@ -8227,9 +8209,6 @@ components:
         include_tsv:
           type: boolean
           title: 'Set to true to include a TSV representation of the data-report.'
-        _exp_debug_values:
-          type: string
-          title: 'Supports debugging, e.g. by controlling data download speeds'
     v2AssemblyLinksReply:
       type: object
       properties:
@@ -8811,7 +8790,7 @@ components:
           title: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
         geo_location:
           type: string
-          title: 'Assemblies from this location (country and state, or continent)'
+          title: 'Assemblies from this location (country or continent)'
         usa_state:
           type: string
           title: 'Assemblies from this state (official two letter code only)'
@@ -8880,16 +8859,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2SleepReply:
       type: object
       properties:
@@ -9149,10 +9118,6 @@ components:
         genomic_moltype:
           type: string
           title: 'genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
-        _indexed_names:
-          type: array
-          items:
-            type: string
     v2TaxonomyNodeCountByType:
       type: object
       properties:
@@ -9233,7 +9198,7 @@ components:
           title: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
         geo_location:
           type: string
-          title: 'Assemblies from this location (country and state, or continent)'
+          title: 'Assemblies from this location (country or continent)'
         usa_state:
           type: string
           title: 'Assemblies from this state (official two letter code only)'
@@ -9331,7 +9296,7 @@ components:
           title: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
         geo_location:
           type: string
-          title: 'Assemblies from this location (country and state, or continent)'
+          title: 'Assemblies from this location (country or continent)'
         usa_state:
           type: string
           title: 'Assemblies from this state (official two letter code only)'
@@ -9369,7 +9334,7 @@ components:
           title: 'If set, limit results to genomes classified to this lineage by the PangoLearn tool.'
         geo_location:
           type: string
-          title: 'Assemblies from this location (country and state, or continent)'
+          title: 'Assemblies from this location (country or continent)'
         usa_state:
           type: string
           title: 'Assemblies from this state (official two letter code only)'
@@ -9513,16 +9478,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsMessage'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsAssemblyInfo:
       type: object
       properties:
@@ -9846,15 +9801,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsMessage'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _report_format:
-          type: string
-          title: 'bool _first_page = 502;'
     v2reportsBioSampleDescription:
       type: object
       properties:
@@ -10128,16 +10074,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsGeneDescriptor:
       type: object
       properties:
@@ -10356,16 +10292,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsGenomicLocation:
       type: object
       properties:
@@ -10581,16 +10507,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsOrganelleGeneCounts:
       type: object
       properties:
@@ -10873,18 +10789,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-          title: 'this'
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
-          title: 'The template name'
     v2reportsTaxonomyNamesDataReportPage:
       type: object
       properties:
@@ -10902,16 +10806,6 @@ components:
         next_page_token:
           type: string
           title: 'A page token.  A token that can be used in a future request as `page_token` to retrieve the next page. If this field is emtpy then there are no subsequent pages available.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsTaxonomyNamesDescriptor:
       type: object
       properties:
@@ -11124,16 +11018,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsVirusAssembly:
       type: object
       properties:
@@ -11250,16 +11134,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-        _report_type:
-          type: string
-        _report_fields:
-          type: array
-          items:
-            type: string
-        _first_page:
-          type: boolean
-        _report_format:
-          type: string
     v2reportsVirusGene:
       type: object
       properties:
