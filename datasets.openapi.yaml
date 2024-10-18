@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: NCBI Datasets API
-  version: v2alpha
+  version: v2
   description: '### NCBI Datasets is a resource that lets you easily gather data from
       NCBI.
 
@@ -13,8 +13,8 @@ info:
 
     '
 servers:
-- url: https://api.ncbi.nlm.nih.gov/datasets/v2alpha
-- url: https://dev.ncbi.nlm.nih.gov/datasets/v2alpha
+- url: https://api.ncbi.nlm.nih.gov/datasets/v2
+- url: https://dev.ncbi.nlm.nih.gov/datasets/v2
 tags:
 - name: Genome
   description: '#### Options to explore, summarize and download assembled genomes,
@@ -9446,6 +9446,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsOrganelleInfo'
+        additional_submitters:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsExtraSequenceInfo'
         annotation_info:
           $ref: '#/components/schemas/v2reportsAnnotationInfo'
           title: 'Metadata and statistics for the genome assembly annotation, when available'
@@ -9493,6 +9497,8 @@ components:
         assembly_name:
           type: string
           title: 'The assembly submitter''s name for the genome assembly, when provided. Otherwise, a default name in the form ASM#####v# is assigned'
+        assembly_long_name:
+          type: string
         assembly_type:
           type: string
           title: 'Chromosome content of the submitted genome assembly'
@@ -9540,6 +9546,8 @@ components:
         assembly_method:
           type: string
           title: 'Genome assembly method'
+        grouping_method:
+          type: string
         biosample:
           $ref: '#/components/schemas/v2reportsBioSampleDescriptor'
           title: 'NCBI BioSample from which the sequences in the genome assembly were obtained.'
@@ -10033,6 +10041,27 @@ components:
           type: array
           items:
             type: string
+    v2reportsExtraSequenceInfo:
+      type: object
+      properties:
+        genbank_accession:
+          type: string
+          title: 'genbank accession of extra sequence'
+        refseq_accession:
+          type: string
+          title: 'genbank accession of extra sequence'
+        chr_name:
+          type: string
+          title: 'chromosome name'
+        molecule_type:
+          type: string
+          title: 'molecule type'
+        submitter:
+          type: string
+          title: 'Name of submitter'
+        bioproject_accession:
+          type: string
+          title: 'Bioproject accession'
     v2reportsFeatureCounts:
       type: object
       properties:
