@@ -1,13 +1,5 @@
 # NCBI Datasets (ASM-NGS - 10/16/2024)
 
-
-1. [NCBI Datasets: an overview](https://github.com/ncbi/datasets/new/master/training#1-ncbi-datasets-an-overview)
-2. [Retrieving bacterial data and metadata using datasets](https://github.com/ncbi/datasets/new/master/training#retrieving-bacterial-data-and-metadata-using-datasets)
-3. [Retrieving Virus information using NCBI Datasets](https://github.com/ncbi/datasets/new/master/training#3-retrieving-virus-information-using-ncbi-datasets)
-4. [Important resources](https://github.com/ncbi/datasets/new/master/training#4-important-resources)
-
-
-
 ## 1. NCBI Datasets: an overview
 
 [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/) is a resource that allows users to download data and metadata from [API](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/rest-api/), [web](https://www.ncbi.nlm.nih.gov/datasets/) and [command-line tool](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/download-and-install/). In this workshop, we will be focusing on the command-line tool, its structure and organization.
