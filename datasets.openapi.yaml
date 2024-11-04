@@ -132,13 +132,13 @@ paths:
             type: string
         examples:
           example-0:
+            value: GCF_000001405.40
+            summary: Human
+          example-1:
             value:
               - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
-          example-1:
-            value: GCF_000001405.40
-            summary: Human
       - name: chromosomes
         description: 'The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (''Un''). The filter only applies to fasta sequence.'
         in: query
@@ -212,9 +212,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyDatasetRequest'
-            example:
-              accessions:
-              - GCF_000001405.40
+            examples:
+              Single GCF accession example:
+                description: GCF Accession (just one)
+                value:
+                  accessions:
+                  - GCF_000001405.40
   /genome/accession/{accessions}/dataset_report:
     get:
       summary: Get dataset reports by accessions
@@ -251,13 +254,13 @@ paths:
             type: string
         examples:
           example-0:
+            value: GCF_000001405.40
+            summary: Human
+          example-1:
             value:
               - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
-          example-1:
-            value: GCF_000001405.40
-            summary: Human
       - name: filters.reference_only
         description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
         in: query
@@ -1516,6 +1519,9 @@ paths:
             type: string
         examples:
           example-0:
+            value: JAXUCZ01
+            summary: Norway rat (Rattus norvegicus) wgs accession
+          example-1:
             value:
               - JAHLSK02
               - JAAKGM02
@@ -2138,9 +2144,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyDatasetReportsRequest'
-            example:
-              accessions:
-                - GCF_000001405.40
+            examples:
+              Single GCF accession example:
+                description: GCF Accessions (just one)
+                value:
+                  accessions:
+                    - GCF_000001405.40
   /genome/accession/{accession}/revision_history:
     get:
       summary: Get revision history for assembly by accession
@@ -2197,8 +2206,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyRevisionHistoryRequest'
-            example:
-              accession: "GCF_000001405.40"
+            examples:
+              Single GCF accession example:
+                description: GCF Accession (just one)
+                value:
+                  accession: "GCF_000001405.40"
   /genome/sequence_accession/{accession}/sequence_assemblies:
     get:
       summary: Get assembly accessions for a sequence accession
@@ -2255,8 +2267,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2SequenceAccessionRequest'
-            example:
-              accession: "NC_000001.11"
+            examples:
+              Single chromosome accession example:
+                description: Chromosome nucleotide accession
+                value:
+                  accession: "NC_000001.11"
   /genome/accession/{accession}/sequence_reports:
     get:
       summary: Get sequence reports by accessions
@@ -2413,8 +2428,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblySequenceReportsRequest'
-            example:
-              accession: "GCF_000001405.40"
+            examples:
+              Single GCF accession example:
+                description: GCF Accession (just one)
+                value:
+                  accession: "GCF_000001405.40"
   /genome/accession/{accessions}/links:
     get:
       summary: Get assembly links by accessions
@@ -2446,13 +2464,13 @@ paths:
             type: string
         examples:
           example-0:
+            value: GCF_000001405.40
+            summary: Human
+          example-1:
             value:
               - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
-          example-1:
-            value: GCF_000001405.40
-            summary: Human
   /genome/links:
     post:
       summary: Get assembly links by accessions
@@ -2479,9 +2497,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyLinksRequest'
-            example:
-              accessions:
-                - GCF_000001405.40
+            examples:
+              Single GCF accession example:
+                description: GCF Accessions (just one)
+                value:
+                  accessions:
+                    - GCF_000001405.40
   /genome/taxon/{species_taxon}/checkm_histogram:
     get:
       summary: Get CheckM histogram by species taxon
@@ -2538,8 +2559,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyCheckMHistogramRequest'
-            example:
-              species_taxon: "202956"
+            examples:
+              Single TaxID example:
+                description: TaxID example (just one)
+                value:
+                  species_taxon: "202956"
   /biosample/accession/{accessions}/biosample_report:
     get:
       summary: Get BioSample dataset reports by accession(s)
@@ -2611,13 +2635,13 @@ paths:
             type: string
         examples:
           example-0:
+            value: GCF_000001405.40
+            summary: Human
+          example-1:
             value:
               - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
-          example-1:
-            value: GCF_000001405.40
-            summary: Human
       - name: chromosomes
         description: 'The default setting is all chromosome. Specify individual chromosome by string (1,2,MT or chr1,chr2.chrMT). Unplaced sequences are treated like their own chromosome (''Un''). The filter only applies to fasta sequence.'
         in: query
@@ -2706,9 +2730,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyDatasetRequest'
-            example:
-              accessions:
-              - GCF_000001405.40
+            examples:
+              Single GCF accession example:
+                description: GCF Accession (just one)
+                value:
+                  accessions:
+                  - GCF_000001405.40
       parameters:
       - name: filename
         description: Output file name.
@@ -2844,10 +2871,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GeneDatasetRequest'
-            example:
-              gene_ids:
-              - 59067
-              - 50615
+            examples:
+              Multiple GeneID examples:
+                description: GeneIDs (multiple)
+                value:
+                  gene_ids:
+                  - 59067
+                  - 50615
       parameters:
       - name: filename
         description: Output file name.
@@ -2963,10 +2993,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2ProkaryoteGeneRequest'
-            example:
-              accessions:
-              - WP_000000001.1
-              - WP_000000002.1
+            examples:
+              Multiple Prokaryote (WP_) accessions example:
+                description: Prokaryote (WP_) accessions (multiple)
+                value:
+                  accessions:
+                  - WP_000000001.1
+                  - WP_000000002.1
       parameters:
       - name: filename
         description: Output file name.
@@ -3131,8 +3164,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
-            example:
-              accession: "GCF_000001635.27"
+            examples:
+              Single GCF accession example:
+                description: GCF accession (just one)
+                value:
+                  accession: "GCF_000001635.27"
       parameters:
       - name: filename
         description: Output file name.
@@ -3173,6 +3209,9 @@ paths:
             type: integer
         examples:
           example-0:
+            value: 9606
+            summary: NCBI Taxonomy Identifier
+          example-1:
             value:
               - 9606
               - 10090
@@ -3226,10 +3265,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyDatasetRequest'
-            example:
-              tax_ids:
-              - 9606
-              - 10090
+            examples:
+              Multiple TaxID examples:
+                description: TaxIDs (multiple)
+                value:
+                  tax_ids:
+                  - 9606
+                  - 10090
       parameters:
       - name: filename
         description: Output file name.
@@ -3269,13 +3311,13 @@ paths:
             type: string
         examples:
           example-0:
+            value: GCF_000001405.40
+            summary: Human
+          example-1:
             value:
               - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and Mouse
-          example-1:
-            value: GCF_000001405.40
-            summary: Human
   /genome/check:
     post:
       summary: Check the validity of many genome accessions in a single request
@@ -3302,9 +3344,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2AssemblyDatasetRequest'
-            example:
-              accessions:
-              - GCF_000001405.40
+            examples:
+              Single GCF accession example:
+                description: GCF Accession (just one)
+                value:
+                  accessions:
+                  - GCF_000001405.40
   /organelle/accession/{accessions}/download:
     get:
       summary: Get a organelle data package by accesions
@@ -3394,9 +3439,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganelleDownloadRequest'
-            example:
-              accessions:
-                - NC_001643.1
       parameters:
       - name: filename
         description: Output file name.
@@ -3555,10 +3597,8 @@ paths:
             type: string
         examples:
           example-0:
-            value:
-              - NM_021803.4
-              - NM_181078.3
-            summary: RefSeq transcripts
+            value: NM_021803.4
+            summary: RefSeq transcript
           example-1:
             value:
               - NP_068575.1
@@ -3839,10 +3879,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GeneDatasetReportsRequest'
-            example:
-              gene_ids:
-              - 59067
-              - 50615
+            examples:
+              Multiple GeneID examples:
+                description: GeneIDs (multiple)
+                value:
+                  gene_ids:
+                  - 59067
+                  - 50615
   /gene/id/{gene_ids}/download_summary:
     get:
       summary: Get gene download summary by GeneID
@@ -3965,10 +4008,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GeneDatasetRequest'
-            example:
-              gene_ids:
-              - 59067
-              - 50615
+            examples:
+              Multiple GeneID examples:
+                description: GeneIDs (multiple)
+                value:
+                  gene_ids:
+                  - 59067
+                  - 50615
   /gene/taxon/{taxon}/counts:
     get:
       summary: Get gene counts by taxonomic identifier
@@ -4032,8 +4078,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GeneCountsByTaxonRequest'
-            example:
-              taxon: "9606"
+            examples:
+              Single TaxID example:
+                description: TaxID (just one)
+                value:
+                  taxon: "9606"
   /gene/id/{gene_id}/orthologs:
     get:
       summary: Get gene orthologs by gene ID
@@ -4136,8 +4185,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrthologRequest'
-            example:
-              gene_id: "2778"
+            examples:
+              Single GeneID example:
+                description: GeneID (just one)
+                value:
+                  gene_id: "2778"
   /gene/id/{gene_ids}/links:
     get:
       summary: Get gene links by gene ID
@@ -4202,10 +4254,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GeneLinksRequest'
-            example:
-              gene_ids:
-              - 59067
-              - 50615
+            examples:
+              Multiple GeneID examples:
+                description: GeneIDs (multiple)
+                value:
+                  gene_ids:
+                  - 59067
+                  - 50615
   /gene/taxon/{taxon}/annotation/{annotation_name}/chromosome_summary:
     get:
       summary: Get summary of chromosomes for a particular taxon's annotation
@@ -4401,8 +4456,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
-            example:
-              accession: "GCF_000001635.27"
+            examples:
+              Single GCF accession example:
+                description: GCF accession (just one)
+                value:
+                  accession: "GCF_000001635.27"
   /genome/accession/{accession}/id/{annotation_ids}/annotation_summary:
     get:
       summary: Get genome annotation report summary information
@@ -4477,8 +4535,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
-            example:
-              accession: "GCF_000001635.27"
+            examples:
+              Single GCF accession example:
+                description: GCF accession (just one)
+                value:
+                  accession: "GCF_000001635.27"
   /genome/accession/{accession}/annotation_report/download_summary:
     get:
       summary: Preview feature dataset download
@@ -4611,8 +4672,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2GenomeAnnotationRequest'
-            example:
-              accession: "GCF_000001635.27"
+            examples:
+              Single GCF accession example:
+                description: GCF accession (just one)
+                value:
+                  accession: "GCF_000001635.27"
   /organelle/accessions/{accessions}/dataset_report:
     get:
       summary: Get Organelle dataset report by accession
@@ -4872,9 +4936,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganelleMetadataRequest'
-            example:
-              accessions:
-                - NC_001643.1
   /taxonomy/taxon/{taxons}:
     get:
       summary: Use taxonomic identifiers to get taxonomic metadata
@@ -4905,9 +4966,7 @@ paths:
             type: string
         examples:
           example-0:
-            value:
-              - 9606
-              - 10090
+            value: 9606
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -4989,10 +5048,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
-            example:
-              taxons:
-              - "9606"
-              - house mouse
+            examples:
+              Multiple TaxID and common name examples:
+                description: Taxon input (multiple types)
+                value:
+                  taxons:
+                  - "9606"
+                  - house mouse
   /taxonomy/taxon/{taxons}/dataset_report:
     get:
       summary: Use taxonomic identifiers to get taxonomic data report
@@ -5029,9 +5091,7 @@ paths:
             type: string
         examples:
           example-0:
-            value:
-              - 9606
-              - 10090
+            value: 9606
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5119,10 +5179,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
-            example:
-              taxons:
-              - "9606"
-              - house mouse
+            examples:
+              Multiple TaxID and common name examples:
+                description: Taxon input (multiple types)
+                value:
+                  taxons:
+                  - "9606"
+                  - house mouse
   /taxonomy/taxon/{taxons}/name_report:
     get:
       summary: Use taxonomic identifiers to get taxonomic names data report
@@ -5153,9 +5216,7 @@ paths:
             type: string
         examples:
           example-0:
-            value:
-              - 9606
-              - 10090
+            value: 9606
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5237,10 +5298,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyMetadataRequest'
-            example:
-              taxons:
-              - "9606"
-              - house mouse
+            examples:
+              Multiple TaxID and common name examples:
+                description: Taxon input (multiple types)
+                value:
+                  taxons:
+                  - "9606"
+                  - house mouse
   /taxonomy/taxon/{tax_id}/related_ids:
     get:
       summary: Use taxonomic identifier to get related taxonomic identifiers, such as children
@@ -5332,8 +5396,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyRelatedIdRequest'
-            example:
-              tax_id: 9606
+            examples:
+              Single TaxID example:
+                description: TaxID (just one)
+                value:
+                  tax_id: 9606
   /taxonomy/taxon/{taxons}/filtered_subtree:
     get:
       summary: Use taxonomic identifiers to get a filtered taxonomic subtree
@@ -5364,9 +5431,7 @@ paths:
             type: string
         examples:
           example-0:
-            value:
-              - 9606
-              - 10090
+            value: 9606
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5418,10 +5483,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeRequest'
-            example:
-              taxons:
-              - "9606"
-              - "10090"
+            examples:
+              Multiple TaxID example:
+                description: TaxIDs (multiple)
+                value:
+                  taxons:
+                  - "9606"
+                  - "10090"
   /taxonomy/taxon_suggest/{taxon_query}:
     get:
       summary: Get a list of taxonomy names and IDs given a partial taxonomic name
@@ -5500,8 +5568,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganismQueryRequest'
-            example:
-              taxon_query: "hum"
+            examples:
+              Incomplete taxon name example:
+                description: Incomplete taxon name example
+                value:
+                  taxon_query: "hum"
   /taxonomy/taxon/{taxon}/links:
     get:
       summary: Retrieve external links associated with a taxonomic identifier.
@@ -5564,8 +5635,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyLinksRequest'
-            example:
-              taxon: "9606"
+            examples:
+              Single TaxID example:
+                description: TaxID (just one)
+                value:
+                  taxon: "9606"
   /taxonomy/taxon/{taxon}/image:
     get:
       summary: Retrieve image associated with a taxonomic identifier
@@ -5670,8 +5744,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyImageRequest'
-            example:
-              taxon: "9606"
+            examples:
+              Single TaxID example:
+                description: TaxID (just one)
+                value:
+                  taxon: "9606"
   /taxonomy/taxon/{taxon}/image/metadata:
     get:
       summary: Retrieve image metadata associated with a taxonomic identifier
@@ -5734,8 +5811,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2TaxonomyImageMetadataRequest'
-            example:
-              taxon: "9606"
+            examples:
+              Single TaxID example:
+                description: TaxID (just one)
+                value:
+                  taxon: "9606"
   /virus/taxon/{taxon}/genome:
     get:
       summary: Get summary data for virus genomes by taxon
@@ -5943,9 +6023,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusDatasetRequest'
-            example:
-              accessions:
-                - NC_038294.1
+            examples:
+              Single Virus accession example:
+                description: Virus accession (just one)
+                value:
+                  accessions:
+                    - NC_038294.1
   /virus/taxon/sars2/protein/{proteins}:
     get:
       summary: Summary of SARS-CoV-2 protein and CDS datasets by protein name
@@ -6142,9 +6225,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
-            example:
-              proteins:
-                - spike
+            examples:
+              SARS-CoV-2 virus protein example:
+                description: SARS-CoV-2 virus protein
+                value:
+                  proteins:
+                    - spike
   /virus/taxon/{taxon}/genome/table:
     get:
       summary: Get virus genome metadata in a tabular format.
@@ -6952,9 +7038,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusDataReportRequest'
-            example:
-              taxon: 1335626
-              refseq_only: true
+            examples:
+              RefSeq Virus TaxID example:
+                description: Virus TaxID (RefSeq)
+                value:
+                  taxon: 1335626
+                  refseq_only: true
   /virus/taxon/{taxon}/annotation_report:
     get:
       summary: Get virus annotation report by taxon
@@ -7333,9 +7422,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusAnnotationReportRequest'
-            example:
-              taxon: 1335626
-              refseq_only: true
+            examples:
+              RefSeq Virus TaxID example:
+                description: Virus TaxID (RefSeq)
+                value:
+                  taxon: 1335626
+                  refseq_only: true
   /virus/accession/{accessions}/check:
     get:
       summary: Check available viruses by accession
@@ -7395,9 +7487,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusAvailabilityRequest'
-            example:
-              accessions:
-                - NC_038294.1
+            examples:
+              Single Virus accession example:
+                description: Virus accession (just one)
+                value:
+                  accessions:
+                    - NC_038294.1
   /virus/taxon/{taxon}/genome/download:
     get:
       summary: Download a virus genome dataset by taxon
@@ -7790,9 +7885,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2VirusDatasetRequest'
-            example:
-              accessions:
-                - NC_038294.1
+            examples:
+              Single Virus accession example:
+                description: Virus accession (just one)
+                value:
+                  accessions:
+                    - NC_038294.1
       parameters:
       - name: filename
         description: Output file name.
@@ -8008,9 +8106,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
-            example:
-              proteins:
-                - spike
+            examples:
+              SARS-CoV-2 virus protein example:
+                description: SARS-CoV-2 virus protein
+                value:
+                  proteins:
+                    - spike
       parameters:
       - name: filename
         description: Output file name.
@@ -10871,6 +10972,7 @@ components:
             $ref: '#/components/schemas/v2reportsTaxonomyNamesDescriptorCitation'
         current_scientific_name_is_formal:
           type: boolean
+          title: 'Specify if the current scientific name is considered ''formal'' or not.'
     v2reportsTaxonomyNamesDescriptorCitation:
       type: object
       properties:
@@ -10940,6 +11042,8 @@ components:
         genomic_moltype:
           type: string
           title: 'Genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
+        current_scientific_name_is_formal:
+          type: boolean
     v2reportsTaxonomyNodeCountByType:
       type: object
       properties:
