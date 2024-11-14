@@ -3439,6 +3439,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganelleDownloadRequest'
+            examples:
+              Single organelle accession example:
+                description: Organelle accession (just one)
+                value:
+                  accessions:
+                    - NC_001643.1
       parameters:
       - name: filename
         description: Output file name.
@@ -4936,6 +4942,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/v2OrganelleMetadataRequest'
+            examples:
+              Single TaxID example:
+                description: TaxID example (just one)
+                value:
+                  taxons:
+                    - "9443"
   /taxonomy/taxon/{taxons}:
     get:
       summary: Use taxonomic identifiers to get taxonomic metadata
@@ -5603,12 +5615,6 @@ paths:
           example-0:
             value: 9606
             summary: NCBI Taxonomy Identifier
-          example-1:
-            value: human
-            summary: Common Name
-          example-2:
-            value: Homo sapiens
-            summary: Scientific Name
   /taxonomy/links:
     post:
       summary: Retrieve external links associated with a taxonomic identifier.
@@ -5690,12 +5696,6 @@ paths:
           example-0:
             value: 9606
             summary: NCBI Taxonomy Identifier
-          example-1:
-            value: human
-            summary: Common Name
-          example-2:
-            value: Homo sapiens
-            summary: Scientific Name
       - name: image_size
         in: query
         required: false
@@ -5779,12 +5779,6 @@ paths:
           example-0:
             value: 9606
             summary: NCBI Taxonomy Identifier
-          example-1:
-            value: human
-            summary: Common Name
-          example-2:
-            value: Homo sapiens
-            summary: Scientific Name
   /taxonomy/image/metadata:
     post:
       summary: Retrieve image metadata associated with a taxonomic identifier by post
@@ -6226,11 +6220,12 @@ paths:
             schema:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
             examples:
-              SARS-CoV-2 virus protein example:
-                description: SARS-CoV-2 virus protein
+              SARS-CoV-2 virus RefSeq protein example:
+                description: SARS-CoV-2 virus protein (RefSeq)
                 value:
                   proteins:
-                    - spike
+                   - spike
+                  refseq_only: true
   /virus/taxon/{taxon}/genome/table:
     get:
       summary: Get virus genome metadata in a tabular format.
@@ -8107,11 +8102,12 @@ paths:
             schema:
               $ref: '#/components/schemas/v2Sars2ProteinDatasetRequest'
             examples:
-              SARS-CoV-2 virus protein example:
-                description: SARS-CoV-2 virus protein
+              SARS-CoV-2 virus RefSeq protein example:
+                description: SARS-CoV-2 virus protein (RefSeq)
                 value:
                   proteins:
-                    - spike
+                   - spike
+                  refseq_only: true
       parameters:
       - name: filename
         description: Output file name.
@@ -10283,6 +10279,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsGeneGroup'
+        summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGeneSummary'
     v2reportsGeneGroup:
       type: object
       properties:
@@ -10311,6 +10311,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsError'
+    v2reportsGeneSummary:
+      type: object
+      properties:
+        source:
+          type: string
+        description:
+          type: string
+        date:
+          type: string
     v2reportsGenomeAnnotation:
       type: object
       properties:
