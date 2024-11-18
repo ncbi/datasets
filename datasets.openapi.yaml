@@ -4467,13 +4467,13 @@ paths:
                 description: GCF accession (just one)
                 value:
                   accession: "GCF_000001635.27"
-  /genome/accession/{accession}/id/{annotation_ids}/annotation_summary:
+  /genome/accession/{accession}/annotation_summary:
     get:
       summary: Get genome annotation report summary information
       description: 'Get genome annotation report summary information by genome accession. The return facets can be used in subsequent queries.'
       tags:
         - Genome
-      operationId: annotation_report_facets
+      operationId: annotation_report_facets_by_accession
       responses:
         default:
           description: An unexpected error response.
@@ -4497,14 +4497,6 @@ paths:
           example-0:
             value: GCF_000001635.27
             summary: Mouse
-      - name: annotation_ids
-        description: 'Limit the reports by internal, unstable annotation ids.'
-        in: path
-        required: true
-        schema:
-          type: array
-          items:
-            type: string
       - name: sort.field
         in: query
         required: false
