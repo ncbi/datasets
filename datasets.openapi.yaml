@@ -11045,6 +11045,10 @@ components:
           title: 'Genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
         current_scientific_name_is_formal:
           type: boolean
+        secondary_tax_ids:
+          type: array
+          items:
+            type: integer
     v2reportsTaxonomyNodeCountByType:
       type: object
       properties:
