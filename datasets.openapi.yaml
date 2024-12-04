@@ -10275,6 +10275,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsGeneSummary'
+        gene_ontology:
+          $ref: '#/components/schemas/v2reportsGeneOntology'
     v2reportsGeneGroup:
       type: object
       properties:
@@ -10282,6 +10284,23 @@ components:
           type: string
         method:
           type: string
+    v2reportsGeneOntology:
+      type: object
+      properties:
+        assigned_by:
+          type: string
+        molecular_functions:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsProcessMetadata'
+        biological_processes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsProcessMetadata'
+        cellular_components:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsProcessMetadata'
     v2reportsGeneReportMatch:
       type: object
       properties:
@@ -10728,6 +10747,19 @@ components:
         manual_diff:
           type: string
           title: 'Additional details about sequence differences between the GenBank and RefSeq assemblies'
+    v2reportsProcessMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+        go_id:
+          type: string
+        evidence_code:
+          type: string
+        qualifier:
+          type: string
+        reference:
+          $ref: '#/components/schemas/v2reportsReference'
     v2reportsProductDescriptor:
       type: object
       properties:
@@ -10805,6 +10837,14 @@ components:
         ribosomal_slippage:
           type: integer
           title: 'When ribosomal slippage is desired, fill out slippage amount between this and previous range.'
+    v2reportsReference:
+      type: object
+      properties:
+        pmids:
+          type: array
+          items:
+            type: string
+            format: uint64
     v2reportsSeqRangeSet:
       type: object
       properties:
