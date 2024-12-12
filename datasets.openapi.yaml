@@ -7519,6 +7519,24 @@ paths:
           example-2:
             value: 11118
             summary: Coronaviridae
+      - name: taxons
+        description: 'NCBI TAxonomy IDs or names (common or scientific) at any taxonomic rank'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: 1335626
+            summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -7699,6 +7717,24 @@ paths:
           example-0:
             value: NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
+      - name: taxons
+        description: 'NCBI TAxonomy IDs or names (common or scientific) at any taxonomic rank'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: 1335626
+            summary: MERS
+          example-1:
+            value: 2697049
+            summary: SARS-COV-2
+          example-2:
+            value: 11118
+            summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
         in: query
@@ -9266,6 +9302,10 @@ components:
         taxon:
           type: string
           title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        taxons:
+          type: array
+          items:
+            type: string
         refseq_only:
           type: boolean
           title: 'If true, limit results to RefSeq genomes.'
@@ -9364,6 +9404,10 @@ components:
         taxon:
           type: string
           title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        taxons:
+          type: array
+          items:
+            type: string
         refseq_only:
           type: boolean
           title: 'If true, limit results to RefSeq genomes.'
@@ -9402,6 +9446,10 @@ components:
         taxon:
           type: string
           title: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
+        taxons:
+          type: array
+          items:
+            type: string
         refseq_only:
           type: boolean
           title: 'If true, limit results to RefSeq genomes.'
@@ -11529,6 +11577,7 @@ components:
         - GENE_LINK
         - GDV_LINK
         - ORTHOLOG_LINK
+        - MCGV_LINK
       default: DEFAULT
       title: 'Types of gene links that may be returned'
     
