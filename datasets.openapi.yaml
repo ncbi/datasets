@@ -9501,32 +9501,40 @@ components:
       properties:
         assembly:
           type: string
+          title: 'Accession of the submitted organism best match type-strain assembly or best match type-strain assembly'
         organism_name:
           type: string
+          title: 'Taxonomic name of the submitted organism or best match type-strain organism'
         category:
           $ref: '#/components/schemas/v2reportsANITypeCategory'
+          title: 'Type category'
         ani:
           type: number
           format: float
+          title: 'Percent average nucleotide identity'
         assembly_coverage:
           type: number
           format: float
-          title: 'AKA qcoverage'
+          title: 'Percent coverage of the query assembly by the submitted organism or best match type assembly'
         type_assembly_coverage:
           type: number
           format: float
-          title: 'AKA scoverage'
+          title: 'Percent coverage of the submitted organism or best match type assembly by the query assembly'
     v2reportsAnnotation:
       type: object
       properties:
         assembly_accession:
           type: string
+          title: 'Genome assembly accession'
         assembly_name:
           type: string
+          title: 'Genome assembly name'
         annotation_name:
           type: string
+          title: 'Genome annotation name'
         annotation_release_date:
           type: string
+          title: 'Genome annotation release date'
         genomic_locations:
           type: array
           items:
@@ -9536,24 +9544,32 @@ components:
       properties:
         name:
           type: string
+          title: 'Annotation name'
         provider:
           type: string
+          title: 'Source of the annotation'
         release_date:
           type: string
+          title: 'Annotation release date'
         report_url:
           type: string
+          title: 'Annotation report web address'
         stats:
           $ref: '#/components/schemas/v2reportsFeatureCounts'
         busco:
           $ref: '#/components/schemas/v2reportsBuscoStat'
         method:
           type: string
+          title: 'Software tools used to calculate annotation'
         pipeline:
           type: string
+          title: 'NCBI annotation pipeline used to calculate annotation'
         software_version:
           type: string
+          title: 'NCBI annotation pipeline software version'
         status:
           type: string
+          title: 'Type of annotation'
         release_version:
           type: string
     v2reportsAssemblyDataReport:
@@ -9783,22 +9799,26 @@ components:
       properties:
         taxonomy_check_status:
           $ref: '#/components/schemas/v2reportsAverageNucleotideIdentityTaxonomyCheckStatus'
+          title: 'Indicates whether the ANI result is consistent with the submitted organism'
         match_status:
           $ref: '#/components/schemas/v2reportsAverageNucleotideIdentityMatchStatus'
+          title: 'Indicates the specific type of ANI result that supports the Taxonomy check status'
         submitted_organism:
           type: string
-          title: 'Column 5 of ANI Report'
+          title: 'Taxonomic name of the query assembly'
         submitted_species:
           type: string
-          title: 'Column 6 of ANI Report'
+          title: 'Species name of the query assembly'
         category:
           $ref: '#/components/schemas/v2reportsANITypeCategory'
+          title: 'Category of type or validated assembly'
         submitted_ani_match:
           $ref: '#/components/schemas/v2reportsANIMatch'
         best_ani_match:
           $ref: '#/components/schemas/v2reportsANIMatch'
         comment:
           type: string
+          title: 'Additional information about the ANI result'
     v2reportsBioProject:
       type: object
       properties:
@@ -9879,56 +9899,82 @@ components:
           title: 'Current status of the object.'
         age:
           type: string
+          title: 'Age at the time of sampling'
         biomaterial_provider:
           type: string
+          title: 'Name and address of the lab or PI'
         breed:
           type: string
+          title: 'Breed name'
         collected_by:
           type: string
+          title: 'Name of persons or institute who collected the sample'
         collection_date:
           type: string
+          title: 'Date on which the sample was collected'
         cultivar:
           type: string
+          title: 'Cultivated variety of plant'
         dev_stage:
           type: string
+          title: 'Developmental stage at the time of sampling'
         ecotype:
           type: string
+          title: 'Population within a given species adapted to a local habitat'
         geo_loc_name:
           type: string
+          title: 'Geographical origin of the sample'
         host:
           type: string
+          title: 'The natural host to the organism'
         host_disease:
           type: string
+          title: 'Name of relevant disease'
         identified_by:
           type: string
+          title: 'Name of the taxonomist who identified the specimen'
         ifsac_category:
           type: string
+          title: 'Interagency Food Safety Analytics Collaboration (IFSAC) category'
         isolate:
           type: string
+          title: 'Description of the specific individual from which the sample was derived'
         isolate_name_alias:
           type: string
+          title: 'Other IDs associated with this isolate'
         isolation_source:
           type: string
+          title: 'Source of the sample'
         lat_lon:
           type: string
+          title: 'Geogrpahic coordinates of the location where the sample was collected'
         project_name:
           type: string
+          title: 'Name of the project'
         sample_name:
           type: string
+          title: 'Sample name in source database'
         serovar:
           type: string
+          title: 'Taxonomic name below subspecies. Same as serotype.'
         sex:
           type: string
+          title: 'Physical sex of sampled organism'
         source_type:
           type: string
+          title: 'Controlled vocabulary describing the isolation source'
         strain:
           type: string
+          title: 'Strain name'
         sub_species:
           type: string
+          title: 'Sub-species taxonomic name'
         tissue:
           type: string
+          title: 'Type of tissue from which the sample was derived'
         serotype:
           type: string
+          title: 'Taxonomic name below subspecies. Same as serovar'
     v2reportsBioSampleDataReportPage:
       type: object
       properties:
@@ -9992,56 +10038,82 @@ components:
           $ref: '#/components/schemas/v2reportsBioSampleStatus'
         age:
           type: string
+          title: 'Age at the time of sampling'
         biomaterial_provider:
           type: string
+          title: 'Name and address of the lab or PI'
         breed:
           type: string
+          title: 'Breed name'
         collected_by:
           type: string
+          title: 'Name of persons or institute who collected the sample'
         collection_date:
           type: string
+          title: 'Date on which the sample was collected'
         cultivar:
           type: string
+          title: 'Cultivated variety of plant'
         dev_stage:
           type: string
+          title: 'Developmental stage at the time of sampling'
         ecotype:
           type: string
+          title: 'Population within a given species adapted to a local habitat'
         geo_loc_name:
           type: string
+          title: 'Geographical origin of the sample'
         host:
           type: string
+          title: 'The natural host to the organism'
         host_disease:
           type: string
+          title: 'Name of relevant disease'
         identified_by:
           type: string
+          title: 'Name of the taxonomist who identified the specimen'
         ifsac_category:
           type: string
+          title: 'Interagency Food Safety Analytics Collaboration (IFSAC) category'
         isolate:
           type: string
+          title: 'Description of the specific individual from which the sample was derived'
         isolate_name_alias:
           type: string
+          title: 'Other IDs associated with this isolate'
         isolation_source:
           type: string
+          title: 'Source of the sample'
         lat_lon:
           type: string
+          title: 'Geographic coordinates of the location where the sample was collected'
         project_name:
           type: string
+          title: 'Name of the project'
         sample_name:
           type: string
+          title: 'Sample name in source database'
         serovar:
           type: string
+          title: 'Taxonomic name below subspecies. Same as serotype.'
         sex:
           type: string
+          title: 'Physical sex of sampled organism'
         source_type:
           type: string
+          title: 'Controlled vocabulary describing the isolation source'
         strain:
           type: string
+          title: 'Strain name'
         sub_species:
           type: string
+          title: 'Sub-species taxonomic name'
         tissue:
           type: string
+          title: 'Type of tissue from which the sample was derived'
         serotype:
           type: string
+          title: 'Taxonomic name below subspecies. Same as serovar'
     v2reportsBioSampleId:
       type: object
       properties:
@@ -10249,10 +10321,10 @@ components:
           title: 'NCBI Gene ID'
         symbol:
           type: string
-          title: 'gene symbol'
+          title: 'Gene symbol'
         description:
           type: string
-          title: 'gene name'
+          title: 'Gene name'
         tax_id:
           type: string
           format: uint64
@@ -10265,10 +10337,12 @@ components:
           title: 'Common name of the organism'
         type:
           $ref: '#/components/schemas/v2reportsGeneType'
+          title: 'Type of gene'
         rna_type:
           $ref: '#/components/schemas/v2reportsRnaType'
         orientation:
           $ref: '#/components/schemas/v2reportsOrientation'
+          title: 'Direction of the gene relative to the genome coordinates'
         reference_standards:
           type: array
           items:
@@ -10309,8 +10383,10 @@ components:
             $ref: '#/components/schemas/v2reportsAnnotation'
         transcript_count:
           type: integer
+          title: 'Number of transcripts encoded by the gene'
         protein_count:
           type: integer
+          title: 'Number of proteins encoded by the gene'
         transcript_type_counts:
           type: array
           items:
@@ -10325,18 +10401,23 @@ components:
             $ref: '#/components/schemas/v2reportsGeneSummary'
         gene_ontology:
           $ref: '#/components/schemas/v2reportsGeneOntology'
+        locus_tag:
+          type: string
     v2reportsGeneGroup:
       type: object
       properties:
         id:
           type: string
+          title: 'Gene group identifier, currently these only include gene ortholog sets'
         method:
           type: string
+          title: 'Method used to calculate the gene group, currently this only includes "NCBI Ortholog"'
     v2reportsGeneOntology:
       type: object
       properties:
         assigned_by:
           type: string
+          title: 'The database that made the annotation'
         molecular_functions:
           type: array
           items:
@@ -10375,10 +10456,13 @@ components:
       properties:
         source:
           type: string
+          title: 'Source of the gene summary'
         description:
           type: string
+          title: 'Gene summary text itself that describes the gene'
         date:
           type: string
+          title: 'Date that the gene summary was last updated'
     v2reportsGenomeAnnotation:
       type: object
       properties:
@@ -10511,6 +10595,7 @@ components:
           title: 'The range of this Gene record on this genomic region.'
         type:
           $ref: '#/components/schemas/v2reportsGenomicRegionGenomicRegionType'
+          title: 'Type of genomic region'
     v2reportsInfraspecificNames:
       type: object
       properties:
@@ -10800,14 +10885,19 @@ components:
       properties:
         name:
           type: string
+          title: 'Gene ontology term name'
         go_id:
           type: string
+          title: 'Gene ontology identifier'
         evidence_code:
           type: string
+          title: 'Indicates how the annotation is supported'
         qualifier:
           type: string
+          title: 'Explicitly link gene products to GO terms'
         reference:
           $ref: '#/components/schemas/v2reportsReference'
+          title: 'Source of evidence supporting the GO annotation'
     v2reportsProductDescriptor:
       type: object
       properties:
@@ -10833,16 +10923,20 @@ components:
           title: 'Common name of the organism'
         type:
           $ref: '#/components/schemas/v2reportsGeneType'
+          title: 'Type of gene'
         rna_type:
           $ref: '#/components/schemas/v2reportsRnaType'
+          title: 'Type of RNA'
         transcripts:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsTranscript'
         transcript_count:
           type: integer
+          title: 'Number of transcripts encoded by the gene'
         protein_count:
           type: integer
+          title: 'Number of proteins encoded by the gene'
         transcript_type_counts:
           type: array
           items:
@@ -10875,13 +10969,17 @@ components:
         begin:
           type: string
           format: uint64
+          title: 'Sequence start position'
         end:
           type: string
           format: uint64
+          title: 'Sequence stop position'
         orientation:
           $ref: '#/components/schemas/v2reportsOrientation'
+          title: 'Direction relative to the genome'
         order:
           type: integer
+          title: 'The position of this sequence in a group of sequences'
         ribosomal_slippage:
           type: integer
           title: 'When ribosomal slippage is desired, fill out slippage amount between this and previous range.'
@@ -11206,13 +11304,18 @@ components:
           $ref: '#/components/schemas/v2reportsProtein'
         type:
           $ref: '#/components/schemas/v2reportsTranscriptTranscriptType'
+          title: 'Indicates transcript protein-coding potential and whether it was computationally predicted'
+        select_category:
+          $ref: '#/components/schemas/v2reportsTranscriptSelectCategory'
     v2reportsTranscriptTypeCount:
       type: object
       properties:
         type:
           $ref: '#/components/schemas/v2reportsTranscriptTranscriptType'
+          title: 'Type of transcript'
         count:
           type: integer
+          title: 'Number of transcripts of a particular type'
     v2reportsTypeMaterial:
       type: object
       properties:
@@ -11286,6 +11389,7 @@ components:
           title: 'Value describing if the of the viral nucleotide sequence represents a complete or partial genome'
         completeness:
           $ref: '#/components/schemas/v2reportsVirusAssemblyCompleteness'
+          title: 'Indicates whether the viral nucleotide sequence represents a complete or partial genome'
         length:
           type: integer
           title: 'Length of the viral nucleotide sequence'
@@ -11306,6 +11410,7 @@ components:
           title: 'The whole genomic nucleotide record of the CDS feature.'
         purpose_of_sampling:
           $ref: '#/components/schemas/v2reportsPurposeOfSampling'
+          title: 'SARS-CoV-2 only, indicates whether the sequence was collected randomly for epedimiology studies'
         sra_accessions:
           type: array
           items:
@@ -11425,10 +11530,13 @@ components:
       properties:
         wgs_project_accession:
           type: string
+          title: 'WGS project accession'
         master_wgs_url:
           type: string
+          title: 'WGS project Nucleotide web address'
         wgs_contigs_url:
           type: string
+          title: 'WGS project Sequence set browser web address'
     v2reportsWarning:
       type: object
       properties:
@@ -11455,6 +11563,7 @@ components:
       enum:
         - GENOME_GFF
         - GENOME_GBFF
+        - GENOME_GB
         - RNA_FASTA
         - PROT_FASTA
         - GENOME_GTF
@@ -11529,6 +11638,7 @@ components:
         - FTP_LINK
         - ASSEMBLY_PUBMED
         - BLAST_LINK
+        - ASSEMBLY_NUCCORE
         - ASSEMBLY_NUCCORE_REFSEQ
         - ASSEMBLY_NUCCORE_GENBANK
       default: DEFAULT
@@ -12097,6 +12207,15 @@ components:
         - SOURCE_DATABASE_GENBANK
         - SOURCE_DATABASE_REFSEQ
       default: SOURCE_DATABASE_UNSPECIFIED
+    
+    v2reportsTranscriptSelectCategory:
+      type: string
+      enum:
+        - SELECT_UNKNOWN
+        - REFSEQ_SELECT
+        - MANE_SELECT
+        - MANE_PLUS_CLINICAL
+      default: SELECT_UNKNOWN
     
     v2reportsTranscriptTranscriptType:
       type: string
