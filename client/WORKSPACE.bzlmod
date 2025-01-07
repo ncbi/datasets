@@ -1,0 +1,7 @@
+#load("@datasets_client//bazel:repositories.bzl", "repositories")
+
+# repositories()
+
+load("@datasets_client//bazel:deps.bzlmod.bzl", gdh_deps = "deps")
+
+gdh_deps()
