@@ -10,76 +10,59 @@ info:
 
       For some larger downloads, you may want to download a [dehydrated zip archive](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/how-tos/genomes/large-download/),
       and retrieve the individual data files at a later time.
-
     '
+  contact:
+    name: NCBI
+    url: https://www.ncbi.nlm.nih.gov/datasets
+    email: help@ncbi.nlm.nih.gov
 servers:
 - url: https://api.ncbi.nlm.nih.gov/datasets/v2
 - url: https://dev.ncbi.nlm.nih.gov/datasets/v2
 tags:
 - name: Genome
-  description: '#### Options to explore, summarize and download assembled genomes,
-    including the associated sequence, metadata and annotation.
+  description: '#### Options to explore, summarize, and download assembled genomes, including associated
+    sequences, metadata, and annotations.
 
-    These genome services allow you to explore genome [assemblies](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/glossary/#assembly).  For
-    a set of genomes of interest, identified by either assembly accession or taxonomic
-    subtree, you can generate a summary, determine the package size, and download.
+    These genome services allow you to browse genome assemblies. For genomes of interest,
+    identified by taxonomic name or ID, Assembly, BioProject, BioSample, WGS or Nucleotide
+    accession, you can explore metadata, generate summaries, and determine package sizes. You can
+    download data packages including metadata (in tabular and JSON Lines formats), annotation,
+    genome, protein, RNA and CDS sequence in FASTA format by Assembly or BioProject
+    accession.
 
     '
 - name: Gene
-  description: '#### Options to explore, summarize and download sequences and metadata
-    for genes and their associated transcripts and proteins.
+  description: '#### Options to explore, summarize, and download sequences and metadata for genes and gene
+    ortholog sets, along with their associated transcripts and proteins.
 
-    These gene services allow you explore [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/),
-    and for genes of interest, identified by either gene-id, symbol or RefSeq sequence
-    accession, download a data package including metadata (tabular and [JSON Lines](https://jsonlines.org/)
-    formats), transcript and protein sequence in FASTA format.
+    These gene services allow you to explore RefSeq curated gene data. For genes of interest,
+    identified by GeneID, Gene symbol, or RefSeq sequence accession, you can download data
+    packages including metadata (in tabular and JSON Lines formats), and gene, transcript and
+    protein sequences in FASTA format.
+
+    '
+- name: BioSample
+  description: '#### Options to explore and download BioSample data by BioSample accession.
+
+    These BioSample services allow you to browse metadata for specified BioSample accessions.
 
     '
 - name: Prokaryote
-  description: '#### Options to explore, summarize and download sequences and metadata
-    for prokaryote genes and their associated proteins.
+  description: '#### Options to download sequences and metadata for prokaryotic genes and their associated proteins.
 
-    These gene services allow you to explore prokaryotic gene data by RefSeq protein
-    sequence accession and download a data package including metadata for the gene
-    including all genomic annotations as [JSON Lines](https://jsonlines.org/) format,
-    gene and protein sequences in FASTA format.
+    These prokaryote services allow you to download prokaryotic gene data by RefSeq protein
+    sequence accession (WP_). You can download data packages including gene metadata, genomic
+    annotations (in JSON Lines format), and gene and protein sequences in FASTA format.
 
     '
 - name: Virus
-  description: '#### Get metadata or a zip archive containing a virus genome
-    or coronavirus protein dataset.
+  description: '#### Options to explore, summarize, and download virus genome and protein sequences, annotations
+    and associated metadata.
 
-    The following files are optionally available for virus genome and/or protein
-    datasets:
+    These virus services allow you to explore virus metadata and annotations curated by NCBI Virus
+    or download a data package including metadata and annotations (in JSON Lines formats), and
+    genome, transcript, CDS and protein sequences in FASTA format.
 
-    * genomic.fna (genomic sequences in FASTA format)
-
-    * cds.fna (nucleotide coding sequences in FASTA format)
-
-    * protein.faa (protein sequences in FASTA format)
-
-    * annotation_report.jsonl (annotation report in [JSON Lines](https://jsonlines.org/) format)
-
-    * biosample_report.jsonl (biosample report in [JSON Lines](https://jsonlines.org/) format)
-
-
-    The following files are always included in coronavirus genome and protein datasets:
-
-    * data_report.jsonl (data report with viral metadata in JSON lines format)
-
-    * virus_dataset.md (README containing details on sequence file data content and
-    other information)
-
-    * dataset_catalog.json (a list of files and file types included in the dataset)
-
-
-    You may also request a tab-delimited table of metadata that describes the available
-    virus genome and protein data.
-
-    Virus genome datasets are available for all viruses, including SARS-CoV-2.
-    Various parameters may be used for filtering and specifying the contents of the genome dataset.
-
-    Protein datasets are available for SARS-CoV-2 only.
     '
 
 - name: Version
@@ -88,10 +71,19 @@ tags:
 
 
 - name: Taxonomy
-  description: '#### Options to explore taxonomic metadata and relationships.
+  description: '#### Options to explore and download taxonomic metadata, images, and relationships.
 
-    These taxonomic services allow you to browse taxonomic metadata in addition to retrieving
-    parent lineages and filtered sets of child nodes for any given set of taxonomic identifiers.
+    These taxonomy services allow you to explore taxonomic metadata and images, retrieve parent
+    lineages, and access filtered sets of child nodes for specified taxonomic identifiers.
+
+    '
+
+- name: Organelle
+  description: '#### Options to explore, summarize, and download RefSeq-curated organelle genomes, including associated sequences, metadata, and annotations.
+
+    These organelle services allow you to browse organelle metadata by genomic accession or
+    taxonomic identifiers. You can download data packages including metadata, gene annotation
+    information in JSON Lines format, and genome and protein sequences in FASTA format.
 
     '
 
@@ -132,7 +124,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: GCF_000001405.40
+            value:
+              - GCF_000001405.40
             summary: Human
           example-1:
             value:
@@ -150,9 +143,9 @@ paths:
         examples:
           example-0:
             value:
-              - 1
-              - 2
-              - 3
+              - "1"
+              - "2"
+              - "3"
               - X
               - Y
               - MT
@@ -184,7 +177,8 @@ paths:
               - GENOME_GTF
               - PROT_FASTA
               - RNA_FASTA
-              - CDS_FASTA, SEQUENCE_REPORT
+              - CDS_FASTA
+              - SEQUENCE_REPORT
             summary: All
   /genome/download_summary:
     post:
@@ -254,7 +248,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: GCF_000001405.40
+            value:
+              - GCF_000001405.40
             summary: Human
           example-1:
             value:
@@ -262,7 +257,7 @@ paths:
               - GCF_000001635.27
             summary: Human and Mouse
       - name: filters.reference_only
-        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        description: 'If true, only return reference genome assemblies'
         in: query
         required: false
         schema:
@@ -271,7 +266,7 @@ paths:
         examples:
           example-0:
             value: true
-            summary: Limit to reference & representative genomes
+            summary: Limit to reference genomes
           example-1:
             value: false
             summary: Include reference and non-reference genomes
@@ -281,7 +276,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
-          default: all
         examples:
           example-0:
             value: refseq
@@ -340,7 +334,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
-          default: current
         examples:
           example-0:
             value: current
@@ -377,7 +370,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: filters.last_release_date
         description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
@@ -388,7 +381,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: filters.search_text
         description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
@@ -400,13 +393,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: Genome Reference Consortium
+            value:
+              - Genome Reference Consortium
             summary: Genome Reference Consortium
           example-1:
-            value: GRCh38
+            value:
+              - GRCh38
             summary: GRCh38
           example-2:
-            value: C57BL/6J
+            value:
+              - C57BL/6J
             summary: C57BL/6J
       - name: filters.is_metagenome_derived
         in: query
@@ -498,7 +494,8 @@ paths:
               - assminfo-name
             summary: Genome Accession and Name
           example-1:
-            value: assminfo-accession
+            value:
+              - assminfo-accession
             summary: Just accession
       - name: returned_content
         description: 'Return either assembly accessions, or complete assembly reports'
@@ -572,7 +569,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9606
+            value:
+              - "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -580,10 +578,11 @@ paths:
               - eastern gorilla
             summary: Common Names
           example-2:
-            value: Homo sapiens
+            value:
+              - Homo sapiens
             summary: Scientific Name
       - name: filters.reference_only
-        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        description: 'If true, only return reference genome assemblies'
         in: query
         required: false
         schema:
@@ -592,7 +591,7 @@ paths:
         examples:
           example-0:
             value: true
-            summary: Limit to reference & representative genomes
+            summary: Limit to reference genomes
           example-1:
             value: false
             summary: Include reference and non-reference genomes
@@ -602,7 +601,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
-          default: all
         examples:
           example-0:
             value: refseq
@@ -661,7 +659,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
-          default: current
         examples:
           example-0:
             value: current
@@ -698,7 +695,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: filters.last_release_date
         description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
@@ -709,7 +706,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: filters.search_text
         description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
@@ -721,13 +718,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: Genome Reference Consortium
+            value:
+              - Genome Reference Consortium
             summary: Genome Reference Consortium
           example-1:
-            value: GRCh38
+            value:
+              - GRCh38
             summary: GRCh38
           example-2:
-            value: C57BL/6J
+            value:
+              - C57BL/6J
             summary: C57BL/6J
       - name: filters.is_metagenome_derived
         in: query
@@ -819,7 +819,8 @@ paths:
               - assminfo-name
             summary: Genome Accession and Name
           example-1:
-            value: assminfo-accession
+            value:
+              - assminfo-accession
             summary: Just accession
       - name: returned_content
         description: 'Return either assembly accessions, or complete assembly reports'
@@ -892,13 +893,15 @@ paths:
             type: string
         examples:
           example-0:
-            value: PRJNA489243
+            value:
+              - PRJNA489243
             summary: Vertebrate Genomes Project
           example-1:
-            value: PRJNA31257
+            value:
+              - PRJNA31257
             summary: Human Genome Project
       - name: filters.reference_only
-        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        description: 'If true, only return reference genome assemblies'
         in: query
         required: false
         schema:
@@ -907,7 +910,7 @@ paths:
         examples:
           example-0:
             value: true
-            summary: Limit to reference & representative genomes
+            summary: Limit to reference genomes
           example-1:
             value: false
             summary: Include reference and non-reference genomes
@@ -917,7 +920,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
-          default: all
         examples:
           example-0:
             value: refseq
@@ -976,7 +978,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
-          default: current
         examples:
           example-0:
             value: current
@@ -1013,7 +1014,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: filters.last_release_date
         description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
@@ -1024,7 +1025,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: filters.search_text
         description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
@@ -1036,13 +1037,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: Genome Reference Consortium
+            value:
+              - Genome Reference Consortium
             summary: Genome Reference Consortium
           example-1:
-            value: GRCh38
+            value:
+              - GRCh38
             summary: GRCh38
           example-2:
-            value: C57BL/6J
+            value:
+              - C57BL/6J
             summary: C57BL/6J
       - name: filters.is_metagenome_derived
         in: query
@@ -1134,7 +1138,8 @@ paths:
               - assminfo-name
             summary: Genome Accession and Name
           example-1:
-            value: assminfo-accession
+            value:
+              - assminfo-accession
             summary: Just accession
       - name: returned_content
         description: 'Return either assembly accessions, or complete assembly reports'
@@ -1207,10 +1212,11 @@ paths:
             type: string
         examples:
           example-0:
-            value: SAMN15960293
+            value:
+              - SAMN15960293
             summary: BioSample Identifier
       - name: filters.reference_only
-        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        description: 'If true, only return reference genome assemblies'
         in: query
         required: false
         schema:
@@ -1219,7 +1225,7 @@ paths:
         examples:
           example-0:
             value: true
-            summary: Limit to reference & representative genomes
+            summary: Limit to reference genomes
           example-1:
             value: false
             summary: Include reference and non-reference genomes
@@ -1229,7 +1235,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
-          default: all
         examples:
           example-0:
             value: refseq
@@ -1288,7 +1293,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
-          default: current
         examples:
           example-0:
             value: current
@@ -1325,7 +1329,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: filters.last_release_date
         description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
@@ -1336,7 +1340,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: filters.search_text
         description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
@@ -1348,13 +1352,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: Genome Reference Consortium
+            value:
+              - Genome Reference Consortium
             summary: Genome Reference Consortium
           example-1:
-            value: GRCh38
+            value:
+              - GRCh38
             summary: GRCh38
           example-2:
-            value: C57BL/6J
+            value:
+              - C57BL/6J
             summary: C57BL/6J
       - name: filters.is_metagenome_derived
         in: query
@@ -1446,7 +1453,8 @@ paths:
               - assminfo-name
             summary: Genome Accession and Name
           example-1:
-            value: assminfo-accession
+            value:
+              - assminfo-accession
             summary: Just accession
       - name: returned_content
         description: 'Return either assembly accessions, or complete assembly reports'
@@ -1519,7 +1527,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: JAXUCZ01
+            value:
+              - JAXUCZ01
             summary: Norway rat (Rattus norvegicus) wgs accession
           example-1:
             value:
@@ -1527,7 +1536,7 @@ paths:
               - JAAKGM02
             summary: Human wgs accessions
       - name: filters.reference_only
-        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        description: 'If true, only return reference genome assemblies'
         in: query
         required: false
         schema:
@@ -1536,7 +1545,7 @@ paths:
         examples:
           example-0:
             value: true
-            summary: Limit to reference & representative genomes
+            summary: Limit to reference genomes
           example-1:
             value: false
             summary: Include reference and non-reference genomes
@@ -1546,7 +1555,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
-          default: all
         examples:
           example-0:
             value: refseq
@@ -1605,7 +1613,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
-          default: current
         examples:
           example-0:
             value: current
@@ -1642,7 +1649,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: filters.last_release_date
         description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
@@ -1653,7 +1660,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: filters.search_text
         description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
@@ -1665,13 +1672,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: Genome Reference Consortium
+            value:
+              - Genome Reference Consortium
             summary: Genome Reference Consortium
           example-1:
-            value: GRCh38
+            value:
+              - GRCh38
             summary: GRCh38
           example-2:
-            value: C57BL/6J
+            value:
+              - C57BL/6J
             summary: C57BL/6J
       - name: filters.is_metagenome_derived
         in: query
@@ -1763,7 +1773,8 @@ paths:
               - assminfo-name
             summary: Genome Accession and Name
           example-1:
-            value: assminfo-accession
+            value:
+              - assminfo-accession
             summary: Just accession
       - name: returned_content
         description: 'Return either assembly accessions, or complete assembly reports'
@@ -1836,10 +1847,11 @@ paths:
             type: string
         examples:
           example-0:
-            value: HanXRQr2.0-SUNRISE
+            value:
+              - HanXRQr2.0-SUNRISE
             summary: Assembly name (exact)
       - name: filters.reference_only
-        description: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+        description: 'If true, only return reference genome assemblies'
         in: query
         required: false
         schema:
@@ -1848,7 +1860,7 @@ paths:
         examples:
           example-0:
             value: true
-            summary: Limit to reference & representative genomes
+            summary: Limit to reference genomes
           example-1:
             value: false
             summary: Include reference and non-reference genomes
@@ -1858,7 +1870,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
-          default: all
         examples:
           example-0:
             value: refseq
@@ -1917,7 +1928,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblyVersion'
-          default: current
         examples:
           example-0:
             value: current
@@ -1954,7 +1964,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: filters.last_release_date
         description: 'Only return genome assemblies that were released on or before to the specified date By default, do not filter.'
@@ -1965,7 +1975,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: filters.search_text
         description: 'Only return results whose fields contain the specified search terms in their taxon, infraspecific, assembly name or submitter fields By default, do not filter'
@@ -1977,13 +1987,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: Genome Reference Consortium
+            value:
+              - Genome Reference Consortium
             summary: Genome Reference Consortium
           example-1:
-            value: GRCh38
+            value:
+              - GRCh38
             summary: GRCh38
           example-2:
-            value: C57BL/6J
+            value:
+              - C57BL/6J
             summary: C57BL/6J
       - name: filters.is_metagenome_derived
         in: query
@@ -2075,7 +2088,8 @@ paths:
               - assminfo-name
             summary: Genome Accession and Name
           example-1:
-            value: assminfo-accession
+            value:
+              - assminfo-accession
             summary: Just accession
       - name: returned_content
         description: 'Return either assembly accessions, or complete assembly reports'
@@ -2183,7 +2197,7 @@ paths:
   /genome/revision_history:
     post:
       summary: Get revision history for assembly by accession
-      description: ''
+      description: 'Get revision history for assembly by accession'
       tags:
         - Genome
       operationId: assembly_revision_history_by_post
@@ -2324,9 +2338,9 @@ paths:
         examples:
           example-0:
             value:
-              - 1
-              - 2
-              - 3
+              - "1"
+              - "2"
+              - "3"
               - X
               - Y
               - MT
@@ -2351,7 +2365,8 @@ paths:
               - unplaced-scaffold
             summary: All types of sequence
           example-1:
-            value: assembled-molecule
+            value:
+              - assembled-molecule
             summary: Only assembled molecules
       - name: table_fields
         in: query
@@ -2367,7 +2382,8 @@ paths:
               - chr-name
             summary: Genome Accession and Chromosome Name
           example-1:
-            value: ucsc-style-name
+            value:
+              - ucsc-style-name
             summary: UCSC Name
       - name: count_assembly_unplaced
         in: query
@@ -2464,7 +2480,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: GCF_000001405.40
+            value:
+              - GCF_000001405.40
             summary: Human
           example-1:
             value:
@@ -2531,7 +2548,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 202956
+            value: "202956"
             summary: Acinetobacter towneri
   /genome/checkm_histogram:
     post:
@@ -2600,7 +2617,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: SAMN15960293
+            value:
+              - SAMN15960293
             summary: BioSample Identifier
   /genome/accession/{accessions}/download:
     get:
@@ -2635,7 +2653,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: GCF_000001405.40
+            value:
+              - GCF_000001405.40
             summary: Human
           example-1:
             value:
@@ -2653,9 +2672,9 @@ paths:
         examples:
           example-0:
             value:
-              - 1
-              - 2
-              - 3
+              - "1"
+              - "2"
+              - "3"
               - X
               - Y
               - MT
@@ -2687,7 +2706,8 @@ paths:
               - GENOME_GTF
               - PROT_FASTA
               - RNA_FASTA
-              - CDS_FASTA, SEQUENCE_REPORT
+              - CDS_FASTA
+              - SEQUENCE_REPORT
             summary: All
       - name: hydrated
         description: 'Set to DATA_REPORT_ONLY, to only retrieve data-reports.'
@@ -2777,7 +2797,8 @@ paths:
             type: integer
         examples:
           example-0:
-            value: 59067
+            value:
+              - 59067
             summary: IL21 GeneID
           example-1:
             value:
@@ -2810,28 +2831,32 @@ paths:
             $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
         examples:
           example-0:
-            value: PRODUCT_REPORT
+            value:
+              - PRODUCT_REPORT
             summary: Select additional report types to include with download. The base data report will always be included.
+      - name: tabular_reports
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+        examples:
+          example-0:
+            value:
+              - DATASET_REPORT
+              - PRODUCT_REPORT
+            summary: Select tabular files to include. These tabular files will use the 'summary' templates in dataformat.
       - name: table_fields
-        description: 'Specify which fields to include in the tabular report'
+        description: 'Specify which fields to include in the tabular report. This is currently deprecated - use tabular_reports instead.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
-        examples:
-          example-0:
-            value:
-              - gene-id
-              - gene-type
-              - description
-            summary: GeneID, type and description
-          example-1:
-            value: gene-id
-            summary: Just GeneID
       - name: table_report_type
-        description: 'Specify the report from which the table fields will be taken'
+        description: 'Specify the report from which the table fields will be taken. This is currently deprecated - use tabular_reports instead.'
         in: query
         required: false
         schema:
@@ -2919,10 +2944,12 @@ paths:
             type: string
         examples:
           example-0:
-            value: WP_015878339.1
+            value:
+              - WP_015878339.1
             summary: DNA-deoxyinosine glycosylase
           example-1:
-            value: WP_001040085.1
+            value:
+              - WP_001040085.1
             summary: type II CRISPR RNA-guided endonuclease Cas9
       - name: include_annotation_type
         description: 'Select additional types of annotation to include in the data package.  If unset, no annotation is provided.'
@@ -2934,7 +2961,8 @@ paths:
             $ref: '#/components/schemas/v2Fasta'
         examples:
           example-0:
-            value: FASTA_GENE
+            value:
+              - FASTA_GENE
             summary: Gene range FASTA
           example-1:
             value:
@@ -3209,7 +3237,8 @@ paths:
             type: integer
         examples:
           example-0:
-            value: 9606
+            value:
+              - 9606
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -3311,7 +3340,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: GCF_000001405.40
+            value:
+              - GCF_000001405.40
             summary: Human
           example-1:
             value:
@@ -3383,7 +3413,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_001643.1
+            value:
+              - NC_001643.1
             summary: Chimpanzee
           example-1:
             value:
@@ -3516,7 +3547,8 @@ paths:
             type: integer
         examples:
           example-0:
-            value: 59067
+            value:
+              - 59067
             summary: IL21 GeneID
           example-1:
             value:
@@ -3539,7 +3571,8 @@ paths:
               - description
             summary: GeneID, type and description
           example-1:
-            value: gene-id
+            value:
+              - gene-id
             summary: Just GeneID
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
@@ -3603,7 +3636,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NM_021803.4
+            value:
+              - NM_021803.4
             summary: RefSeq transcript
           example-1:
             value:
@@ -3626,7 +3660,8 @@ paths:
               - description
             summary: GeneID, type and description
           example-1:
-            value: gene-id
+            value:
+              - gene-id
             summary: Just GeneID
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
@@ -3690,7 +3725,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: GNAS
+            value:
+              - GNAS
             summary: GNAS
       - name: taxon
         description: 'Taxon for provided gene symbol'
@@ -3700,7 +3736,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value: human
@@ -3724,7 +3760,8 @@ paths:
               - description
             summary: GeneID, type and description
           example-1:
-            value: gene-id
+            value:
+              - gene-id
             summary: Just GeneID
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
@@ -3786,7 +3823,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value: human
@@ -3810,7 +3847,8 @@ paths:
               - description
             summary: GeneID, type and description
           example-1:
-            value: gene-id
+            value:
+              - gene-id
             summary: Just GeneID
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
@@ -3840,7 +3878,7 @@ paths:
         examples:
           example-0:
             value: A2M immunoglobulin
-            summary: 
+            summary: Text search for A2M gene by name
       - name: types
         description: 'Gene types to filter'
         in: query
@@ -3851,7 +3889,8 @@ paths:
             $ref: '#/components/schemas/v2GeneType'
         examples:
           example-0:
-            value: PROTEIN_CODING
+            value:
+              - PROTEIN_CODING
             summary: Only protein coding genes
   /gene:
     post:
@@ -3923,7 +3962,8 @@ paths:
             type: integer
         examples:
           example-0:
-            value: 59067
+            value:
+              - 59067
             summary: IL21 GeneID
           example-1:
             value:
@@ -3962,28 +4002,32 @@ paths:
             $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
         examples:
           example-0:
-            value: PRODUCT_REPORT
+            value:
+              - PRODUCT_REPORT
             summary: Select additional report types to include with download. The base data report will always be included.
+      - name: tabular_reports
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+        examples:
+          example-0:
+            value:
+              - DATASET_REPORT
+              - PRODUCT_REPORT
+            summary: Select tabular files to include. These tabular files will use the 'summary' templates in dataformat.
       - name: table_fields
-        description: 'Specify which fields to include in the tabular report'
+        description: 'Specify which fields to include in the tabular report. This is currently deprecated - use tabular_reports instead.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
-        examples:
-          example-0:
-            value:
-              - gene-id
-              - gene-type
-              - description
-            summary: GeneID, type and description
-          example-1:
-            value: gene-id
-            summary: Just GeneID
       - name: table_report_type
-        description: 'Specify the report from which the table fields will be taken'
+        description: 'Specify the report from which the table fields will be taken. This is currently deprecated - use tabular_reports instead.'
         in: query
         required: false
         schema:
@@ -4050,7 +4094,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value: human
@@ -4139,8 +4183,8 @@ paths:
         examples:
           example-0:
             value:
-              - 9606
-              - 10090
+              - "9606"
+              - "10090"
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -4195,7 +4239,7 @@ paths:
               Single GeneID example:
                 description: GeneID (just one)
                 value:
-                  gene_id: "2778"
+                  gene_id: 2778
   /gene/id/{gene_ids}/links:
     get:
       summary: Get gene links by gene ID
@@ -4227,7 +4271,8 @@ paths:
             type: integer
         examples:
           example-0:
-            value: 59067
+            value:
+              - 59067
             summary: IL21 GeneID
           example-1:
             value:
@@ -4295,7 +4340,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9117
+            value: "9117"
             summary: NCBI Taxonomy Identifier
           example-1:
             value: Whooping crane
@@ -4706,12 +4751,13 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9443
+            value:
+              - "9443"
             summary: Primates
           example-1:
             value:
-              - 9606
-              - 10090
+              - "9606"
+              - "10090"
             summary: Human and Mouse
       - name: accessions
         description: 'NCBI assembly accession'
@@ -4723,7 +4769,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_001643.1
+            value:
+              - NC_001643.1
             summary: Chimpanzee
           example-1:
             value:
@@ -4746,7 +4793,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: last_release_date
         description: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
@@ -4757,7 +4804,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
@@ -4825,12 +4872,13 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9443
+            value:
+              - "9443"
             summary: Primates
           example-1:
             value:
-              - 9606
-              - 10090
+              - "9606"
+              - "10090"
             summary: Human and Mouse
       - name: organelle_types
         in: query
@@ -4848,7 +4896,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2015
+            value: 2015-01-10T00:00:00Z
             summary: Jan 10, 2015
       - name: last_release_date
         description: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
@@ -4859,7 +4907,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 01/10/2021
+            value: 2021-01-10T00:00:00Z
             summary: Jan 10, 2021
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
@@ -4970,7 +5018,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9606
+            value:
+              - "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5095,7 +5144,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9606
+            value:
+              - "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5220,7 +5270,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9606
+            value:
+              - "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5435,7 +5486,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 9606
+            value:
+              - "9606"
             summary: NCBI Taxonomy Identifier
           example-1:
             value:
@@ -5531,14 +5583,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxRankFilter'
-          default: species
       - name: taxon_resource_filter
         description: 'Limit results to those with gene or genome counts (no filter by default)'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
-          default: TAXON_RESOURCE_FILTER_ALL
       - name: exact_match
         description: 'If true, only return results that exactly match the provided name or tax-id'
         in: query
@@ -5605,7 +5655,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: "9606"
             summary: NCBI Taxonomy Identifier
   /taxonomy/links:
     post:
@@ -5686,7 +5736,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: "9606"
             summary: NCBI Taxonomy Identifier
       - name: image_size
         in: query
@@ -5769,7 +5819,7 @@ paths:
           type: string
         examples:
           example-0:
-            value: 9606
+            value: "9606"
             summary: NCBI Taxonomy Identifier
   /taxonomy/image/metadata:
     post:
@@ -5833,7 +5883,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_038294.1
+            value:
+              - NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -5843,13 +5894,13 @@ paths:
           type: string
         examples:
           example-0:
-            value: 1335626
+            value: "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value: "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value: "11118"
             summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -5888,7 +5939,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -5898,7 +5949,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -5981,7 +6032,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
   /virus/genome:
     post:
@@ -6046,7 +6098,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: spike protein
+            value:
+              - spike protein
             summary: Spike Protein
           example-1:
             value:
@@ -6091,7 +6144,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -6101,7 +6154,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -6183,7 +6236,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
   /virus/taxon/sars2/protein:
     post:
@@ -6249,7 +6303,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_038294.1
+            value:
+              - NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: taxon
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -6259,13 +6314,13 @@ paths:
           type: string
         examples:
           example-0:
-            value: 1335626
+            value: "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value: "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value: "11118"
             summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -6304,7 +6359,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -6314,7 +6369,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -6412,7 +6467,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
       - name: format
         description: 'Choose download format (tsv, csv or jsonl)'
@@ -6420,7 +6476,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2TableFormat'
-          default: tsv
         examples:
           example-0:
             value: tsv
@@ -6462,7 +6517,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: spike protein
+            value:
+              - spike protein
             summary: Spike Protein
           example-1:
             value:
@@ -6507,7 +6563,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -6517,7 +6573,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -6614,7 +6670,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
       - name: format
         description: 'Choose download format (tsv, csv or jsonl)'
@@ -6622,7 +6679,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2TableFormat'
-          default: tsv
         examples:
           example-0:
             value: tsv
@@ -6668,13 +6724,13 @@ paths:
           type: string
         examples:
           example-0:
-            value: 1335626
+            value: "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value: "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value: "11118"
             summary: Coronaviridae
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -6713,7 +6769,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: filter.updated_since
         in: query
@@ -6723,7 +6779,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: filter.host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -6852,7 +6908,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_038294.1
+            value:
+              - NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -6891,7 +6948,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: filter.updated_since
         in: query
@@ -6901,7 +6958,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: filter.host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -7066,13 +7123,13 @@ paths:
           type: string
         examples:
           example-0:
-            value: 1335626
+            value: "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value: "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value: "11118"
             summary: Coronaviridae
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -7111,7 +7168,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: filter.updated_since
         in: query
@@ -7121,7 +7178,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: filter.host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -7243,7 +7300,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_038294.1
+            value:
+              - NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: filter.refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -7282,7 +7340,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: filter.updated_since
         in: query
@@ -7292,7 +7350,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: filter.host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -7446,7 +7504,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_038294.1
+            value:
+              - NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
   /virus/check:
     post:
@@ -7511,16 +7570,16 @@ paths:
           type: string
         examples:
           example-0:
-            value: 1335626
+            value: "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value: "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value: "11118"
             summary: Coronaviridae
       - name: taxons
-        description: 'NCBI TAxonomy IDs or names (common or scientific) at any taxonomic rank'
+        description: 'NCBI Taxonomy IDs or names (common or scientific) at any taxonomic rank'
         in: query
         required: false
         schema:
@@ -7529,13 +7588,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: 1335626
+            value:
+              - "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value:
+              - "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value:
+              - "11118"
             summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -7574,7 +7636,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -7584,7 +7646,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -7667,7 +7729,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
       - name: use_psg
         description: 'Experimental approach to retrieving sequence data.'
@@ -7715,10 +7778,11 @@ paths:
             type: string
         examples:
           example-0:
-            value: NC_038294.1
+            value:
+              - NC_038294.1
             summary: Middle East respiratory syndrome-related coronavirus, complete genome
       - name: taxons
-        description: 'NCBI TAxonomy IDs or names (common or scientific) at any taxonomic rank'
+        description: 'NCBI Taxonomy IDs or names (common or scientific) at any taxonomic rank'
         in: query
         required: false
         schema:
@@ -7727,13 +7791,16 @@ paths:
             type: string
         examples:
           example-0:
-            value: 1335626
+            value:
+              - "1335626"
             summary: MERS
           example-1:
-            value: 2697049
+            value:
+              - "2697049"
             summary: SARS-COV-2
           example-2:
-            value: 11118
+            value:
+              - "11118"
             summary: Coronaviridae
       - name: refseq_only
         description: 'If true, limit results to RefSeq genomes.'
@@ -7772,7 +7839,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -7782,7 +7849,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -7865,7 +7932,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
       - name: use_psg
         description: 'Experimental approach to retrieving sequence data.'
@@ -7955,7 +8023,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: spike protein
+            value:
+              - spike protein
             summary: Spike Protein
           example-1:
             value:
@@ -8000,7 +8069,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2020-08-01
+            value: 2020-08-01T00:00:00Z
             summary: August 1, 2020
       - name: updated_since
         in: query
@@ -8010,7 +8079,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-07-18
+            value: 2021-07-18T00:00:00Z
             summary: July 18, 2021
       - name: host
         description: 'If set, limit results to genomes extracted from this host (Taxonomy ID or name) All hosts by default'
@@ -8092,7 +8161,8 @@ paths:
             $ref: '#/components/schemas/v2VirusDatasetReportType'
         examples:
           example-0:
-            value: ANNOTATION
+            value:
+              - ANNOTATION
             summary: Select additional report types to include with download. The base data report will always be included.
       - name: filename
         description: Output file name.
@@ -8209,7 +8279,7 @@ components:
       properties:
         reference_only:
           type: boolean
-          title: 'If true, only return reference and representative (GCF_ and GCA_) genome assemblies.'
+          title: 'If true, only return reference genome assemblies'
         assembly_source:
           $ref: '#/components/schemas/v2AssemblyDatasetDescriptorsFilterAssemblySource'
           title: 'Return only RefSeq (GCF_) or GenBank (GCA_) genome assemblies'
@@ -8408,13 +8478,6 @@ components:
         table_format:
           type: string
           title: 'Optional pre-defined template for processing a tabular data request'
-    v2BioSampleDatasetReportsRequest:
-      type: object
-      properties:
-        accessions:
-          type: array
-          items:
-            type: string
     v2DatasetRequest:
       type: object
       properties:
@@ -8500,11 +8563,6 @@ components:
           type: string
         cli_download_command_line:
           type: string
-    v2ElementFlankConfig:
-      type: object
-      properties:
-        length:
-          type: integer
     v2GeneChromosomeSummaryReply:
       type: object
       properties:
@@ -8520,13 +8578,6 @@ components:
         count:
           type: integer
         accession:
-          type: string
-    v2GeneChromosomeSummaryRequest:
-      type: object
-      properties:
-        taxon:
-          type: string
-        annotation_name:
           type: string
     v2GeneCountsByTaxonReply:
       type: object
@@ -8622,13 +8673,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
+        tabular_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
         table_fields:
           type: array
           items:
             type: string
         table_report_type:
           $ref: '#/components/schemas/v2GeneDatasetRequestGeneDatasetReportType'
-          title: 'Specify the report from which the table fields will be taken'
+          title: 'Specify the report from which the table fields will be taken. This is currently deprecated - use tabular_reports instead.'
     v2GeneLinksReply:
       type: object
       properties:
@@ -8735,25 +8790,6 @@ components:
           type: string
           format: byte
           title: 'The HTTP request/response body as raw binary.'
-    v2MethodPayloadRequest:
-      type: object
-      properties:
-        method:
-          type: string
-          title: 'These are a special form of base64 + special encoding to be suitable for a URI.'
-        payload:
-          type: string
-    v2MicroBiggeDatasetRequest:
-      type: object
-      properties:
-        opaque_solr_query:
-          type: string
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2MicroBiggeDatasetRequestFileType'
-        element_flank_config:
-          $ref: '#/components/schemas/v2ElementFlankConfig'
     v2OrganelleDownloadRequest:
       type: object
       properties:
@@ -8876,17 +8912,6 @@ components:
       properties:
         length:
           type: integer
-    v2RefGeneCatalogDatasetRequest:
-      type: object
-      properties:
-        opaque_solr_query:
-          type: string
-        files:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2RefGeneCatalogDatasetRequestFileType'
-        element_flank_config:
-          $ref: '#/components/schemas/v2ElementFlankConfig'
     v2Sars2ProteinDatasetRequest:
       type: object
       properties:
@@ -8984,20 +9009,6 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
-    v2SleepReply:
-      type: object
-      properties:
-        reply:
-          type: string
-    v2SleepRequest:
-      type: object
-      properties:
-        sleep_msec:
-          type: integer
-        error_rate:
-          type: number
-          format: float
-          title: 'From 0 to 100, chance of an error'
     v2SortField:
       type: object
       properties:
@@ -9520,6 +9531,27 @@ components:
           type: number
           format: float
           title: 'Percent coverage of the submitted organism or best match type assembly by the query assembly'
+    v2reportsAdditionalSubmitter:
+      type: object
+      properties:
+        genbank_accession:
+          type: string
+          title: 'genbank accession of extra sequence'
+        refseq_accession:
+          type: string
+          title: 'genbank accession of extra sequence'
+        chr_name:
+          type: string
+          title: 'chromosome name'
+        molecule_type:
+          type: string
+          title: 'molecule type'
+        submitter:
+          type: string
+          title: 'Name of submitter'
+        bioproject_accession:
+          type: string
+          title: 'Bioproject accession'
     v2reportsAnnotation:
       type: object
       properties:
@@ -9602,7 +9634,7 @@ components:
         additional_submitters:
           type: array
           items:
-            $ref: '#/components/schemas/v2reportsExtraSequenceInfo'
+            $ref: '#/components/schemas/v2reportsAdditionalSubmitter'
         annotation_info:
           $ref: '#/components/schemas/v2reportsAnnotationInfo'
           title: 'Metadata and statistics for the genome assembly annotation, when available'
@@ -9675,7 +9707,7 @@ components:
           title: 'The submitting consortium or organization. Full submitter information is available in the BioProject'
         refseq_category:
           type: string
-          title: 'The RefSeq Category is either reference or representative genome and indicates the RefSeq project classification'
+          title: 'The RefSeq Category, if present, indicates whether the assembly is a reference genome'
         synonym:
           type: string
           title: 'Genome name ascribed to this assembly by the UC Santa Cruz genome browser'
@@ -10250,27 +10282,6 @@ components:
           type: array
           items:
             type: string
-    v2reportsExtraSequenceInfo:
-      type: object
-      properties:
-        genbank_accession:
-          type: string
-          title: 'genbank accession of extra sequence'
-        refseq_accession:
-          type: string
-          title: 'genbank accession of extra sequence'
-        chr_name:
-          type: string
-          title: 'chromosome name'
-        molecule_type:
-          type: string
-          title: 'molecule type'
-        submitter:
-          type: string
-          title: 'Name of submitter'
-        bioproject_accession:
-          type: string
-          title: 'Bioproject accession'
     v2reportsFeatureCounts:
       type: object
       properties:
@@ -10880,6 +10891,9 @@ components:
         manual_diff:
           type: string
           title: 'Additional details about sequence differences between the GenBank and RefSeq assemblies'
+        refseq_genbank_are_different:
+          type: boolean
+          title: 'boolean indication on whether there are any differences between the GenBank and RefSeq assemblies'
     v2reportsProcessMetadata:
       type: object
       properties:
@@ -11231,6 +11245,7 @@ components:
           title: 'Genomic molecule type (dsDNA, ssDNA, ssDNA(-), ssRNA)'
         current_scientific_name_is_formal:
           type: boolean
+          title: 'Specify if the current scientific name is considered ''formal'' or not.'
         secondary_tax_ids:
           type: array
           items:
@@ -11557,7 +11572,6 @@ components:
           type: string
         returned:
           type: string
-    
     v2AnnotationForAssemblyType:
       type: string
       enum:
@@ -11570,40 +11584,30 @@ components:
         - CDS_FASTA
         - GENOME_FASTA
         - SEQUENCE_REPORT
-      default: DEFAULT
-    
     v2AnnotationForOrganelleType:
       type: string
       enum:
         - GENOME_FASTA
         - CDS_FASTA
         - PROTEIN_FASTA
-      default: DEFAULT
-    
     v2AssemblyDatasetDescriptorsFilterAssemblySource:
       type: string
       enum:
         - all
         - refseq
         - genbank
-      default: all
-    
     v2AssemblyDatasetDescriptorsFilterAssemblyVersion:
       type: string
       enum:
         - current
         - all_assemblies
-      default: current
       title: 'The assembly status - current (latest), or all assemblies, which adds replaced and suppressed'
-    
     v2AssemblyDatasetDescriptorsFilterMetagenomeDerivedFilter:
       type: string
       enum:
         - METAGENOME_DERIVED_UNSET
         - metagenome_derived_only
         - metagenome_derived_exclude
-      default: METAGENOME_DERIVED_UNSET
-    
     v2AssemblyDatasetDescriptorsFilterTypeMaterialCategory:
       type: string
       enum:
@@ -11614,23 +11618,17 @@ components:
         - TYPE_MATERIAL_REFTYPE
         - PATHOVAR_TYPE
         - TYPE_MATERIAL_SYN
-      default: NONE
-    
     v2AssemblyDatasetReportsRequestContentType:
       type: string
       enum:
         - COMPLETE
         - ASSM_ACC
         - PAIRED_ACC
-      default: COMPLETE
-    
     v2AssemblyDatasetRequestResolution:
       type: string
       enum:
         - FULLY_HYDRATED
         - DATA_REPORT_ONLY
-      default: FULLY_HYDRATED
-    
     v2AssemblyLinksReplyAssemblyLinkType:
       type: string
       enum:
@@ -11641,9 +11639,7 @@ components:
         - ASSEMBLY_NUCCORE
         - ASSEMBLY_NUCCORE_REFSEQ
         - ASSEMBLY_NUCCORE_GENBANK
-      default: DEFAULT
       title: 'Types of assembly links that may be returned'
-    
     v2Fasta:
       type: string
       enum:
@@ -11655,8 +11651,6 @@ components:
         - FASTA_CDS
         - FASTA_5P_UTR
         - FASTA_3P_UTR
-      default: FASTA_UNSPECIFIED
-    
     v2GeneDatasetReportsRequestContentType:
       type: string
       enum:
@@ -11664,23 +11658,17 @@ components:
         - IDS_ONLY
         - PRODUCT
         - COUNTS_ONLY
-      default: COMPLETE
       title: 'Specify a specific group of values to be returned, currently either all fields or gene-ids only'
-    
     v2GeneDatasetRequestContentType:
       type: string
       enum:
         - COMPLETE
         - IDS_ONLY
-      default: COMPLETE
-    
     v2GeneDatasetRequestGeneDatasetReportType:
       type: string
       enum:
         - DATASET_REPORT
         - PRODUCT_REPORT
-      default: DATASET_REPORT
-    
     v2GeneLinksReplyGeneLinkType:
       type: string
       enum:
@@ -11688,9 +11676,7 @@ components:
         - GDV_LINK
         - ORTHOLOG_LINK
         - MCGV_LINK
-      default: DEFAULT
       title: 'Types of gene links that may be returned'
-    
     v2GeneType:
       type: string
       enum:
@@ -11707,72 +11693,46 @@ components:
         - ncRNA
         - BIOLOGICAL_REGION
         - OTHER
-      default: UNKNOWN
       title: 'NB: GeneType values match Entrez Gene'
-    
     v2GenomeAnnotationRequestAnnotationType:
       type: string
       enum:
         - GENOME_FASTA
         - RNA_FASTA
         - PROT_FASTA
-      default: DEFAULT
-    
     v2GenomeAnnotationRequestGenomeAnnotationTableFormat:
       type: string
       enum:
         - NO_TABLE
         - SUMMARY
         - PRODUCT
-      default: NO_TABLE
-    
     v2ImageSize:
       type: string
       enum:
         - UNSPECIFIED
         - SMALL
         - MEDIUM
-      default: UNSPECIFIED
-    
     v2IncludeTabularHeader:
       type: string
       enum:
         - INCLUDE_TABULAR_HEADER_FIRST_PAGE_ONLY
         - INCLUDE_TABULAR_HEADER_ALWAYS
         - INCLUDE_TABULAR_HEADER_NEVER
-      default: INCLUDE_TABULAR_HEADER_FIRST_PAGE_ONLY
-    
-    v2MicroBiggeDatasetRequestFileType:
-      type: string
-      enum:
-        - FILE_TYPE_UNSPECIFIED
-        - element_fasta
-        - element_flank_fasta
-        - contig_fasta
-        - protein_fasta
-      default: FILE_TYPE_UNSPECIFIED
-    
     v2OrganelleMetadataRequestContentType:
       type: string
       enum:
         - COMPLETE
         - ASSM_ACC
-      default: COMPLETE
-    
     v2OrganelleMetadataRequestOrganelleTableFormat:
       type: string
       enum:
         - ORGANELLE_TABLE_FORMAT_NO_TABLE
         - SUMMARY
-      default: ORGANELLE_TABLE_FORMAT_NO_TABLE
-    
     v2OrganismQueryRequestTaxRankFilter:
       type: string
       enum:
         - species
         - higher_taxon
-      default: species
-    
     v2OrganismQueryRequestTaxonResourceFilter:
       type: string
       enum:
@@ -11780,71 +11740,46 @@ components:
         - TAXON_RESOURCE_FILTER_GENOME
         - TAXON_RESOURCE_FILTER_GENE
         - TAXON_RESOURCE_FILTER_ORGANELLE
-      default: TAXON_RESOURCE_FILTER_ALL
-    
     v2OrthologRequestContentType:
       type: string
       enum:
         - COMPLETE
         - IDS_ONLY
-      default: COMPLETE
-    
-    v2RefGeneCatalogDatasetRequestFileType:
-      type: string
-      enum:
-        - FILE_TYPE_UNSPECIFIED
-        - FILE_TYPE_NUCLEOTIDE
-        - FILE_TYPE_NUCLEOTIDE_WITH_FLANK
-        - FILE_TYPE_PROTEIN
-      default: FILE_TYPE_UNSPECIFIED
-    
     v2SortDirection:
       type: string
       enum:
         - SORT_DIRECTION_UNSPECIFIED
         - SORT_DIRECTION_ASCENDING
         - SORT_DIRECTION_DESCENDING
-      default: SORT_DIRECTION_UNSPECIFIED
-    
     v2TableFormat:
       type: string
       enum:
         - tsv
         - csv
         - jsonl
-      default: tsv
-    
     v2TaxonomyDatasetRequestTaxonomyReportType:
       type: string
       enum:
         - TAXONOMY_SUMMARY
         - NAMES_REPORT
-      default: TAXONOMY_SUMMARY
-    
     v2TaxonomyFilteredSubtreeResponseEdgeChildStatus:
       type: string
       enum:
         - UNSPECIFIED
         - HAS_MORE_CHILDREN
         - NO_VISIBLE_CHILDREN
-      default: UNSPECIFIED
       title: 'If these are changed before v1 is retired, code that converts v2 to v1 responses in python/private/src/ncbi_private/datasets/services/taxonomy/v1/dataset.py may need to be updated.'
-    
     v2TaxonomyMetadataRequestContentType:
       type: string
       enum:
         - COMPLETE
         - TAXIDS
         - METADATA
-      default: COMPLETE
-    
     v2TaxonomyMetadataRequestTableFormat:
       type: string
       enum:
         - SUMMARY
-      default: SUMMARY
       title: 'Optional pre-defined template for processing a tabular data request'
-    
     v2ViralSequenceType:
       type: string
       enum:
@@ -11853,24 +11788,18 @@ components:
         - PROTEIN
         - NONE
         - BIOSAMPLE
-      default: GENOME
-    
     v2VirusDataReportRequestContentType:
       type: string
       enum:
         - COMPLETE
         - ACCESSIONS_ONLY
-      default: COMPLETE
       title: 'Specify a specific group of values to be returned, currently either all fields or accessions only'
-    
     v2VirusDatasetReportType:
       type: string
       enum:
         - DATASET_REPORT
         - ANNOTATION
         - BIOSAMPLE_REPORT
-      default: DATASET_REPORT
-    
     v2VirusTableField:
       type: string
       enum:
@@ -11896,8 +11825,6 @@ components:
         - protein_accession
         - protein_synonym
         - cds_span
-      default: unspecified
-    
     v2reportsANITypeCategory:
       type: string
       enum:
@@ -11911,8 +11838,6 @@ components:
         - suspected_type
         - syntype
         - type
-      default: ANI_CATEGORY_UNKNOWN
-    
     v2reportsAssemblyLevel:
       type: string
       enum:
@@ -11920,9 +11845,7 @@ components:
         - scaffold
         - contig
         - complete_genome
-      default: chromosome
       title: 'The level of the genome assembly: Chromosome, Scaffold, Contig or Complete Genome'
-    
     v2reportsAssemblyStatus:
       type: string
       enum:
@@ -11931,8 +11854,6 @@ components:
         - previous
         - suppressed
         - retired
-      default: ASSEMBLY_STATUS_UNKNOWN
-    
     v2reportsAverageNucleotideIdentityMatchStatus:
       type: string
       enum:
@@ -11951,8 +11872,6 @@ components:
         - synonym_match
         - lineage_match
         - below_threshold_lineage_match
-      default: BEST_MATCH_STATUS_UNKNOWN
-    
     v2reportsAverageNucleotideIdentityTaxonomyCheckStatus:
       type: string
       enum:
@@ -11960,24 +11879,18 @@ components:
         - OK
         - Failed
         - Inconclusive
-      default: TAXONOMY_CHECK_STATUS_UNKNOWN
-    
     v2reportsCollectionType:
       type: string
       enum:
         - no_collection_type
         - collection_culture_collection
         - specimen_voucher
-      default: no_collection_type
-    
     v2reportsContentType:
       type: string
       enum:
         - COMPLETE
         - ASSM_ACC
         - PAIRED_ACC
-      default: COMPLETE
-    
     v2reportsCountType:
       type: string
       enum:
@@ -11997,8 +11910,6 @@ components:
         - COUNT_TYPE_BIOLOGICAL_REGION
         - COUNT_TYPE_OTHER
         - COUNT_TYPE_ORGANELLE
-      default: COUNT_TYPE_UNSPECIFIED
-    
     v2reportsErrorAssemblyErrorCode:
       type: string
       enum:
@@ -12012,37 +11923,27 @@ components:
         - NO_ASSEMBLIES_FOR_ASSEMBLY_NAMES
         - INVALID_WGS_ACCESSIONS
         - NO_ASSEMBLIES_FOR_WGS_ACCESSIONS
-      default: UNKNOWN_ASSEMBLY_ERROR_CODE
-    
     v2reportsErrorGeneErrorCode:
       type: string
       enum:
         - UNKNOWN_GENE_ERROR_CODE
         - INCOMPLETE_LOOKUP_SYMBOL
         - INVALID_TAXON_GENE_ARGUMENT
-      default: UNKNOWN_GENE_ERROR_CODE
-    
     v2reportsErrorOrganelleErrorCode:
       type: string
       enum:
         - UNKNOWN_ORGANELLE_ERROR_CODE
         - INVALID_ORGANELLE_TAXON
         - NO_ORGANELLES_FOR_ACCESSION
-      default: UNKNOWN_ORGANELLE_ERROR_CODE
-    
     v2reportsErrorTaxonomyErrorCode:
       type: string
       enum:
         - UNKNOWN_TAXONOMY_ERROR_CODE
         - INVALID_TAXONOMY_TAXON
-      default: UNKNOWN_TAXONOMY_ERROR_CODE
-    
     v2reportsErrorVirusErrorCode:
       type: string
       enum:
         - UNKNOWN_VIRUS_ERROR_CODE
-      default: UNKNOWN_VIRUS_ERROR_CODE
-    
     v2reportsGeneType:
       type: string
       enum:
@@ -12059,9 +11960,7 @@ components:
         - ncRNA
         - BIOLOGICAL_REGION
         - OTHER
-      default: UNKNOWN
       title: 'NB: GeneType values match Entrez Gene'
-    
     v2reportsGenomicRegionGenomicRegionType:
       type: string
       enum:
@@ -12070,8 +11969,6 @@ components:
         - PSEUDOGENE
         - BIOLOGICAL_REGION
         - OTHER
-      default: UNKNOWN
-    
     v2reportsLinkedAssemblyType:
       type: string
       enum:
@@ -12085,8 +11982,6 @@ components:
         - haplotype_3
         - haplotype_4
         - haploid
-      default: LINKED_ASSEMBLY_TYPE_UNKNOWN
-    
     v2reportsNameAndAuthorityNoteClassifier:
       type: string
       enum:
@@ -12094,9 +11989,7 @@ components:
         - effective_name
         - nomen_approbbatum
         - ictv_accepted
-      default: no_authority_classifier
       title: 'Class of authority  If the authority has any special classification, such as having been effectively and validly published or having been included in an approved list.'
-    
     v2reportsOrganelleTopology:
       type: string
       enum:
@@ -12104,8 +11997,6 @@ components:
         - Circular
         - Linear
         - Tandem
-      default: TOPOLOGY_UNKNOWN
-    
     v2reportsOrganelleType:
       type: string
       enum:
@@ -12117,30 +12008,17 @@ components:
         - Apicoplast
         - Chromatophore
         - Cyanelle
-      default: ORGANELLE_TYPE_UNKNOWN
-    
     v2reportsOrientation:
       type: string
       enum:
         - none
         - plus
         - minus
-      default: none
-    
-    v2reportsProkaryoteGeneLocationCompleteness:
-      type: string
-      enum:
-        - complete
-        - partial
-      default: complete
-    
     v2reportsPurposeOfSampling:
       type: string
       enum:
         - PURPOSE_OF_SAMPLING_UNKNOWN
         - PURPOSE_OF_SAMPLING_BASELINE_SURVEILLANCE
-      default: PURPOSE_OF_SAMPLING_UNKNOWN
-    
     v2reportsRankType:
       type: string
       enum:
@@ -12189,25 +12067,19 @@ components:
         - FORMA_SPECIALIS
         - SEROGROUP
         - BIOTYPE
-      default: NO_RANK
       title: 'Rank level'
-    
     v2reportsRnaType:
       type: string
       enum:
         - rna_UNKNOWN
         - premsg
         - tmRna
-      default: rna_UNKNOWN
-    
     v2reportsSourceDatabase:
       type: string
       enum:
         - SOURCE_DATABASE_UNSPECIFIED
         - SOURCE_DATABASE_GENBANK
         - SOURCE_DATABASE_REFSEQ
-      default: SOURCE_DATABASE_UNSPECIFIED
-    
     v2reportsTranscriptSelectCategory:
       type: string
       enum:
@@ -12215,8 +12087,6 @@ components:
         - REFSEQ_SELECT
         - MANE_SELECT
         - MANE_PLUS_CLINICAL
-      default: SELECT_UNKNOWN
-    
     v2reportsTranscriptTranscriptType:
       type: string
       enum:
@@ -12225,24 +12095,18 @@ components:
         - NON_CODING
         - PROTEIN_CODING_MODEL
         - NON_CODING_MODEL
-      default: UNKNOWN
-    
     v2reportsVirusAssemblyCompleteness:
       type: string
       enum:
         - UNKNOWN
         - COMPLETE
         - PARTIAL
-      default: UNKNOWN
-    
     v2reportsVirusPeptideViralPeptideCompleteness:
       type: string
       enum:
         - UNKNOWN
         - COMPLETE
         - PARTIAL
-      default: UNKNOWN
-    
     v2reportsWarningGeneWarningCode:
       type: string
       enum:
@@ -12256,7 +12120,6 @@ components:
         - UNRECOGNIZED_TAX_TOKEN
         - NO_GENE_ANNOTATION_FOUND
         - ABOVE_SPECIES_TAXON
-      default: UNKNOWN_GENE_WARNING_CODE
     protobufAny:
       type: object
       properties:
