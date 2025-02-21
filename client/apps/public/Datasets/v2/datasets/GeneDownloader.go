@@ -96,6 +96,17 @@ func WithAccessions(iff *cmdflags.InputFileFlag, otf *cmdflags.OrthologTaxonFilt
 	}
 }
 
+func WithLocusTags(iff *cmdflags.InputFileFlag, otf *cmdflags.OrthologTaxonFilterFlag) GeneDownloaderIdOption {
+	return func(gd *GeneDownloader) error {
+		// This may return gene-ids or locus tag, based on whether it's an ortholog request
+		request, err := GeneDatasetReportRequestForLocusTags(gd.cli, iff, otf)
+		if err != nil {
+			return err
+		}
+		return gd.setGeneIdsForRequest(request)
+	}
+}
+
 func WithGeneIds(iff *cmdflags.InputFileFlag, otf *cmdflags.OrthologTaxonFilterFlag) GeneDownloaderIdOption {
 	return func(gd *GeneDownloader) error {
 		geneInts, err := GeneIdsAsIntsForInputs(gd.cli, iff, otf)

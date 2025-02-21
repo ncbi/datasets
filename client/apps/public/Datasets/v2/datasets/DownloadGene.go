@@ -63,6 +63,7 @@ The default gene data package for NM, NR, NP, XM, XR, XP and YP accessions:
 	cmd.AddCommand(createDownloadGeneSymbolCmd(downloadGeneFlag))
 	cmd.AddCommand(createDownloadGeneAccession())
 	cmd.AddCommand(createDownloadGeneTaxonCmd(downloadGeneFlag))
+	cmd.AddCommand(createDownloadGeneLocusTagCmd(downloadGeneFlag))
 
 	return cmd
 }
