@@ -25,6 +25,7 @@ const (
 	InputFileListTypeGeneAcc    string = "NCBI Gene Accessions"
 	InputFileListTypeGeneId     string = "NCBI Gene IDs"
 	InputFileListTypeGeneSymbol string = "NCBI Gene Symbols"
+	InputFileListTypeLocusTag   string = "NCBI Gene Locus Tags"
 	InputFileListTypeTaxon      string = "NCBI taxonomy identifiers (taxid or current scientific name)"
 )
 

@@ -38,6 +38,21 @@ func NewGeneAccessionRequestIter(request *openapi.V2GeneDatasetReportsRequest) *
 	return accRequester
 }
 
+func NewGeneLocusTagRequestIter(request *openapi.V2GeneDatasetReportsRequest) *DefaultPagedRequestIterator[*openapi.V2GeneDatasetReportsRequest, string] {
+	locusTagRequester := NewDefaultPagedRequestIterator[*openapi.V2GeneDatasetReportsRequest, string](request,
+		func(request *openapi.V2GeneDatasetReportsRequest, locusTags []string) {
+			request.SetLocusTags(locusTags)
+		},
+	)
+
+	if len(request.GetLocusTags()) > PAGE_ITER_THRESHOLD {
+		locusTagRequester.ids = request.GetLocusTags()
+		request.SetLocusTags([]string{})
+	}
+
+	return locusTagRequester
+}
+
 func NewGeneIdRequestIter(request *openapi.V2GeneDatasetReportsRequest) *DefaultPagedRequestIterator[*openapi.V2GeneDatasetReportsRequest, int32] {
 	geneIdRequester := NewDefaultPagedRequestIterator[*openapi.V2GeneDatasetReportsRequest, int32](request,
 		func(request *openapi.V2GeneDatasetReportsRequest, geneIds []int32) { request.SetGeneIds(geneIds) },
@@ -128,6 +143,7 @@ Print a data report containing gene metadata.  The data report is returned in JS
 	cmd.AddCommand(createSummaryGeneSymbolCmd(sGeneFlag))
 	cmd.AddCommand(createSummaryGeneAccessionCmd(sGeneFlag))
 	cmd.AddCommand(createSummaryGeneTaxonCmd(sGeneFlag))
+	cmd.AddCommand(createSummaryGeneLocusTagCmd(sGeneFlag))
 
 	pflags := cmd.PersistentFlags()
 

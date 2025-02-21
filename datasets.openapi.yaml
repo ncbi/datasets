@@ -2814,13 +2814,27 @@ paths:
           items:
             $ref: '#/components/schemas/v2Fasta'
       - name: fasta_filter
-        description: 'Limit the FASTA sequences in the datasets package to these transcript and protein accessions'
+        description: 'Limit the FASTA sequences in the datasets package to these transcript and protein accessions (deprecated)'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+      - name: accession_filter
+        description: 'Limit the FASTA sequences and tabular product report in the datasets package to these transcript and protein accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
       - name: aux_report
         description: 'list additional reports to include with download. Data report is included by default.'
         in: query
@@ -3508,9 +3522,549 @@ paths:
     get:
       summary: Get gene reports by GeneID
       description: 'Get a gene summary by GeneID. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      deprecated: true
       tags:
         - Gene
       operationId: gene_reports_by_id
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: returned_content
+        description: 'Return either gene-ids, or entire gene metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GeneDatasetReportsRequestContentType'
+      - name: gene_ids
+        description: 'NCBI gene ids'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+        examples:
+          example-0:
+            value:
+              - 59067
+            summary: IL21 GeneID
+          example-1:
+            value:
+              - 59067
+              - 50615
+            summary: IL21 & IL21R GeneIDs
+      - name: locus_tags
+        description: 'Gene locus tags'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - b0001
+            summary: Locus tag for gene
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/accession/{accessions}:
+    get:
+      summary: Get gene metadata by RefSeq Accession
+      description: 'Get a gene summary by RefSeq Accession. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      deprecated: true
+      tags:
+        - Gene
+      operationId: gene_metadata_by_accession
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: returned_content
+        description: 'Return either gene-ids, or entire gene metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GeneDatasetReportsRequestContentType'
+      - name: accessions
+        description: 'RNA or Protein accessions.'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_021803.4
+            summary: RefSeq transcript
+          example-1:
+            value:
+              - NP_068575.1
+              - NP_851564.1
+            summary: RefSeq proteins
+      - name: locus_tags
+        description: 'Gene locus tags'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - b0001
+            summary: Locus tag for gene
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/symbol/{symbols}/taxon/{taxon}:
+    get:
+      summary: Get gene metadata by gene symbol
+      description: 'Get a gene summary by by gene symbol. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      deprecated: true
+      tags:
+        - Gene
+      operationId: gene_metadata_by_tax_and_symbol
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: returned_content
+        description: 'Return either gene-ids, or entire gene metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GeneDatasetReportsRequestContentType'
+      - name: symbols
+        description: 'Gene symbol'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - GNAS
+            summary: GNAS
+      - name: taxon
+        description: 'Taxon for provided gene symbol'
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: "9606"
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+      - name: locus_tags
+        description: 'Gene locus tags'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - b0001
+            summary: Locus tag for gene
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/taxon/{taxon}:
+    get:
+      summary: Get gene reports by taxonomic identifier
+      description: 'Get a gene summary for a specified NCBI Taxonomy ID or name (common or scientific). By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      deprecated: true
+      tags:
+        - Gene
+      operationId: gene_reports_by_taxon
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: returned_content
+        description: 'Return either gene-ids, or entire gene metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GeneDatasetReportsRequestContentType'
+      - name: taxon
+        description: 'NCBI Taxonomy ID or name (common or scientific) that the genes are annotated at'
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: "9606"
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+      - name: locus_tags
+        description: 'Gene locus tags'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - b0001
+            summary: Locus tag for gene
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene:
+    post:
+      summary: Get gene metadata as JSON
+      description: 'Get a gene summary. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      deprecated: true
+      tags:
+        - Gene
+      operationId: gene_metadata_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GeneDatasetReportsRequest'
+            examples:
+              Multiple GeneID examples:
+                description: GeneIDs (multiple)
+                value:
+                  gene_ids:
+                  - 59067
+                  - 50615
+  /gene/id/{gene_ids}/dataset_report:
+    get:
+      summary: Get dataset reports by gene IDs.
+      description: 'Get dataset reports by gene IDs.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_dataset_reports_by_id
       responses:
         default:
           description: An unexpected error response.
@@ -3574,6 +4128,12 @@ paths:
             value:
               - gene-id
             summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
         in: query
@@ -3593,13 +4153,36 @@ paths:
         required: false
         schema:
           type: string
-  /gene/accession/{accessions}:
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+  /gene/accession/{accessions}/dataset_report:
     get:
-      summary: Get gene metadata by RefSeq Accession
-      description: 'Get a gene summary by RefSeq Accession. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      summary: Get dataset reports by accession IDs
+      description: 'Get dataset reports by accession IDs.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
-      operationId: gene_metadata_by_accession
+      operationId: gene_dataset_report_by_accession
       responses:
         default:
           description: An unexpected error response.
@@ -3663,6 +4246,12 @@ paths:
             value:
               - gene-id
             summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
         in: query
@@ -3682,13 +4271,36 @@ paths:
         required: false
         schema:
           type: string
-  /gene/symbol/{symbols}/taxon/{taxon}:
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+  /gene/symbol/{symbols}/taxon/{taxon}/dataset_report:
     get:
-      summary: Get gene metadata by gene symbol
-      description: 'Get a gene summary by by gene symbol. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      summary: Get dataset reports by taxons.
+      description: 'Get dataset reports by taxons.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
-      operationId: gene_metadata_by_tax_and_symbol
+      operationId: gene_dataset_report_by_tax_and_symbol
       responses:
         default:
           description: An unexpected error response.
@@ -3763,6 +4375,12 @@ paths:
             value:
               - gene-id
             summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
         in: query
@@ -3782,13 +4400,36 @@ paths:
         required: false
         schema:
           type: string
-  /gene/taxon/{taxon}:
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+  /gene/taxon/{taxon}/dataset_report:
     get:
-      summary: Get gene reports by taxonomic identifier
+      summary: Get gene dataset reports by taxonomic identifier
       description: 'Get a gene summary for a specified NCBI Taxonomy ID or name (common or scientific). By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
-      operationId: gene_reports_by_taxon
+      operationId: gene_dataset_reports_by_taxon
       responses:
         default:
           description: An unexpected error response.
@@ -3816,7 +4457,7 @@ paths:
         schema:
           $ref: '#/components/schemas/v2GeneDatasetReportsRequestContentType'
       - name: taxon
-        description: 'NCBI Taxonomy ID or name (common or scientific) that the genes are annotated at  end oneof }'
+        description: 'NCBI Taxonomy ID or name (common or scientific) that the genes are annotated at'
         in: path
         required: true
         schema:
@@ -3850,6 +4491,12 @@ paths:
             value:
               - gene-id
             summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
       - name: include_tabular_header
         description: 'Whether this request for tabular data should include the header row'
         in: query
@@ -3870,7 +4517,7 @@ paths:
         schema:
           type: string
       - name: query
-        description: 'text search within gene symbol, aliases, name, and protein name'
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
         in: query
         required: false
         schema:
@@ -3892,13 +4539,799 @@ paths:
             value:
               - PROTEIN_CODING
             summary: Only protein coding genes
-  /gene:
-    post:
-      summary: Get gene metadata as JSON
-      description: 'Get a gene summary. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+  /gene/locus_tag/{locus_tags}/dataset_report:
+    get:
+      summary: Get gene dataset reports by locus tag
+      description: 'Get a gene summary for one or more gene locus tags. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
-      operationId: gene_metadata_by_post
+      operationId: gene_dataset_reports_by_locus_tag
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: returned_content
+        description: 'Return either gene-ids, or entire gene metadata'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2GeneDatasetReportsRequestContentType'
+      - name: locus_tags
+        description: 'Gene locus tags'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - b0001
+            summary: Locus tag for gene
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+  /gene/dataset_report:
+    post:
+      summary: Get gene dataset report as JSON
+      description: 'Get gene dataset report. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_dataset_report
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GeneDatasetReportsRequest'
+            examples:
+              Multiple GeneID examples:
+                description: GeneIDs (multiple)
+                value:
+                  gene_ids:
+                  - 59067
+                  - 50615
+  /gene/id/{gene_ids}/product_report:
+    get:
+      summary: Get gene product reports by gene IDs.
+      description: 'Get gene product reports by gene IDs.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_product_reports_by_id
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: gene_ids
+        description: 'NCBI gene ids'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+        examples:
+          example-0:
+            value:
+              - 59067
+            summary: IL21 GeneID
+          example-1:
+            value:
+              - 59067
+              - 50615
+            summary: IL21 & IL21R GeneIDs
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/accession/{accessions}/product_report:
+    get:
+      summary: Get gene product reports by accession IDs
+      description: 'Get gene product reports by accession IDs.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_product_report_by_accession
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: accessions
+        description: 'RNA or Protein accessions.'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_021803.4
+            summary: RefSeq transcript
+          example-1:
+            value:
+              - NP_068575.1
+              - NP_851564.1
+            summary: RefSeq proteins
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/symbol/{symbols}/taxon/{taxon}/product_report:
+    get:
+      summary: Get product reports by taxon.
+      description: 'Get gene product reports by taxon.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_product_report_by_tax_and_symbol
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: symbols
+        description: 'Gene symbol'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - GNAS
+            summary: GNAS
+      - name: taxon
+        description: 'Taxon for provided gene symbol'
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: "9606"
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/taxon/{taxon}/product_report:
+    get:
+      summary: Get gene product reports by taxonomic identifier
+      description: 'Get gene product reports for a specified NCBI Taxonomy ID or name (common or scientific). By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_product_reports_by_taxon
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: taxon
+        description: 'NCBI Taxonomy ID or name (common or scientific) that the genes are annotated at'
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: "9606"
+            summary: NCBI Taxonomy Identifier
+          example-1:
+            value: human
+            summary: Common Name
+          example-2:
+            value: Homo sapiens
+            summary: Scientific Name
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/locus_tag/{locus_tags}/product_report:
+    get:
+      summary: Get gene product reports by locus tags
+      description: 'Get gene product reports for one or more gene locus tags. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_product_reports_by_locus_tags
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: locus_tags
+        description: 'Gene locus tags'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - b0001
+            summary: Locus tag for gene
+      - name: table_fields
+        description: 'Specify which fields to include in the tabular report'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - gene-id
+              - gene-type
+              - description
+            summary: GeneID, type and description
+          example-1:
+            value:
+              - gene-id
+            summary: Just GeneID
+      - name: table_format
+        description: 'Optional pre-defined template for processing a tabular data request'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: include_tabular_header
+        description: 'Whether this request for tabular data should include the header row'
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+      - name: page_size
+        description: 'The maximum number of gene reports to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: page_token
+        description: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: query
+        description: 'text search within gene symbol, aliases, name, locus-tag and protein name'
+        in: query
+        required: false
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: A2M immunoglobulin
+            summary: Text search for A2M gene by name
+      - name: types
+        description: 'Gene types to filter'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2GeneType'
+        examples:
+          example-0:
+            value:
+              - PROTEIN_CODING
+            summary: Only protein coding genes
+      - name: accession_filter
+        description: 'Filter tabular product report to only include the selected accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
+  /gene/product_report:
+    post:
+      summary: Get gene product reports as JSON
+      description: 'Get gene product reports. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      tags:
+        - Gene
+      operationId: gene_product_report
       responses:
         default:
           description: An unexpected error response.
@@ -3985,13 +5418,27 @@ paths:
         schema:
           $ref: '#/components/schemas/v2GeneDatasetRequestContentType'
       - name: fasta_filter
-        description: 'Limit the FASTA sequences in the datasets package to these transcript and protein accessions'
+        description: 'Limit the FASTA sequences in the datasets package to these transcript and protein accessions (deprecated)'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+      - name: accession_filter
+        description: 'Limit the FASTA sequences and tabular product report in the datasets package to these transcript and protein accessions'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value:
+              - NM_001408458.1
+              - NM_001407959.1
+            summary: Selected transcripts from BRCA1
       - name: aux_report
         description: 'list additional reports to include with download. Data report is included by default.'
         in: query
@@ -8617,7 +10064,11 @@ components:
           $ref: '#/components/schemas/v2GeneDatasetReportsRequestSymbolsForTaxon'
         taxon:
           type: string
-          title: 'NCBI Taxonomy ID or name (common or scientific) that the genes are annotated at  end oneof }'
+          title: 'NCBI Taxonomy ID or name (common or scientific) that the genes are annotated at'
+        locus_tags:
+          type: array
+          items:
+            type: string
         table_fields:
           type: array
           items:
@@ -8636,11 +10087,15 @@ components:
           title: 'A page token is returned from an `AssemblyDatasetReportsRequest` call with more than `page_size` results. Use this token, along with the previous `AssemblyDatasetReportsRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         query:
           type: string
-          title: 'text search within gene symbol, aliases, name, and protein name'
+          title: 'text search within gene symbol, aliases, name, locus-tag and protein name'
         types:
           type: array
           items:
             $ref: '#/components/schemas/v2GeneType'
+        accession_filter:
+          type: array
+          items:
+            type: string
     v2GeneDatasetReportsRequestSymbolsForTaxon:
       type: object
       properties:
@@ -8666,6 +10121,10 @@ components:
           $ref: '#/components/schemas/v2GeneDatasetRequestContentType'
           title: 'Return either gene-ids, or entire gene metadata'
         fasta_filter:
+          type: array
+          items:
+            type: string
+        accession_filter:
           type: array
           items:
             type: string
@@ -11442,6 +12901,9 @@ components:
         is_vaccine_strain:
           type: boolean
           title: 'If true, this sequence is derived from a virus used as a vaccine or potential vaccine'
+        segment:
+          type: string
+          title: 'The virus segment'
     v2reportsVirusAssemblyCollectionLocation:
       type: object
       properties:
@@ -11658,7 +13120,7 @@ components:
         - IDS_ONLY
         - PRODUCT
         - COUNTS_ONLY
-      title: 'Specify a specific group of values to be returned, currently either all fields or gene-ids only'
+      title: 'Specify a specific group of values to be returned for dataset reports. These options do not apply to product reports.'
     v2GeneDatasetRequestContentType:
       type: string
       enum:
