@@ -37,8 +37,7 @@ func createSummaryGeneTaxonCmd(sGeneFlag *SummaryGeneFlag) *cobra.Command {
 			if cliErr != nil {
 				return cliErr
 			}
-			api := GeneApi{geneApi: cli.GeneAPI}
-			return geneSummaryPagePrinter(sGeneFlag, NewDefaultRequestIterator(request), api)
+			return geneSummaryPagePrinter(sGeneFlag, NewDefaultRequestIterator(request), getGeneApi(cli))
 		},
 	}
 

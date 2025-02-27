@@ -22,7 +22,7 @@ type GeneDownloader struct {
 type GeneDownloaderIdOption func(f *GeneDownloader) error
 
 func (gd *GeneDownloader) setGeneIdsForRequestIter(requestIter RequestIterator[*openapi.V2GeneDatasetReportsRequest]) error {
-	api := GeneApi{geneApi: gd.cli.GeneAPI}
+	api := GeneDatasetApi{geneApi: gd.cli.GeneAPI}
 
 	if gd.isPreview {
 		geneCountRetriever := NewGeneCountRetriever()
