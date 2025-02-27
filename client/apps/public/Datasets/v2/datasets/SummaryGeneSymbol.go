@@ -16,7 +16,7 @@ func addSymbolAndTaxonTo(request *openapi.V2GeneDatasetReportsRequest, symbols [
 
 func RetrieveGeneIdsForSymbolsAndTaxon(cli *openapi.APIClient, symbols []string, taxon string) (geneInts []int32, err error) {
 
-	api := GeneApi{geneApi: cli.GeneAPI}
+	api := GeneDatasetApi{geneApi: cli.GeneAPI}
 	geneIdRetriever := NewGeneIdRetriever()
 
 	request := openapi.NewV2GeneDatasetReportsRequest()
@@ -101,8 +101,7 @@ Print a data report containing gene metadata by gene symbol and taxon (NCBI Taxo
 				return nil
 			}
 
-			api := GeneApi{geneApi: cli.GeneAPI}
-			return geneSummaryPagePrinter(sGeneFlag, NewGeneSymbolRequestIter(request), api)
+			return geneSummaryPagePrinter(sGeneFlag, NewGeneSymbolRequestIter(request), getGeneApi(cli))
 		},
 	}
 

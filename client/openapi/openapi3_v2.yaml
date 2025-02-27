@@ -11709,6 +11709,11 @@ components:
           $ref: '#/components/schemas/v2reportsTaxData'
         species:
           $ref: '#/components/schemas/v2reportsTaxData'
+        domain:
+          $ref: '#/components/schemas/v2reportsTaxData'
+          title: 'NOTE: These are out of order'
+        realm:
+          $ref: '#/components/schemas/v2reportsTaxData'
     v2reportsConservedDomain:
       type: object
       properties:
@@ -13486,6 +13491,8 @@ components:
       enum:
         - NO_RANK
         - SUPERKINGDOM
+        - DOMAIN
+        - REALM
         - KINGDOM
         - SUBKINGDOM
         - SUPERPHYLUM

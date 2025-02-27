@@ -2,44 +2,12 @@ package datasets
 
 import (
 	openapi "datasets/openapi/v2"
-	_nethttp "net/http"
 	"sort"
 
 	cmdflags "datasets_cli/v2/datasets/flags"
 
 	"github.com/spf13/cobra"
 )
-
-// Move these two types to GeneServices.go ?
-type GeneApi struct {
-	geneApi *openapi.GeneAPIService
-}
-
-func (apiService *GeneApi) GetPage(request *openapi.V2GeneDatasetReportsRequest) (*openapi.V2reportsGeneDataReportPage, *_nethttp.Response, error) {
-	apiRequest := openapi.ApiGeneMetadataByPostRequest{
-		ApiService: apiService.geneApi,
-	}
-	return apiRequest.V2GeneDatasetReportsRequest(*request).Execute()
-}
-
-func (apiService *GeneApi) GetPagePtr(page openapi.V2reportsGeneDataReportPage) *openapi.V2reportsGeneDataReportPage {
-	return &page
-}
-
-type GeneOrthologApi struct {
-	geneApi *openapi.GeneAPIService
-}
-
-func (apiService *GeneOrthologApi) GetPage(request *openapi.V2OrthologRequest) (*openapi.V2reportsGeneDataReportPage, *_nethttp.Response, error) {
-	apiRequest := openapi.ApiGeneOrthologsByPostRequest{
-		ApiService: apiService.geneApi,
-	}
-	return apiRequest.V2OrthologRequest(*request).Execute()
-}
-
-func (apiService *GeneOrthologApi) GetPagePtr(page openapi.V2reportsGeneDataReportPage) *openapi.V2reportsGeneDataReportPage {
-	return &page
-}
 
 func createJsonLinesPrintDescriptor(reportMode GeneReportMode) func(openapi.V2reportsGeneReportMatch) {
 	return func(report openapi.V2reportsGeneReportMatch) {
@@ -115,11 +83,9 @@ Print a data report containing gene metadata by NCBI Gene ID. The data report is
 			}
 			sort.Slice(geneInts, func(i, j int) bool { return geneInts[i] < geneInts[j] })
 
-			geneApi := GeneApi{geneApi: cli.GeneAPI}
-
 			request := openapi.NewV2GeneDatasetReportsRequest()
 			request.SetGeneIds(geneInts)
-			return geneSummaryPagePrinter(sGeneFlag, NewGeneIdRequestIter(request), geneApi)
+			return geneSummaryPagePrinter(sGeneFlag, NewGeneIdRequestIter(request), getGeneApi(cli))
 		},
 	}
 

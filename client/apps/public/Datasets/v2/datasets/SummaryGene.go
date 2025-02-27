@@ -3,6 +3,7 @@ package datasets
 import (
 	cmdflags "datasets_cli/v2/datasets/flags"
 	openapi "datasets/openapi/v2"
+	_nethttp "net/http"
 
 	"github.com/spf13/cobra"
 	"github.com/thediveo/enumflag"
@@ -97,7 +98,63 @@ func createCheckGeneIdDuplicates() func(openapi.V2reportsGeneReportMatch, *map[s
 	}
 }
 
-func geneSummaryPagePrinter(sGeneFlag *SummaryGeneFlag, requestIter RequestIterator[*openapi.V2GeneDatasetReportsRequest], api GeneApi) (err error) {
+type GeneDatasetApi struct {
+	geneApi *openapi.GeneAPIService
+}
+
+func (apiService *GeneDatasetApi) GetPage(request *openapi.V2GeneDatasetReportsRequest) (*openapi.V2reportsGeneDataReportPage, *_nethttp.Response, error) {
+	apiRequest := openapi.ApiGeneDatasetReportRequest{
+		ApiService: apiService.geneApi,
+	}
+	return apiRequest.V2GeneDatasetReportsRequest(*request).Execute()
+}
+
+func (apiService *GeneDatasetApi) GetPagePtr(page openapi.V2reportsGeneDataReportPage) *openapi.V2reportsGeneDataReportPage {
+	return &page
+}
+
+type GeneProductApi struct {
+	geneApi *openapi.GeneAPIService
+}
+
+func (apiService *GeneProductApi) GetPage(request *openapi.V2GeneDatasetReportsRequest) (*openapi.V2reportsGeneDataReportPage, *_nethttp.Response, error) {
+	apiRequest := openapi.ApiGeneProductReportRequest{
+		ApiService: apiService.geneApi,
+	}
+	return apiRequest.V2GeneDatasetReportsRequest(*request).Execute()
+}
+
+func (apiService *GeneProductApi) GetPagePtr(page openapi.V2reportsGeneDataReportPage) *openapi.V2reportsGeneDataReportPage {
+	return &page
+}
+
+type GeneOrthologApi struct {
+	geneApi *openapi.GeneAPIService
+}
+
+func (apiService *GeneOrthologApi) GetPage(request *openapi.V2OrthologRequest) (*openapi.V2reportsGeneDataReportPage, *_nethttp.Response, error) {
+	apiRequest := openapi.ApiGeneOrthologsByPostRequest{
+		ApiService: apiService.geneApi,
+	}
+	return apiRequest.V2OrthologRequest(*request).Execute()
+}
+
+func (apiService *GeneOrthologApi) GetPagePtr(page openapi.V2reportsGeneDataReportPage) *openapi.V2reportsGeneDataReportPage {
+	return &page
+}
+
+func getGeneApi(cli *openapi.APIClient) (api PageRetriever[*openapi.V2GeneDatasetReportsRequest, openapi.V2reportsGeneDataReportPage, openapi.V2reportsGeneReportMatch, *openapi.V2reportsGeneDataReportPage]) {
+	if argGeneReportMode == Product {
+		return &GeneProductApi{geneApi: cli.GeneAPI}
+	}
+	return &GeneDatasetApi{geneApi: cli.GeneAPI}
+}
+
+func geneSummaryPagePrinter(
+	sGeneFlag *SummaryGeneFlag,
+	requestIter RequestIterator[*openapi.V2GeneDatasetReportsRequest],
+	api PageRetriever[*openapi.V2GeneDatasetReportsRequest, openapi.V2reportsGeneDataReportPage, openapi.V2reportsGeneReportMatch, *openapi.V2reportsGeneDataReportPage],
+) (err error) {
 	requestIter.GetRequest().SetReturnedContent(openapi.V2GeneDatasetReportsRequestContentType(GeneReportModeIds[argGeneReportMode][0]))
 	if sGeneFlag.jsonLinesLimitFlag.CountOnly() {
 		requestIter.GetRequest().SetReturnedContent(openapi.V2GENEDATASETREPORTSREQUESTCONTENTTYPE_IDS_ONLY)
@@ -115,7 +172,7 @@ func geneSummaryPagePrinter(sGeneFlag *SummaryGeneFlag, requestIter RequestItera
 	_, err = ProcessPages[*openapi.V2GeneDatasetReportsRequest,
 		openapi.V2reportsGeneDataReportPage,
 		openapi.V2reportsGeneReportMatch,
-		*openapi.V2reportsGeneDataReportPage](requestIter, &api, &pagePrinter, sGeneFlag.jsonLinesLimitFlag.RetrievalCount(), sGeneFlag.jsonLinesLimitFlag.CountOnly())
+		*openapi.V2reportsGeneDataReportPage](requestIter, api, &pagePrinter, sGeneFlag.jsonLinesLimitFlag.RetrievalCount(), sGeneFlag.jsonLinesLimitFlag.CountOnly())
 
 	return err
 }
@@ -159,9 +216,6 @@ Print a data report containing gene metadata.  The data report is returned in JS
 	return cmd
 }
 
-// Define your new enum flag type. It can be derived from enumflag.Flag, but
-// it doesn't need to be as long as it is compatible with enumflag.Flag, so
-// either an int or uint.
 type GeneReportMode enumflag.Flag
 
 // Define the enumeration values for ReportMode.

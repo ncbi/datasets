@@ -36,7 +36,7 @@ func GeneDatasetReportRequestForLocusTags(cli *openapi.APIClient, iff *cmdflags.
 }
 
 func RetrieveGeneIdsForLocusTags(cli *openapi.APIClient, geneLocusTags []string) (geneInts []int32, err error) {
-	api := GeneApi{geneApi: cli.GeneAPI}
+	api := GeneDatasetApi{geneApi: cli.GeneAPI}
 	geneIdRetriever := NewGeneIdRetriever()
 
 	request := openapi.NewV2GeneDatasetReportsRequest()
@@ -78,8 +78,7 @@ Print a data report containing gene metadata by locus tag. The data report is re
 				return err
 			}
 
-			api := GeneApi{geneApi: cli.GeneAPI}
-			return geneSummaryPagePrinter(sGeneFlag, NewGeneLocusTagRequestIter(request), api)
+			return geneSummaryPagePrinter(sGeneFlag, NewGeneLocusTagRequestIter(request), getGeneApi(cli))
 		},
 	}
 

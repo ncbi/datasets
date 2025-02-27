@@ -36,7 +36,7 @@ func GeneDatasetReportRequestForAccessions(cli *openapi.APIClient, iff *cmdflags
 }
 
 func RetrieveGeneIdsForAccessions(cli *openapi.APIClient, geneAccessions []string) (geneInts []int32, err error) {
-	api := GeneApi{geneApi: cli.GeneAPI}
+	api := GeneDatasetApi{geneApi: cli.GeneAPI}
 	geneIdRetriever := NewGeneIdRetriever()
 
 	request := openapi.NewV2GeneDatasetReportsRequest()
@@ -78,8 +78,7 @@ Print a data report containing gene metadata by RefSeq nucleotide or protein acc
 				return err
 			}
 
-			api := GeneApi{geneApi: cli.GeneAPI}
-			return geneSummaryPagePrinter(sGeneFlag, NewGeneAccessionRequestIter(request), api)
+			return geneSummaryPagePrinter(sGeneFlag, NewGeneAccessionRequestIter(request), getGeneApi(cli))
 		},
 	}
 
