@@ -4,7 +4,7 @@ NCBI Datasets is a resource that lets you easily gather data from across NCBI da
 
 NCBI Datasets tools are under active development. To submit feedback, please create a [GitHub issue](https://github.com/ncbi/datasets/issues/new/choose) or [contact NCBI](mailto:info@ncbi.nlm.nih.gov) directly with your questions, comments or feature requests.  
 
-:warning: The NCBI Datasets command-line tools (CLI) v13.x and older, as well as the API v1, will be deprecated in June 2024 and then retired in December 2024. Please download and install the latest version using the instructions below.
+:warning: The NCBI Datasets command-line tools (CLI) v13.x and older, as well as the API v1, was retired in January 2025. Please download and install the latest version using the instructions below.
 
 ## Install the NCBI Datasets command-line tools
 
