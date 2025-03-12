@@ -4,8 +4,6 @@ NCBI Datasets is a resource that lets you easily gather data from across NCBI da
 
 NCBI Datasets tools are under active development. To submit feedback, please create a [GitHub issue](https://github.com/ncbi/datasets/issues/new/choose) or [contact NCBI](mailto:info@ncbi.nlm.nih.gov) directly with your questions, comments or feature requests.  
 
-:warning: The NCBI Datasets command-line tools (CLI) v13.x and older, as well as the API v1, was retired in January 2025. Please download and install the latest version using the instructions below.
-
 ## Install the NCBI Datasets command-line tools
 
 [![Anaconda.org badge](https://anaconda.org/conda-forge/ncbi-datasets-cli/badges/version.svg)](https://anaconda.org/conda-forge/ncbi-datasets-cli)
@@ -60,6 +58,9 @@ Try this example for the human reference genome:
 `datasets rehydrate --directory my_human_dataset/`
 
 For more information, see [how to download large genome data packages](https://www.ncbi.nlm.nih.gov/datasets/docs/how-tos/genomes/large-download/).
+
+### Use your API key with the NCBI Datasets command-line tools
+NCBI Datasets API and command-line tool requests are rate-limited. By default, this rate limit is set at 5 requests per second (rps). By using your API key, you can increase this rate limit to 10 rps. For more information, see our documentation on [how to get an API key](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/api/api-keys/#get-your-api-key) and [how to use your API key.](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/api/api-keys/#use-your-api-key-with-the-ncbi-datasets-command-line-tools)
 
 ## NCBI Datasets data packages
 NCBI Datasets provides sequence, annotation, metadata and other biological data as [NCBI Datasets Data Package zip archives](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/).
