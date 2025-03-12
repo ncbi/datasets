@@ -6845,7 +6845,7 @@ paths:
           type: boolean
           default: false
       - name: include_subtree
-        description: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
+        description: 'This field is deprecated because all requests include the subtree, so it has no effect'
         in: query
         required: false
         schema:
@@ -10730,7 +10730,7 @@ components:
           title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_id'
         include_subtree:
           type: boolean
-          title: 'If true, return reports for all taxonomy nodes that are children of the requested tax_ids'
+          title: 'This field is deprecated because all requests include the subtree, so it has no effect'
         ranks:
           type: array
           items:
