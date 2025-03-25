@@ -2,19 +2,23 @@ package datasets
 
 import (
 	"archive/zip"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	_nethttp "net/http"
 	"os"
 
+	openapi "datasets/openapi/v2"
 	"github.com/gosuri/uiprogress"
 	"github.com/spf13/afero"
 	"github.com/spf13/cobra"
 )
 
 var (
-	argDownloadFilename string
+	argDownloadFilename  string
+	argJsonInputFilename string
 )
 
 func downloadDataForFile(resp *_nethttp.Response, inError error, filename string, length int64, argSkipZipVal bool) (err error) {
@@ -99,6 +103,39 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
 			progress.Stop()
 		}
 	},
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if argJsonInputFilename == "" {
+			return errors.New("Must provide a valid json input file")
+		}
+
+		content, err := ioutil.ReadFile(argJsonInputFilename)
+		if err != nil {
+			return fmt.Errorf("Opening json request file: %s: \"%s\"", argJsonInputFilename, err)
+		}
+
+		// Convert json string to request structure
+		req := openapi.NewV2DatasetRequest()
+		err = json.Unmarshal([]byte(content), &req)
+		if err != nil {
+			return fmt.Errorf("Parsing JSON request file %s: \"%s\"", argJsonInputFilename, err)
+		}
+
+		if req.GenomeV2 != nil {
+			downloader, err := NewGenomeRequestDownloader(req.GenomeV2, initAssemblyRequestFlag())
+			if err != nil {
+				return err
+			}
+			return downloader.Download(false)
+		} else if req.GeneV2 != nil {
+			downloader, err := NewGeneRequestDownloader(req.GeneV2)
+			if err != nil {
+				return err
+			}
+			return downloader.Download(false)
+		} else {
+			return errors.New("request did not have a valid gene or genome request object")
+		}
+	},
 }
 
 func isValidZip(filename string, argSkipZipVal bool) bool {
@@ -157,6 +194,11 @@ func init() {
 	downloadCmd.AddCommand(createVirusCmd())
 
 	pflags := downloadCmd.PersistentFlags()
+	lflags := downloadCmd.Flags()
 	pflags.StringVar(&argDownloadFilename, "filename", "ncbi_dataset.zip", "Specify a custom file name for the downloaded data package")
 	pflags.BoolVar(&argNoProgress, "no-progressbar", false, "Hide progress bar")
+	lflags.StringVar(&argJsonInputFilename, "input-json", "", "a file that contains a valid json request object for genome or gene queries")
+	if err := lflags.MarkHidden("input-json"); err != nil {
+		defaultLogger.Fatalln("Invalid attempt to create hidden flag")
+	}
 }

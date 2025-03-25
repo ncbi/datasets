@@ -138,6 +138,22 @@ func printResultsNoNewline(Payload interface{}) {
 	fmt.Printf("%s", json)
 }
 
+func getMapListValues[K comparable, V any](myMap map[K][]V) []V {
+	var result []V
+	for _, values := range myMap {
+		result = append(result, values...)
+	}
+	return result
+}
+
+func getMapKeys[K comparable, V any](myMap map[K]V) []K {
+	keys := make([]K, 0, len(myMap))
+	for key := range myMap {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:    "version [flags]",

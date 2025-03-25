@@ -40,19 +40,11 @@ The default virus genome data package includes the following files:
 			if len(args) == 1 && cmdflags.Contains(KNOWN_VIRUS_TAXONS, args[0]) {
 				taxons = append(taxons, args[0])
 			} else {
-				for _, arg := range iff.InputIDArgs {
-					_, taxError := RetrieveTaxIdForTaxon(
-						arg,
-						true,
-						openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL,
-						"virus",
-						10239,
-					)
-					if taxError != nil {
-						return taxError
-					}
-					taxons = append(taxons, arg)
+				taxIdsMap, taxErr := RetrieveTaxIdsForTaxons(cmd, iff.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL, "virus", 10239)
+				if taxErr != nil {
+					return taxErr
 				}
+				taxons = getMapListValues(taxIdsMap)
 			}
 
 			downloader, warning, err := NewVirusDownloader(VirusDownloadWithTaxon(taxons, dvf))

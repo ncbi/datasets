@@ -33,19 +33,11 @@ The default genome data package includes the following files:
 		PreRunE: cmdflags.ExecutePreRunEFor(flagSets),
 
 		RunE: func(cmd *cobra.Command, args []string) error {
-			var taxons []string
-			for _, arg := range iff.InputIDArgs {
-				_, taxError := RetrieveTaxIdForTaxon(
-					arg,
-					true,
-					openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_GENOME,
-					"genome",
-				)
-				if taxError != nil {
-					return taxError
-				}
-				taxons = append(taxons, arg)
+			var taxIdsMap, taxErr = RetrieveTaxIdsForTaxons(cmd, iff.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_GENOME, "genome")
+			if taxErr != nil {
+				return taxErr
 			}
+			taxons := getMapListValues(taxIdsMap)
 
 			if dgf.downloadPreviewFlag.IsPreview() {
 				request := GetGenomeReportsTaxonRequest(taxons, tem.IsTaxExactMatch())

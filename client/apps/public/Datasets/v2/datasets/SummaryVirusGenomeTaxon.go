@@ -26,22 +26,12 @@ Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/doc
 			if err != nil {
 				return err
 			}
-			var taxons []string
-			for _, arg := range iff.InputIDArgs {
-				_, taxError := RetrieveTaxIdForTaxon(
-					arg,
-					true,
-					openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL,
-					"virus",
-					10239,
-				)
-				if taxError != nil {
-					return taxError
-				}
-				taxons = append(taxons, arg)
+			var taxIdsMap, taxErr = RetrieveTaxIdsForTaxons(cmd, iff.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL, "virus", 10239)
+			if taxErr != nil {
+				return taxErr
 			}
 
-			err = executeSummaryVirusGenomeCmd(taxons, vsf, nil)
+			err = executeSummaryVirusGenomeCmd(getMapListValues(taxIdsMap), vsf, nil)
 
 			return err
 

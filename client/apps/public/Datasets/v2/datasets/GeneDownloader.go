@@ -155,6 +155,24 @@ func NewGeneDownloader(isPreview bool, geneIncludeFlag *cmdflags.GeneIncludeFlag
 	return gd, nil
 }
 
+func NewGeneRequestDownloader(request *openapi.V2GeneDatasetRequest) (*GeneDownloader, error) {
+	cli, err := createOAClient()
+	if err != nil {
+		return nil, err
+	}
+	gd := &GeneDownloader{
+		GeneDownloaderBase: GeneDownloaderBase{
+			cli: cli,
+		},
+		isPreview: false,
+		request:   request,
+	}
+	if len(gd.request.GetGeneIds()) == 0 {
+		return nil, fmt.Errorf("Request must include one or more gene ids\n")
+	}
+	return gd, nil
+}
+
 func (gd *GeneDownloader) Download(argSkipZipVal bool) (err error) {
 	if gd.isPreview {
 		if !argNoProgress {

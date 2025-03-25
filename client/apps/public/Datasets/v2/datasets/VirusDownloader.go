@@ -63,7 +63,7 @@ func (vd *VirusDownloader) checkTaxonWithinScope(taxons []string) bool {
 		for _, taxNode := range taxNodes {
 			taxonomy := taxNode.GetTaxonomy()
 			lineage := taxonomy.GetLineage()
-			if !contains(lineage, VIRAL_TAXID_COMP) || taxonomy.GetTaxId() == VIRAL_TAXID_COMP {
+			if !(contains(lineage, VIRAL_TAXID_COMP) || taxonomy.GetTaxId() == VIRAL_TAXID_COMP) {
 				return false
 			}
 		}
