@@ -189,6 +189,24 @@ func NewGenomeDownloader(setIdOption GenomeDownloaderAccOption, downloadGenomeFl
 	return gd, warning, nil
 }
 
+func NewGenomeRequestDownloader(request *openapi.V2AssemblyDatasetRequest, assemblyRequestFlag AssemblyRequestFlag) (*GenomeDownloader, error) {
+	cli, err := createOAClient()
+	if err != nil {
+		return nil, err
+	}
+	gd := &GenomeDownloader{
+		request: request,
+		flags:   assemblyRequestFlag,
+		cli:     cli,
+	}
+
+	if len(gd.request.GetAccessions()) == 0 {
+		return nil, fmt.Errorf("Request must include one or more genome accessions\n")
+	}
+
+	return gd, nil
+}
+
 func (gd *GenomeDownloader) Download(argSkipZipVal bool) (err error) {
 	_, resp, err := gd.cli.GenomeAPI.DownloadAssemblyPackagePost(context.TODO()).V2AssemblyDatasetRequest(*gd.request).Execute()
 	if err = handleHTTPResponse(resp, err); err != nil {

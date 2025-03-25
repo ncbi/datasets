@@ -2,8 +2,6 @@ package datasets
 
 import (
 	"fmt"
-	"os"
-	"strconv"
 
 	cmdflags "datasets_cli/v2/datasets/flags"
 	openapi "datasets/openapi/v2"
@@ -68,36 +66,20 @@ A taxonomy names data report can also be added to the package
 		RunE: func(cmd *cobra.Command, args []string) error {
 
 			// Convert all taxons to valid taxids (and save as a set) before calling download
-			var taxIdsMap map[string]bool = make(map[string]bool)
-			for _, taxon := range downloadTaxonomyFlags.inputFile.InputIDArgs {
-				taxId, taxError := RetrieveTaxIdForTaxon(
-					taxon,
-					true,
-					openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL,
-					"taxonomy",
-				)
-				if taxError != nil {
-					fmt.Fprintln(os.Stderr, taxError)
-					fmt.Fprintln(os.Stderr)
-				} else {
-					taxIdsMap[taxId] = true
-				}
-			}
-			// Get list of selected taxids
-			taxIds := make([]int32, len(taxIdsMap))
-			i := 0
-			for t := range taxIdsMap {
-				tax_id, err := strconv.Atoi(t)
-				if err != nil {
-					return fmt.Errorf("Invalid taxon ID: %s", t)
-				}
-				taxIds[i] = int32(tax_id)
-				i++
+			var taxIdsMap, taxErr = RetrieveTaxIdsForTaxons(
+				cmd,
+				downloadTaxonomyFlags.inputFile.InputIDArgs,
+				true,
+				openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL,
+				"taxonomy",
+			)
+			if taxErr != nil {
+				return taxErr
 			}
 
-			if len(taxIds) == 0 {
-				fmt.Fprintln(os.Stderr, "No valid taxons provided for download - exiting")
-				return nil
+			taxIds, err := strToInt32ListErr(getMapKeys(taxIdsMap))
+			if err != nil {
+				return err
 			}
 
 			// report error if more than one taxid is used in conjuction with children flag.

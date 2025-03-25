@@ -7723,6 +7723,7 @@ paths:
     get:
       summary: Get virus genome metadata in a tabular format.
       description: 'Get virus genome metadata in tabular format for virus genomes by taxon.'
+      deprecated: true
       tags:
         - Virus
       operationId: virus_genome_table

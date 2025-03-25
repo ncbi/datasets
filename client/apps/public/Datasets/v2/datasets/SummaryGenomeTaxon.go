@@ -24,22 +24,13 @@ Print a data report containing genome metadata by %s. The data report is returne
   datasets summary genome taxon 10116`,
 
 		PreRunE: cmdflags.ExecutePreRunEFor(flagSets),
-
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			var taxons []string
-			for _, arg := range iff.InputIDArgs {
-				_, taxError := RetrieveTaxIdForTaxon(
-					arg,
-					true,
-					openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_GENOME,
-					"genome",
-				)
-				if taxError != nil {
-					return taxError
-				}
-				taxons = append(taxons, arg)
+			var taxIdsMap, taxErr = RetrieveTaxIdsForTaxons(cmd, iff.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_GENOME, "genome")
+			if taxErr != nil {
+				return taxErr
 			}
 
+			taxons := getMapListValues(taxIdsMap)
 			return getGenomeSummary(NewDefaultRequestIterator(GetGenomeReportsTaxonRequest(taxons, tem.IsTaxExactMatch())), sgf, assemblyRequestFlag)
 		},
 	}

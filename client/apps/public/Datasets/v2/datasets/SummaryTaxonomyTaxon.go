@@ -5,7 +5,6 @@ import (
 	openapi "datasets/openapi/v2"
 	"fmt"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 type SummaryTaxonomyFlag struct {
@@ -58,36 +57,12 @@ Print a data report containing taxonomy metadata by %s. The data report is retur
 		PreRunE: cmdflags.ExecutePreRunEFor(stf.cmdFlagSet),
 
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			var taxIdsMap map[string][]string = make(map[string][]string)
-			for _, taxon := range stf.inputFile.InputIDArgs {
-				taxId, taxError := RetrieveTaxIdForTaxon(
-					taxon,
-					true,
-					openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL,
-					"taxonomy",
-				)
-				if taxError != nil {
-					fmt.Fprintln(os.Stderr, taxError)
-					fmt.Fprintln(os.Stderr)
-				} else {
-					if _, ok := taxIdsMap[taxId]; !ok {
-						taxIdsMap[taxId] = []string{taxon}
-					} else {
-						taxIdsMap[taxId] = append(taxIdsMap[taxId], taxon)
-					}
-				}
-			}
-			if len(taxIdsMap) == 0 {
-				fmt.Fprintln(os.Stderr, "No valid taxons provided for summary - exiting")
-				return nil
+			var taxIdsMap, taxErr = RetrieveTaxIdsForTaxons(cmd, stf.inputFile.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL, "taxonomy")
+			if taxErr != nil {
+				return taxErr
 			}
 
-			taxIds := make([]string, len(taxIdsMap))
-			i := 0
-			for t := range taxIdsMap {
-				taxIds[i] = t
-				i++
-			}
+			taxIds := getMapKeys(taxIdsMap)
 
 			// report error if more than one taxid is used in conjuction with children or parents flags
 			if stf.childrenFlag.GetChildren() && len(taxIds) > 1 {
