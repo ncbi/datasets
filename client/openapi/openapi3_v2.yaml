@@ -9709,6 +9709,11 @@ components:
       properties:
         species_taxon:
           type: string
+    v2AssemblyDataReportDraftRequest:
+      type: object
+      properties:
+        accession:
+          type: string
     v2AssemblyDatasetAvailability:
       type: object
       properties:
@@ -10170,6 +10175,18 @@ components:
       type: object
       properties:
         gene_ids:
+          type: array
+          items:
+            type: integer
+    v2GenePubmedIdsRequest:
+      type: object
+      properties:
+        gene_ids:
+          type: integer
+    v2GenePubmedIdsResponse:
+      type: object
+      properties:
+        pubmedIds:
           type: array
           items:
             type: integer
