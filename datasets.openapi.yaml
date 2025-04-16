@@ -11732,6 +11732,10 @@ components:
           title: 'NOTE: These are out of order'
         realm:
           $ref: '#/components/schemas/v2reportsTaxData'
+        acellular_root:
+          $ref: '#/components/schemas/v2reportsTaxData'
+        cellular_root:
+          $ref: '#/components/schemas/v2reportsTaxData'
     v2reportsConservedDomain:
       type: object
       properties:
@@ -13554,6 +13558,8 @@ components:
         - FORMA_SPECIALIS
         - SEROGROUP
         - BIOTYPE
+        - ACELLULAR_ROOT
+        - CELLULAR_ROOT
       title: 'Rank level'
     v2reportsRnaType:
       type: string
