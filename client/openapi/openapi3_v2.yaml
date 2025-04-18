@@ -11734,8 +11734,6 @@ components:
           $ref: '#/components/schemas/v2reportsTaxData'
         acellular_root:
           $ref: '#/components/schemas/v2reportsTaxData'
-        cellular_root:
-          $ref: '#/components/schemas/v2reportsTaxData'
     v2reportsConservedDomain:
       type: object
       properties:
