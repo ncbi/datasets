@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	cmdflags "datasets_cli/v2/datasets/flags"
 	openapi "datasets/openapi/v2"
+	cmdflags "datasets_cli/v2/datasets/flags"
 
 	"github.com/spf13/cobra"
 )

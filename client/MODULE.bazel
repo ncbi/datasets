@@ -40,10 +40,11 @@ use_repo(
 
 bazel_dep(name = "aspect_bazel_lib", version = "1.38.1")
 
-http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+bazel_dep(name = "openapi_tools_generator_bazel", version = "0.2.0")
 
-http_archive(
-    name = "openapi_tools_generator_bazel",
-    sha256 = "ada94694b10f2503c52a48427bd8589323bff5910bd1a7e5212ce34702d0af65",
-    urls = ["https://github.com/OpenAPITools/openapi-generator-bazel/releases/download/v0.1.6/openapi-tools-generator-bazel-0.1.6.tar.gz"],
+openapi_gen = use_extension("@openapi_tools_generator_bazel//:extension.bzl", "openapi_gen")
+openapi_gen.client(
+    sha256 = "1cf0c80de12c0fdc8594289c19e414b402108ef10b8dd0bfda1953151341ab5d",
+    version = "7.2.0",
 )
+use_repo(openapi_gen, "openapi_tools_generator_bazel_cli")

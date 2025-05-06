@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	cmdflags "datasets_cli/v2/datasets/flags"
 	datasets_util "datasets/util"
 	datasets_command "datasets/util/command"
+	cmdflags "datasets_cli/v2/datasets/flags"
 
 	"github.com/gosuri/uiprogress"
 	cleanhttp "github.com/hashicorp/go-cleanhttp"
