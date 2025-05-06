@@ -2,7 +2,7 @@
 
 NCBI Datasets is a resource that lets you easily gather data from across NCBI databases. You can use it to find and download sequence, annotation, and metadata for genes and genomes using our command-line interface (CLI) tools or [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/) web interface.
 
-NCBI Datasets tools are under active development. To submit feedback, please create a [GitHub issue](https://github.com/ncbi/datasets/issues/new/choose) or [contact NCBI](mailto:info@ncbi.nlm.nih.gov) directly with your questions, comments or feature requests.  
+NCBI Datasets tools are under active development. To submit feedback, please create a [GitHub issue](https://github.com/ncbi/datasets/issues/new/choose) or [contact NCBI](mailto:info@ncbi.nlm.nih.gov) directly with your questions, comments or feature requests.
 
 ## Install the NCBI Datasets command-line tools
 
@@ -14,7 +14,7 @@ Install the latest version (CLI v16.x) of the NCBI Datasets CLI tools, *datasets
 
 `conda install -c conda-forge ncbi-datasets-cli`
 
-For other installation options, see our CLI tools [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) instructions. 
+For other installation options, see our CLI tools [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/download-and-install/) instructions.
 
 ## Use the NCBI Datasets command-line tools
 
@@ -34,7 +34,7 @@ Organism name	Assembly Name	Assembly Accession	Assembly Submitter
 Homo sapiens	GRCh38.p14	GCF_000001405.40	Genome Reference Consortium
 ```
 
-The Datasets CLI schematic below also outlines the available commands for the *datasets* CLI. 
+The Datasets CLI schematic below also outlines the available commands for the *datasets* CLI.
 ![Datasets CLI schematic](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/datasets_schema_taxonomy.png)
 
 ### Download large numbers of genomes
@@ -48,13 +48,13 @@ Download large numbers of genomes by first downloading a dehydrated zip archive 
 
 Try this example for the human reference genome:
 
-1. Download the dehydrated zip archive:  
+1. Download the dehydrated zip archive:
 `datasets download genome accession GCF_000001405.40 --dehydrated --filename human_GRCh38_dataset.zip`
 
-1. Unzip the downloaded zip archive:  
+1. Unzip the downloaded zip archive:
 `unzip human_GRCh38_dataset.zip -d my_human_dataset`
 
-1. Rehydrate to access the data:  
+1. Rehydrate to access the data:
 `datasets rehydrate --directory my_human_dataset/`
 
 For more information, see [how to download large genome data packages](https://www.ncbi.nlm.nih.gov/datasets/docs/how-tos/genomes/large-download/).
@@ -65,7 +65,7 @@ NCBI Datasets API and command-line tool requests are rate-limited. By default, t
 ## NCBI Datasets data packages
 NCBI Datasets provides sequence, annotation, metadata and other biological data as [NCBI Datasets Data Package zip archives](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/).
 
-We currently offer four types of data package: 
+We currently offer four types of data package:
 1. An [NCBI Datasets Gene Data Package](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/gene-package/)
 1. An [NCBI Datasets Genome Data Package](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/genome/)
 1. A specialized [NCBI Datasets Virus Data Package](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-packages/virus-genome/).

@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	cmdflags "datasets_cli/v2/datasets/flags"
 	openapi "datasets/openapi/v2"
+	cmdflags "datasets_cli/v2/datasets/flags"
 )
 
 type VirusDatasetApi struct {

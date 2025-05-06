@@ -2,8 +2,8 @@ package datasets
 
 import (
 	"context"
-	cmdflags "datasets_cli/v2/datasets/flags"
 	openapi "datasets/openapi/v2"
+	cmdflags "datasets_cli/v2/datasets/flags"
 	"fmt"
 	"math"
 	"strconv"

@@ -12,5 +12,23 @@ go_binary(
     name = "datasets",
     embed = [":datasets_lib"],
     visibility = ["//visibility:public"],
-    x_defs = {"datasets_cli/v2/datasets.AppVersion": "{STABLE_GIT_COMMIT}"},
+    x_defs = {"datasets_cli/v2/datasets.AppVersion": "{STABLE_SOFTWARE_VERSION_WITHOUT_PREFIX}"},
 )
+
+# [
+#     go_binary(
+#         name = "{os}-{arch}/datasets".format(os=goos, arch=goarch),
+#         embed = [":datasets_lib"],
+#         goos = goos,
+#         goarch = goarch,
+#         visibility = ["//visibility:public"],
+#         x_defs = {"datasets_cli/v2/datasets.AppVersion": "{STABLE_SOFTWARE_VERSION_WITHOUT_PREFIX}"},
+#     )
+#     for goos, goarchs in {
+#         "darwin": ["arm64", "amd64"],
+#         "linux": ["amd64", "arm64", "arm"],
+#         "windows": ["amd64"],
+#     }.items()
+#     for goarch in goarchs
+
+# ]
