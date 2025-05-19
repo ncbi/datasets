@@ -3605,6 +3605,16 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/accession/{accessions}:
     get:
       summary: Get gene metadata by RefSeq Accession
@@ -3718,6 +3728,16 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/symbol/{symbols}/taxon/{taxon}:
     get:
       summary: Get gene metadata by gene symbol
@@ -3842,6 +3862,16 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/taxon/{taxon}:
     get:
       summary: Get gene reports by taxonomic identifier
@@ -3976,6 +4006,16 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene:
     post:
       summary: Get gene metadata as JSON
@@ -4130,6 +4170,16 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/accession/{accessions}/dataset_report:
     get:
       summary: Get dataset reports by accession IDs
@@ -4245,6 +4295,16 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/symbol/{symbols}/taxon/{taxon}/dataset_report:
     get:
       summary: Get dataset reports by taxons.
@@ -4371,6 +4431,16 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/taxon/{taxon}/dataset_report:
     get:
       summary: Get gene dataset reports by taxonomic identifier
@@ -4485,6 +4555,16 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/locus_tag/{locus_tags}/dataset_report:
     get:
       summary: Get gene dataset reports by locus tag
@@ -4595,6 +4675,16 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/dataset_report:
     post:
       summary: Get gene dataset report as JSON
@@ -4757,6 +4847,23 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/accession/{accessions}/product_report:
     get:
       summary: Get gene product reports by accession IDs
@@ -4880,6 +4987,23 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/symbol/{symbols}/taxon/{taxon}/product_report:
     get:
       summary: Get product reports by taxon.
@@ -5014,6 +5138,23 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/taxon/{taxon}/product_report:
     get:
       summary: Get gene product reports by taxonomic identifier
@@ -5136,6 +5277,23 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/locus_tag/{locus_tags}/product_report:
     get:
       summary: Get gene product reports by locus tags
@@ -5254,6 +5412,23 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
   /gene/product_report:
     post:
       summary: Get gene product reports as JSON
@@ -10021,6 +10196,13 @@ components:
           type: array
           items:
             type: string
+        tax_search_subtree:
+          type: boolean
+          title: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2SortField'
     v2GeneDatasetReportsRequestSymbolsForTaxon:
       type: object
       properties:
@@ -10939,6 +11121,59 @@ components:
         use_psg:
           type: boolean
           title: 'Experimental approach to retrieving sequence data.'
+    v2archiveCatalog:
+      type: object
+      properties:
+        accession:
+          type: string
+        molecule_type:
+          $ref: '#/components/schemas/v2archiveMoleculeType'
+        definition:
+          type: string
+        organism:
+          $ref: '#/components/schemas/v2archiveOrganism'
+        sequence:
+          $ref: '#/components/schemas/v2archiveSequence'
+        modification_date:
+          type: string
+        publication_date:
+          type: string
+        submitters:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2archiveSubmitter'
+    v2archiveNuccoreRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+    v2archiveOrganism:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+        common_name:
+          type: string
+        scientific_name:
+          type: string
+    v2archiveSequence:
+      type: object
+      properties:
+        length:
+          type: string
+        units:
+          $ref: '#/components/schemas/v2archiveSequenceLengthUnits'
+    v2archiveSubmitter:
+      type: object
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+        affiliation:
+          type: string
+        email:
+          type: string
     v2reportsANIMatch:
       type: object
       properties:
@@ -13103,6 +13338,7 @@ components:
         - BLAST_LINK
         - ASSEMBLY_NUCCORE_REFSEQ
         - ASSEMBLY_NUCCORE_GENBANK
+        - CGV_LINK
       default: DEFAULT
       title: 'Types of assembly links that may be returned'
     
@@ -13391,6 +13627,28 @@ components:
         - protein_synonym
         - cds_span
       default: unspecified
+    
+    v2archiveMoleculeType:
+      type: string
+      enum:
+        - MOLECULE_TYPE_UNSPECIFIED
+        - GENOMIC_DNA
+        - GENOMIC_RNA
+        - PRECURSOR_RNA
+        - MESSENGER_RNA
+        - TRANSFER_RNA
+        - RIBOSOMAL_RNA
+        - AMINO_ACID
+      default: MOLECULE_TYPE_UNSPECIFIED
+    
+    v2archiveSequenceLengthUnits:
+      type: string
+      enum:
+        - SEQUENCE_LENGTH_UNITS_UNSPECIFIED
+        - BASE_PAIRS
+        - AMINO_ACIDS
+        - NUCLEOTIDES
+      default: SEQUENCE_LENGTH_UNITS_UNSPECIFIED
     
     v2reportsANITypeCategory:
       type: string
