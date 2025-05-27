@@ -10,6 +10,11 @@ require (
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/docker/go-units v0.5.0
 	github.com/gosuri/uiprogress v0.0.1
+	// gosuri/uilive v0.0.4 causes hang on Apple silicon macs with Go >=1.21, see
+	// - https://github.com/ncbi/datasets/issues/490
+	// - https://github.com/gosuri/uiprogress/issues/53
+	// It is actually only an indirect dependency, but we need to pin it due to bug
+	github.com/gosuri/uilive v0.0.3
 	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/spf13/afero v1.11.0
@@ -24,7 +29,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gosuri/uilive v0.0.4 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
