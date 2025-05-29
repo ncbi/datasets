@@ -1,6 +1,6 @@
 module datasets_cli/v2
 
-go 1.22.0
+go 1.23.0
 
 toolchain go1.23.4
 
@@ -24,7 +24,7 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gosuri/uilive v0.0.4 // indirect
+	github.com/gosuri/uilive v0.0.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
