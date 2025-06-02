@@ -12571,10 +12571,13 @@ components:
           title: 'Sequences present on both the GenBank and the RefSeq assemblies that have been changed, e.g., contaminated sequence in the GenBank assembly has been replaced with a gap'
         manual_diff:
           type: string
-          title: 'Additional details about sequence differences between the GenBank and RefSeq assemblies'
+          title: 'Manually curated description of differences between the GenBank and RefSeq assemblies'
         refseq_genbank_are_different:
           type: boolean
           title: 'boolean indication on whether there are any differences between the GenBank and RefSeq assemblies'
+        differences:
+          type: string
+          title: 'Concatenation of all differences between the GenBank and RefSeq assemblies, including manually curated description and other fields'
     v2reportsProcessMetadata:
       type: object
       properties:
