@@ -131,7 +131,11 @@ func ExpectOnePositionalArgument(missingDesc string) cobra.PositionalArgs {
 		if len(args) == 0 {
 			pos_msg = missingPositionalArgumentTemplate
 		}
-		return fmt.Errorf(pos_msg, missingDesc, cmd.Example)
+		if cmd != nil {
+			return fmt.Errorf(pos_msg, missingDesc, cmd.Example)
+		} else {
+			return fmt.Errorf(pos_msg, missingDesc, "<Examples>")
+		}
 	}
 }
 
