@@ -4,7 +4,7 @@ import (
 	openapi "datasets/openapi/v2"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type VirusDownloadInclude enumflag.Flag
@@ -19,12 +19,12 @@ const (
 )
 
 var VirusDownloadIncludeIds = map[VirusDownloadInclude][]string{
-	GENOME:           {"GENOME"},
-	CDS:              {"CDS"},
-	PROTEIN:          {"PROTEIN"},
-	VIRUS_ANNOTATION: {"ANNOTATION"},
-	VIRUS_BIOSAMPLE:  {"BIOSAMPLE"},
-	NONE:             {"NONE"},
+	GENOME:           {"genome"},
+	CDS:              {"cds"},
+	PROTEIN:          {"protein"},
+	VIRUS_ANNOTATION: {"annotation"},
+	VIRUS_BIOSAMPLE:  {"biosample"},
+	NONE:             {"none"},
 }
 
 var VirusDownloadIncludeOpenapi = map[VirusDownloadInclude]openapi.V2ViralSequenceType{

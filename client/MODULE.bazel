@@ -28,7 +28,7 @@ use_repo(
     "com_github_spf13_afero",
     "com_github_spf13_cobra",
     "com_github_spf13_pflag",
-    "com_github_thediveo_enumflag",
+    "com_github_thediveo_enumflag_v2",
     "com_gitlab_metakeule_fmtdate",
     "org_golang_x_exp",
     "org_golang_x_text",

@@ -3,7 +3,7 @@ package flags
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type VirusSummaryReportMode enumflag.Flag
@@ -12,16 +12,13 @@ type VirusSummaryReportMode enumflag.Flag
 const (
 	DEFAULT VirusSummaryReportMode = iota
 	ANNOTATION
-
-// DOWNLOAD_BIOSAMPLE
 )
 
 // Map enumeration values to their textual representations (value
 // identifiers).
 var VirusSummaryReportModeIds = map[VirusSummaryReportMode][]string{
-	DEFAULT:    {"VIRUS"},
-	ANNOTATION: {"ANNOTATION"},
-	//	DOWNLOAD_BIOSAMPLE: {"BIOSAMPLE"},
+	DEFAULT:    {"virus"},
+	ANNOTATION: {"annotation"},
 }
 
 var ArgsVirusSummaryReportMode VirusSummaryReportMode
