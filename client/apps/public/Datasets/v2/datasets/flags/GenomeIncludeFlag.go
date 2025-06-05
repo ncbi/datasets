@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type GenomeIncludeAnnotation enumflag.Flag
@@ -25,15 +25,15 @@ const (
 // Map enumeration values to their textual representations (value
 // identifiers).
 var GenomeIncludeAnnotationIds = map[GenomeIncludeAnnotation][]string{
-	GenomeGff3:            {"GFF3"},
-	GenomeGbff:            {"GBFF"},
-	GenomeGtf:             {"GTF"},
-	GenomeProtein:         {"Protein"},
-	GenomeRna:             {"RNA"},
-	GenomeCds:             {"Cds"},
-	GenomeSeq:             {"Genome"},
-	GenomeSequenceReport:  {"Seq-Report"},
-	GenomeIncludeNoneFlag: {"None"},
+	GenomeGff3:            {"gff3"},
+	GenomeGbff:            {"gbff"},
+	GenomeGtf:             {"gtf"},
+	GenomeProtein:         {"protein"},
+	GenomeRna:             {"rna"},
+	GenomeCds:             {"cds"},
+	GenomeSeq:             {"genome"},
+	GenomeSequenceReport:  {"seq-report"},
+	GenomeIncludeNoneFlag: {"none"},
 }
 
 var GenomeIncludeAnnotationOpenapi = map[GenomeIncludeAnnotation]openapi.V2AnnotationForAssemblyType{

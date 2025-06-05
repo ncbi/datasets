@@ -6,7 +6,7 @@ import (
 	_nethttp "net/http"
 
 	"github.com/spf13/cobra"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type SummaryGeneFlag struct {
@@ -228,9 +228,9 @@ const (
 // Map enumeration values to their textual representations (value
 // identifiers).
 var GeneReportModeIds = map[GeneReportMode][]string{
-	Data:    {"COMPLETE", "GENE"},
-	Product: {"PRODUCT"},
-	IdsOnly: {"IDS_ONLY"},
+	Data:    {"gene", "complete"},
+	Product: {"product"},
+	IdsOnly: {"ids_only"},
 }
 
 var argGeneReportMode GeneReportMode

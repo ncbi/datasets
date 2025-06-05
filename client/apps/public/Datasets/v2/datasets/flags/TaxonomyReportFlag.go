@@ -3,7 +3,7 @@ package flags
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type TaxonomyReportMode enumflag.Flag
@@ -16,9 +16,9 @@ const (
 )
 
 var TaxonomyReportModeIds = map[TaxonomyReportMode][]string{
-	Taxonomy:   {"TAXONOMY"},
-	Names:      {"NAMES"},
-	TaxIdsOnly: {"IDS_ONLY"},
+	Taxonomy:   {"taxonomy"},
+	Names:      {"names"},
+	TaxIdsOnly: {"ids_only"},
 }
 
 type TaxonomyReportFlag struct {

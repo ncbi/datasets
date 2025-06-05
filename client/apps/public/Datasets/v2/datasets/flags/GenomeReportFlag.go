@@ -3,7 +3,7 @@ package flags
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type GenomeReportMode enumflag.Flag
@@ -16,9 +16,9 @@ const (
 )
 
 var GenomeReportModeIds = map[GenomeReportMode][]string{
-	Genome:   {"GENOME"},
-	Sequence: {"SEQUENCE"},
-	IdsOnly:  {"IDS_ONLY"},
+	Genome:   {"genome"},
+	Sequence: {"sequence"},
+	IdsOnly:  {"ids_only"},
 }
 
 type GenomeReportFlag struct {

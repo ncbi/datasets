@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"github.com/thediveo/enumflag"
+	"github.com/thediveo/enumflag/v2"
 )
 
 type GeneIncludeFlags enumflag.Flag
@@ -31,9 +31,9 @@ const (
 
 var GeneIncludeFlagIds = map[GeneIncludeFlags][]string{
 	Gene:                {"gene"},
-	Rna:                 {"RNA"},
-	Protein:             {"Protein"},
-	Cds:                 {"Cds"},
+	Rna:                 {"rna"},
+	Protein:             {"protein"},
+	Cds:                 {"cds"},
 	FivePrimeUtr:        {"5p-utr"},
 	ThreePrimeUtr:       {"3p-utr"},
 	ProductReport:       {"product-report"},
