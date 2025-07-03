@@ -3,6 +3,7 @@ package datasets
 import (
 	"context"
 	"fmt"
+	"os"
 
 	openapi "datasets/openapi/v2"
 	cmdflags "datasets_cli/v2/datasets/flags"
@@ -58,6 +59,10 @@ func (gd *GeneDownloader) setGeneIdsForRequestIter(requestIter RequestIterator[*
 }
 
 func (gd *GeneDownloader) setGeneIdsForRequest(request *openapi.V2GeneDatasetReportsRequest) error {
+	// There were some instances of request being nil, so we check for that
+	if request == nil {
+		return fmt.Errorf("Internal Error.  GeneDownloader request is nil. Please report this issue to the developers.")
+	}
 	if request.HasAccessions() && len(request.GetAccessions()) > 0 {
 		return gd.setGeneIdsForRequestIter(NewGeneAccessionRequestIter(request))
 	} else if request.HasSymbolsForTaxon() && len(request.SymbolsForTaxon.GetSymbols()) > 0 {
@@ -73,6 +78,11 @@ func WithSymbolAndTaxon(iff *cmdflags.InputFileFlag, otf *cmdflags.OrthologTaxon
 		if err != nil {
 			return err
 		}
+		if request == nil {
+			fmt.Fprintln(os.Stderr, "Warning: Warning: Data is not available for this query.")
+			return nil
+		}
+		gd.request = openapi.NewV2GeneDatasetRequest()
 		return gd.setGeneIdsForRequest(request)
 	}
 }
@@ -112,6 +122,11 @@ func WithGeneIds(iff *cmdflags.InputFileFlag, otf *cmdflags.OrthologTaxonFilterF
 		geneInts, err := GeneIdsAsIntsForInputs(gd.cli, iff, otf)
 		if err != nil {
 			return err
+		}
+
+		if len(geneInts) == 0 {
+			fmt.Fprintln(os.Stderr, "Warning: No gene orthologs found for the specified NCBI GeneID and taxon.")
+			return nil
 		}
 
 		request := openapi.NewV2GeneDatasetReportsRequest()

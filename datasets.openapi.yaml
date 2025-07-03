@@ -3605,6 +3605,13 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -3728,6 +3735,13 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -3862,6 +3876,13 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -4006,6 +4027,13 @@ paths:
               - NM_001408458.1
               - NM_001407959.1
             summary: Selected transcripts from BRCA1
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -4170,6 +4198,13 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -4295,6 +4330,13 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -4431,6 +4473,13 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -4555,6 +4604,13 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -4675,6 +4731,13 @@ paths:
           example-0:
             value: PROTEIN_CODING
             summary: Only protein coding genes
+      - name: tax_search_subtree
+        description: 'For queries including a tax-id, include any matching genes annotated on taxa below the selected taxon. By default this is false, and only genes for the selected taxon are returned.'
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
       - name: sort.field
         in: query
         required: false
@@ -10591,6 +10654,39 @@ components:
         group_name:
           type: string
           title: 'Group name (blast group)'
+    v2SeqRange:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'NCBI Accession.version of the sequence'
+        begin:
+          type: string
+          format: uint64
+        end:
+          type: string
+          format: uint64
+        orientation:
+          $ref: '#/components/schemas/v2reportsOrientation'
+    v2SeqReply:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Accession.version of the retrieved sequence'
+        seq_length:
+          type: string
+          format: uint64
+          title: 'Total length of the sequence (not just the amount retrieved)'
+        mol_type:
+          $ref: '#/components/schemas/v2MolType'
+          title: 'Molecule type - dna, rna, protein'
+        defline:
+          type: string
+          title: 'Defline for the retrieved sequence data'
+        sequence:
+          type: string
+          title: 'The retrieved sequence (includes line-breaks)'
     v2SequenceAccessionRequest:
       type: object
       properties:
@@ -11121,6 +11217,15 @@ components:
         use_psg:
           type: boolean
           title: 'Experimental approach to retrieving sequence data.'
+    v2archiveAffiliation:
+      type: object
+      properties:
+        affiliation:
+          type: string
+        division:
+          type: string
+        location:
+          $ref: '#/components/schemas/v2archiveLocation'
     v2archiveCatalog:
       type: object
       properties:
@@ -11130,10 +11235,12 @@ components:
           $ref: '#/components/schemas/v2archiveMoleculeType'
         definition:
           type: string
-        organism:
-          $ref: '#/components/schemas/v2archiveOrganism'
+        taxonomy:
+          $ref: '#/components/schemas/v2archiveTaxonomyNode'
         sequence:
           $ref: '#/components/schemas/v2archiveSequence'
+        topology:
+          $ref: '#/components/schemas/v2reportsOrganelleTopology'
         modification_date:
           type: string
         publication_date:
@@ -11142,38 +11249,98 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2archiveSubmitter'
+    v2archiveLocation:
+      type: object
+      properties:
+        city:
+          type: string
+        sub:
+          type: string
+          title: 'Subdivision, e.g., state or province'
+        country:
+          type: string
+        street:
+          type: string
+        postal_code:
+          type: string
+    v2archiveModifier:
+      type: object
+      properties:
+        subtype:
+          $ref: '#/components/schemas/v2archiveTaxonomySubtype'
+          title: 'e.g., "isolate", "strain", "variant"'
+        subname:
+          type: string
+          title: 'e.g., "ATCC 12345", "B.1.1.7"'
+    v2archiveName:
+      type: object
+      properties:
+        first:
+          type: string
+        middle:
+          type: string
+        last:
+          type: string
+        full:
+          type: string
+        initials:
+          type: string
+        suffix:
+          type: string
+        title:
+          type: string
+        affiliation:
+          $ref: '#/components/schemas/v2archiveAffiliation'
     v2archiveNuccoreRequest:
       type: object
       properties:
         accession:
           type: string
-    v2archiveOrganism:
-      type: object
-      properties:
-        tax_id:
-          type: integer
-        common_name:
-          type: string
-        scientific_name:
-          type: string
     v2archiveSequence:
       type: object
       properties:
         length:
-          type: string
+          type: integer
         units:
           $ref: '#/components/schemas/v2archiveSequenceLengthUnits'
     v2archiveSubmitter:
       type: object
       properties:
         name:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/v2archiveName'
         role:
           type: string
         affiliation:
+          $ref: '#/components/schemas/v2archiveAffiliation'
+        date:
           type: string
-        email:
+    v2archiveTaxonomyNode:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+          title: 'NCBI Taxonomy identifier'
+        current_scientific_name:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'The currently accepted name chosen out of all synonyms for the taxonomic node.'
+        basionym:
+          $ref: '#/components/schemas/v2reportsNameAndAuthority'
+          title: 'The originally described name, no longer in use. Attached to the type material and species description.'
+        curator_common_name:
           type: string
+          title: 'The canonical common name.'
+        group_name:
+          type: string
+          title: 'A common name describing large, well-known taxa.'
+        classification:
+          $ref: '#/components/schemas/v2reportsClassification'
+          title: 'A subset of parent nodes including well-established ranks.'
+        modifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2archiveModifier'
     v2reportsANIMatch:
       type: object
       properties:
@@ -13486,6 +13653,16 @@ components:
         - protein_fasta
       default: FILE_TYPE_UNSPECIFIED
     
+    v2MolType:
+      type: string
+      enum:
+        - MOL_UNSPECIFIED
+        - MOL_DNA
+        - MOL_RNA
+        - MOL_PROTEIN
+        - MOL_NA
+      default: MOL_UNSPECIFIED
+    
     v2OrganelleMetadataRequestContentType:
       type: string
       enum:
@@ -13652,6 +13829,54 @@ components:
         - AMINO_ACIDS
         - NUCLEOTIDES
       default: SEQUENCE_LENGTH_UNITS_UNSPECIFIED
+    
+    v2archiveTaxonomySubtype:
+      type: string
+      enum:
+        - unknown
+        - strain
+        - substrain
+        - type
+        - subtype
+        - variety
+        - serotype
+        - serogroup
+        - serovar
+        - cultivar
+        - pathovar
+        - chemovar
+        - biovar
+        - biotype
+        - group
+        - subgroup
+        - isolate
+        - common
+        - acronym
+        - dosage
+        - nat_host
+        - sub_species
+        - specimen_voucher
+        - authority
+        - forma
+        - forma_specialis
+        - ecotype
+        - synonym
+        - anamorph
+        - teleomorph
+        - breed
+        - gb_acronym
+        - gb_anamorph
+        - gb_synonym
+        - culture_collection
+        - bio_material
+        - metagenome_source
+        - type_material
+        - nomenclature
+        - old_lineage
+        - old_name
+        - other
+      default: unknown
+      title: 'This is a copy of the COrgMod::ESubtype https://www.ncbi.nlm.nih.gov/IEB/ToolBox/CPP_DOC/doxyhtml/OrgMod___8hpp_source.html#l00084-00126'
     
     v2reportsANITypeCategory:
       type: string

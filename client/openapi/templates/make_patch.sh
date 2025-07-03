@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=7.5.0
+VERSION=7.2.0
 CLI=openapi-generator-cli-${VERSION}.jar
 
 if [[ ! -e ${CLI} ]]; then

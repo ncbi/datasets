@@ -131,33 +131,15 @@ func RetrieveTaxIdsForTaxons(
 	return taxIdsMap, nil
 }
 
-func (apiService *taxonAutosuggestApi) GetMetadata(taxName string, returnedContent openapi.V2TaxonomyMetadataRequestContentType) (*openapi.V2TaxonomyMetadataResponse, bool, error) {
+func (apiService *taxonAutosuggestApi) GetMetadata(taxId string, returnedContent openapi.V2TaxonomyMetadataRequestContentType) (*openapi.V2TaxonomyMetadataResponse, bool, error) {
 	result, _, err := apiService.TaxonApi.TaxonomyMetadataPost(context.TODO()).V2TaxonomyMetadataRequest(
 		openapi.V2TaxonomyMetadataRequest{
-			Taxons:          []string{taxName},
+			Taxons:          []string{taxId},
 			ReturnedContent: &returnedContent,
 		},
 	).Execute()
 
-	hasResults := false
-	if (result.TaxonomyNodes != nil) && (len(result.TaxonomyNodes) == 1) && ((result.TaxonomyNodes)[0].Taxonomy != nil) {
-		var namesMap map[string]bool = make(map[string]bool)
-		namesMap[strings.ToUpper(*(result.TaxonomyNodes)[0].Taxonomy.OrganismName)] = true
-		namesMap[strconv.Itoa(int(*(result.TaxonomyNodes)[0].Taxonomy.TaxId))] = true
-		if (result.TaxonomyNodes)[0].Taxonomy.CommonName != nil {
-			namesMap[strings.ToUpper(*(result.TaxonomyNodes)[0].Taxonomy.CommonName)] = true
-		}
-		if (result.TaxonomyNodes)[0].Taxonomy.GenbankCommonName != nil {
-			namesMap[strings.ToUpper(*(result.TaxonomyNodes)[0].Taxonomy.GenbankCommonName)] = true
-		}
-		if (result.TaxonomyNodes)[0].Taxonomy.GenbankAcronym != nil {
-			namesMap[strings.ToUpper(*(result.TaxonomyNodes)[0].Taxonomy.GenbankAcronym)] = true
-		}
-		if namesMap[strings.ToUpper(taxName)] {
-			hasResults = true
-		}
-	}
-
+	hasResults := (result.TaxonomyNodes != nil) && (len(result.TaxonomyNodes) == 1) && ((result.TaxonomyNodes)[0].Taxonomy != nil)
 	return result, hasResults, err
 }
 

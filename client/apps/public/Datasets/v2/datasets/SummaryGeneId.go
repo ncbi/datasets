@@ -79,6 +79,7 @@ Print a data report containing gene metadata by NCBI Gene ID. The data report is
 				return err
 			}
 			if len(geneInts) == 0 {
+				cmd.PrintErrln("Warning: No gene orthologs found for the specified NCBI GeneID and taxon.")
 				return nil
 			}
 			sort.Slice(geneInts, func(i, j int) bool { return geneInts[i] < geneInts[j] })
