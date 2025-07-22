@@ -31,7 +31,7 @@ func NewVirusFilterFlags(releasedAfterDesc string, updatedAfterDesc string) *Vir
 func (vff *VirusFilterFlags) RegisterFlags(flags *pflag.FlagSet) {
 	flags.BoolVar(&vff.annotatedOnly, "annotated", false, "Limit to annotated genomes")
 
-	flags.BoolVar(&vff.completeOnly, "complete-only", false, "Limit to complete genomes")
+	flags.BoolVar(&vff.completeOnly, "complete-only", false, "Limit to complete sequences, as defined by submitter")
 	flags.StringVar(&vff.geoLocation, "geo-location", "", "Limit to genomes isolated from a specified geographic location (continent or country)")
 	flags.StringVar(&vff.geoUsaState, "usa-state", "", "Limit to genomes isolated from a specified U.S. state (two-letter abbreviation)")
 	flags.StringVar(&vff.lineage, "lineage", "", "Limit results by Pango lineage (only SARS-CoV-2)")
