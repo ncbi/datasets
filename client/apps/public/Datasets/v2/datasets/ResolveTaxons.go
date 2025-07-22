@@ -25,8 +25,6 @@ const maxAlternateSuggestionNames = 10
 var belowSpeciesRanks = []openapi.V2reportsRankType{
 	openapi.V2REPORTSRANKTYPE_SPECIES,
 	openapi.V2REPORTSRANKTYPE_SUBSPECIES,
-	openapi.V2REPORTSRANKTYPE_TRIBE,
-	openapi.V2REPORTSRANKTYPE_SUBTRIBE,
 	openapi.V2REPORTSRANKTYPE_STRAIN,
 	openapi.V2REPORTSRANKTYPE_SUBVARIETY,
 	openapi.V2REPORTSRANKTYPE_SEROTYPE,
@@ -35,6 +33,9 @@ var belowSpeciesRanks = []openapi.V2reportsRankType{
 
 // Ranks that we know to be above species
 var aboveSpeciesRanks = []openapi.V2reportsRankType{
+	openapi.V2REPORTSRANKTYPE_ACELLULAR_ROOT,
+	openapi.V2REPORTSRANKTYPE_CELLULAR_ROOT,
+	openapi.V2REPORTSRANKTYPE_REALM,
 	openapi.V2REPORTSRANKTYPE_SUPERKINGDOM,
 	openapi.V2REPORTSRANKTYPE_KINGDOM,
 	openapi.V2REPORTSRANKTYPE_SUBKINGDOM,
