@@ -155,7 +155,7 @@ func geneSummaryPagePrinter(
 	requestIter RequestIterator[*openapi.V2GeneDatasetReportsRequest],
 	api PageRetriever[*openapi.V2GeneDatasetReportsRequest, openapi.V2reportsGeneDataReportPage, openapi.V2reportsGeneReportMatch, *openapi.V2reportsGeneDataReportPage],
 ) (err error) {
-	requestIter.GetRequest().SetReturnedContent(openapi.V2GeneDatasetReportsRequestContentType(GeneReportModeIds[argGeneReportMode][0]))
+	requestIter.GetRequest().SetReturnedContent(openapi.V2GeneDatasetReportsRequestContentType(GeneReportModeOpenapi[argGeneReportMode]))
 	if sGeneFlag.jsonLinesLimitFlag.CountOnly() {
 		requestIter.GetRequest().SetReturnedContent(openapi.V2GENEDATASETREPORTSREQUESTCONTENTTYPE_IDS_ONLY)
 	}
@@ -231,6 +231,13 @@ var GeneReportModeIds = map[GeneReportMode][]string{
 	Data:    {"gene", "complete"},
 	Product: {"product"},
 	IdsOnly: {"ids_only"},
+}
+
+// Map enums to their open-api defined string values to be passed to the api
+var GeneReportModeOpenapi = map[GeneReportMode]openapi.V2GeneDatasetRequestContentType{
+	IdsOnly: openapi.V2GENEDATASETREQUESTCONTENTTYPE_IDS_ONLY,
+	Data:    openapi.V2GENEDATASETREQUESTCONTENTTYPE_COMPLETE,
+	Product: openapi.V2GENEDATASETREQUESTCONTENTTYPE_COMPLETE,
 }
 
 var argGeneReportMode GeneReportMode
