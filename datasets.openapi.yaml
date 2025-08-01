@@ -13889,7 +13889,7 @@ components:
         - pathovar
         - reftype
         - suspected_type
-        - syntype
+        - synonym
         - type
       default: ANI_CATEGORY_UNKNOWN
     
