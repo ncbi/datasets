@@ -7103,12 +7103,6 @@ paths:
               - Homo sapiens
               - Mus musculus
             summary: Scientific Name
-      - name: specified_limit
-        description: 'Limit to specified species'
-        in: query
-        required: false
-        schema:
-          type: boolean
       - name: rank_limits
         description: 'Limit to the provided ranks.  If empty, accept any rank.'
         in: query
@@ -7117,6 +7111,12 @@ paths:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsRankType'
+      - name: include_incertae_sedis
+        description: 'Include nodes with ranks not in ''rank_limits'' if their names meet criteria for incertae sedis (of unknown origin).'
+        in: query
+        required: false
+        schema:
+          type: boolean
   /taxonomy/filtered_subtree:
     post:
       summary: Use taxonomic identifiers to get a filtered taxonomic subtree by post
@@ -10756,6 +10756,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsRankType'
+        include_incertae_sedis:
+          type: boolean
+          title: 'Include nodes with ranks not in ''rank_limits'' if their names meet criteria for incertae sedis (of unknown origin).'
     v2TaxonomyFilteredSubtreeResponse:
       type: object
       properties:
@@ -13737,8 +13740,9 @@ components:
         - UNSPECIFIED
         - HAS_MORE_CHILDREN
         - NO_VISIBLE_CHILDREN
+        - ONLY_UNSPECIFIED_CHILDREN
       default: UNSPECIFIED
-      title: 'If these are changed before v1 is retired, code that converts v2 to v1 responses in python/private/src/ncbi_private/datasets/services/taxonomy/v1/dataset.py may need to be updated.'
+      title: 'HAS_MORE_CHILDREN means there are children of a valid rank that are not unspecified NO_VISIBLE_CHILDREN means there are no children at all, not even unspecified children ONLY_UNSPECIFIED_CHILDREN Means that there are children, but those children are all unspecified (e.g. environmental samples)'
     
     v2TaxonomyMetadataRequestContentType:
       type: string
