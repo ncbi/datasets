@@ -24,7 +24,7 @@ From now on, we will be focusing on the command-line tool, its structure and org
 
 ### Command-line tools: *datasets* and *dataformat*<a id="cli-tools"></a>
 
-![Datasets CLI schematic](.images/datasets0902.png) 
+![Datasets CLI schematic](images/datasets0902.png) 
 
 While the web interface is helpful, there are times when it's more convenient to access data through a command-line environment. For example, let's say you are working on your institution's high-performance computing (HPC) system and you need to download dozens (or hundreds) of genomes or genes. Even if you're using the Datasets web interface, this would potentially be a two step process: 
 
