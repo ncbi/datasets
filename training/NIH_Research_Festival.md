@@ -24,7 +24,7 @@ From now on, we will be focusing on the command-line tool, its structure and org
 
 ### Command-line tools: *datasets* and *dataformat*<a id="cli-tools"></a>
 
-![Datasets CLI schematic](./datasets0902.png) 
+![Datasets CLI schematic](.images/datasets0902.png) 
 
 While the web interface is helpful, there are times when it's more convenient to access data through a command-line environment. For example, let's say you are working on your institution's high-performance computing (HPC) system and you need to download dozens (or hundreds) of genomes or genes. Even if you're using the Datasets web interface, this would potentially be a two step process: 
 
@@ -37,7 +37,7 @@ The program follows a hierarchy that makes it easier for users to select exact w
 
 The NCBI Datasets CLI command structure is very intuitive. If you take a look at the diagram below, you will notice that the commands are built by choosing one option from each vertical rectangle. 
 
-![](./datasets-commands.png)
+![](./images/datasets-commands.png)
 
 In addition to *datasets*, we also have *dataformat*, a companion tool to explore and convert metadata to TSV or Excel formats. We will cover the *dataformat* command syntax and use in the metadata section.
 
@@ -47,7 +47,7 @@ In addition to *datasets*, we also have *dataformat*, a companion tool to explor
 
 NCBI Datasets introduced the concept of data packages in order to provide consistent delivery of sequence data and metadata in a single request as a zip archive. Data packages combine data from multiple NCBI databases and can be customized to the user's needs.  
 
-![](./data-package.png)
+![](./images/data-package.png)
 
 &uarr;[top](#top)
 
