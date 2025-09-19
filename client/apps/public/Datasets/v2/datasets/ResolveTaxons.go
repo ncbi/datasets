@@ -309,11 +309,13 @@ func (apiService *taxonAutosuggestApi) resultMatches(
 			taxNameAlternates += *name.SciName + " (" + rankStr + ", taxid: " + *name.TaxId
 
 			// Add matched term to the alternates if it is not the scientific name, and the
-			// common name otherwise (adding both when both available seems unwieldy)
+			// common or group name otherwise (adding both when both available seems unwieldy)
 			if name.MatchedTerm != nil && *name.MatchedTerm != *name.SciName {
 				taxNameAlternates += ", " + *name.MatchedTerm
 			} else if name.CommonName != nil {
 				taxNameAlternates += ", " + *name.CommonName
+			} else if name.GroupName != nil {
+				taxNameAlternates += ", " + *name.GroupName
 			}
 			taxNameAlternates += ")"
 		}
