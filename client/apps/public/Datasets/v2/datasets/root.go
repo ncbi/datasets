@@ -241,6 +241,9 @@ func initRetryableClient() *http.Client {
 	c := newRetryHttpClient(maxNumRetries)
 	t := c.Transport
 	c.Transport = LoggingRoundTripper{Proxied: t}
+	if len(argApiKey) > 0 {
+		clientHeaders["api-key"] = argApiKey
+	}
 
 	return c
 }
@@ -551,10 +554,6 @@ func init() {
 		clientHeaders["NCBI-PHID"] = ncbi_phid
 	} else {
 		clientHeaders["NCBI-PHID"] = GeneratePHID()
-	}
-
-	if len(argApiKey) > 0 {
-		clientHeaders["api-key"] = argApiKey
 	}
 
 	l5d_dtab := os.Getenv("L5D_DTAB")
