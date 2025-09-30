@@ -17,7 +17,7 @@ func createDownloadGeneTaxonCmd(dgf DownloadGeneFlag) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "taxon <taxon>",
 		Short:   fmt.Sprintf("Download a gene data package by %s", inputDescription),
-		Example: `  datasets download gene taxon human --include protein,cds`,
+		Example: `  datasets download gene taxon "drosophila melanogaster" --include protein,cds`,
 		Long: fmt.Sprintf(`
 Download a gene data package by %s.  Gene data packages include gene, transcript and protein sequences and one or more data reports. Data packages are downloaded as a zip archive.
 

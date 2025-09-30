@@ -5,8 +5,7 @@ info:
   description: '### NCBI Datasets is a resource that lets you easily gather data from
       NCBI.
 
-      The Datasets version 2 API is still in alpha, and we''re updating it often to add new functionality,
-      iron out bugs and enhance usability.
+      The Datasets version 2 API is updated often to add new functionality, iron out bugs and enhance usability.
 
       For some larger downloads, you may want to download a [dehydrated zip archive](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/how-tos/genomes/large-download/),
       and retrieve the individual data files at a later time.
@@ -14,7 +13,6 @@ info:
     '
 servers:
 - url: https://api.ncbi.nlm.nih.gov/datasets/v2
-- url: https://dev.ncbi.nlm.nih.gov/datasets/v2
 tags:
 - name: Genome
   description: '#### Options to explore, summarize and download assembled genomes,
@@ -2153,8 +2151,8 @@ paths:
                     - GCF_000001405.40
   /genome/accession/{accession}/revision_history:
     get:
-      summary: Get revision history for assembly by accession
-      description: 'Get revision history for assembly by accession'
+      summary: Get a revision history for a genome assembly by genome assembly accession
+      description: 'Get a revision history, or list of all versions of a genome assembly, in JSON format.'
       tags:
         - Genome
       operationId: assembly_revision_history_by_get
@@ -2180,11 +2178,11 @@ paths:
         examples:
           example-0:
             value: GCF_000001405.40
-            summary: Human
+            summary: Human reference genome assembly, GRCh38.p14
   /genome/revision_history:
     post:
-      summary: Get revision history for assembly by accession
-      description: 'Get revision history for assembly by accession'
+      summary: Get a revision history for a genome assembly by genome assembly accession
+      description: 'Get a revision history, or list of all versions of a genome assembly, in JSON format.'
       tags:
         - Genome
       operationId: assembly_revision_history_by_post
@@ -2275,7 +2273,7 @@ paths:
                   accession: "NC_000001.11"
   /genome/accession/{accession}/sequence_reports:
     get:
-      summary: Get sequence reports by accessions
+      summary: Get genome sequence reports by genome assembly accessions
       description: 'Get a sequence report by accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Genome
@@ -2311,11 +2309,12 @@ paths:
         examples:
           example-0:
             value: GCF_000001635.27
-            summary: Mouse
+            summary: Mouse reference genome assembly, GRCm39
           example-1:
             value: GCF_000001405.40
-            summary: Human
+            summary: Human reference genome assembly, GRCh38.p14
       - name: chromosomes
+        description: 'Limit to sequences with the specified chromosome names'
         in: query
         required: false
         schema:
@@ -2331,13 +2330,14 @@ paths:
               - X
               - Y
               - MT
-            summary: Selected chromosomes #1
+            summary: Chromosomes 1,2,3,X,Y and MT (mitochondrial genome sequence)
           example-1:
             value:
               - X
               - Y
-            summary: Human sex chromosomes
+            summary: Chromosomes X and Y (Human sex chromosomes)
       - name: role_filters
+        description: 'Limit to sequences with the specified "role", where possible roles are `assembled-molecule`, `unlocalized-scaffold`, or `unplaced-scaffold`'
         in: query
         required: false
         schema:
@@ -2346,14 +2346,8 @@ paths:
             type: string
         examples:
           example-0:
-            value:
-              - assembled-molecule
-              - unlocalized-scaffold
-              - unplaced-scaffold
-            summary: All types of sequence
-          example-1:
             value: assembled-molecule
-            summary: Only assembled molecules
+            summary: Assembled sequences
       - name: table_fields
         in: query
         required: false
@@ -2366,23 +2360,23 @@ paths:
             value:
               - accession
               - chr-name
-            summary: Genome Accession and Chromosome Name
+            summary: Genome assembly accession and chromosome name
           example-1:
             value: ucsc-style-name
-            summary: UCSC Name
+            summary: Sequence name from the UCSC Genome Browser
       - name: count_assembly_unplaced
+        description: 'Include the count of unplaced scaffold sequences'
         in: query
         required: false
         schema:
           type: boolean
           default: false
       - name: page_size
-        description: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        description: 'The maximum number of genome assemblies to return. Maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
         required: false
         schema:
           type: integer
-          default: 20
       - name: page_token
         description: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         in: query
@@ -3029,8 +3023,8 @@ paths:
           default: ncbi_dataset.zip
   /genome/accession/{accession}/annotation_report/download:
     get:
-      summary: Get an annotation report dataset by accession
-      description: 'Download an annotation report including fasta sequence and a detailed annotation report by genomic accession.'
+      summary: Get a genome annotation data package by genome assembly accession
+      description: 'Download an annotation data package including fasta sequence and a detailed annotation report by genome assembly accession.'
       tags:
         - Genome
       operationId: download_genome_annotation_package
@@ -3058,46 +3052,70 @@ paths:
         examples:
           example-0:
             value: GCF_000001635.27
-            summary: Mouse
+            summary: Mouse reference genome assembly, GRCm39
       - name: annotation_ids
-        description: 'Limit the reports by internal, unstable annotation ids.'
+        description: 'Limit to one or more features annotated on the genome by specifying a number corresponding to a row_id (unstable).'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 1
+            summary: row_id 1
       - name: symbols
-        description: 'Filter parameters'
+        description: 'Limit to annotated features matching the given gene symbol (case-sensitive).'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: Qsox1
+            summary: Mouse gene Qsox1
       - name: locations
-        description: 'Locations with a chromosome or accession and optional start-stop range: chromosome|accession[:start-end]'
+        description: 'Limit to features annotated at a specific location on the genome, by specifying a chromosome name or accession and optional start-stop range.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 1:1-1000
+            summary: Chromosome 1, nucleotides 1-1000
+          example-1:
+            value: NC_000067.7:3,000,000-4,000,000
+            summary: Mouse chromosome 1, nucleotides 3,000,000-4,000,000
       - name: gene_types
-        description: 'granular gene_types'
+        description: 'Limit to features of a specified gene locus type.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: protein-coding
+            summary: Protein-coding genes
       - name: search_text
+        description: 'Limit to features that match the specified gene symbol, gene name or protein name.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: kinase
+            summary: Genes matching the term 'kinase'
       - name: sort.field
         in: query
         required: false
@@ -3109,45 +3127,13 @@ paths:
         schema:
           $ref: '#/components/schemas/v2SortDirection'
       - name: include_annotation_type
+        description: 'Specify which sequences files to include in the data package. Options include gene (GENOME_FASTA), transcript (RNA_FASTA), and protein (PROT_FASTA) sequences.'
         in: query
         required: false
         schema:
           type: array
           items:
             $ref: '#/components/schemas/v2GenomeAnnotationRequestAnnotationType'
-      - name: page_size
-        description: 'The maximum number of features to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
-        in: query
-        required: false
-        schema:
-          type: integer
-          default: 20
-      - name: table_fields
-        description: 'Specify which fields to include in the tabular report'
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: table_format
-        description: 'Optional pre-defined template for processing a tabular data request'
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2GenomeAnnotationRequestGenomeAnnotationTableFormat'
-      - name: include_tabular_header
-        description: 'Whether this request for tabular data should include the header row'
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2IncludeTabularHeader'
-      - name: page_token
-        description: 'A page token is returned from a `GetFeatures` call with more than `page_size` results. Use this token, along with the previous `FeatureRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
-        in: query
-        required: false
-        schema:
-          type: string
       - name: filename
         description: Output file name.
         in: query
@@ -3157,8 +3143,8 @@ paths:
           default: ncbi_dataset.zip
   /genome/annotation_report/download:
     post:
-      summary: Get an annotation report dataset by accession
-      description: 'Download an annotation report including fasta sequence and a detailed annotation report by genomic accession.'
+      summary: Get a genome annotation data package by genome assembly accession
+      description: 'Download an annotation data package including fasta sequence and a detailed annotation report by genome assembly accession.'
       tags:
         - Genome
       operationId: download_genome_annotation_package_by_post
@@ -5970,8 +5956,8 @@ paths:
             summary: Grus americana Annotation Release
   /genome/accession/{accession}/annotation_report:
     get:
-      summary: Get genome annotation reports by genome accession
-      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      summary: Get genome annotation reports by genome assembly accession
+      description: 'Get genome annotation reports by genome assembly accession, where each report represents a single feature annotated on the genome.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or JSON-lines (accept: application/x-ndjson) formats'
       tags:
         - Genome
       operationId: genome_annotation_report
@@ -6003,46 +5989,70 @@ paths:
         examples:
           example-0:
             value: GCF_000001635.27
-            summary: Mouse
+            summary: Mouse reference genome assembly, GRCm39
       - name: annotation_ids
-        description: 'Limit the reports by internal, unstable annotation ids.'
+        description: 'Limit to one or more features annotated on the genome by specifying a number corresponding to a row_id (unstable).'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 1
+            summary: row_id 1
       - name: symbols
-        description: 'Filter parameters'
+        description: 'Limit to annotated features matching the given gene symbol (case-sensitive).'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: Qsox1
+            summary: Mouse gene Qsox1
       - name: locations
-        description: 'Locations with a chromosome or accession and optional start-stop range: chromosome|accession[:start-end]'
+        description: 'Limit to features annotated at a specific location on the genome, by specifying a chromosome name or accession and optional start-stop range.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 1:1-1000
+            summary: Chromosome 1, nucleotides 1-1000
+          example-1:
+            value: NC_000067.7:3,000,000-4,000,000
+            summary: Mouse chromosome 1, nucleotides 3,000,000-4,000,000
       - name: gene_types
-        description: 'granular gene_types'
+        description: 'Limit to features of a specified gene locus type.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: protein-coding
+            summary: Protein-coding genes
       - name: search_text
+        description: 'Limit to features that match the specified gene symbol, gene name or protein name.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: kinase
+            summary: Genes matching the term 'kinase'
       - name: sort.field
         in: query
         required: false
@@ -6060,14 +6070,6 @@ paths:
         schema:
           type: integer
           default: 20
-      - name: table_fields
-        description: 'Specify which fields to include in the tabular report'
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
       - name: table_format
         description: 'Optional pre-defined template for processing a tabular data request'
         in: query
@@ -6088,8 +6090,8 @@ paths:
           type: string
   /genome/annotation_report:
     post:
-      summary: Get genome annotation reports by genome accession
-      description: 'Get genome annotation reports by genome accession.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      summary: Get genome annotation reports by genome assembly accession
+      description: 'Get genome annotation reports by genome assembly accession, where each report represents a single feature annotated on the genome.  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or JSON-lines (accept: application/x-ndjson) formats'
       tags:
         - Genome
       operationId: genome_annotation_report_by_post
@@ -6125,8 +6127,8 @@ paths:
                   accession: "GCF_000001635.27"
   /genome/accession/{accession}/annotation_summary:
     get:
-      summary: Get genome annotation report summary information
-      description: 'Get genome annotation report summary information by genome accession. The return facets can be used in subsequent queries.'
+      summary: Get genome annotation report summary information by genome assembly accession
+      description: 'Get genome annotation report summary information by genome assembly accession in JSON format, including chromosome names and gene types.'
       tags:
         - Genome
       operationId: annotation_report_facets_by_accession
@@ -6152,7 +6154,7 @@ paths:
         examples:
           example-0:
             value: GCF_000001635.27
-            summary: Mouse
+            summary: Mouse reference genome assembly, GRCm39
       - name: sort.field
         in: query
         required: false
@@ -6196,8 +6198,8 @@ paths:
                   accession: "GCF_000001635.27"
   /genome/accession/{accession}/annotation_report/download_summary:
     get:
-      summary: Preview feature dataset download
-      description: 'Get a download feature summary by accession in a JSON output format.'
+      summary: Get a download summary (preview) of a genome annotation data package by genome assembly accession
+      description: 'Get a downlaod summary (preview) of a genome annotation data package, including counts and file sizes, in JSON format.'
       tags:
         - Genome
       operationId: genome_annotation_download_summary
@@ -6223,46 +6225,70 @@ paths:
         examples:
           example-0:
             value: GCF_000001635.27
-            summary: Mouse
+            summary: Mouse reference genome assembly, GRCm39
       - name: annotation_ids
-        description: 'Limit the reports by internal, unstable annotation ids.'
+        description: 'Limit to one or more features annotated on the genome by specifying a number corresponding to a row_id (unstable).'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 1
+            summary: row_id 1
       - name: symbols
-        description: 'Filter parameters'
+        description: 'Limit to annotated features matching the given gene symbol (case-sensitive).'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: Qsox1
+            summary: Mouse gene Qsox1
       - name: locations
-        description: 'Locations with a chromosome or accession and optional start-stop range: chromosome|accession[:start-end]'
+        description: 'Limit to features annotated at a specific location on the genome, by specifying a chromosome name or accession and optional start-stop range.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: 1:1-1000
+            summary: Chromosome 1, nucleotides 1-1000
+          example-1:
+            value: NC_000067.7:3,000,000-4,000,000
+            summary: Mouse chromosome 1, nucleotides 3,000,000-4,000,000
       - name: gene_types
-        description: 'granular gene_types'
+        description: 'Limit to features of a specified gene locus type.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: protein-coding
+            summary: Protein-coding genes
       - name: search_text
+        description: 'Limit to features that match the specified gene symbol, gene name or protein name.'
         in: query
         required: false
         schema:
           type: array
           items:
             type: string
+        examples:
+          example-0:
+            value: kinase
+            summary: Genes matching the term 'kinase'
       - name: sort.field
         in: query
         required: false
@@ -6274,35 +6300,16 @@ paths:
         schema:
           $ref: '#/components/schemas/v2SortDirection'
       - name: include_annotation_type
+        description: 'Specify which sequences files to include in the data package. Options include gene (GENOME_FASTA), transcript (RNA_FASTA), and protein (PROT_FASTA) sequences.'
         in: query
         required: false
         schema:
           type: array
           items:
             $ref: '#/components/schemas/v2GenomeAnnotationRequestAnnotationType'
-      - name: table_fields
-        description: 'Specify which fields to include in the tabular report'
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
-      - name: table_format
-        description: 'Optional pre-defined template for processing a tabular data request'
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2GenomeAnnotationRequestGenomeAnnotationTableFormat'
-      - name: include_tabular_header
-        description: 'Whether this request for tabular data should include the header row'
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2IncludeTabularHeader'
   /genome/annotation_report/download_summary:
     post:
-      summary: Preview feature download by POST
+      summary: Get a download summary (preview) of a genome annotation data package by genome assembly accession
       description: 'The ''GET'' version of feature download summary is limited by the size of the GET URL (2KB).  The POST operation is provided to allow users to supply a larger number of annotation_ids in a single request.'
       tags:
         - Genome
@@ -9811,6 +9818,13 @@ components:
       in: header
       name: api-key
   schemas:
+    v2Accessions:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
     v2AssemblyAccessions:
       type: object
       properties:
@@ -10058,9 +10072,10 @@ components:
             type: string
         count_assembly_unplaced:
           type: boolean
+          title: 'Include the count of unplaced scaffold sequences'
         page_size:
           type: integer
-          title: 'The maximum number of genome assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+          title: 'The maximum number of genome assemblies to return. Maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         page_token:
           type: string
           title: 'A page token is returned from an `GetSequenceReports` call with more than `page_size` results. Use this token, along with the previous `AssemblyMetadataRequest` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
@@ -12048,6 +12063,38 @@ components:
           type: string
           format: uint64
           title: 'BUSCO score: Total Count'
+    v2reportsCDAnnot:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Domain family or superfamily accession, like ''cd01234'' or ''cl01234'''
+        specific:
+          type: boolean
+          title: 'Whether this hit is specific for a particular model'
+        superfamily:
+          type: integer
+          title: 'The domain superfamily ID'
+        short_name:
+          type: string
+          title: 'The short name of the domain family'
+        description:
+          type: string
+          title: 'The description for the domain/superfamily (defline)'
+        from:
+          type: integer
+          title: 'The start coordinate of the annotation on the query sequence'
+        to:
+          type: integer
+          title: 'The end coordination (inclusive) of the annotation on the query protein'
+        evalue:
+          type: number
+          format: float
+          title: 'The Expect Value of the alignment between query sequence and the domain consensus'
+        bit_score:
+          type: number
+          format: float
+          title: 'The bit_score of the alignment between query sequence and the domain consensus'
     v2reportsCheckM:
       type: object
       properties:
@@ -12331,13 +12378,13 @@ components:
         gene_id:
           type: string
           format: uint64
-          title: 'NCBI Gene ID'
+          title: 'NCBI GeneID'
         symbol:
           type: string
-          title: 'gene symbol'
+          title: 'Gene symbol'
         description:
           type: string
-          title: 'gene name'
+          title: 'Gene name'
         name:
           type: string
         tax_id:
@@ -12355,7 +12402,7 @@ components:
           title: 'Deprecated'
         gene_type:
           type: string
-          title: 'WIP - SEQUI-5271 - TODO fix breaking changes'
+          title: 'Gene locus type'
         rna_type:
           $ref: '#/components/schemas/v2reportsRnaType'
         orientation:
@@ -12831,6 +12878,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsMaturePeptide'
+    v2reportsProteinDataReport:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Protein accession, as input'
+        description:
+          type: string
+          title: 'Protein name as in defline'
+        annots:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsCDAnnot'
+        archid:
+          type: integer
+          title: 'Superfamily architecture ID'
+        sparchid:
+          type: integer
+          title: '-- Specific architecture ID'
+    v2reportsProteinDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsProteinDataReport'
     v2reportsRange:
       type: object
       properties:
@@ -12892,7 +12965,7 @@ components:
       properties:
         assembly_accession:
           type: string
-          title: 'The GenColl assembly accession'
+          title: 'The genome assembly accession'
         chr_name:
           type: string
           title: 'The name of the associated chromosome. The name "Un" indicates that the chromosome is unknown.'
@@ -12910,7 +12983,7 @@ components:
           title: 'The RefSeq accession of the sequence'
         assembly_unit:
           type: string
-          title: 'The NCBI Assembly accession of the associated assembly unit. Assembly units can include the primary assembly and non-nuclear assembly units'
+          title: 'Name of the assembly unit, or set of sequences that comprise the assembly.'
         length:
           type: integer
           title: 'The length of the sequence in nucleotides'
@@ -13429,6 +13502,216 @@ components:
           type: string
         returned:
           type: string
+    ncbiprotddv2ChainFootprint:
+      type: object
+      properties:
+        query_from:
+          type: integer
+        query_to:
+          type: integer
+        dependent_from:
+          type: integer
+        dependent_to:
+          type: integer
+    ncbiprotddv2QueryStructureDefinition:
+      type: object
+      properties:
+        sdid:
+          type: integer
+          title: 'Structure Domain ID: Unique ID for mmdb_id + chain_id + domain_number'
+        mmdb_id:
+          type: integer
+          title: 'The MMDB ID of the structure'
+        pdb_id:
+          type: string
+          title: 'The PDB ID of the structure'
+        description:
+          type: string
+          title: 'Description of the structure'
+        chain_id:
+          type: string
+          title: 'Chain name. I.e. AA'
+        domain_number:
+          type: integer
+          title: 'Domain Number 0 is the entire chain'
+    ncbiprotddv2SdidRequest:
+      type: object
+      properties:
+        sdid:
+          type: integer
+          title: 'Structure Domain ID'
+    ncbiprotddv2SimilarStructureReport:
+      type: object
+      properties:
+        sdid:
+          type: integer
+          title: 'Structure Domain ID'
+        structure_title:
+          type: string
+          title: 'PDB Structure Title'
+        protein_chain_name:
+          type: string
+          title: 'Protein Chain Name'
+        chain_id:
+          type: string
+          title: 'Chain ID'
+        domain_number:
+          type: integer
+          title: 'Domain Number 0 is the entire chain'
+        mmdb_id:
+          type: integer
+          title: 'The MMDB ID of the structure'
+        pdb_id:
+          type: string
+          title: 'The PDB ID of the structure'
+        vast_score:
+          $ref: '#/components/schemas/ncbiprotddv2VastScore'
+        align_id:
+          type: integer
+          title: 'Alignment Id'
+        superkingdom_id:
+          type: integer
+          title: 'Superkingdom ID'
+        tax_id:
+          type: integer
+          title: 'NCBI Taxonomy ID'
+        footprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2ChainFootprint'
+    ncbiprotddv2SimilarStructureReportPage:
+      type: object
+      properties:
+        similar_structures:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2SimilarStructureReport'
+        next_page_token:
+          type: string
+        total_count:
+          type: integer
+    ncbiprotddv2SimilarStructureRequest:
+      type: object
+      properties:
+        sdid:
+          type: string
+        page_token:
+          type: string
+          title: 'Only needed for paging GetSimilarStructures RPC'
+        redundancy_level:
+          $ref: '#/components/schemas/ncbiprotddv2RedundancyLevel'
+          title: 'Sort and filter fields here. Redundancy Level'
+    ncbiprotddv2StructureDataReport:
+      type: object
+      properties:
+        pdb_id:
+          type: string
+          title: 'The PDB ID of the structure'
+        mmdb_id:
+          type: integer
+          title: 'The MMDB ID of the structure'
+        is_obsolete:
+          type: boolean
+          title: 'Marks the structure as obsolete'
+        publication_pmid:
+          type: array
+          items:
+            type: integer
+        deposition_date:
+          type: string
+          title: 'YYYY-MM-DD formatted date of publication Example: "2023-10-01"'
+        update_date:
+          type: string
+          title: 'YYYY-MM-DD formatted last date updated'
+        experiment:
+          $ref: '#/components/schemas/ncbiprotddv2StructureDataReportExperiment'
+          title: 'relevant experiment data'
+        chains:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2StructureDataReportBiounitChain'
+        ligand_chains:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2StructureDataReportLigandChain'
+        asymmetric_chains:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2StructureDataReportBiounitChain'
+        asymmetric_ligands:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2StructureDataReportLigandChain'
+    ncbiprotddv2StructureDataReportBiounitChain:
+      type: object
+      properties:
+        chain_id:
+          type: string
+          title: 'Chain name. I.e. AA'
+        tax_id:
+          type: integer
+          title: 'taxonomy id'
+        kind:
+          $ref: '#/components/schemas/ncbiprotddv2StructureDataReportKind'
+          title: 'Kind of molecule. DNA, RNA, Protein, etc.'
+        molecule_group:
+          type: integer
+          title: 'Which group of identical chains does this chain belong to'
+    ncbiprotddv2StructureDataReportExperiment:
+      type: object
+      properties:
+        experimental_method:
+          type: string
+          title: 'The experimental method used to characterize the protein structure. I.e. x-ray diffraction, etc.'
+        resolution:
+          type: number
+          format: float
+          title: 'The resolution (in Angstroms) of a protein structure resolved by diffraction or electron microscopy.'
+    ncbiprotddv2StructureDataReportLigandChain:
+      type: object
+      properties:
+        chain_id:
+          type: string
+          title: 'Chain name. I.e. ZINC ION  taxonomy id'
+        kind:
+          $ref: '#/components/schemas/ncbiprotddv2StructureDataReportKind'
+          title: 'Kind of molecule. DNA, RNA, Protein, etc.'
+        molecule_group:
+          type: integer
+          title: 'Which group of identical chains does this chain belong to'
+        sid:
+          type: integer
+    ncbiprotddv2StructureRequest:
+      type: object
+      properties:
+        pdb_id:
+          type: string
+          title: 'The PDB ID of the structure'
+        mmdb_id:
+          type: integer
+          title: 'The MMDB ID of the structure'
+    ncbiprotddv2VastScore:
+      type: object
+      properties:
+        vast_score:
+          type: number
+          format: float
+          title: 'Vast Similarity Score as computed by the VAST algorithm'
+        align_length:
+          type: integer
+          title: 'Alignment Length'
+        pct_identity:
+          type: number
+          format: float
+          title: 'Percentage Sequence Identity'
+        rmsd:
+          type: number
+          format: float
+          title: 'Root Mean Square Deviation in Angstroms'
+        p_value:
+          type: number
+          format: float
+          title: 'Statistical Significance of the similarity'
     
     v2AnnotationForAssemblyType:
       type: string
@@ -14245,6 +14528,28 @@ components:
         - NO_GENE_ANNOTATION_FOUND
         - ABOVE_SPECIES_TAXON
       default: UNKNOWN_GENE_WARNING_CODE
+    
+    ncbiprotddv2RedundancyLevel:
+      type: string
+      enum:
+        - ALL_SEQUENCES
+        - LOW
+        - MEDIUM
+        - HIGH
+      default: ALL_SEQUENCES
+    
+    ncbiprotddv2StructureDataReportKind:
+      type: string
+      enum:
+        - DNA
+        - RNA
+        - PROTEIN
+        - OTHER_BIOPOLYMER
+        - SOLVENT
+        - OTHER_NONPOLYMER
+        - OTHER
+      default: DNA
+      title: 'Kind of molecule. DNA, RNA, Protein, etc.'
     protobufAny:
       type: object
       properties:

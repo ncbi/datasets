@@ -80,7 +80,7 @@ The default gene data package for WP accessions:
 func isProkaryoteAcc(acc_list []string) bool {
 	const prokPrefix string = "WP_"
 	for _, accession := range acc_list {
-		if !strings.HasPrefix(accession, prokPrefix) {
+		if !strings.HasPrefix(strings.ToUpper(accession), prokPrefix) {
 			return false
 		}
 	}

@@ -186,7 +186,7 @@ func createGenomeCmd() *cobra.Command {
 		Example: `  datasets download genome accession GCF_000001405.40 --chromosomes X,Y --include genome,gff3,rna
   datasets download genome taxon "bos taurus" --dehydrated
   datasets download genome taxon human --assembly-level chromosome,complete --dehydrated
-  datasets download genome taxon mouse --search C57BL/6J --search "Broad Institute" --dehydrated`,
+  datasets download genome taxon "house mouse" --search C57BL/6J --search "Broad Institute" --dehydrated`,
 		Long: `
 Download a genome data package. Genome data packages may include genome, transcript and protein sequences, annotation and one or more data reports. Data packages are downloaded as a zip archive.
 
