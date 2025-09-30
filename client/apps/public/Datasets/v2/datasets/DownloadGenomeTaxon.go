@@ -26,7 +26,7 @@ The default genome data package includes the following files:
   * assembly_data_report.jsonl (data report with genome assembly and annotation metadata)
   * dataset_catalog.json (a list of files and file types included in the data package)`, inputDescription),
 		Example: `  datasets download genome taxon human --chromosomes 21 --include none
-  datasets download genome taxon "bos taurus"
+  datasets download genome taxon "bos taurus" --reference
   datasets download genome taxon human --preview
   datasets download genome taxon 10116 --include rna,protein`,
 

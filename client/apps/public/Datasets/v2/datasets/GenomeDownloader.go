@@ -66,6 +66,7 @@ func isValidAssemblyAcc(acc string) bool {
 func separateAccessions(accs []string) (retAccs []string, bioprojectAccs []string, err error) {
 	accNum := 0
 	for _, acc := range accs {
+		acc = strings.ToUpper(acc)
 		if isValidAssemblyAcc(acc) {
 			if strings.HasPrefix(acc, "PRJ") {
 				bioprojectAccs = append(bioprojectAccs, acc)

@@ -15,7 +15,7 @@ func createSummaryGeneTaxonCmd(sGeneFlag *SummaryGeneFlag) *cobra.Command {
 		Use:     "taxon <taxon> [flags]",
 		Short:   fmt.Sprintf("Print a data report containing gene metadata by %s", inputDescription),
 		Long:    fmt.Sprintf(`Print a data report containing gene metadata by %s. The data report is returned in JSON format.`, inputDescription),
-		Example: `  datasets summary gene taxon human`,
+		Example: `  datasets summary gene taxon "pacific white shrimp"`,
 		Args:    cmdflags.ExpectOnePositionalArgument(inputDescription),
 		PreRunE: cmdflags.ExecutePreRunEFor(sGeneFlag.cmdFlagSet),
 		RunE: func(cmd *cobra.Command, args []string) error {

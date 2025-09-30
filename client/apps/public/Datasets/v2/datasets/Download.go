@@ -83,8 +83,8 @@ var downloadCmd = &cobra.Command{
 Download genome, gene and virus data packages, including sequence, annotation, and metadata, as a zip file.
 
 Refer to NCBI's [download and install](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/download-and-install/) documentation for information about getting started with the command-line tools.`,
-	Example: `  datasets download genome accession GCF_000001405.40 --chromosomes X,Y --exclude-gff3 --exclude-rna
-  datasets download genome taxon "bos taurus"
+	Example: `  datasets download genome accession GCF_000001405.40 --chromosomes X,Y --include cds,genome,protein,seq-report,gbff,gff3
+  datasets download genome taxon "bos taurus" --reference
   datasets download gene gene-id 672
   datasets download gene symbol brca1 --taxon "mus musculus"
   datasets download gene accession NP_000483.3
