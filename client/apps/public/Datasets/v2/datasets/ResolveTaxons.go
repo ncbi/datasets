@@ -139,7 +139,13 @@ func (apiService *taxonAutosuggestApi) GetMetadata(taxId string, returnedContent
 			ReturnedContent: &returnedContent,
 		},
 	).Execute()
-
+	if err != nil {
+        return nil, false, err
+    }
+    if result == nil {
+         return nil, false, fmt.Errorf("empty response from taxonomy service")
+    }
+	
 	hasResults := (result.TaxonomyNodes != nil) && (len(result.TaxonomyNodes) == 1) && ((result.TaxonomyNodes)[0].Taxonomy != nil)
 	return result, hasResults, err
 }
