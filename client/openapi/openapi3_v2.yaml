@@ -12063,38 +12063,6 @@ components:
           type: string
           format: uint64
           title: 'BUSCO score: Total Count'
-    v2reportsCDAnnot:
-      type: object
-      properties:
-        accession:
-          type: string
-          title: 'Domain family or superfamily accession, like ''cd01234'' or ''cl01234'''
-        specific:
-          type: boolean
-          title: 'Whether this hit is specific for a particular model'
-        superfamily:
-          type: integer
-          title: 'The domain superfamily ID'
-        short_name:
-          type: string
-          title: 'The short name of the domain family'
-        description:
-          type: string
-          title: 'The description for the domain/superfamily (defline)'
-        from:
-          type: integer
-          title: 'The start coordinate of the annotation on the query sequence'
-        to:
-          type: integer
-          title: 'The end coordination (inclusive) of the annotation on the query protein'
-        evalue:
-          type: number
-          format: float
-          title: 'The Expect Value of the alignment between query sequence and the domain consensus'
-        bit_score:
-          type: number
-          format: float
-          title: 'The bit_score of the alignment between query sequence and the domain consensus'
     v2reportsCheckM:
       type: object
       properties:
@@ -12186,6 +12154,32 @@ components:
         gene_counts:
           $ref: '#/components/schemas/v2reportsGeneCounts'
           title: 'Counts of gene types'
+    v2reportsFunctionalSite:
+      type: object
+      properties:
+        index:
+          type: integer
+          title: 'the Index of this site on the definition domain. 1-based'
+        name:
+          type: string
+          title: 'the name of this functional site'
+        type:
+          type: string
+          title: 'function type'
+        specific:
+          type: boolean
+          title: 'Whether this is a specific site'
+        completeness:
+          type: number
+          format: float
+          title: 'The fraction of residues mapped to the protein sequence'
+        source_accession:
+          type: string
+          title: 'The accession of domain that defines this functional site'
+        location:
+          type: array
+          items:
+            type: integer
     v2reportsGeneCounts:
       type: object
       properties:
@@ -12878,6 +12872,38 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsMaturePeptide'
+    v2reportsProteinConservedDomain:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Domain family or superfamily accession, like ''cd01234'' or ''cl01234'''
+        name:
+          type: string
+          title: 'The short name of the domain family'
+        description:
+          type: string
+          title: 'The description for the domain/superfamily (defline)'
+        start:
+          type: integer
+          title: 'The start coordinate of the annotation on the query sequence'
+        stop:
+          type: integer
+          title: 'The stop coordination (inclusive) of the annotation on the query protein'
+        specific:
+          type: boolean
+          title: 'Whether this hit is specific for a particular model'
+        partial:
+          type: boolean
+          title: 'Whether this domain is fully aligned to the protein'
+        evalue:
+          type: number
+          format: float
+          title: 'The Expect Value of the alignment between query sequence and the domain consensus'
+        bit_score:
+          type: number
+          format: float
+          title: 'The bit_score of the alignment between query sequence and the domain consensus'
     v2reportsProteinDataReport:
       type: object
       properties:
@@ -12887,16 +12913,27 @@ components:
         description:
           type: string
           title: 'Protein name as in defline'
-        annots:
+        length:
+          type: integer
+          title: 'Length of the protein'
+        gene_id:
+          type: integer
+          title: 'Gene ID associated with the protein'
+        identical_protein_group:
+          type: integer
+          title: 'Non-redundent protein group ID, aka IPG/PIG'
+        conserved_domains:
           type: array
           items:
-            $ref: '#/components/schemas/v2reportsCDAnnot'
-        archid:
-          type: integer
-          title: 'Superfamily architecture ID'
-        sparchid:
-          type: integer
-          title: '-- Specific architecture ID'
+            $ref: '#/components/schemas/v2reportsProteinConservedDomain'
+        functional_sites:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsFunctionalSite'
+        protein_families:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsProteinFamily'
     v2reportsProteinDataReportPage:
       type: object
       properties:
@@ -12904,6 +12941,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsProteinDataReport'
+    v2reportsProteinFamily:
+      type: object
+      properties:
+        method:
+          type: string
+          title: 'The method used to assign the protein family'
+        identifier:
+          type: integer
+          title: 'The numeric ID of the model assigned to the protein using the particular method'
+        name:
+          type: string
+          title: 'The name of the assigned model'
+        description:
+          type: string
+          title: 'The more detailed description of the assigned model'
+        type:
+          type: string
+          title: 'Sub-category specific to this method'
     v2reportsRange:
       type: object
       properties:
@@ -13601,6 +13656,10 @@ components:
         redundancy_level:
           $ref: '#/components/schemas/ncbiprotddv2RedundancyLevel'
           title: 'Sort and filter fields here. Redundancy Level'
+        sort_by:
+          $ref: '#/components/schemas/ncbiprotddv2SortById'
+        hits_per_page:
+          type: integer
     ncbiprotddv2StructureDataReport:
       type: object
       properties:
@@ -14537,6 +14596,28 @@ components:
         - MEDIUM
         - HIGH
       default: ALL_SEQUENCES
+    
+    ncbiprotddv2SortById:
+      type: string
+      enum:
+        - NONE
+        - VAST_SCORE
+        - P_VALUE
+        - RMSD
+        - ALIGNMENT_LENGTH
+        - PCT_IDENTITY
+        - ACCESSION
+        - SDID
+        - ALIGNMENT_ID
+        - PDB_ID
+        - CHAIN_NAME
+        - DOMAIN_NUMBER
+        - DESCRIPTION
+        - TAXONOMY_ID
+        - SUPERKINGDOM_ID
+        - DOMAIN_NAME
+      default: NONE
+      title: 'Corresponds to sort @sortBy options in PubVast.dbo.getVastSimilarStructures stored procedure'
     
     ncbiprotddv2StructureDataReportKind:
       type: string
