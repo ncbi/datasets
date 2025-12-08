@@ -55,7 +55,7 @@ func (td *TaxonomyBase) getFilteredTaxids(taxIds []int32, taxidRetriever *Taxono
 	request := openapi.NewV2TaxonomyMetadataRequest()
 	request.SetTaxons(GetTaxonsFromTaxIds(taxIds))
 	request.SetRanks(taxidRetriever.GetRanks())
-	// Just gathering taxids here - minimize amount returend for performance
+	// Just gathering taxids here - minimize amount returned for performance
 	request.SetReturnedContent(openapi.V2TAXONOMYMETADATAREQUESTCONTENTTYPE_TAXIDS)
 
 	api := TaxonApi{taxonApi: td.cli.TaxonomyAPI}
@@ -68,30 +68,14 @@ func (td *TaxonomyBase) getFilteredTaxids(taxIds []int32, taxidRetriever *Taxono
 	return err
 }
 
-func (td *TaxonomyBase) getLineageTaxids(taxIds []int32, taxidRetriever *TaxonomyIdRetriever) error {
-	request := openapi.NewV2TaxonomyMetadataRequest()
-	request.SetTaxons(GetTaxonsFromTaxIds(taxIds))
-
-	api := TaxonApi{taxonApi: td.cli.TaxonomyAPI}
-	taxidRetriever.SetIncludeParents(true)
-
-	_, err := ProcessAllPages[*openapi.V2TaxonomyMetadataRequest,
-		openapi.V2reportsTaxonomyDataReportPage,
-		openapi.V2reportsTaxonomyReportMatch,
-		*openapi.V2reportsTaxonomyDataReportPage](NewDefaultRequestIterator(request), &api, taxidRetriever)
-
-	return err
-}
-
-func (td *TaxonomyBase) getChildTaxIds(taxId int32, taxidRetriever *TaxonomyIdRetriever) error {
+func (td *TaxonomyBase) getChildTaxIds(taxId int32, taxidRetriever *TaxonomyIdRetriever, getParents bool, getChildren bool) error {
 	related_ids_request := openapi.NewV2TaxonomyRelatedIdRequest()
 	related_ids_request.SetTaxId(taxId)
-	related_ids_request.SetIncludeSubtree(true)
+	related_ids_request.SetIncludeSubtree(getChildren)
+	related_ids_request.SetIncludeLineage(getParents)
 	related_ids_request.SetRanks(taxidRetriever.GetRanks())
 
 	api := taxonRelatedIdsApi{taxonApi: td.cli.TaxonomyAPI}
-	taxidRetriever.SetIncludeParents(false)
-
 	_, err := ProcessAllPages[*openapi.V2TaxonomyRelatedIdRequest,
 		openapi.V2reportsTaxonomyDataReportPage,
 		openapi.V2reportsTaxonomyReportMatch,
@@ -112,35 +96,22 @@ func GetTaxonsFromTaxIds(taxIds []int32) []string {
 func (td *TaxonomyBase) retrieveChildAndParentTaxIds(taxIds []int32, ranks []openapi.V2reportsRankType, getParents bool, getChildren bool) (error, []int32) {
 	// taxid(s) passed in may not be of requested rank, but if lineage or children are requested, we still get
 	// the parents/children and test Those against the rank(s)
-	unfilteredTaxids := taxIds
-
-	// For lineage need to first collect all the taxids in the lineages of the requested taxid (should have already verified
-	// there is only 1 taxid in this case). Lineage will Not filter its returned taxid(s) against the ranks.
-	if getParents {
-		taxidRetriever := NewTaxonomyIdRetriever()
-		taxidRetriever.AddTaxIds(taxIds)
-		err := td.getLineageTaxids(taxIds, &taxidRetriever)
-		if err != nil {
-			return err, taxidRetriever.GetTaxIds()
-		}
-		unfilteredTaxids = taxidRetriever.GetTaxIds()
-	}
 
 	// We only need to filter taxids here if ranks is provided (there are no other filters)
 	taxidRetriever := NewTaxonomyIdRetriever()
 	if len(ranks) > 0 {
 		taxidRetriever.SetRanks(ranks)
-		err := td.getFilteredTaxids(unfilteredTaxids, &taxidRetriever)
+		err := td.getFilteredTaxids(taxIds, &taxidRetriever)
 		if err != nil {
 			return err, taxidRetriever.GetTaxIds()
 		}
 	} else {
-		taxidRetriever.AddTaxIds(unfilteredTaxids)
+		taxidRetriever.AddTaxIds(taxIds)
 	}
 
 	// Get all children. Note the caller should have already checked that taxIds had length==1
-	if getChildren {
-		err := td.getChildTaxIds(taxIds[0], &taxidRetriever)
+	if getChildren || getParents {
+		err := td.getChildTaxIds(taxIds[0], &taxidRetriever, getParents, getChildren)
 		if err != nil {
 			return err, taxidRetriever.GetTaxIds()
 		}

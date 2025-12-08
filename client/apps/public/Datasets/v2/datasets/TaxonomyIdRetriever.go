@@ -5,21 +5,15 @@ import (
 )
 
 type TaxonomyIdRetriever struct {
-	taxIdsMap      map[int32]bool
-	includeParents bool
-	taxRanks       []openapi.V2reportsRankType
+	taxIdsMap map[int32]bool
+	taxRanks  []openapi.V2reportsRankType
 	DefaultPageProcessorFuncs[openapi.V2reportsTaxonomyReportMatch, *openapi.V2reportsTaxonomyDataReportPage]
 }
 
 func NewTaxonomyIdRetriever() TaxonomyIdRetriever {
 	return TaxonomyIdRetriever{
-		taxIdsMap:      make(map[int32]bool),
-		includeParents: false,
+		taxIdsMap: make(map[int32]bool),
 	}
-}
-
-func (taxidRetriever *TaxonomyIdRetriever) SetIncludeParents(lineage bool) {
-	taxidRetriever.includeParents = lineage
 }
 
 func (taxidRetriever *TaxonomyIdRetriever) ReportName() string {
@@ -29,15 +23,9 @@ func (taxidRetriever *TaxonomyIdRetriever) ReportName() string {
 func (taxidRetriever *TaxonomyIdRetriever) ProcessPage(ppage *openapi.V2reportsTaxonomyDataReportPage) {
 	for _, report := range ppage.GetReports() {
 		if report.HasTaxonomy() {
-			taxidRetriever.taxIdsMap[report.Taxonomy.GetTaxId()] = true
-			if taxidRetriever.includeParents && report.Taxonomy.HasParents() {
-				for _, taxId := range report.Taxonomy.GetParents() {
-					if taxId != 1 {
-						// No information in the record to check rank here (if set) so that will need to be done
-						// in a later step
-						taxidRetriever.taxIdsMap[int32(taxId)] = true
-					}
-				}
+			// Don't include the root taxid
+			if report.Taxonomy.GetTaxId() != 1 {
+				taxidRetriever.taxIdsMap[report.Taxonomy.GetTaxId()] = true
 			}
 		}
 	}
