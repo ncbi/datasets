@@ -12326,9 +12326,6 @@ components:
     v2reportsFunctionalSite:
       type: object
       properties:
-        index:
-          type: integer
-          title: 'the Index of this site on the definition domain. 1-based'
         name:
           type: string
           title: 'the name of this functional site'
