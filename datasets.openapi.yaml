@@ -6709,7 +6709,7 @@ paths:
                     - "9443"
   /taxonomy/taxon/{taxons}:
     get:
-      summary: Use taxonomic identifiers to get taxonomic metadata
+      summary: Use taxonomic identifiers to get taxonomic metadata (deprecated)
       description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about a taxonomic node including taxonomic identifiers, lineage information, child nodes, and gene and genome counts in JSON format.'
       tags:
         - Taxonomy
@@ -6795,7 +6795,7 @@ paths:
             $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy:
     post:
-      summary: Get taxonomy metadata by taxon
+      summary: Get taxonomy metadata by taxon (deprecated)
       description: 'Get taxonomy metadata by taxon in JSON format.'
       tags:
         - Taxonomy
@@ -13088,6 +13088,9 @@ components:
         identical_protein_group:
           type: integer
           title: 'Non-redundent protein group ID, aka IPG/PIG'
+        tax_id:
+          type: integer
+          title: 'Taxonomy ID'
         conserved_domains:
           type: array
           items:
@@ -13398,6 +13401,9 @@ components:
           type: array
           items:
             type: integer
+        extinct:
+          type: boolean
+          title: 'True if organism is extinct'
     v2reportsTaxonomyNodeCountByType:
       type: object
       properties:
