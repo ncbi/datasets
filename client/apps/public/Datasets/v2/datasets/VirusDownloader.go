@@ -50,19 +50,21 @@ func (vd *VirusDownloader) checkTaxonWithinScope(taxons []string) bool {
 	if len(taxons) == 1 && cmdflags.Contains(KNOWN_VIRUS_TAXONS, strings.TrimSpace(taxons[0])) {
 		return true
 	}
-	org, resp, err := vd.cli.TaxonomyAPI.TaxonomyMetadataPost(context.TODO()).V2TaxonomyMetadataRequest(
+	returnedContent := openapi.V2TAXONOMYMETADATAREQUESTCONTENTTYPE_METADATA
+	org, resp, err := vd.cli.TaxonomyAPI.TaxonomyDataReportPost(context.TODO()).V2TaxonomyMetadataRequest(
 		openapi.V2TaxonomyMetadataRequest{
-			Taxons: taxons,
+			Taxons:          taxons,
+			ReturnedContent: &returnedContent,
 		},
 	).Execute()
 	if err = handleHTTPResponse(resp, err); err == nil {
-		taxNodes := org.GetTaxonomyNodes()
+		taxNodes := org.GetReports()
 		if len(taxNodes) < 1 {
 			return false
 		}
 		for _, taxNode := range taxNodes {
 			taxonomy := taxNode.GetTaxonomy()
-			lineage := taxonomy.GetLineage()
+			lineage := taxonomy.GetParents()
 			if !(contains(lineage, VIRAL_TAXID_COMP) || taxonomy.GetTaxId() == VIRAL_TAXID_COMP) {
 				return false
 			}
