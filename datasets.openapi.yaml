@@ -10997,6 +10997,8 @@ components:
             $ref: '#/components/schemas/v2ImageSize'
         format:
           type: string
+        license_url:
+          type: string
     v2TaxonomyImageRequest:
       type: object
       properties:

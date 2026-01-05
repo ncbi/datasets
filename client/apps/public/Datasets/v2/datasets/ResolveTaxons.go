@@ -132,15 +132,15 @@ func RetrieveTaxIdsForTaxons(
 	return taxIdsMap, nil
 }
 
-func (apiService *taxonAutosuggestApi) GetMetadata(taxId string, returnedContent openapi.V2TaxonomyMetadataRequestContentType) (*openapi.V2TaxonomyMetadataResponse, bool, error) {
-	result, _, err := apiService.TaxonApi.TaxonomyMetadataPost(context.TODO()).V2TaxonomyMetadataRequest(
+func (apiService *taxonAutosuggestApi) GetMetadata(taxId string, returnedContent openapi.V2TaxonomyMetadataRequestContentType) (*openapi.V2reportsTaxonomyDataReportPage, bool, error) {
+	result, _, err := apiService.TaxonApi.TaxonomyDataReportPost(context.TODO()).V2TaxonomyMetadataRequest(
 		openapi.V2TaxonomyMetadataRequest{
 			Taxons:          []string{taxId},
 			ReturnedContent: &returnedContent,
 		},
 	).Execute()
 
-	hasResults := (result.TaxonomyNodes != nil) && (len(result.TaxonomyNodes) == 1) && ((result.TaxonomyNodes)[0].Taxonomy != nil)
+	hasResults := (result.Reports != nil) && (len(result.Reports) == 1) && ((result.Reports)[0].Taxonomy != nil)
 	return result, hasResults, err
 }
 
@@ -154,10 +154,10 @@ func (apiService *taxonAutosuggestApi) CheckLineage(taxId string, lineageFilter 
 		return false, &AutoSuggestError{Msg: fmt.Sprintf("Taxonomy metadata not found for tax ID %s", taxId)}
 	}
 
-	if *(metadata.TaxonomyNodes)[0].Taxonomy.TaxId == lineageFilter {
+	if *(metadata.Reports)[0].Taxonomy.TaxId == lineageFilter {
 		return true, nil
 	}
-	for _, lineageTaxId := range metadata.TaxonomyNodes[0].Taxonomy.Lineage {
+	for _, lineageTaxId := range metadata.Reports[0].Taxonomy.Parents {
 		if lineageTaxId == lineageFilter {
 			return true, nil
 		}
@@ -196,23 +196,23 @@ func (apiService *taxonAutosuggestApi) IsAtOrBelowSpecies(taxId string, resource
 	}
 
 	if countType, hasCounts := resourceCountType[resource]; hasCounts {
-		for _, count := range (metadata.TaxonomyNodes)[0].Taxonomy.Counts {
+		for _, count := range (metadata.Reports)[0].Taxonomy.Counts {
 			if countType == count.GetType() {
 				resourceCount = count.GetCount()
 			}
 		}
 	}
 
-	atOrBelowSpecies, aboveSpcies := rankStatus((metadata.TaxonomyNodes)[0].Taxonomy.Rank)
+	atOrBelowSpecies, aboveSpcies := rankStatus((metadata.Reports)[0].Taxonomy.Rank)
 	if atOrBelowSpecies || aboveSpcies {
 		return atOrBelowSpecies, resourceCount, nil
 	}
 
 	// To determine if we are at species or below, iterate over lineage in reverse order until
 	// all taxons (except root (1)) are checked and if any are of rank species, return true.
-	lineageLen := len(metadata.TaxonomyNodes[0].Taxonomy.Lineage) - 1
-	for idx := range metadata.TaxonomyNodes[0].Taxonomy.Lineage {
-		lineageTaxId := metadata.TaxonomyNodes[0].Taxonomy.Lineage[lineageLen-idx]
+	lineageLen := len(metadata.Reports[0].Taxonomy.Parents) - 1
+	for idx := range metadata.Reports[0].Taxonomy.Parents {
+		lineageTaxId := metadata.Reports[0].Taxonomy.Parents[lineageLen-idx]
 		if lineageTaxId == 1 {
 			break
 		}
@@ -225,7 +225,7 @@ func (apiService *taxonAutosuggestApi) IsAtOrBelowSpecies(taxId string, resource
 			return false, resourceCount, err
 		}
 
-		atOrBelowSpecies, aboveSpcies = rankStatus((linMetadata.TaxonomyNodes)[0].Taxonomy.Rank)
+		atOrBelowSpecies, aboveSpcies = rankStatus((linMetadata.Reports)[0].Taxonomy.Rank)
 		if atOrBelowSpecies || aboveSpcies {
 			return atOrBelowSpecies, resourceCount, nil
 		}
