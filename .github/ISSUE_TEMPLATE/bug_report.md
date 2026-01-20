@@ -14,6 +14,9 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Indicate what operating system you're using**
+Are you using Linux, macOS or Windows?
+
 **To Reproduce**
 Please provide a reproducible example, with steps to reproduce the behavior _and_ any relevant taxonomic, genome assembly, or gene identifiers.
 
