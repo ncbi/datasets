@@ -2157,68 +2157,6 @@ paths:
                 value:
                   accessions:
                     - GCF_000001405.40
-  /genome/accession/{accession}/revision_history:
-    get:
-      summary: Get a revision history for a genome assembly by genome assembly accession
-      description: 'Get a revision history, or list of all versions of a genome assembly, in JSON format.'
-      tags:
-        - Genome
-      operationId: assembly_revision_history_by_get
-      responses:
-        default:
-          description: An unexpected error response.
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2AssemblyRevisionHistory'
-      parameters:
-      - name: accession
-        description: 'One genome assembly accession'
-        in: path
-        required: true
-        schema:
-          type: string
-        examples:
-          example-0:
-            value: GCF_000001405.40
-            summary: Human reference genome assembly, GRCh38.p14
-  /genome/revision_history:
-    post:
-      summary: Get a revision history for a genome assembly by genome assembly accession
-      description: 'Get a revision history, or list of all versions of a genome assembly, in JSON format.'
-      tags:
-        - Genome
-      operationId: assembly_revision_history_by_post
-      responses:
-        default:
-          description: An unexpected error response.
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2AssemblyRevisionHistory'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/v2AssemblyRevisionHistoryRequest'
-            examples:
-              Single GCF accession example:
-                description: Human reference genome assembly, GRCh38.p14
-                value:
-                  accession: "GCF_000001405.40"
   /genome/sequence_accession/{accession}/sequence_assemblies:
     get:
       summary: Get a genome assembly accession for a nucleotide sequence accession
@@ -9962,6 +9900,68 @@ paths:
         schema:
           type: string
           default: ncbi_dataset.zip
+  /genome/accession/{accession}/revision_history:
+    get:
+      summary: Get a revision history for a genome assembly by genome assembly accession
+      description: 'Get a revision history, or list of all versions of a genome assembly, in JSON format.'
+      tags:
+        - Genome
+      operationId: assembly_revision_history_by_get
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyRevisionHistory'
+      parameters:
+      - name: accession
+        description: 'One genome assembly accession'
+        in: path
+        required: true
+        schema:
+          type: string
+        examples:
+          example-0:
+            value: GCF_000001405.40
+            summary: Human reference genome assembly, GRCh38.p14
+  /genome/revision_history:
+    post:
+      summary: Get a revision history for a genome assembly by genome assembly accession
+      description: 'Get a revision history, or list of all versions of a genome assembly, in JSON format.'
+      tags:
+        - Genome
+      operationId: assembly_revision_history_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2AssemblyRevisionHistory'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2AssemblyRevisionHistoryRequest'
+            examples:
+              Single GCF accession example:
+                description: Human reference genome assembly, GRCh38.p14
+                value:
+                  accession: "GCF_000001405.40"
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -13731,6 +13731,39 @@ components:
           type: string
         returned:
           type: string
+    ncbigsupgcolv2AssemblyAccessionsReply:
+      type: object
+      properties:
+        accession:
+          type: array
+          items:
+            type: string
+    ncbigsupgcolv2AssemblyCheckMHistogramRequest:
+      type: object
+      properties:
+        tax_id:
+          type: integer
+          title: 'species level'
+    ncbigsupgcolv2AssemblyDataReportDraftRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+        _bypass_cache:
+          type: string
+    ncbigsupgcolv2AssemblyDataReportsRequest:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
+    ncbigsupgcolv2SequenceAccessionRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Could be WGS or sequence accession'
     ncbiprotddv2ChainFootprint:
       type: object
       properties:
@@ -14767,14 +14800,53 @@ components:
         - ABOVE_SPECIES_TAXON
       default: UNKNOWN_GENE_WARNING_CODE
     
+    ncbigsupgcolv2ChromosomeLocation:
+      type: string
+      enum:
+        - LOCATION_UNKNOWN
+        - APICOPLAST
+        - CHLOROPLAST
+        - CHROMATOPHORE
+        - CHROMOPLAST
+        - CYANELLE
+        - HYDROGENOSOME
+        - KINETOPLAST
+        - LEUCOPLAST
+        - MACRONUCLEAR
+        - MITOCHONDRION
+        - NUCLEARPROKARYOTE
+        - NUCLEOMORPH
+        - OTHER_LOCATION
+        - PLASTID
+        - PROPLASTID
+        - PROVIRALPROPHAGE
+        - VIRIONPHAGE
+        - VIROID
+      default: LOCATION_UNKNOWN
+      title: 'Represents the location information for a chromosome'
+    
+    ncbigsupgcolv2ChromosomeType:
+      type: string
+      enum:
+        - TYPE_UNKNOWN
+        - CHROMOSOME
+        - EXTRACHROM
+        - LINKAGEGROUP
+        - OTHER_TYPE
+        - PLASMID
+        - SEGMENT
+      default: TYPE_UNKNOWN
+      title: 'Represents the type information for a chromosome'
+    
     ncbiprotddv2RedundancyLevel:
       type: string
       enum:
+        - NOT_SPECIFIED
         - ALL_SEQUENCES
         - LOW
         - MEDIUM
         - HIGH
-      default: ALL_SEQUENCES
+      default: NOT_SPECIFIED
     
     ncbiprotddv2SortById:
       type: string
