@@ -179,7 +179,7 @@ func NewGenomeDownloader(setIdOption GenomeDownloaderAccOption, downloadGenomeFl
 		return nil, "", optErr
 	}
 	if len(gd.request.GetAccessions()) == 0 {
-		return nil, "", fmt.Errorf("NCBI Datasets provides access to assembled genome data by BioProject accession and no genome assemblies were found for the given BioProject.\nRetrieval of SRA data by BioProject accession is not supported by NCBI Datasets.\n")
+		return nil, "", fmt.Errorf("There are no genome assemblies that match your query.\nPlease try again using different search criteria.\n")
 	}
 
 	warning, fastaErr := gd.setRequestArgs(downloadGenomeFlag)
