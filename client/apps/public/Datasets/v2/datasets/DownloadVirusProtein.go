@@ -24,6 +24,7 @@ func downloadVirusProtein(cmd *cobra.Command, proteinNames []string, assmFilenam
 	if err != nil {
 		return
 	}
+	defer f.Close()
 
 	length := int64(-1) // unknown length
 

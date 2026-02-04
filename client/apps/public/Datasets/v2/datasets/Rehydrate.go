@@ -86,24 +86,52 @@ Download data files for an unzipped, dehydrated genome data package. Data files 
 					return err
 				}
 			}
-			for _, line := range lines {
+			for rowIdx, line := range lines {
+				// Skip empty lines (all fields empty or whitespace) and comments
+				isEmpty := true
+				for _, field := range line {
+					if strings.TrimSpace(field) != "" {
+						isEmpty = false
+						break
+					}
+				}
+				if len(line) == 0 || isEmpty || strings.HasPrefix(strings.TrimSpace(line[0]), "#") {
+					continue
+				}
+				if len(line) < 3 {
+					fmt.Fprintf(os.Stderr, "invalid fetch.txt row %d: expected at least 3 tab-delimited columns, got %d: %v\n", rowIdx+1, len(line), line)
+					continue
+				}
+				// Only use the first 3 fields, ignore extras
+				urlField := line[0]
+				sizeField := line[1]
+				pathField := line[2]
+				if strings.TrimSpace(urlField) == "" {
+					fmt.Fprintf(os.Stderr, "invalid fetch.txt row %d: url field is empty: %v\n", rowIdx+1, line)
+					continue
+				}
+				if strings.TrimSpace(pathField) == "" {
+					fmt.Fprintf(os.Stderr, "invalid fetch.txt row %d: path field is empty: %v\n", rowIdx+1, line)
+					continue
+				}
 				// Filter here
 				if argMatchPattern != "" {
-					matched, e := regexp.MatchString(argMatchPattern, line[2])
+					matched, e := regexp.MatchString(argMatchPattern, pathField)
 					if e != nil {
-						return e
+						fmt.Fprintf(os.Stderr, "error matching pattern in fetch.txt row: %v: %v\n", line, e)
+						continue
 					} else if !matched {
 						continue
 					}
 				}
 
 				// Update fetch url if using a non-production proxy
-				file.url = patchURL(line[0], proxyURL)
-				file.size = line[1]
-				file.path = path.Join(argPackageDir, "ncbi_dataset", filepath.Clean(line[2]))
+				file.url = patchURL(urlField, proxyURL)
+				file.size = sizeField
+				file.path = path.Join(argPackageDir, "ncbi_dataset", filepath.Clean(pathField))
 				fileList = append(fileList, file)
 				if argListOnly {
-					fmt.Println(line[2])
+					fmt.Println(pathField)
 				}
 			}
 		case mode.IsRegular():
