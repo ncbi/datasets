@@ -392,7 +392,8 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 		}
 		bar_count = int(ppage_first.GetTotalCount())
 
-		if countOnly || ppage_first.GetTotalCount() == 0 {
+		// We check len(ppage_first.GetReports()) too because the taxonomy endpoint has deprecated the total_count field (SEQUI-8537)
+		if countOnly || ((len(ppage_first.GetReports()) == 0) && ppage_first.GetTotalCount() == 0) {
 			pageProcessor.Finish(ppage_first)
 			return int(ppage_first.GetTotalCount()), nil
 		}

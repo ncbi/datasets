@@ -155,6 +155,7 @@ func isValidZip(filename string, argSkipZipVal bool) bool {
 	if err != nil {
 		return false
 	}
+	defer file.Close()
 
 	zipfile, err := zip.NewReader(file, fileInfo.Size())
 	if err != nil {

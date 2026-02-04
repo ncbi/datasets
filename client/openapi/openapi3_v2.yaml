@@ -350,8 +350,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2024-01-10
-            summary: January 10th, 2024, in ISO 8601 YYY-MM-DD format
+            value: "2024-01-10"
+            summary: January 10th, 2024, in ISO 8601 YYYY-MM-DD format
       - name: filters.last_release_date
         description: 'Limit to genomes released on or before the specified date'
         in: query
@@ -361,7 +361,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-10
+            value: "2025-01-10"
             summary: January 10th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filters.search_text
         description: 'Limit to genomes that match the specified submitter name, assembly name, infraspecific name (or modifier), or organism name.'
@@ -670,8 +670,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2024-01-10
-            summary: January 10th, 2024, in ISO 8601 YYY-MM-DD format
+            value: "2024-01-10"
+            summary: January 10th, 2024, in ISO 8601 YYYY-MM-DD format
       - name: filters.last_release_date
         description: 'Limit to genomes released on or before the specified date'
         in: query
@@ -681,7 +681,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-10
+            value: "2025-01-10"
             summary: January 10th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filters.search_text
         description: 'Limit to genomes that match the specified submitter name, assembly name, infraspecific name (or modifier), or organism name.'
@@ -991,8 +991,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2024-01-10
-            summary: January 10th, 2024, in ISO 8601 YYY-MM-DD format
+            value: "2024-01-10"
+            summary: January 10th, 2024, in ISO 8601 YYYY-MM-DD format
       - name: filters.last_release_date
         description: 'Limit to genomes released on or before the specified date'
         in: query
@@ -1002,7 +1002,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-10
+            value: "2025-01-10"
             summary: January 10th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filters.search_text
         description: 'Limit to genomes that match the specified submitter name, assembly name, infraspecific name (or modifier), or organism name.'
@@ -1309,8 +1309,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2024-01-10
-            summary: January 10th, 2024, in ISO 8601 YYY-MM-DD format
+            value: "2024-01-10"
+            summary: January 10th, 2024, in ISO 8601 YYYY-MM-DD format
       - name: filters.last_release_date
         description: 'Limit to genomes released on or before the specified date'
         in: query
@@ -1320,7 +1320,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-10
+            value: "2025-01-10"
             summary: January 10th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filters.search_text
         description: 'Limit to genomes that match the specified submitter name, assembly name, infraspecific name (or modifier), or organism name.'
@@ -1633,8 +1633,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2024-01-10
-            summary: January 10th, 2024, in ISO 8601 YYY-MM-DD format
+            value: "2024-01-10"
+            summary: January 10th, 2024, in ISO 8601 YYYY-MM-DD format
       - name: filters.last_release_date
         description: 'Limit to genomes released on or before the specified date'
         in: query
@@ -1644,7 +1644,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-10
+            value: "2025-01-10"
             summary: January 10th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filters.search_text
         description: 'Limit to genomes that match the specified submitter name, assembly name, infraspecific name (or modifier), or organism name.'
@@ -1955,8 +1955,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2024-01-10
-            summary: January 10th, 2024, in ISO 8601 YYY-MM-DD format
+            value: "2024-01-10"
+            summary: January 10th, 2024, in ISO 8601 YYYY-MM-DD format
       - name: filters.last_release_date
         description: 'Limit to genomes released on or before the specified date'
         in: query
@@ -1966,7 +1966,7 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-10
+            value: "2025-01-10"
             summary: January 10th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filters.search_text
         description: 'Limit to genomes that match the specified submitter name, assembly name, infraspecific name (or modifier), or organism name.'
@@ -6443,7 +6443,6 @@ paths:
           items:
             $ref: '#/components/schemas/v2reportsOrganelleType'
       - name: first_release_date
-        description: 'Only return organelle assemblies that were released on or after the specified date By default, do not filter.'
         in: query
         required: false
         schema:
@@ -6451,10 +6450,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2015-01-10T00:00:00Z
-            summary: Jan 10, 2015
+            value: "2015-01-10"
+            summary: Jan 10, 2015, in ISO 8601 YYYY-MM-DD format
       - name: last_release_date
-        description: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
         in: query
         required: false
         schema:
@@ -6462,8 +6460,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-01-10T00:00:00Z
-            summary: Jan 10, 2021
+            value: "2021-01-10"
+            summary: Jan 10, 2021, in ISO 8601 YYYY-MM-DD format
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -6545,7 +6543,6 @@ paths:
           items:
             $ref: '#/components/schemas/v2reportsOrganelleType'
       - name: first_release_date
-        description: 'Only return organelle assemblies that were released on or after the specified date By default, do not filter.'
         in: query
         required: false
         schema:
@@ -6553,10 +6550,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2015-01-10T00:00:00Z
-            summary: Jan 10, 2015
+            value: "2015-01-10"
+            summary: Jan 10, 2015, in ISO 8601 YYYY-MM-DD format
       - name: last_release_date
-        description: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
         in: query
         required: false
         schema:
@@ -6564,8 +6560,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2021-01-10T00:00:00Z
-            summary: Jan 10, 2021
+            value: "2021-01-10"
+            summary: Jan 10, 2021, in ISO 8601 YYYY-MM-DD format
       - name: tax_exact_match
         description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
         in: query
@@ -7585,7 +7581,6 @@ paths:
             value: false
             summary: Inclue all genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -7593,10 +7588,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -7604,8 +7598,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -7796,7 +7790,6 @@ paths:
             value: false
             summary: All genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -7804,10 +7797,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -7815,8 +7807,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -8019,7 +8011,6 @@ paths:
             value: false
             summary: Inclue all genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8027,10 +8018,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8038,8 +8028,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -8229,7 +8219,6 @@ paths:
             value: false
             summary: All genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8237,10 +8226,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8248,8 +8236,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -8413,7 +8401,6 @@ paths:
             value: false
             summary: Include all genomes
       - name: filter.released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8421,10 +8408,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8432,8 +8418,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -8599,7 +8585,6 @@ paths:
             value: false
             summary: Include all genomes
       - name: filter.released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8607,10 +8592,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8618,8 +8602,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -8829,7 +8813,6 @@ paths:
             value: false
             summary: Include all genomes
       - name: filter.released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8837,10 +8820,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -8848,8 +8830,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -9010,7 +8992,6 @@ paths:
             value: false
             summary: Include all genomes
       - name: filter.released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9018,10 +8999,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9029,8 +9009,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: filter.host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -9296,7 +9276,6 @@ paths:
             value: false
             summary: Inclue all genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9304,10 +9283,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9315,8 +9293,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -9502,7 +9480,6 @@ paths:
             value: false
             summary: Inclue all genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9510,10 +9487,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9521,8 +9497,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -9738,7 +9714,6 @@ paths:
             value: false
             summary: All genomes
       - name: released_since
-        description: 'Limit to genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9746,10 +9721,9 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: updated_since
-        description: 'Limit to genomes updated on or after the specified date.'
         in: query
         required: false
         schema:
@@ -9757,8 +9731,8 @@ paths:
           format: date-time
         examples:
           example-0:
-            value: 2025-01-15
-            summary: January 15th, 2025, in ISO 8601 YYY-MM-DD format
+            value: "2025-01-15"
+            summary: January 15th, 2025, in ISO 8601 YYYY-MM-DD format
       - name: host
         description: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
         in: query
@@ -10652,11 +10626,9 @@ components:
         first_release_date:
           type: string
           format: date-time
-          title: 'Only return organelle assemblies that were released on or after the specified date By default, do not filter.'
         last_release_date:
           type: string
           format: date-time
-          title: 'Only return organelle assemblies that were released on or before to the specified date By default, do not filter.'
         tax_exact_match:
           type: boolean
           title: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
@@ -10770,11 +10742,9 @@ components:
         released_since:
           type: string
           format: date-time
-          title: 'Limit to genomes released on or after the specified date.'
         updated_since:
           type: string
           format: date-time
-          title: 'Limit to genomes updated on or after the specified date.'
         host:
           type: string
           title: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
@@ -11222,11 +11192,9 @@ components:
         released_since:
           type: string
           format: date-time
-          title: 'Limit to genomes released on or after the specified date.'
         updated_since:
           type: string
           format: date-time
-          title: 'Limit to genomes updated on or after the specified date.'
         host:
           type: string
           title: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
@@ -11325,11 +11293,9 @@ components:
         released_since:
           type: string
           format: date-time
-          title: 'Limit to genomes released on or after the specified date.'
         updated_since:
           type: string
           format: date-time
-          title: 'Limit to genomes updated on or after the specified date.'
         host:
           type: string
           title: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
@@ -11368,11 +11334,9 @@ components:
         released_since:
           type: string
           format: date-time
-          title: 'Limit to genomes released on or after the specified date.'
         updated_since:
           type: string
           format: date-time
-          title: 'Limit to genomes updated on or after the specified date.'
         host:
           type: string
           title: 'Limit to genomes isolated from the specified host species (NCBI Taxonomy ID, common or scientific name).'
@@ -13269,7 +13233,7 @@ components:
             $ref: '#/components/schemas/v2reportsMessage'
         total_count:
           type: integer
-          title: 'The total count of available taxons (ignoring the page_size parameter).'
+          title: 'The total count of available taxons - deprecated because it not supported for multiple-page results.'
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
@@ -13286,7 +13250,7 @@ components:
             $ref: '#/components/schemas/v2reportsMessage'
         total_count:
           type: integer
-          title: 'The total count of available taxons (ignoring the page_size parameter).'
+          title: 'The total count of available taxons - deprecated because it not supported for multiple-page results.'
         next_page_token:
           type: string
           title: 'A page token.  A token that can be used in a future request as `page_token` to retrieve the next page. If this field is emtpy then there are no subsequent pages available.'
@@ -13775,6 +13739,57 @@ components:
           type: integer
         dependent_to:
           type: integer
+    ncbiprotddv2ParsedAbstract:
+      type: object
+      properties:
+        pmid:
+          type: string
+          format: int64
+          title: 'The pubmed ID of the article'
+        title:
+          type: string
+          title: 'Title of the article'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2ParsedAbstractAuthor'
+        epub:
+          $ref: '#/components/schemas/ncbiprotddv2ParsedAbstractEpub'
+          title: 'Electronic publication information'
+        abstract_text:
+          type: string
+          title: 'Body of the abstract'
+    ncbiprotddv2ParsedAbstractAuthor:
+      type: object
+      properties:
+        surname:
+          type: string
+          title: 'Author''s surname'
+        given_name_initials:
+          type: string
+          title: 'Abbreviated initials of the author''s given name'
+    ncbiprotddv2ParsedAbstractEpub:
+      type: object
+      properties:
+        journal:
+          type: string
+          title: 'Name of the journal'
+        year:
+          type: integer
+          title: 'Year of publication'
+        volume:
+          type: integer
+          title: 'Volume of publication'
+        pages:
+          type: string
+          title: 'Pages of publication'
+    ncbiprotddv2PubmedAbstractRequest:
+      type: object
+      properties:
+        pmid:
+          type: string
+          format: int64
+          title: 'The pubmed ID of the article'
     ncbiprotddv2QueryStructureDefinition:
       type: object
       properties:
