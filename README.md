@@ -1,4 +1,5 @@
 # NCBI Datasets
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ncbi/datasets)
 
 NCBI Datasets is a resource that lets you easily gather data from across NCBI databases. You can use it to find and download sequence, annotation, and metadata for genes and genomes using our command-line interface (CLI) tools or [NCBI Datasets](https://www.ncbi.nlm.nih.gov/datasets/) web interface.
 
