@@ -184,28 +184,23 @@ func rankStatus(rank *openapi.V2reportsRankType) (bool, bool) {
 
 // Return true if the rank of the given taxid is at or below species. Use lineage
 // for verification, if needed.
-func (apiService *taxonAutosuggestApi) IsAtOrBelowSpecies(taxId string, resource openapi.V2OrganismQueryRequestTaxonResourceFilter) (bool, int32, error) {
-	metadata, hasResults, err := apiService.GetMetadata(taxId, openapi.V2TAXONOMYMETADATAREQUESTCONTENTTYPE_COMPLETE)
-	var resourceCount int32 = 0
+func (apiService *taxonAutosuggestApi) IsAtOrBelowSpecies(
+	taxId string,
+	rank *openapi.V2reportsRankType,
+	resource openapi.V2OrganismQueryRequestTaxonResourceFilter,
+) (bool, error) {
+	atOrBelowSpecies, aboveSpcies := rankStatus(rank)
+	if atOrBelowSpecies || aboveSpcies {
+		return atOrBelowSpecies, nil
+	}
+
+	metadata, hasResults, err := apiService.GetMetadata(taxId, openapi.V2TAXONOMYMETADATAREQUESTCONTENTTYPE_METADATA)
 	if err != nil {
-		return false, resourceCount, err
+		return false, err
 	}
 	if !hasResults {
 		err = &AutoSuggestError{Msg: fmt.Sprintf("Taxonomy metadata not found for tax ID %s", taxId)}
-		return false, resourceCount, err
-	}
-
-	if countType, hasCounts := resourceCountType[resource]; hasCounts {
-		for _, count := range (metadata.Reports)[0].Taxonomy.Counts {
-			if countType == count.GetType() {
-				resourceCount = count.GetCount()
-			}
-		}
-	}
-
-	atOrBelowSpecies, aboveSpcies := rankStatus((metadata.Reports)[0].Taxonomy.Rank)
-	if atOrBelowSpecies || aboveSpcies {
-		return atOrBelowSpecies, resourceCount, nil
+		return false, err
 	}
 
 	// To determine if we are at species or below, iterate over lineage in reverse order until
@@ -218,19 +213,44 @@ func (apiService *taxonAutosuggestApi) IsAtOrBelowSpecies(taxId string, resource
 		}
 		linMetadata, linHasResults, linErr := apiService.GetMetadata(strconv.Itoa(int(lineageTaxId)), openapi.V2TAXONOMYMETADATAREQUESTCONTENTTYPE_METADATA)
 		if linErr != nil {
-			return false, resourceCount, linErr
+			return false, linErr
 		}
 		if !linHasResults {
 			err = &AutoSuggestError{Msg: fmt.Sprintf("Taxonomy metadata not found for tax ID %d", lineageTaxId)}
-			return false, resourceCount, err
+			return false, err
 		}
 
 		atOrBelowSpecies, aboveSpcies = rankStatus((linMetadata.Reports)[0].Taxonomy.Rank)
 		if atOrBelowSpecies || aboveSpcies {
-			return atOrBelowSpecies, resourceCount, nil
+			return atOrBelowSpecies, nil
 		}
 	}
-	return false, resourceCount, nil
+	return false, nil
+}
+
+func (apiService *taxonAutosuggestApi) GetOrganismResourceCount(
+	taxId string,
+	resource openapi.V2OrganismQueryRequestTaxonResourceFilter,
+) (int32, error) {
+	metadata, hasResults, err := apiService.GetMetadata(taxId, openapi.V2TAXONOMYMETADATAREQUESTCONTENTTYPE_COMPLETE)
+	var resourceCount int32 = 0
+	if err != nil {
+		return resourceCount, err
+	}
+	if !hasResults {
+		err = &AutoSuggestError{Msg: fmt.Sprintf("Taxonomy metadata not found for tax ID %s", taxId)}
+		return resourceCount, err
+	}
+
+	if countType, hasCounts := resourceCountType[resource]; hasCounts {
+		for _, count := range (metadata.Reports)[0].Taxonomy.Counts {
+			if countType == count.GetType() {
+				resourceCount = count.GetCount()
+			}
+		}
+	}
+
+	return resourceCount, err
 }
 
 func nameMatches(taxName string, name openapi.V2SciNameAndIdsSciNameAndId) bool {
@@ -341,11 +361,11 @@ func (apiService *taxonAutosuggestApi) handleExactMatch(
 		msgText = fmt.Sprintf("The taxonomy name '%s' (taxid: '%s') is valid", taxQuery, taxId)
 	}
 
-	atOrBelowSpecies, resourceCount, absErr := apiService.IsAtOrBelowSpecies(taxId, resource)
-	if absErr != nil {
-		return absErr
-	}
 	if !aboveSpecies {
+		atOrBelowSpecies, absErr := apiService.IsAtOrBelowSpecies(taxId, name.Rank, resource)
+		if absErr != nil {
+			return absErr
+		}
 		if !atOrBelowSpecies {
 			// Please use the command `datasets summary taxonomy taxon` to explore this taxonomic name.
 			if isTaxIdQuery {
@@ -363,6 +383,10 @@ func (apiService *taxonAutosuggestApi) handleExactMatch(
 		}
 
 		if !hasResults {
+			resourceCount, err := apiService.GetOrganismResourceCount(taxId, resource)
+			if err != nil {
+				return err
+			}
 			if resourceCount > 0 {
 				var rank = strings.ToLower(string(name.GetRank()))
 				err = &AutoSuggestError{Msg: fmt.Sprintf("There are no annotations matching your query at the %s level for '%s' (taxid: '%s') please use a subspecies tax name or ID.", rank, sciName, taxId)}
@@ -387,21 +411,41 @@ func (apiService *taxonAutosuggestApi) GetOrganisms(
 	taxName = strings.TrimSpace(taxName)
 	autosuggestTaxName := taxName
 
-	// Do initial query for all taxons so that we catch exact matches (of id or name) even if they are not otherwise usable for the query
-	// (e.g. no genome data or not below species).
+	var taxIdFilter int32 = 0
+	var lineageFilterName string = ""
+	if len(args) > 0 {
+		taxIdFilter = args[0]
+		lineageFilterName = lineageTerms[taxIdFilter]
+	}
+
+	// Check for an exact match with the incoming taxon first and just return that if found. If not found,
+	// do a more general search to get suggestions, taking into account above/below species, lineage, and
+	// resource type requirements.
+	exactMatch, hasExactMatch, err := apiService.GetMatchingOrganisms(autosuggestTaxName, aboveSpecies, true, resource)
+	if err != nil {
+		return "", err
+	}
+	if hasExactMatch && len(exactMatch.SciNameAndIds) == 1 {
+		validLineage := true
+		if taxIdFilter != 0 {
+			validLineage, err = apiService.CheckLineage(autosuggestTaxName, taxIdFilter)
+			if err != nil {
+				return "", err
+			}
+		}
+		if validLineage {
+			return *exactMatch.SciNameAndIds[0].TaxId, nil
+		}
+	}
+
+	// Do query for all taxons so that we catch exact matches (of id or name) even if they are not otherwise usable for the query
+	// (e.g. no genome data or not below species, or does not have data for the requested resource).
 	result, hasResults, err := apiService.GetMatchingOrganisms(autosuggestTaxName, true, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL)
 	if err != nil {
 		return "", err
 	}
 	if result == nil {
 		return "", &AutoSuggestError{Msg: fmt.Sprintf("There is an unknown error for tax name '%s'", taxName)}
-	}
-
-	var taxIdFilter int32 = 0
-	var lineageFilterName string = ""
-	if len(args) > 0 {
-		taxIdFilter = args[0]
-		lineageFilterName = lineageTerms[taxIdFilter]
 	}
 
 	// If taxon was numeric (a taxid) validate it and check if at-or below species if needed
@@ -438,6 +482,7 @@ func (apiService *taxonAutosuggestApi) GetOrganisms(
 
 	// Not a numeric taxon - check for exact match in current (non-restricted) results
 	exactMatches, alternateNames, _ := apiService.resultMatches(result.SciNameAndIds, taxName, taxIdFilter, maxAlternateNames)
+	// Already checked for valid lineage here
 	if len(exactMatches) == 1 {
 		err = apiService.handleExactMatch(
 			(result.SciNameAndIds)[0],

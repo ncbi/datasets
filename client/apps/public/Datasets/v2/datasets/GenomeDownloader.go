@@ -131,6 +131,31 @@ func WithGenomeRequest(request *openapi.V2AssemblyDatasetRequest) GenomeDownload
 func SetRequestArgs(request *openapi.V2AssemblyDatasetRequest, downloadGenomeFlag DownloadGenomeFlag) (warning string, err error) {
 	annotations := make([]openapi.V2AnnotationForAssemblyType, 0)
 
+	hasAll := false
+	for _, fl := range downloadGenomeFlag.genomeIncludeAnnotationFlag.IncludeAnnotation {
+		if fl == cmdflags.GenomeIncludeAllFlag {
+			hasAll = true
+			break
+		}
+	}
+
+	if hasAll {
+		if len(downloadGenomeFlag.genomeIncludeAnnotationFlag.IncludeAnnotation) != 1 {
+			err = fmt.Errorf("If file type 'all' is requested, no other file types may be included")
+			return
+		}
+		allTypes := []cmdflags.GenomeIncludeAnnotation{
+			cmdflags.GenomeSeq,
+			cmdflags.GenomeProtein,
+			cmdflags.GenomeCds,
+			cmdflags.GenomeGff3,
+			cmdflags.GenomeGtf,
+			cmdflags.GenomeGbff,
+			cmdflags.GenomeSequenceReport,
+		}
+		downloadGenomeFlag.genomeIncludeAnnotationFlag.IncludeAnnotation = allTypes
+	}
+
 	for _, fl := range downloadGenomeFlag.genomeIncludeAnnotationFlag.IncludeAnnotation {
 		if fl == cmdflags.GenomeIncludeNoneFlag {
 			if len(downloadGenomeFlag.genomeIncludeAnnotationFlag.IncludeAnnotation) != 1 {

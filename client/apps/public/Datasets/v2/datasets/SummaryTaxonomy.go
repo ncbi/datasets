@@ -234,10 +234,10 @@ func NewTaxonomyTaxonRequestIter(taxons []string, flags SummaryTaxonomyFlag) (*D
 		},
 	)
 
-	if len(ts.request.GetTaxons()) > PAGE_ITER_THRESHOLD {
-		taxonRequester.ids = ts.request.GetTaxons()
-		ts.request.SetTaxons([]string{})
-	}
+	// Since taxonomy doesn't support total count, we set all queries as id queries which prevents us from
+	// doing an initial query to get total count
+	taxonRequester.ids = ts.request.GetTaxons()
+	ts.request.SetTaxons([]string{})
 
 	return taxonRequester, nil
 }
