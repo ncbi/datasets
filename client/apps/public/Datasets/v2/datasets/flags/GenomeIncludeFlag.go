@@ -20,6 +20,7 @@ const (
 	GenomeSeq
 	GenomeSequenceReport
 	GenomeIncludeNoneFlag
+	GenomeIncludeAllFlag
 )
 
 // Map enumeration values to their textual representations (value
@@ -34,6 +35,7 @@ var GenomeIncludeAnnotationIds = map[GenomeIncludeAnnotation][]string{
 	GenomeSeq:             {"genome"},
 	GenomeSequenceReport:  {"seq-report"},
 	GenomeIncludeNoneFlag: {"none"},
+	GenomeIncludeAllFlag:  {"all"},
 }
 
 var GenomeIncludeAnnotationOpenapi = map[GenomeIncludeAnnotation]openapi.V2AnnotationForAssemblyType{
@@ -66,12 +68,13 @@ func (giaf *GenomeIncludeAnnotationFlag) RegisterFlags(flags *pflag.FlagSet) {
 		`Specify the data files to include (comma-separated).
   * genome:     genomic sequence
   * rna:        transcript
-  * protein:    amnio acid sequences
+  * protein:    amino acid sequences
   * cds:        nucleotide coding sequences
   * gff3:       general feature file
   * gtf:        gene transfer format
   * gbff:       GenBank flat file
   * seq-report: sequence report file
+  * all:        include all available file types (equivalent to genome,protein,cds,gff3,gtf,gbff,seq-report)
   * none:       do not retrieve any sequence files
   `)
 }
