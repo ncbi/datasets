@@ -3124,8 +3124,8 @@ paths:
           default: ncbi_dataset.zip
   /taxonomy/taxon/{tax_ids}/download:
     get:
-      summary: Get a taxonomy data package by tax ID
-      description: 'Download a taxonomy report and names data package.'
+      summary: Get a taxonomy data package by Taxonomy ID
+      description: 'Download a taxonomy data package, including taxonomy and names reports, as a compressed zip archive.'
       tags:
         - Taxonomy
       operationId: download_taxonomy_package
@@ -3162,7 +3162,7 @@ paths:
               - 10090
             summary: NCBI Taxonomy IDs for human and mouse
       - name: aux_reports
-        description: 'list additional reports to include with download. TAXONOMY_REPORT is included by default.'
+        description: 'Specify additional report files to include in the data package. The taxonomy report is always included, and its inclusion is not affected by this parameter.'
         in: query
         required: false
         schema:
@@ -3174,7 +3174,7 @@ paths:
             value:
               - NAMES_REPORT
               - TAXONOMY_SUMMARY
-            summary: Select additional report types to include with download. The base data report will always be included.
+            summary: Add the names report (JSON Lines format) and taxonomy summary (TSV) files.
       - name: filename
         description: Output file name.
         in: query
@@ -3304,8 +3304,8 @@ paths:
                   - SEQUENCE_REPORT
   /organelle/accession/{accessions}/download:
     get:
-      summary: Get a organelle data package by accesions
-      description: 'Download a organelle data report and annotation data package.'
+      summary: Get an organelle data package by nucleotide accession
+      description: 'Download an organelle data package including sequence, annotation, and detailed data reports as a compressed zip archive.'
       tags:
         - Organelle
       operationId: download_organelle_package
@@ -3336,20 +3336,14 @@ paths:
         examples:
           example-0:
             value: NC_001643.1
-            summary: Chimpanzee
+            summary: Chimpanzee mitochondrial genome
           example-1:
             value:
               - NC_001643.1
               - NC_002082.1
-            summary: Chimpanzee and Common Gibbon
-      - name: exclude_sequence
-        description: 'Set to true to omit the genomic sequence.'
-        in: query
-        required: false
-        schema:
-          type: boolean
+            summary: Chimpanzee and common Gibbon mitochondrial genomes
       - name: include_annotation_type
-        description: 'Select additional types of annotation to include in the data package.  If unset, no annotation is provided.'
+        description: 'Specify which sequence files to include in the data package.'
         in: query
         required: false
         schema:
@@ -3365,8 +3359,8 @@ paths:
           default: ncbi_dataset.zip
   /organelle/download:
     post:
-      summary: Get a organelle data package by post
-      description: 'Download a organelle report and annotation data package by post.'
+      summary: Get an organelle data package
+      description: 'Download an organelle data package including sequence, annotation, and detailed data reports as a compressed zip archive.'
       tags:
         - Organelle
       operationId: download_organelle_package_by_post
@@ -6382,8 +6376,8 @@ paths:
                   accession: "GCF_000001635.27"
   /organelle/accessions/{accessions}/dataset_report:
     get:
-      summary: Get Organelle dataset report by accession
-      description: 'Get Organelle dataset report by accession.'
+      summary: Get an organelle data report by nucleotide accession
+      description: 'Get an organelle data report in JSON format.'
       tags:
         - Organelle
       operationId: organelle_datareport_by_accession
@@ -6400,26 +6394,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+            text/tab-separated-values:
+              schema:
+                type: string
       parameters:
-      - name: taxons
-        description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
-        examples:
-          example-0:
-            value: "9443"
-            summary: Primates
-          example-1:
-            value:
-              - "9606"
-              - "10090"
-            summary: Human and Mouse
       - name: accessions
-        description: 'NCBI assembly accession'
+        description: 'One or more organelle nucleotide accessions'
         in: path
         required: true
         schema:
@@ -6429,13 +6412,14 @@ paths:
         examples:
           example-0:
             value: NC_001643.1
-            summary: Chimpanzee
+            summary: Chimpanzee mitochondrial genome
           example-1:
             value:
               - NC_001643.1
               - NC_002082.1
-            summary: Chimpanzee and Common Gibbon
+            summary: Chimpanzee and common gibbon mitochondrial genomes
       - name: organelle_types
+        description: 'Limit results to the specified organelle types.'
         in: query
         required: false
         schema:
@@ -6443,6 +6427,7 @@ paths:
           items:
             $ref: '#/components/schemas/v2reportsOrganelleType'
       - name: first_release_date
+        description: 'Limit results to organelle genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -6453,6 +6438,7 @@ paths:
             value: "2015-01-10"
             summary: Jan 10, 2015, in ISO 8601 YYYY-MM-DD format
       - name: last_release_date
+        description: 'Limit results to organelle genomes released on or before the specified date.'
         in: query
         required: false
         schema:
@@ -6462,13 +6448,6 @@ paths:
           example-0:
             value: "2021-01-10"
             summary: Jan 10, 2021, in ISO 8601 YYYY-MM-DD format
-      - name: tax_exact_match
-        description: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
-        in: query
-        required: false
-        schema:
-          type: boolean
-          default: false
       - name: sort.field
         in: query
         required: false
@@ -6480,27 +6459,35 @@ paths:
         schema:
           $ref: '#/components/schemas/v2SortDirection'
       - name: returned_content
-        description: 'Return either assembly accessions, or entire assembly-metadata records'
+        description: 'Return complete organelle reports or nucleotide accessions only.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
+        examples:
+          example-0:
+            value: ASSM_ACC
+            summary: Return nucleotide accessions only
       - name: table_format
-        description: 'Optional pre-defined template for processing a tabular data request'
+        description: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestOrganelleTableFormat'
+        examples:
+          example-0:
+            value: SUMMARY
+            summary: This template specifies a basic set of fields available from the organelle report
       - name: include_tabular_header
-        description: 'Whether this request for tabular data should include the header row'
+        description: 'Specify when to include the table header when requesting a tabular report.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
   /organelle/taxon/{taxons}/dataset_report:
     get:
-      summary: Get Organelle dataset report by taxons
-      description: 'Get Organelle dataset report by taxons.'
+      summary: Get an organelle data report by taxon
+      description: 'Get an organelle data report  in JSON format.'
       tags:
         - Organelle
       operationId: organelle_datareport_by_taxon
@@ -6517,6 +6504,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+            text/tab-separated-values:
+              schema:
+                type: string
       parameters:
       - name: taxons
         description: 'NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank'
@@ -6529,13 +6522,14 @@ paths:
         examples:
           example-0:
             value: "9443"
-            summary: Primates
+            summary: Primate organelle genomes
           example-1:
             value:
               - "9606"
               - "10090"
-            summary: Human and Mouse
+            summary: Human and mouse organelle genomes
       - name: organelle_types
+        description: 'Limit results to the specified organelle types.'
         in: query
         required: false
         schema:
@@ -6543,6 +6537,7 @@ paths:
           items:
             $ref: '#/components/schemas/v2reportsOrganelleType'
       - name: first_release_date
+        description: 'Limit results to organelle genomes released on or after the specified date.'
         in: query
         required: false
         schema:
@@ -6553,6 +6548,7 @@ paths:
             value: "2015-01-10"
             summary: Jan 10, 2015, in ISO 8601 YYYY-MM-DD format
       - name: last_release_date
+        description: 'Limit results to organelle genomes released on or before the specified date.'
         in: query
         required: false
         schema:
@@ -6580,11 +6576,15 @@ paths:
         schema:
           $ref: '#/components/schemas/v2SortDirection'
       - name: returned_content
-        description: 'Return either assembly accessions, or entire assembly-metadata records'
+        description: 'Return complete organelle reports or nucleotide accessions only.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
+        examples:
+          example-0:
+            value: ASSM_ACC
+            summary: Return nucleotide accessions only
       - name: page_size
         description: 'The maximum number of organelle assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -6598,21 +6598,25 @@ paths:
         schema:
           type: string
       - name: table_format
-        description: 'Optional pre-defined template for processing a tabular data request'
+        description: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestOrganelleTableFormat'
+        examples:
+          example-0:
+            value: SUMMARY
+            summary: This template specifies a basic set of fields available from the organelle report
       - name: include_tabular_header
-        description: 'Whether this request for tabular data should include the header row'
+        description: 'Specify when to include the table header when requesting a tabular report.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
   /organelle/dataset_report:
     post:
-      summary: Get Organelle dataset report by http post
-      description: 'Get Organelle dataset report by http post.'
+      summary: Get an organelle data report
+      description: 'Get an organelle data report in JSON format.'
       tags:
         - Organelle
       operationId: organelle_datareport_by_post
@@ -6629,6 +6633,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsOrganelleDataReports'
+            text/tab-separated-values:
+              schema:
+                type: string
       requestBody:
         required: true
         content:
@@ -6637,7 +6647,7 @@ paths:
               $ref: '#/components/schemas/v2OrganelleMetadataRequest'
             examples:
               Single TaxID example:
-                description: TaxID example (just one)
+                description: Primate organelle genomes
                 value:
                   taxons:
                     - "9443"
@@ -6684,11 +6694,18 @@ paths:
               - Mus musculus
             summary: Scientific names
       - name: returned_content
-        description: 'Return either tax-ids alone, or entire taxononmy-metadata records'
+        description: 'Return complete taxonomy reports, Taxonomy IDs only, or reports without assembly and gene counts (metadata).'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
+        examples:
+          example-0:
+            value: TAXIDS
+            summary: Return Taxonomy IDs only
+          example-1:
+            value: METADATA
+            summary: Return abbreviated taxonomy report without genome assembly and gene counts
       - name: page_size
         description: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -6709,18 +6726,23 @@ paths:
         schema:
           type: string
       - name: table_format
+        description: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+        examples:
+          example-0:
+            value: SUMMARY
+            summary: This template specifies a basic set of fields available from the taxonomy report
       - name: children
-        description: 'Flag for tax explosion.'
+        description: 'If true, return results for child taxa.'
         in: query
         required: false
         schema:
           type: boolean
       - name: ranks
-        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        description: 'Limit results to taxa of the specified ranks.'
         in: query
         required: false
         schema:
@@ -6762,8 +6784,8 @@ paths:
                   - house mouse
   /taxonomy/taxon/{taxons}/dataset_report:
     get:
-      summary: Use taxonomic identifiers to get taxonomic data report
-      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about a taxonomic node including taxonomic identifiers, lineage information, child nodes, and gene and genome counts in JSON format.'
+      summary: Get a taxonomy data report by taxon
+      description: 'Get a taxonomy data report by taxon. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Taxonomy
       operationId: taxonomy_data_report
@@ -6809,11 +6831,18 @@ paths:
               - Mus musculus
             summary: Scientific names
       - name: returned_content
-        description: 'Return either tax-ids alone, or entire taxononmy-metadata records'
+        description: 'Return complete taxonomy reports, Taxonomy IDs only, or reports without assembly and gene counts (metadata).'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
+        examples:
+          example-0:
+            value: TAXIDS
+            summary: Return Taxonomy IDs only
+          example-1:
+            value: METADATA
+            summary: Return abbreviated taxonomy report without genome assembly and gene counts
       - name: page_size
         description: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -6834,18 +6863,23 @@ paths:
         schema:
           type: string
       - name: table_format
+        description: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+        examples:
+          example-0:
+            value: SUMMARY
+            summary: This template specifies a basic set of fields available from the taxonomy report
       - name: children
-        description: 'Flag for tax explosion.'
+        description: 'If true, return results for child taxa.'
         in: query
         required: false
         schema:
           type: boolean
       - name: ranks
-        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        description: 'Limit results to taxa of the specified ranks.'
         in: query
         required: false
         schema:
@@ -6893,8 +6927,8 @@ paths:
                   - house mouse
   /taxonomy/taxon/{taxons}/name_report:
     get:
-      summary: Use taxonomic identifiers to get taxonomic names data report
-      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about associated taxonomic names.'
+      summary: Get a taxonomy names report by taxon
+      description: 'Get a taxonomy names report, including common names and other synonyms, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_names
@@ -6933,12 +6967,6 @@ paths:
               - Homo sapiens
               - Mus musculus
             summary: Scientific names
-      - name: returned_content
-        description: 'Return either tax-ids alone, or entire taxononmy-metadata records'
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
       - name: page_size
         description: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
         in: query
@@ -6946,31 +6974,20 @@ paths:
         schema:
           type: integer
           default: 20
-      - name: include_tabular_header
-        description: 'Specify when to include the table header when requesting a tabular report.'
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2IncludeTabularHeader'
       - name: page_token
         description: 'A page token is returned when the results count exceeds `page size`. Use this token along with previous request parameters to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         in: query
         required: false
         schema:
           type: string
-      - name: table_format
-        in: query
-        required: false
-        schema:
-          $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
       - name: children
-        description: 'Flag for tax explosion.'
+        description: 'If true, return results for child taxa.'
         in: query
         required: false
         schema:
           type: boolean
       - name: ranks
-        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        description: 'Limit results to taxa of the specified ranks.'
         in: query
         required: false
         schema:
@@ -6979,8 +6996,8 @@ paths:
             $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy/name_report:
     post:
-      summary: Use taxonomic identifiers to get taxonomic names data report by post
-      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about associated taxonomic names.'
+      summary: Get a taxonomy names report by taxon
+      description: 'Get a taxonomy names report, including common names and other synonyms, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_names_post
@@ -7012,8 +7029,8 @@ paths:
                   - house mouse
   /taxonomy/taxon/{tax_id}/related_ids:
     get:
-      summary: Use taxonomic identifier to get related taxonomic identifiers, such as children
-      description: 'Using a single NCBI Taxonomy ID at any rank, get a list of related taxonomic IDs in JSON format.'
+      summary: Get child nodes, and optionally parent nodes, for a given taxon by Taxonomy ID
+      description: 'Get child nodes, and optionally parent nodes, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_related_ids
@@ -7039,23 +7056,16 @@ paths:
         examples:
           example-0:
             value: 9606
-            summary: NCBI Taxonomy Identifier
+            summary: NCBI Taxonomy ID for human
       - name: include_lineage
-        description: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_id'
-        in: query
-        required: false
-        schema:
-          type: boolean
-          default: false
-      - name: include_subtree
-        description: 'This field is deprecated because all requests include the subtree, so it has no effect'
+        description: 'If true, include parent nodes'
         in: query
         required: false
         schema:
           type: boolean
           default: false
       - name: ranks
-        description: 'Only include taxons of the provided ranks. If empty, return all ranks.'
+        description: 'Limit to taxonomic nodes from the given ranks.'
         in: query
         required: false
         schema:
@@ -7077,8 +7087,8 @@ paths:
           type: string
   /taxonomy/related_ids:
     post:
-      summary: Use taxonomic identifier to get related taxonomic identifiers, such as children
-      description: 'Using a single NCBI Taxonomy ID at any rank, get a list of related taxonomic IDs in JSON format.'
+      summary: Get child nodes, and optionally parent nodes, for a given taxon by Taxonomy ID
+      description: 'Get child nodes, and optionally parent nodes, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_related_ids_post
@@ -7103,13 +7113,14 @@ paths:
               $ref: '#/components/schemas/v2TaxonomyRelatedIdRequest'
             examples:
               Single TaxID example:
-                description: TaxID (just one)
+                description: Child and parent nodes for human
                 value:
                   tax_id: 9606
+                  include_lineage: true
   /taxonomy/taxon/{taxons}/filtered_subtree:
     get:
-      summary: Use taxonomic identifiers to get a filtered taxonomic subtree
-      description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get a filtered taxonomic subtree that includes the full parent lineage and all immediate children from the selected taxonomic ranks in JSON format.'
+      summary: Get a filtered taxonomic subtree by taxon
+      description: 'Get a filtered taxonomic subtree, including parent and child nodes, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_filtered_subtree
@@ -7197,8 +7208,8 @@ paths:
                   - "10090"
   /taxonomy/taxon_suggest/{taxon_query}:
     get:
-      summary: Get a list of taxonomy names and IDs given a partial taxonomic name
-      description: 'This endpoint retrieves a list of taxonomy names and IDs given a possibly partial taxonomic name of any rank.'
+      summary: Get a list of taxonomy names and IDs by partial taxonomic name
+      description: 'Get a list of taxonomy names and IDs in JSON format.'
       tags:
         - Taxonomy
       operationId: tax_name_query
@@ -7217,7 +7228,7 @@ paths:
                 $ref: '#/components/schemas/v2SciNameAndIds'
       parameters:
       - name: taxon_query
-        description: 'Taxid or name (common or scientific) at any taxonomic rank'
+        description: 'Taxonomy ID or name (common or scientific) at any taxonomic rank'
         in: path
         required: true
         schema:
@@ -7225,23 +7236,30 @@ paths:
         examples:
           example-0:
             value: hum
-            summary: hum
+            summary: Partial taxonomic name for human
       - name: tax_rank_filter
-        description: 'Set the scope of searched tax ranks when filtering by gene or genome.  Not used for ''all'''
+        description: 'Optionally return results for taxonomic ranks above species using `higher_taxon`'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxRankFilter'
           default: species
       - name: taxon_resource_filter
-        description: 'Limit results to those with gene or genome counts (no filter by default)'
+        description: 'Limit to taxonomy nodes with gene, genome or organelle data'
         in: query
         required: false
         schema:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
           default: TAXON_RESOURCE_FILTER_ALL
+        examples:
+          example-0:
+            value: TAXON_RESOURCE_FILTER_GENOME
+            summary: Limit to nodes with genome data
+          example-1:
+            value: TAXON_RESOURCE_FILTER_GENE
+            summary: Limit to nodes with gene data
       - name: exact_match
-        description: 'If true, only return results that exactly match the provided name or tax-id'
+        description: 'If true, only return results that exactly match the provided taxonomic name'
         in: query
         required: false
         schema:
@@ -7249,8 +7267,8 @@ paths:
           default: false
   /taxonomy/taxon_suggest:
     post:
-      summary: Get a list of taxonomy names and IDs given a partial taxonomic name
-      description: 'This endpoint retrieves a list of taxonomy names and IDs given a possibly partial taxonomic name of any rank, by post.'
+      summary: Get a list of taxonomy names and IDs by partial taxonomic name
+      description: 'Get a list of taxonomy names and IDs in JSON format.'
       tags:
         - Taxonomy
       operationId: tax_name_query_by_post
@@ -7275,13 +7293,13 @@ paths:
               $ref: '#/components/schemas/v2OrganismQueryRequest'
             examples:
               Incomplete taxon name example:
-                description: Incomplete taxon name example
+                description: Partial taxonomic name for human
                 value:
                   taxon_query: "hum"
   /taxonomy/taxon/{taxon}/links:
     get:
-      summary: Retrieve external links associated with a taxonomic identifier.
-      description: 'Using an NCBI Taxonomy ID at any rank, get the external links associated with the taxon.'
+      summary: Get external links by Taxonomy ID
+      description: 'Get external links associated with a given taxon in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_links
@@ -7310,8 +7328,8 @@ paths:
             summary: NCBI Taxonomy ID for human
   /taxonomy/links:
     post:
-      summary: Retrieve external links associated with a taxonomic identifier.
-      description: 'Using an NCBI Taxonomy ID at any rank, get the external links associated with the taxon.'
+      summary: Get external links by Taxonomy ID
+      description: 'Get external links associated with a given taxon in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_links_by_post
@@ -7336,7 +7354,7 @@ paths:
               $ref: '#/components/schemas/v2TaxonomyLinksRequest'
             examples:
               Single TaxID example:
-                description: TaxID (just one)
+                description: NCBI Taxonomy ID for human
                 value:
                   taxon: "9606"
   /taxonomy/taxon/{taxon}/image:
@@ -7444,8 +7462,8 @@ paths:
                   taxon: "9606"
   /taxonomy/taxon/{taxon}/image/metadata:
     get:
-      summary: Retrieve image metadata associated with a taxonomic identifier
-      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image metadata associated with the taxon.'
+      summary: Get taxonomy image metadata by Taxonomy ID
+      description: 'Get taxonomy image metadata, including the image URL and license information, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_image_metadata
@@ -7474,8 +7492,8 @@ paths:
             summary: NCBI Taxonomy ID for human
   /taxonomy/image/metadata:
     post:
-      summary: Retrieve image metadata associated with a taxonomic identifier by post
-      description: 'Using an NCBI Taxonomy ID or a name (common or scientific) at any rank, get the image metadata associated with the taxon.'
+      summary: Get taxonomy image metadata by Taxonomy ID
+      description: 'Get taxonomy image metadata, including the image URL and license information, in JSON format.'
       tags:
         - Taxonomy
       operationId: taxonomy_image_metadata_post
@@ -7500,7 +7518,7 @@ paths:
               $ref: '#/components/schemas/v2TaxonomyImageMetadataRequest'
             examples:
               Single TaxID example:
-                description: TaxID (just one)
+                description: NCBI Taxonomy ID for human
                 value:
                   taxon: "9606"
   /virus/taxon/{taxon}/genome:
@@ -10603,7 +10621,7 @@ components:
             type: string
         exclude_sequence:
           type: boolean
-          title: 'Set to true to omit the genomic sequence.'
+          title: 'If true, exclude the genome sequence from the data package.'
         include_annotation_type:
           type: array
           items:
@@ -10626,9 +10644,11 @@ components:
         first_release_date:
           type: string
           format: date-time
+          title: 'Limit results to organelle genomes released on or after the specified date.'
         last_release_date:
           type: string
           format: date-time
+          title: 'Limit results to organelle genomes released on or before the specified date.'
         tax_exact_match:
           type: boolean
           title: 'If true, only return assemblies with the given NCBI Taxonomy ID, or name. Otherwise, assemblies from taxonomy subtree are included, too.'
@@ -10638,7 +10658,7 @@ components:
             $ref: '#/components/schemas/v2OrganelleSort'
         returned_content:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestContentType'
-          title: 'Return either assembly accessions, or entire assembly-metadata records'
+          title: 'Return complete organelle reports or nucleotide accessions only.'
         page_size:
           type: integer
           title: 'The maximum number of organelle assemblies to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -10647,10 +10667,10 @@ components:
           title: 'A page token is returned from an `OrganelleMetadata` call with more than `page_size` results. Use this token, along with the previous `OrganelleMetadata` parameters, to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         table_format:
           $ref: '#/components/schemas/v2OrganelleMetadataRequestOrganelleTableFormat'
-          title: 'Optional pre-defined template for processing a tabular data request'
+          title: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
-          title: 'Whether this request for tabular data should include the header row'
+          title: 'Specify when to include the table header when requesting a tabular report.'
     v2OrganelleSort:
       type: object
       properties:
@@ -10665,16 +10685,16 @@ components:
           type: string
         taxon_query:
           type: string
-          title: 'Taxid or name (common or scientific) at any taxonomic rank'
+          title: 'Taxonomy ID or name (common or scientific) at any taxonomic rank'
         tax_rank_filter:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxRankFilter'
-          title: 'Set the scope of searched tax ranks when filtering by gene or genome.  Not used for ''all'''
+          title: 'Optionally return results for taxonomic ranks above species using `higher_taxon`'
         taxon_resource_filter:
           $ref: '#/components/schemas/v2OrganismQueryRequestTaxonResourceFilter'
-          title: 'Limit results to those with gene or genome counts (no filter by default)'
+          title: 'Limit to taxonomy nodes with gene, genome or organelle data'
         exact_match:
           type: boolean
-          title: 'If true, only return results that exactly match the provided name or tax-id'
+          title: 'If true, only return results that exactly match the provided taxonomic name'
     v2OrthologRequest:
       type: object
       properties:
@@ -11033,7 +11053,7 @@ components:
             type: string
         returned_content:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestContentType'
-          title: 'Return either tax-ids alone, or entire taxononmy-metadata records'
+          title: 'Return complete taxonomy reports, Taxonomy IDs only, or reports without assembly and gene counts (metadata).'
         page_size:
           type: integer
           title: 'The maximum number of taxons to return. Default is 20 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
@@ -11045,9 +11065,10 @@ components:
           title: 'A page token is returned when the results count exceeds `page size`. Use this token along with previous request parameters to retrieve the next page of results. When `page_token` is empty, all results have been retrieved.'
         table_format:
           $ref: '#/components/schemas/v2TaxonomyMetadataRequestTableFormat'
+          title: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
         children:
           type: boolean
-          title: 'Flag for tax explosion.'
+          title: 'If true, return results for child taxa.'
         ranks:
           type: array
           items:
@@ -11134,7 +11155,7 @@ components:
           type: integer
         include_lineage:
           type: boolean
-          title: 'If true, return reports for all taxonomy nodes in the lineages of the requested tax_id'
+          title: 'If true, include parent nodes'
         include_subtree:
           type: boolean
           title: 'This field is deprecated because all requests include the subtree, so it has no effect'
@@ -13743,8 +13764,7 @@ components:
       type: object
       properties:
         pmid:
-          type: string
-          format: int64
+          type: integer
           title: 'The pubmed ID of the article'
         title:
           type: string
@@ -13787,8 +13807,7 @@ components:
       type: object
       properties:
         pmid:
-          type: string
-          format: int64
+          type: integer
           title: 'The pubmed ID of the article'
     ncbiprotddv2QueryStructureDefinition:
       type: object
@@ -13923,6 +13942,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ncbiprotddv2StructureDataReportLigandChain'
+        title:
+          type: string
     ncbiprotddv2StructureDataReportBiounitChain:
       type: object
       properties:
