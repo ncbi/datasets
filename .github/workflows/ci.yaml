@@ -1,0 +1,47 @@
+name: Build and smoke test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+defaults:
+  run:
+    working-directory: ./client
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - macos-latest # arm64
+          - macos-13 # osx-64
+          # Windows fails with internal compiler error
+          # - windows-latest
+          # - windows-11-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: bazel-contrib/setup-bazel@0.15.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+      - name: Add workdir to PATH
+        run: |
+          echo "$(pwd)" >> $GITHUB_PATH
+      - name: Build
+        run: bazel build apps/public/Datasets/...
+      - name: Smoke test
+        timeout-minutes: 10
+        run: |
+          cd bazel-bin/apps/public/Datasets/v2/cmd/datasets/datasets_ \
+          && ./datasets --version \
+          && ./datasets --help \
+          && ./datasets download virus genome taxon 101947
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: datasets-${{ matrix.os }}
+          path: client/bazel-bin/apps/public/Datasets/v2/cmd/datasets/datasets_/datasets
