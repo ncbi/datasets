@@ -7159,6 +7159,24 @@ paths:
               - Homo sapiens
               - Mus musculus
             summary: Scientific Name
+      - name: specified_limit
+        description: 'Limit to specified species'
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: exclude_extinct
+        description: 'Limit to species that are not extinct'
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: levels
+        description: 'Number of taxonomic levels to return with a valid range of 1-5. Values above 5 will return 5 levels and if level is 0 or not specified, 1 level will be returned.'
+        in: query
+        required: false
+        schema:
+          type: integer
       - name: rank_limits
         description: 'Limit to the provided ranks.  If empty, accept any rank.'
         in: query
@@ -10243,6 +10261,13 @@ components:
           type: array
           items:
             type: string
+    v2BiocollectionsSortField:
+      type: object
+      properties:
+        field:
+          type: string
+        direction:
+          $ref: '#/components/schemas/v2SortDirection'
     v2DatasetRequest:
       type: object
       properties:
@@ -10591,6 +10616,23 @@ components:
           type: array
           items:
             type: string
+    v2GetBiocollectionsRequest:
+      type: object
+      properties:
+        collection_ids:
+          type: array
+          items:
+            type: string
+        page_size:
+          type: integer
+          title: 'The maximum number of biocollection reports to return. Default is 1000 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        page_token:
+          type: string
+          title: 'A page token returned from a prior call with more than `page_size` results. Use this token with the same request parameters to retrieve the next page. When `page_token` is empty, all results have been retrieved.'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2BiocollectionsSortField'
     v2HttpBody:
       type: object
       properties:
@@ -10923,6 +10965,12 @@ components:
         specified_limit:
           type: boolean
           title: 'Limit to specified species'
+        exclude_extinct:
+          type: boolean
+          title: 'Limit to species that are not extinct'
+        levels:
+          type: integer
+          title: 'Number of taxonomic levels to return with a valid range of 1-5. Values above 5 will return 5 levels and if level is 0 or not specified, 1 level will be returned.'
         rank_limits:
           type: array
           items:
@@ -12186,6 +12234,67 @@ components:
           type: string
         when:
           type: string
+    v2reportsBiocollection:
+      type: object
+      properties:
+        bio_collection_id:
+          type: string
+          format: int64
+          title: 'Stable numeric identifier for the biocollection in NameBank.'
+        code:
+          type: string
+          title: 'Canonical collection code as provided by the source institution.'
+        ncbi_unique_code:
+          type: string
+          title: 'NCBI-normalized unique collection code used for cross-source lookup.'
+        name:
+          type: string
+          title: 'Human-readable collection name.'
+        type:
+          type: string
+          title: 'Collection type from NameBank (e.g., museum, culture collection)'
+        comments:
+          type: string
+          title: 'Any additional comments'
+    v2reportsBiocollectionInstitution:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Human-readable institution name.'
+        country:
+          type: string
+          title: 'Country where the institution is located.'
+        address:
+          type: string
+          title: 'Mailing or street address for the institution.'
+        url:
+          type: string
+          title: 'Institution website URL.'
+        comments:
+          type: string
+          title: 'Additional notes about the institution.'
+        bio_collections:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsBiocollection'
+    v2reportsBiocollectionsReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGetBiocollectionsReport'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMessage'
+        total_count:
+          type: integer
+          title: 'The total count of available biocollection reports (ignoring page_size) for the full request.'
+        next_page_token:
+          type: string
+          title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
     v2reportsBuscoStat:
       type: object
       properties:
@@ -12652,6 +12761,12 @@ components:
         type:
           $ref: '#/components/schemas/v2reportsGenomicRegionGenomicRegionType'
           title: 'Type of genomic region'
+    v2reportsGetBiocollectionsReport:
+      type: object
+      properties:
+        institution:
+          $ref: '#/components/schemas/v2reportsBiocollectionInstitution'
+          title: 'A single institution and its collections. Each report contains exactly one institution record and the list of biocollections owned by that institution.'
     v2reportsInfraspecificNames:
       type: object
       properties:
