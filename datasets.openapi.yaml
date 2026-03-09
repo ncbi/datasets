@@ -11004,6 +11004,14 @@ components:
             type: integer
         children_status:
           $ref: '#/components/schemas/v2TaxonomyFilteredSubtreeResponseEdgeChildStatus'
+        rank:
+          $ref: '#/components/schemas/v2reportsRankType'
+        scientific_name:
+          type: string
+        curator_common_name:
+          type: string
+        assembly_count:
+          type: integer
     v2TaxonomyFilteredSubtreeResponseEdgesEntry:
       description: A map.
       properties:
