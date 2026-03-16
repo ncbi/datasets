@@ -74,7 +74,7 @@ func (giaf *GenomeIncludeAnnotationFlag) RegisterFlags(flags *pflag.FlagSet) {
   * gtf:        gene transfer format
   * gbff:       GenBank flat file
   * seq-report: sequence report file
-  * all:        include all available file types (equivalent to genome,protein,cds,gff3,gtf,gbff,seq-report)
+  * all:        include all available file types (equivalent to genome,protein,cds,gff3,gtf,gbff,rna,seq-report)
   * none:       do not retrieve any sequence files
   `)
 }
