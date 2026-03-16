@@ -3421,7 +3421,8 @@ paths:
                 $ref: '#/components/schemas/v2VersionReply'
   /gene/id/{gene_ids}:
     get:
-      summary: Get gene reports by GeneID (deprecated)
+      deprecated: true
+      summary: Get gene reports by GeneID
       description: 'Get a gene summary by GeneID. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
@@ -3560,7 +3561,8 @@ paths:
           $ref: '#/components/schemas/v2SortDirection'
   /gene/accession/{accessions}:
     get:
-      summary: Get gene metadata by RefSeq Accession (deprecated)
+      deprecated: true
+      summary: Get gene metadata by RefSeq Accession
       description: 'Get a gene summary by RefSeq Accession. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
@@ -3699,7 +3701,8 @@ paths:
           $ref: '#/components/schemas/v2SortDirection'
   /gene/symbol/{symbols}/taxon/{taxon}:
     get:
-      summary: Get gene metadata by gene symbol (deprecated)
+      deprecated: true
+      summary: Get gene metadata by gene symbol
       description: 'Get a gene summary by by gene symbol. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
@@ -3849,7 +3852,8 @@ paths:
           $ref: '#/components/schemas/v2SortDirection'
   /gene/taxon/{taxon}:
     get:
-      summary: Get gene reports by taxonomic identifier (deprecated)
+      deprecated: true
+      summary: Get gene reports by taxonomic identifier
       description: 'Get a gene summary for a specified NCBI Taxonomy ID or name (common or scientific). By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
@@ -4015,7 +4019,8 @@ paths:
           $ref: '#/components/schemas/v2SortDirection'
   /gene:
     post:
-      summary: Get gene metadata as JSON (deprecated)
+      deprecated: true
+      summary: Get gene metadata as JSON
       description: 'Get a gene summary. By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - Gene
@@ -6653,7 +6658,8 @@ paths:
                     - "9443"
   /taxonomy/taxon/{taxons}:
     get:
-      summary: Use taxonomic identifiers to get taxonomic metadata (deprecated)
+      deprecated: true
+      summary: Use taxonomic identifiers to get taxonomic metadata
       description: 'Using NCBI Taxonomy IDs or names (common or scientific) at any rank, get metadata about a taxonomic node including taxonomic identifiers, lineage information, child nodes, and gene and genome counts in JSON format.'
       tags:
         - Taxonomy
@@ -6751,7 +6757,8 @@ paths:
             $ref: '#/components/schemas/v2reportsRankType'
   /taxonomy:
     post:
-      summary: Get taxonomy metadata by taxon (deprecated)
+      deprecated: true
+      summary: Get taxonomy metadata by taxon
       description: 'Get taxonomy metadata by taxon in JSON format.'
       tags:
         - Taxonomy
@@ -7971,7 +7978,8 @@ paths:
                    - PROTEIN
   /virus/taxon/{taxon}/genome/table:
     get:
-      summary: Get virus genome metadata in a tabular format (deprecated)
+      deprecated: true
+      summary: Get virus genome metadata in a tabular format
       description: 'Get virus genome metadata in tabular format for virus genomes by taxon.'
       tags:
         - Virus
@@ -14479,7 +14487,6 @@ components:
         - CDS
         - PROTEIN
         - NONE
-        - BIOSAMPLE
       default: GENOME
     
     v2VirusDataReportRequestContentType:

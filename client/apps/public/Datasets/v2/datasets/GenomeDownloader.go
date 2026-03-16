@@ -151,6 +151,7 @@ func SetRequestArgs(request *openapi.V2AssemblyDatasetRequest, downloadGenomeFla
 			cmdflags.GenomeGff3,
 			cmdflags.GenomeGtf,
 			cmdflags.GenomeGbff,
+			cmdflags.GenomeRna,
 			cmdflags.GenomeSequenceReport,
 		}
 		downloadGenomeFlag.genomeIncludeAnnotationFlag.IncludeAnnotation = allTypes
