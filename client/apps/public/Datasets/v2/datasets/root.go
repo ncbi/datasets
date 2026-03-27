@@ -181,30 +181,15 @@ func DefaultRetryPolicy(ctx context.Context, resp *http.Response, err error) (bo
 }
 
 func baseRetryPolicy(resp *http.Response, err error) (bool, error) {
-	if resp == nil {
-		return false, err
+	if err != nil {
+		// Transport-level failures (including TLS handshake timeouts) have no
+		// response object and are typically transient, so allow retries.
+		return true, nil
 	}
-	// if err != nil {
-	// 	if v, ok := err.(*url.Error); ok {
-	// 		// Don't retry if the error was due to too many redirects.
-	// 		if redirectsErrorRe.MatchString(v.Error()) {
-	// 			return false, v
-	// 		}
 
-	// 		// Don't retry if the error was due to an invalid protocol scheme.
-	// 		if schemeErrorRe.MatchString(v.Error()) {
-	// 			return false, v
-	// 		}
-
-	// 		// Don't retry if the error was due to TLS cert verification failure.
-	// 		if _, ok := v.Err.(x509.UnknownAuthorityError); ok {
-	// 			return false, v
-	// 		}
-	// 	}
-
-	// 	// The error is likely recoverable so retry.
-	// 	return true, nil
-	// }
+	if resp == nil {
+		return false, nil
+	}
 
 	// 429 Too Many Requests is recoverable. Sometimes the server puts
 	// a Retry-After response header to indicate when the server is

@@ -13961,6 +13961,12 @@ components:
         domain_number:
           type: integer
           title: 'Domain Number 0 is the entire chain'
+        from:
+          type: integer
+          title: 'Domain start interval residue number.'
+        to:
+          type: integer
+          title: 'Domain end interval residue number.'
     ncbiprotddv2SdidRequest:
       type: object
       properties:
@@ -14090,6 +14096,9 @@ components:
         molecule_group:
           type: integer
           title: 'Which group of identical chains does this chain belong to'
+        sdid:
+          type: integer
+          title: 'Unique structure identifier of the chain'
     ncbiprotddv2StructureDataReportExperiment:
       type: object
       properties:
@@ -14105,15 +14114,16 @@ components:
       properties:
         chain_id:
           type: string
-          title: 'Chain name. I.e. ZINC ION  taxonomy id'
+          title: 'Chain name. I.e. ZINC ION'
         kind:
           $ref: '#/components/schemas/ncbiprotddv2StructureDataReportKind'
           title: 'Kind of molecule. DNA, RNA, Protein, etc.'
-        molecule_group:
-          type: integer
-          title: 'Which group of identical chains does this chain belong to'
         sid:
           type: integer
+          title: 'Unique substance identifier'
+        sdid:
+          type: integer
+          title: 'Unique structure identifiers'
     ncbiprotddv2StructureRequest:
       type: object
       properties:
