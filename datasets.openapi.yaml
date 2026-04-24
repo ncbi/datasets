@@ -2411,6 +2411,14 @@ paths:
               - GCF_000001405.40
               - GCF_000001635.27
             summary: Human and mouse reference genomes, GRCh38.p14 and GRCm39
+      - name: assembly_link_types
+        description: 'Zero or more assembly link types to retrieve. If no values are provided, all links are retrieved'
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2AssemblyLinksReplyAssemblyLinkType'
   /genome/links:
     post:
       summary: Get assembly links by genome assembly accession
@@ -10215,6 +10223,10 @@ components:
           type: array
           items:
             type: string
+        assembly_link_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2AssemblyLinksReplyAssemblyLinkType'
     v2AssemblyRevisionHistory:
       type: object
       properties:
@@ -10552,7 +10564,7 @@ components:
     v2GenePubmedIdsResponse:
       type: object
       properties:
-        pubmedIds:
+        pubmed_ids:
           type: array
           items:
             type: integer
@@ -10926,6 +10938,16 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+    v2SequenceRequest:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
+        include_all_versions:
+          type: boolean
+          title: 'When true, include previous versions as well as the latest. Default behavior when this field is omitted is to return latest version only (i.e., `include_all_versions` defaults to false).'
     v2SleepReply:
       type: object
       properties:
@@ -11455,130 +11477,6 @@ components:
         use_psg:
           type: boolean
           title: 'Experimental approach to retrieving sequence data.'
-    v2archiveAffiliation:
-      type: object
-      properties:
-        affiliation:
-          type: string
-        division:
-          type: string
-        location:
-          $ref: '#/components/schemas/v2archiveLocation'
-    v2archiveCatalog:
-      type: object
-      properties:
-        accession:
-          type: string
-        molecule_type:
-          $ref: '#/components/schemas/v2archiveMoleculeType'
-        definition:
-          type: string
-        taxonomy:
-          $ref: '#/components/schemas/v2archiveTaxonomyNode'
-        sequence:
-          $ref: '#/components/schemas/v2archiveSequence'
-        topology:
-          $ref: '#/components/schemas/v2reportsOrganelleTopology'
-        modification_date:
-          type: string
-        publication_date:
-          type: string
-        submitters:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2archiveSubmitter'
-    v2archiveLocation:
-      type: object
-      properties:
-        city:
-          type: string
-        sub:
-          type: string
-          title: 'Subdivision, e.g., state or province'
-        country:
-          type: string
-        street:
-          type: string
-        postal_code:
-          type: string
-    v2archiveModifier:
-      type: object
-      properties:
-        subtype:
-          $ref: '#/components/schemas/v2archiveTaxonomySubtype'
-          title: 'e.g., "isolate", "strain", "variant"'
-        subname:
-          type: string
-          title: 'e.g., "ATCC 12345", "B.1.1.7"'
-    v2archiveName:
-      type: object
-      properties:
-        first:
-          type: string
-        middle:
-          type: string
-        last:
-          type: string
-        full:
-          type: string
-        initials:
-          type: string
-        suffix:
-          type: string
-        title:
-          type: string
-        affiliation:
-          $ref: '#/components/schemas/v2archiveAffiliation'
-    v2archiveNuccoreRequest:
-      type: object
-      properties:
-        accession:
-          type: string
-    v2archiveSequence:
-      type: object
-      properties:
-        length:
-          type: integer
-        units:
-          $ref: '#/components/schemas/v2archiveSequenceLengthUnits'
-    v2archiveSubmitter:
-      type: object
-      properties:
-        name:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2archiveName'
-        role:
-          type: string
-        affiliation:
-          $ref: '#/components/schemas/v2archiveAffiliation'
-        date:
-          type: string
-    v2archiveTaxonomyNode:
-      type: object
-      properties:
-        tax_id:
-          type: integer
-          title: 'NCBI Taxonomy identifier'
-        current_scientific_name:
-          $ref: '#/components/schemas/v2reportsNameAndAuthority'
-          title: 'The currently accepted name chosen out of all synonyms for the taxonomic node.'
-        basionym:
-          $ref: '#/components/schemas/v2reportsNameAndAuthority'
-          title: 'The originally described name, no longer in use. Attached to the type material and species description.'
-        curator_common_name:
-          type: string
-          title: 'The canonical common name.'
-        group_name:
-          type: string
-          title: 'A common name describing large, well-known taxa.'
-        classification:
-          $ref: '#/components/schemas/v2reportsClassification'
-          title: 'A subset of parent nodes including well-established ranks.'
-        modifiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2archiveModifier'
     v2reportsANIMatch:
       type: object
       properties:
@@ -12584,6 +12482,10 @@ components:
           $ref: '#/components/schemas/v2reportsGeneOntology'
         locus_tag:
           type: string
+        map_locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsMapLocation'
     v2reportsGeneGroup:
       type: object
       properties:
@@ -12834,6 +12736,15 @@ components:
         assembly_type:
           $ref: '#/components/schemas/v2reportsLinkedAssemblyType'
           title: 'The linked assembly type'
+    v2reportsMapLocation:
+      type: object
+      properties:
+        map_type:
+          $ref: '#/components/schemas/v2reportsMapLocationMapType'
+          title: 'Type of mapping; can be "Cytogenetic" or "Genetic"'
+        map_value:
+          type: string
+          title: 'Location of the gene in mapping coordinates'
     v2reportsMaturePeptide:
       type: object
       properties:
@@ -13302,6 +13213,240 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsRange'
+    v2reportsSequenceCodedProteinInfo:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Protein accession encoded by a CDS-like feature.'
+        description:
+          type: string
+          title: 'Optional description for the coded protein.'
+    v2reportsSequenceDataProvenance:
+      type: object
+      properties:
+        source_database:
+          type: string
+          title: 'External database that contributed this annotation.'
+        source_accession:
+          type: string
+          title: 'Accession or identifier in the external source.'
+    v2reportsSequenceDataReport:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Sequence accession requested by the user (typically accession.version).'
+        organism_name:
+          type: string
+          title: 'Scientific organism name associated with this sequence.'
+        length:
+          type: integer
+          title: 'Sequence length measured in the units field.'
+        units:
+          type: string
+          title: 'Units for sequence length, for example "nucleotides" or "amino acids".'
+        molecule_type:
+          type: string
+          title: 'Molecule type such as "ss-RNA", "mRNA", or "protein".'
+        source_database:
+          type: string
+          title: 'Upstream source database for this record, for example "RefSeq".'
+        description:
+          type: string
+          title: 'Human-readable sequence definition line.'
+        source_mrna:
+          type: string
+          title: 'Source mRNA accession when this report describes a protein sequence.'
+        encoded_proteins:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceEncodedProtein'
+        publication_date:
+          type: string
+          title: 'Initial release/publication date in ISO-8601 format.'
+        latest_update_date:
+          type: string
+          title: 'Most recent update date in ISO-8601 format.'
+        gene_context:
+          $ref: '#/components/schemas/v2reportsSequenceGeneContext'
+          title: 'Gene-level context for nucleotide or protein records.'
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceFeature'
+        external_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceExternalId'
+        tax_id:
+          type: integer
+          title: 'NCBI Taxonomy identifier for this rank.'
+    v2reportsSequenceDataReportPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceDataReport'
+        total_count:
+          type: integer
+          title: 'Total number of reports available across all pages.'
+    v2reportsSequenceEncodedProtein:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Encoded protein accession.'
+        name:
+          type: string
+          title: 'Protein display name.'
+        description:
+          type: string
+          title: 'Optional protein definition/description.'
+    v2reportsSequenceExon:
+      type: object
+      properties:
+        exon_number:
+          type: integer
+          title: 'Exon ordinal within the transcript.'
+        begin:
+          type: string
+          format: uint64
+          title: 'Exon start coordinate in transcript space.'
+        end:
+          type: string
+          format: uint64
+          title: 'Exon end coordinate in transcript space.'
+    v2reportsSequenceExonList:
+      type: object
+      properties:
+        count:
+          type: integer
+          title: 'Number of exons represented in items.'
+        inference_method:
+          type: string
+          title: 'Method used to infer exon structure. (This may be better on SequenceExon, it could be potentially different for each exon)'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceExon'
+    v2reportsSequenceExternalId:
+      type: object
+      properties:
+        source:
+          type: string
+          title: 'Name of the external identifier source.'
+        id:
+          type: string
+          title: 'Identifier value from the external source.'
+    v2reportsSequenceFeature:
+      type: object
+      properties:
+        type:
+          type: string
+          title: 'Feature type (for example gene, CDS, signal_peptide, or Domain).'
+        name:
+          type: string
+          title: 'Primary feature name.'
+        locus_tag:
+          type: string
+          title: 'Optional locus tag identifier.'
+        gene_id:
+          type: string
+          title: 'Optional gene identifier associated with this feature.'
+        location:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocation'
+          title: 'Feature coordinates.'
+        other_names:
+          type: array
+          items:
+            type: string
+        ec_number:
+          type: array
+          items:
+            type: string
+        coded_protein_info:
+          $ref: '#/components/schemas/v2reportsSequenceCodedProteinInfo'
+          title: 'CDS-coded protein details.'
+        prediction_source:
+          $ref: '#/components/schemas/v2reportsSequencePredictionSource'
+          title: 'Prediction method provenance.'
+        data_provenance:
+          $ref: '#/components/schemas/v2reportsSequenceDataProvenance'
+          title: 'External curation/source provenance.'
+        signal_sequence:
+          type: string
+          title: 'Literal sequence associated with signal/regulatory feature types.'
+        nested_features:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceFeature'
+    v2reportsSequenceFeatureLocation:
+      type: object
+      properties:
+        begin:
+          type: string
+          format: uint64
+          title: 'Feature start coordinate when a range is present.'
+        end:
+          type: string
+          format: uint64
+          title: 'Feature end coordinate when a range is present.'
+        position:
+          type: string
+          format: uint64
+          title: 'Single-coordinate location used for point features.'
+        orientation:
+          type: string
+          title: 'Strand orientation when provided.'
+    v2reportsSequenceGeneContext:
+      type: object
+      properties:
+        gene_symbol:
+          type: string
+          title: 'Official or primary gene symbol.'
+        gene_id:
+          type: string
+          title: 'Gene identifier represented as a string in example payloads.'
+        genomic_location:
+          $ref: '#/components/schemas/v2reportsSequenceGenomicLocation'
+          title: 'Optional genomic placement of the gene.'
+        exons:
+          $ref: '#/components/schemas/v2reportsSequenceExonList'
+          title: 'Optional exon details for transcript-backed records.'
+        select_category:
+          type: string
+          title: 'Selection category used by some responses (for example "MANE Select").'
+        refseq_select_category:
+          type: string
+          title: 'Alternate field used in some responses for RefSeq select labeling.'
+    v2reportsSequenceGenomicLocation:
+      type: object
+      properties:
+        chromosome:
+          type: string
+          title: 'Chromosome label.'
+        accession:
+          type: string
+          title: 'Genomic reference accession.'
+        range:
+          $ref: '#/components/schemas/v2reportsSequenceGenomicRange'
+          title: 'Genomic coordinate range on the reference accession.'
+    v2reportsSequenceGenomicRange:
+      type: object
+      properties:
+        begin:
+          type: string
+          format: uint64
+          title: 'Genomic start coordinate.'
+        end:
+          type: string
+          format: uint64
+          title: 'Genomic end coordinate.'
+        orientation:
+          type: string
+          title: 'Strand orientation, for example "plus" or "minus".'
     v2reportsSequenceInfo:
       type: object
       properties:
@@ -13363,6 +13508,18 @@ components:
         submitter:
           type: string
           title: 'The submitter, e.g. NCBI Genome Project for RefSeq'
+    v2reportsSequencePredictionSource:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Name of the prediction tool or source.'
+        version:
+          type: string
+          title: 'Tool or model version.'
+        method:
+          type: string
+          title: 'Method description for the prediction.'
     v2reportsTaxData:
       type: object
       properties:
@@ -13867,6 +14024,7 @@ components:
           type: string
         _bypass_cache:
           type: string
+          title: 'buf:lint:ignore FIELD_LOWER_SNAKE_CASE'
     ncbigsupgcolv2AssemblyDataReportsRequest:
       type: object
       properties:
@@ -14542,76 +14700,6 @@ components:
         - cds_span
       default: unspecified
     
-    v2archiveMoleculeType:
-      type: string
-      enum:
-        - MOLECULE_TYPE_UNSPECIFIED
-        - GENOMIC_DNA
-        - GENOMIC_RNA
-        - PRECURSOR_RNA
-        - MESSENGER_RNA
-        - TRANSFER_RNA
-        - RIBOSOMAL_RNA
-        - AMINO_ACID
-      default: MOLECULE_TYPE_UNSPECIFIED
-    
-    v2archiveSequenceLengthUnits:
-      type: string
-      enum:
-        - SEQUENCE_LENGTH_UNITS_UNSPECIFIED
-        - BASE_PAIRS
-        - AMINO_ACIDS
-        - NUCLEOTIDES
-      default: SEQUENCE_LENGTH_UNITS_UNSPECIFIED
-    
-    v2archiveTaxonomySubtype:
-      type: string
-      enum:
-        - unknown
-        - strain
-        - substrain
-        - type
-        - subtype
-        - variety
-        - serotype
-        - serogroup
-        - serovar
-        - cultivar
-        - pathovar
-        - chemovar
-        - biovar
-        - biotype
-        - group
-        - subgroup
-        - isolate
-        - common
-        - acronym
-        - dosage
-        - nat_host
-        - sub_species
-        - specimen_voucher
-        - authority
-        - forma
-        - forma_specialis
-        - ecotype
-        - synonym
-        - anamorph
-        - teleomorph
-        - breed
-        - gb_acronym
-        - gb_anamorph
-        - gb_synonym
-        - culture_collection
-        - bio_material
-        - metagenome_source
-        - type_material
-        - nomenclature
-        - old_lineage
-        - old_name
-        - other
-      default: unknown
-      title: 'This is a copy of the COrgMod::ESubtype https://www.ncbi.nlm.nih.gov/IEB/ToolBox/CPP_DOC/doxyhtml/OrgMod___8hpp_source.html#l00084-00126'
-    
     v2reportsANITypeCategory:
       type: string
       enum:
@@ -14800,6 +14888,14 @@ components:
         - haplotype_4
         - haploid
       default: LINKED_ASSEMBLY_TYPE_UNKNOWN
+    
+    v2reportsMapLocationMapType:
+      type: string
+      enum:
+        - Unknown
+        - Cytogenetic
+        - Genetic
+      default: Unknown
     
     v2reportsNameAndAuthorityNoteClassifier:
       type: string
