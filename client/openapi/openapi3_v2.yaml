@@ -11803,6 +11803,15 @@ components:
           type: array
           items:
             type: string
+    v2reportsAuthor:
+      type: object
+      properties:
+        name:
+          type: string
+          title: 'Author names.'
+        affiliation:
+          type: string
+          title: 'Author affiliation'
     v2reportsAverageNucleotideIdentity:
       type: object
       properties:
@@ -12449,6 +12458,10 @@ components:
           items:
             type: string
         synonyms:
+          type: array
+          items:
+            type: string
+        alternate_names:
           type: array
           items:
             type: string
@@ -13157,6 +13170,22 @@ components:
         type:
           type: string
           title: 'Sub-category specific to this method'
+    v2reportsPublication:
+      type: object
+      properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier'
+        title:
+          type: string
+          title: 'Publication title'
+        date:
+          type: string
+          title: 'Publication date'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAuthor'
     v2reportsRange:
       type: object
       properties:
@@ -13282,6 +13311,14 @@ components:
         tax_id:
           type: integer
           title: 'NCBI Taxonomy identifier for this rank.'
+        submissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSubmission'
+        publications:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsPublication'
     v2reportsSequenceDataReportPage:
       type: object
       properties:
@@ -13520,6 +13557,22 @@ components:
         method:
           type: string
           title: 'Method description for the prediction.'
+    v2reportsSubmission:
+      type: object
+      properties:
+        date:
+          type: string
+          title: 'Submission date'
+        institution:
+          type: string
+          title: 'Submitting institution or organization.'
+        address:
+          type: string
+          title: 'Submitter mailing address or contact address.'
+        names:
+          type: array
+          items:
+            type: string
     v2reportsTaxData:
       type: object
       properties:
