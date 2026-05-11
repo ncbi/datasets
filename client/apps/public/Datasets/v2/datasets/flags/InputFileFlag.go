@@ -87,19 +87,31 @@ func (iff *InputFileFlag) AsStringList() []string {
 	return iff.InputIDArgs
 }
 
+func (iff *InputFileFlag) AllInts(strs []string) bool {
+	for _, idFullStr := range iff.InputIDArgs {
+		for _, idStr := range strings.Split(idFullStr, ",") {
+			_, e := strconv.ParseInt(idStr, 10, 32)
+			if e != nil {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 // Helper functions
-func strToInt32ListErr(strs []string) (geneInts []int32, err error) {
+func strToInt32ListErr(strs []string) (parsedInts []int32, err error) {
 	hasError := false
 	lastBadInput := ""
 	for _, idFullStr := range strs {
 		for _, idStr := range strings.Split(idFullStr, ",") {
-			geneInt64, e := strconv.ParseInt(idStr, 10, 32)
-			geneInt32 := int32(geneInt64)
+			parsedInt64, e := strconv.ParseInt(idStr, 10, 32)
+			parsedInt32 := int32(parsedInt64)
 			if e != nil {
 				hasError = true
 				lastBadInput = idStr
 			} else {
-				geneInts = append(geneInts, geneInt32)
+				parsedInts = append(parsedInts, parsedInt32)
 			}
 		}
 	}

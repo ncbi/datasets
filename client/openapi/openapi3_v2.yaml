@@ -510,7 +510,7 @@ paths:
   /genome/taxon/{taxons}/dataset_report:
     get:
       summary: Get a genome assembly report by taxon
-      description: 'Get a genome assembly report by taxon.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get a genome assembly report by taxon. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_taxon
@@ -837,7 +837,7 @@ paths:
   /genome/bioproject/{bioprojects}/dataset_report:
     get:
       summary: Get genome assembly reports by BioProject accession
-      description: 'Get genome assembly reports by BioProject accession.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get genome assembly reports by BioProject accession. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_bioproject
@@ -1158,7 +1158,7 @@ paths:
   /genome/biosample/{biosample_ids}/dataset_report:
     get:
       summary: Get genome assembly reports by BioSample accession
-      description: 'Get genome assembly reports by BioSample accession.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get genome assembly reports by BioSample accession. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_biosample_id
@@ -1476,7 +1476,7 @@ paths:
   /genome/wgs/{wgs_accessions}/dataset_report:
     get:
       summary: Get a genome assembly data report by WGS accession
-      description: 'Get a genome assembly data report by WGS (whole genome shotgun) accession.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get a genome assembly data report by WGS (whole genome shotgun) accession. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_wgs
@@ -1800,7 +1800,7 @@ paths:
   /genome/assembly_name/{assembly_names}/dataset_report:
     get:
       summary: Get genome assembly reports by assembly name
-      description: 'Get genome assembly reports by assembly name (exact matches only).  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get genome assembly reports by assembly name (exact matches only). By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_dataset_reports_by_assembly_name
@@ -2516,7 +2516,7 @@ paths:
   /biosample/accession/{accessions}/biosample_report:
     get:
       summary: Get BioSample dataset reports by accession(s)
-      description: 'Get BioSample dataset reports by accession(s).  By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
+      description: 'Get BioSample dataset reports by accession(s). By default, in paged JSON format, but also available as tabular (accept: text/tab-separated-values) or json-lines (accept: application/x-ndjson)'
       tags:
         - BioSample
       operationId: BioSample_dataset_report
@@ -4068,7 +4068,7 @@ paths:
   /gene/id/{gene_ids}/dataset_report:
     get:
       summary: Get a gene data report by GeneID
-      description: 'Get a gene data report by GeneID.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get a gene data report by GeneID. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Gene
       operationId: gene_dataset_reports_by_id
@@ -6003,7 +6003,7 @@ paths:
   /genome/accession/{accession}/annotation_report:
     get:
       summary: Get genome annotation reports by genome assembly accession
-      description: 'Get genome annotation reports by genome assembly accession, where each report represents a single feature annotated on the genome.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get genome annotation reports by genome assembly accession, where each report represents a single feature annotated on the genome. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_annotation_report
@@ -6138,7 +6138,7 @@ paths:
   /genome/annotation_report:
     post:
       summary: Get genome annotation reports by genome assembly accession
-      description: 'Get genome annotation reports by genome assembly accession, where each report represents a single feature annotated on the genome.  By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get genome annotation reports by genome assembly accession, where each report represents a single feature annotated on the genome. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
       tags:
         - Genome
       operationId: genome_annotation_report_by_post
@@ -10797,6 +10797,13 @@ components:
       properties:
         length:
           type: integer
+    v2PubmedList:
+      type: object
+      properties:
+        pubmed_ids:
+          type: array
+          items:
+            type: integer
     v2RefGeneCatalogDatasetRequest:
       type: object
       properties:
@@ -12508,6 +12515,84 @@ components:
         method:
           type: string
           title: 'Method used to calculate the gene group, currently this only includes "NCBI Ortholog"'
+    v2reportsGeneNeighbor:
+      type: object
+      properties:
+        gene_id:
+          type: string
+          format: uint64
+          title: 'NCBI Gene ID'
+        symbol:
+          type: string
+          title: 'Gene symbol'
+        description:
+          type: string
+          title: 'Gene name'
+        gene_type:
+          $ref: '#/components/schemas/v2reportsGeneType'
+          title: 'Type of gene'
+        genomic_range:
+          $ref: '#/components/schemas/v2reportsRange'
+          title: 'Location range and orientation of gene'
+    v2reportsGeneNeighborGenomicLocation:
+      type: object
+      properties:
+        genomic_location:
+          $ref: '#/components/schemas/v2reportsGenomicLocation'
+        gene_neighbors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGeneNeighbor'
+    v2reportsGeneNeighborsAnnotation:
+      type: object
+      properties:
+        assembly_accession:
+          type: string
+          title: 'Genome assembly accession'
+        assembly_name:
+          type: string
+          title: 'Genome assembly name'
+        annotation_name:
+          type: string
+          title: 'Genome annotation name'
+        annotation_release_date:
+          type: string
+          title: 'Genome annotation release date'
+        genomic_locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGeneNeighborGenomicLocation'
+    v2reportsGeneNeighborsDescriptor:
+      type: object
+      properties:
+        tax_id:
+          type: string
+          format: uint64
+          title: 'NCBI Taxonomy ID for the organism'
+        gene_id:
+          type: string
+          format: uint64
+          title: 'NCBI Gene ID'
+        symbol:
+          type: string
+          title: 'Gene symbol'
+        description:
+          type: string
+          title: 'Gene name'
+        gene_type:
+          $ref: '#/components/schemas/v2reportsGeneType'
+          title: 'Type of gene'
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGeneNeighborsAnnotation'
+    v2reportsGeneNeighborsReports:
+      type: object
+      properties:
+        genes:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsGeneNeighborsDescriptor'
     v2reportsGeneOntology:
       type: object
       properties:
@@ -12841,6 +12926,9 @@ components:
         citation:
           type: string
           title: 'Citation to the publication.'
+        pmid:
+          type: string
+          format: uint64
     v2reportsNomenclatureAuthority:
       type: object
       properties:
@@ -13278,7 +13366,7 @@ components:
         molecule_type:
           type: string
           title: 'Molecule type such as "ss-RNA", "mRNA", or "protein".'
-        source_database:
+        database_provider:
           type: string
           title: 'Upstream source database for this record, for example "RefSeq".'
         description:
@@ -13287,10 +13375,6 @@ components:
         source_mrna:
           type: string
           title: 'Source mRNA accession when this report describes a protein sequence.'
-        encoded_proteins:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsSequenceEncodedProtein'
         publication_date:
           type: string
           title: 'Initial release/publication date in ISO-8601 format.'
@@ -13329,18 +13413,6 @@ components:
         total_count:
           type: integer
           title: 'Total number of reports available across all pages.'
-    v2reportsSequenceEncodedProtein:
-      type: object
-      properties:
-        accession:
-          type: string
-          title: 'Encoded protein accession.'
-        name:
-          type: string
-          title: 'Protein display name.'
-        description:
-          type: string
-          title: 'Optional protein definition/description.'
     v2reportsSequenceExon:
       type: object
       properties:
@@ -14057,6 +14129,13 @@ components:
           type: string
         returned:
           type: string
+    ncbieukgenev2GeneIdRequest:
+      type: object
+      properties:
+        gene_ids:
+          type: array
+          items:
+            type: integer
     ncbigsupgcolv2AssemblyAccessionsReply:
       type: object
       properties:
