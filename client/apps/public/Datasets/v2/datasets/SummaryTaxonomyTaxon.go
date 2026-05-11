@@ -57,11 +57,20 @@ Print a data report containing taxonomy metadata by %s. The data report is retur
 		PreRunE: cmdflags.ExecutePreRunEFor(stf.cmdFlagSet),
 
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			var taxIdsMap, taxErr = RetrieveTaxIdsForTaxons(cmd, stf.inputFile.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL, "taxonomy")
-			if taxErr != nil {
-				return taxErr
-			}
 
+			// Do not validate tax-ids in a file. If some are invalid, an error will be included in the retrieved json
+			var taxIdsMap map[string][]string = make(map[string][]string)
+			if stf.inputFile.AllInts(stf.inputFile.InputIDArgs) {
+				allTaxIds := stf.inputFile.AsStringList()
+				for _, taxId := range allTaxIds {
+					taxIdsMap[taxId] = []string{taxId}
+				}
+			} else {
+				taxIdsMap, err = RetrieveTaxIdsForTaxons(cmd, stf.inputFile.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL, "taxonomy")
+				if err != nil {
+					return err
+				}
+			}
 			taxIds := getMapKeys(taxIdsMap)
 
 			// report error if more than one taxid is used in conjuction with children or parents flags
