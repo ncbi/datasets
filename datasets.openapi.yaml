@@ -13330,24 +13330,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsRange'
-    v2reportsSequenceCodedProteinInfo:
-      type: object
-      properties:
-        accession:
-          type: string
-          title: 'Protein accession encoded by a CDS-like feature.'
-        description:
-          type: string
-          title: 'Optional description for the coded protein.'
-    v2reportsSequenceDataProvenance:
-      type: object
-      properties:
-        source_database:
-          type: string
-          title: 'External database that contributed this annotation.'
-        source_accession:
-          type: string
-          title: 'Accession or identifier in the external source.'
     v2reportsSequenceDataReport:
       type: object
       properties:
@@ -13381,17 +13363,6 @@ components:
         latest_update_date:
           type: string
           title: 'Most recent update date in ISO-8601 format.'
-        gene_context:
-          $ref: '#/components/schemas/v2reportsSequenceGeneContext'
-          title: 'Gene-level context for nucleotide or protein records.'
-        features:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsSequenceFeature'
-        external_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsSequenceExternalId'
         tax_id:
           type: integer
           title: 'NCBI Taxonomy identifier for this rank.'
@@ -13403,6 +13374,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsPublication'
+        bioproject_accession:
+          type: string
+          title: 'NCBI BioProject accession linked to this sequence record.'
+        biosample_accessions:
+          type: array
+          items:
+            type: string
+        origin_type:
+          $ref: '#/components/schemas/v2reportsSequenceDataReportOriginType'
+          title: 'Biological context regarding how the material for the sequence originated.'
     v2reportsSequenceDataReportPage:
       type: object
       properties:
@@ -13413,149 +13394,6 @@ components:
         total_count:
           type: integer
           title: 'Total number of reports available across all pages.'
-    v2reportsSequenceExon:
-      type: object
-      properties:
-        exon_number:
-          type: integer
-          title: 'Exon ordinal within the transcript.'
-        begin:
-          type: string
-          format: uint64
-          title: 'Exon start coordinate in transcript space.'
-        end:
-          type: string
-          format: uint64
-          title: 'Exon end coordinate in transcript space.'
-    v2reportsSequenceExonList:
-      type: object
-      properties:
-        count:
-          type: integer
-          title: 'Number of exons represented in items.'
-        inference_method:
-          type: string
-          title: 'Method used to infer exon structure. (This may be better on SequenceExon, it could be potentially different for each exon)'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsSequenceExon'
-    v2reportsSequenceExternalId:
-      type: object
-      properties:
-        source:
-          type: string
-          title: 'Name of the external identifier source.'
-        id:
-          type: string
-          title: 'Identifier value from the external source.'
-    v2reportsSequenceFeature:
-      type: object
-      properties:
-        type:
-          type: string
-          title: 'Feature type (for example gene, CDS, signal_peptide, or Domain).'
-        name:
-          type: string
-          title: 'Primary feature name.'
-        locus_tag:
-          type: string
-          title: 'Optional locus tag identifier.'
-        gene_id:
-          type: string
-          title: 'Optional gene identifier associated with this feature.'
-        location:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureLocation'
-          title: 'Feature coordinates.'
-        other_names:
-          type: array
-          items:
-            type: string
-        ec_number:
-          type: array
-          items:
-            type: string
-        coded_protein_info:
-          $ref: '#/components/schemas/v2reportsSequenceCodedProteinInfo'
-          title: 'CDS-coded protein details.'
-        prediction_source:
-          $ref: '#/components/schemas/v2reportsSequencePredictionSource'
-          title: 'Prediction method provenance.'
-        data_provenance:
-          $ref: '#/components/schemas/v2reportsSequenceDataProvenance'
-          title: 'External curation/source provenance.'
-        signal_sequence:
-          type: string
-          title: 'Literal sequence associated with signal/regulatory feature types.'
-        nested_features:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsSequenceFeature'
-    v2reportsSequenceFeatureLocation:
-      type: object
-      properties:
-        begin:
-          type: string
-          format: uint64
-          title: 'Feature start coordinate when a range is present.'
-        end:
-          type: string
-          format: uint64
-          title: 'Feature end coordinate when a range is present.'
-        position:
-          type: string
-          format: uint64
-          title: 'Single-coordinate location used for point features.'
-        orientation:
-          type: string
-          title: 'Strand orientation when provided.'
-    v2reportsSequenceGeneContext:
-      type: object
-      properties:
-        gene_symbol:
-          type: string
-          title: 'Official or primary gene symbol.'
-        gene_id:
-          type: string
-          title: 'Gene identifier represented as a string in example payloads.'
-        genomic_location:
-          $ref: '#/components/schemas/v2reportsSequenceGenomicLocation'
-          title: 'Optional genomic placement of the gene.'
-        exons:
-          $ref: '#/components/schemas/v2reportsSequenceExonList'
-          title: 'Optional exon details for transcript-backed records.'
-        select_category:
-          type: string
-          title: 'Selection category used by some responses (for example "MANE Select").'
-        refseq_select_category:
-          type: string
-          title: 'Alternate field used in some responses for RefSeq select labeling.'
-    v2reportsSequenceGenomicLocation:
-      type: object
-      properties:
-        chromosome:
-          type: string
-          title: 'Chromosome label.'
-        accession:
-          type: string
-          title: 'Genomic reference accession.'
-        range:
-          $ref: '#/components/schemas/v2reportsSequenceGenomicRange'
-          title: 'Genomic coordinate range on the reference accession.'
-    v2reportsSequenceGenomicRange:
-      type: object
-      properties:
-        begin:
-          type: string
-          format: uint64
-          title: 'Genomic start coordinate.'
-        end:
-          type: string
-          format: uint64
-          title: 'Genomic end coordinate.'
-        orientation:
-          type: string
-          title: 'Strand orientation, for example "plus" or "minus".'
     v2reportsSequenceInfo:
       type: object
       properties:
@@ -13617,18 +13455,6 @@ components:
         submitter:
           type: string
           title: 'The submitter, e.g. NCBI Genome Project for RefSeq'
-    v2reportsSequencePredictionSource:
-      type: object
-      properties:
-        name:
-          type: string
-          title: 'Name of the prediction tool or source.'
-        version:
-          type: string
-          title: 'Tool or model version.'
-        method:
-          type: string
-          title: 'Method description for the prediction.'
     v2reportsSubmission:
       type: object
       properties:
@@ -14328,6 +14154,8 @@ components:
           $ref: '#/components/schemas/ncbiprotddv2SortById'
         hits_per_page:
           type: integer
+        sort_direction:
+          $ref: '#/components/schemas/v2SortDirection'
     ncbiprotddv2StructureDataReport:
       type: object
       properties:
@@ -15145,6 +14973,18 @@ components:
         - premsg
         - tmRna
       default: rna_UNKNOWN
+    
+    v2reportsSequenceDataReportOriginType:
+      type: string
+      enum:
+        - unknown
+        - natural
+        - naturally_occurring_mutant
+        - artificially_mutagenized
+        - artificially_engineered
+        - purely_synthetic
+        - other
+      default: unknown
     
     v2reportsSourceDatabase:
       type: string
