@@ -13384,6 +13384,9 @@ components:
         origin_type:
           $ref: '#/components/schemas/v2reportsSequenceDataReportOriginType'
           title: 'Biological context regarding how the material for the sequence originated.'
+        specimen_voucher:
+          $ref: '#/components/schemas/v2reportsSpecimenVoucher'
+          title: 'Specimen voucher information for this sequence record.'
     v2reportsSequenceDataReportPage:
       type: object
       properties:
@@ -13455,6 +13458,15 @@ components:
         submitter:
           type: string
           title: 'The submitter, e.g. NCBI Genome Project for RefSeq'
+    v2reportsSpecimenVoucher:
+      type: object
+      properties:
+        id:
+          type: string
+          title: 'Specimen voucher identifier.'
+        biocollection_code:
+          type: string
+          title: 'Institution code for the specimen voucher.'
     v2reportsSubmission:
       type: object
       properties:
