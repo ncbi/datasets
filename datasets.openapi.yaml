@@ -12783,6 +12783,45 @@ components:
         institution:
           $ref: '#/components/schemas/v2reportsBiocollectionInstitution'
           title: 'A single institution and its collections. Each report contains exactly one institution record and the list of biocollections owned by that institution.'
+    v2reportsInfraspecificName:
+      type: object
+      properties:
+        strain:
+          type: string
+          title: 'A specific genetic variant or lineage within a species.'
+        substrain:
+          type: string
+          title: 'A subdivision of a strain.'
+        variety:
+          type: string
+          title: 'A taxonomic rank below species.'
+        serotype:
+          type: string
+          title: 'A distinct variation within a species of bacteria or virus based on surface antigens.'
+        serogroup:
+          type: string
+          title: 'A group of serotypes.'
+        biotype:
+          type: string
+          title: 'A group of organisms sharing a specific genetic makeup, often referring to physiological characteristics.'
+        isolate:
+          type: string
+          title: 'An organism obtained from a specific source, typically indicating a particular collection event.'
+        forma:
+          type: string
+          title: 'A taxonomic rank below variety.'
+        forma_specialis:
+          type: string
+          title: 'A taxonomic rank for parasitic fungi or bacteria that are adapted to specific hosts.'
+        ecotype:
+          type: string
+          title: 'A genetically distinct geographical variety or population within a species.'
+        teleomorph:
+          type: string
+          title: 'The sexual reproductive stage of a fungus.'
+        breed:
+          type: string
+          title: 'A domesticated group within a species'
     v2reportsInfraspecificNames:
       type: object
       properties:
@@ -12800,7 +12839,7 @@ components:
           title: 'The individual isolate from which the sequences in the genome assembly were derived'
         sex:
           type: string
-          title: 'Male or female'
+          title: 'Physical sex of sampled organism'
         strain:
           type: string
           title: 'A genetic variant, subtype or culture within a species'
@@ -13387,6 +13426,9 @@ components:
         specimen_voucher:
           $ref: '#/components/schemas/v2reportsSpecimenVoucher'
           title: 'Specimen voucher information for this sequence record.'
+        infraspecific_names:
+          $ref: '#/components/schemas/v2reportsInfraspecificName'
+          title: 'Infraspecific Names'
     v2reportsSequenceDataReportPage:
       type: object
       properties:
