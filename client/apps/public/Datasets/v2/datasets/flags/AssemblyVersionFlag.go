@@ -59,7 +59,10 @@ func (avf *AssemblyVersionFlag) RegisterFlags(flags *pflag.FlagSet) {
 	flags.Var(
 		enumflag.New(avf.AssemblyVersion, "string", GenomeAssemblyVersionIds, enumflag.EnumCaseInsensitive),
 		"assembly-version",
-		`Limit to 'latest' assembly accession version or include 'all' (latest + previous versions)`)
+		`Optionally return "all" assembly accession versions
+  * all: current assembly versions + all previous versions
+  * current: current assembly versions, plus previous versions only if paired with a current version (default)
+		`)
 }
 
 func (avf *AssemblyVersionFlag) PreRunE(cmd *cobra.Command, args []string) (err error) {
