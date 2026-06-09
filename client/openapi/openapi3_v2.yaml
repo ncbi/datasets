@@ -13341,6 +13341,84 @@ components:
           items:
             type: string
             format: uint64
+    v2reportsSampleInfo:
+      type: object
+      properties:
+        clone:
+          type: string
+          title: 'Name for the clone or subculture from which the sample was taken.'
+        subclone:
+          type: string
+          title: 'Name for the derived clone or subculture from which the sample was taken.'
+        haplotype:
+          type: string
+          title: 'Name of the haplotype.'
+        genotype:
+          type: string
+          title: 'Observed genotype.'
+        sex:
+          type: string
+          title: 'Physical sex of sampled organism.'
+        cell_line:
+          type: string
+          title: 'Name of the cell line.'
+        cell_type:
+          type: string
+          title: 'Type of cell of the sample or from which the sample was obtained.'
+        tissue:
+          type: string
+          title: 'Tissue from which the sample was derived.'
+        clone_lib:
+          type: string
+          title: 'Formal identifier that points to source institute and clone library identifier.'
+        dev_stage:
+          type: string
+          title: 'Developmental stage at the time of sampling.'
+        lab_host:
+          type: string
+          title: 'Scientific name and description of the laboratory host used to propagate the source organism or material from which the sample was obtained.'
+        tissue_lib:
+          type: string
+          title: 'Formal identifier that points to source institute and tissue library identifier.'
+        geo_loc_name:
+          type: string
+          title: 'Geographical origin of the sample.'
+        environmental_sample:
+          type: boolean
+          title: 'True when the sample is environmental.'
+        isolation_source:
+          type: string
+          title: 'Source of the sample.'
+        lat_lon:
+          type: string
+          title: 'Geographic coordinates of the location where the sample was collected.'
+        collection_date:
+          type: string
+          title: 'Date on which the sample was collected.'
+        collected_by:
+          type: string
+          title: 'Name of persons or institute who collected the sample.'
+        identified_by:
+          type: string
+          title: 'Name of the taxonomist who identified the specimen.'
+        metagenomic:
+          type: boolean
+          title: 'True when the sample is metagenomic.'
+        mating_type:
+          type: string
+          title: 'Mating type of the sampled organism.'
+        phenotype:
+          type: string
+          title: 'Phenotype of sampled organism.'
+        altitude:
+          type: string
+          title: 'The altitude of the sample above sea level.'
+        metagenome_name:
+          type: string
+          title: 'Name of the metagenome.'
+        metagenome_taxid:
+          type: integer
+          title: 'NCBI taxonomy identifier for the metagenome.'
     v2reportsSeqRangeSet:
       type: object
       properties:
@@ -13429,6 +13507,9 @@ components:
         infraspecific_names:
           $ref: '#/components/schemas/v2reportsInfraspecificName'
           title: 'Infraspecific Names'
+        sample_info:
+          $ref: '#/components/schemas/v2reportsSampleInfo'
+          title: 'Sample Info'
     v2reportsSequenceDataReportPage:
       type: object
       properties:
