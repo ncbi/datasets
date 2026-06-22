@@ -2250,7 +2250,7 @@ paths:
                 $ref: '#/components/schemas/v2SequenceReportPage'
       parameters:
       - name: accession
-        description: 'One or more genome assembly accessions, limited to 100'
+        description: 'A single genome assembly accession'
         in: path
         required: true
         schema:
@@ -2888,7 +2888,7 @@ paths:
             value: WP_001040085.1
             summary: type II CRISPR RNA-guided endonuclease Cas9
       - name: include_annotation_type
-        description: 'Specify which sequence files to include in the data package.'
+        description: 'Specify which sequence files to include in the data package. Note that RNA, CDS, 5'' UTR and 3'' UTR sequences are not available for WP_ accessions'
         in: query
         required: false
         schema:
@@ -2992,7 +2992,7 @@ paths:
                 description: Zip compressed stream
       parameters:
       - name: accession
-        description: 'One or more genome assembly accessions, limited to 100'
+        description: 'A single genome assembly accession'
         in: path
         required: true
         schema:
@@ -5791,7 +5791,7 @@ paths:
                 $ref: '#/components/schemas/v2reportsGeneDataReportPage'
       parameters:
       - name: gene_id
-        description: 'One or more NCBI GeneIDs'
+        description: 'A single NCBI GeneID'
         in: path
         required: true
         schema:
@@ -6028,7 +6028,7 @@ paths:
                 type: string
       parameters:
       - name: accession
-        description: 'One or more genome assembly accessions, limited to 100'
+        description: 'A single genome assembly accession'
         in: path
         required: true
         schema:
@@ -6194,7 +6194,7 @@ paths:
                 $ref: '#/components/schemas/v2GenomeAnnotationTableSummaryReply'
       parameters:
       - name: accession
-        description: 'One or more genome assembly accessions, limited to 100'
+        description: 'A single genome assembly accession'
         in: path
         required: true
         schema:
@@ -6266,7 +6266,7 @@ paths:
                 $ref: '#/components/schemas/v2DownloadSummary'
       parameters:
       - name: accession
-        description: 'One or more genome assembly accessions, limited to 100'
+        description: 'A single genome assembly accession'
         in: path
         required: true
         schema:
@@ -10247,7 +10247,7 @@ components:
       properties:
         accession:
           type: string
-          title: 'One or more genome assembly accessions, limited to 100'
+          title: 'A single genome assembly accession'
         chromosomes:
           type: array
           items:
@@ -10573,7 +10573,7 @@ components:
       properties:
         accession:
           type: string
-          title: 'One or more genome assembly accessions, limited to 100'
+          title: 'A single genome assembly accession'
         annotation_ids:
           type: array
           items:
@@ -10762,7 +10762,7 @@ components:
       properties:
         gene_id:
           type: integer
-          title: 'One or more NCBI GeneIDs'
+          title: 'A single NCBI GeneID'
         returned_content:
           $ref: '#/components/schemas/v2OrthologRequestContentType'
           title: 'Return complete gene reports, or abbreviated reports with either GeneIDs only or GeneIDs, transcript and protein counts.'
@@ -11617,7 +11617,7 @@ components:
           title: 'Metadata and statistics for the genome assembly annotation, when available'
         wgs_info:
           $ref: '#/components/schemas/v2reportsWGSInfo'
-          title: 'Metadata pertaining to the Whole Genome Shotgun (WGS) record for the genome assemblies that are complete genomes. Those that are clone-based do not have WGS-master records.'
+          title: 'Metadata pertaining to the Whole Genome Shotgun (WGS) record for the genome assemblies  that are complete genomes. Those that are clone-based do not have WGS-master records.'
         type_material:
           $ref: '#/components/schemas/v2reportsTypeMaterial'
         checkm_info:
@@ -11658,7 +11658,7 @@ components:
           title: 'Metadata from the GenBank or RefSeq assembly paired with this one'
         assembly_name:
           type: string
-          title: 'The assembly submitter''s name for the genome assembly, when provided. Otherwise, a default name in the form ASM#####v# is assigned'
+          title: 'The assembly submitter''s name for the genome assembly, when provided. Otherwise, a default name in the  form ASM#####v# is assigned'
         assembly_long_name:
           type: string
         assembly_type:
@@ -11710,6 +11710,7 @@ components:
           title: 'Genome assembly method'
         grouping_method:
           type: string
+          title: 'Version of the NCBI Virus segmented genome grouping pipeline, which groups  nucleotide sequences for segmented viruses into a single genome assembly. For more  information, see the [NCBI Virus Help Documentation](https://www.ncbi.nlm.nih.gov/labs/virus/vssi/docs/help/#virus_segment_grouping)'
         biosample:
           $ref: '#/components/schemas/v2reportsBioSampleDescriptor'
           title: 'NCBI BioSample from which the sequences in the genome assembly were obtained.'
@@ -11760,7 +11761,7 @@ components:
           title: 'Total length of all top-level sequences ignoring gaps. Any stretch of 10 or more Ns in a sequence is treated like a gap'
         number_of_contigs:
           type: integer
-          title: 'Total number of sequence contigs in the assembly. Any stretch of 10 or more Ns in a sequence is treated as a gap between two contigs in a scaffold when counting contigs and calculating contig N50 & L50 values'
+          title: 'Total number of sequence contigs in the assembly. Any stretch of 10 or more Ns in a sequence is treated as a gap between two  contigs in a scaffold when counting contigs and calculating contig N50 & L50 values'
         contig_n50:
           type: integer
           title: 'Length such that sequence contigs of this length or longer include half the bases of the assembly'
@@ -12335,6 +12336,8 @@ components:
           $ref: '#/components/schemas/v2reportsErrorVirusErrorCode'
         taxonomy_error_code:
           $ref: '#/components/schemas/v2reportsErrorTaxonomyErrorCode'
+        sequence_error_code:
+          $ref: '#/components/schemas/v2reportsErrorSequenceErrorCode'
         reason:
           type: string
         message:
@@ -13510,6 +13513,10 @@ components:
         sample_info:
           $ref: '#/components/schemas/v2reportsSampleInfo'
           title: 'Sample Info'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsError'
     v2reportsSequenceDataReportPage:
       type: object
       properties:
@@ -14334,6 +14341,10 @@ components:
             $ref: '#/components/schemas/ncbiprotddv2StructureDataReportLigandChain'
         title:
           type: string
+          title: 'title of the MMDB Page'
+        default_biounit:
+          type: integer
+          title: 'default biounit of the structure'
     ncbiprotddv2StructureDataReportBiounitChain:
       type: object
       properties:
@@ -14926,6 +14937,13 @@ components:
         - INVALID_ORGANELLE_TAXON
         - NO_ORGANELLES_FOR_ACCESSION
       default: UNKNOWN_ORGANELLE_ERROR_CODE
+    
+    v2reportsErrorSequenceErrorCode:
+      type: string
+      enum:
+        - UNKNOWN_SEQUENCE_ERROR_CODE
+        - INVALID_SEQUENCE_ACCESSION
+      default: UNKNOWN_SEQUENCE_ERROR_CODE
     
     v2reportsErrorTaxonomyErrorCode:
       type: string
