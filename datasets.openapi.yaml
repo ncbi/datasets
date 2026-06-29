@@ -10926,6 +10926,14 @@ components:
         sequence:
           type: string
           title: 'The retrieved sequence (includes line-breaks)'
+        begin:
+          type: string
+          format: uint64
+          title: 'starting index of the retrieved sequence'
+        end:
+          type: string
+          format: uint64
+          title: 'ending index of retrieved sequence - may be less than the ''end'' requested if the requested size was greater than the maximum retrieval length.'
     v2SequenceAccessionRequest:
       type: object
       properties:
@@ -11581,6 +11589,25 @@ components:
           title: 'Type of annotation'
         release_version:
           type: string
+    v2reportsArticle:
+      type: object
+      properties:
+        title:
+          type: string
+          title: 'Publication title'
+        date:
+          type: string
+          title: 'Publication date'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAuthor'
+        journal:
+          $ref: '#/components/schemas/v2reportsJournal'
+        book:
+          $ref: '#/components/schemas/v2reportsBook'
+        proceedings:
+          $ref: '#/components/schemas/v2reportsProceedings'
     v2reportsAssemblyDataReport:
       type: object
       properties:
@@ -12226,6 +12253,25 @@ components:
         next_page_token:
           type: string
           title: 'A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages.'
+    v2reportsBook:
+      type: object
+      properties:
+        title:
+          type: string
+          title: 'Book title'
+        date:
+          type: string
+          title: 'Publication date'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAuthor'
+        pages:
+          type: string
+          title: 'Pages of the book where the publication can be found.'
+        publisher:
+          type: string
+          title: 'Publisher of the book.'
     v2reportsBuscoStat:
       type: object
       properties:
@@ -12647,6 +12693,22 @@ components:
         date:
           type: string
           title: 'Date that the gene summary was last updated'
+    v2reportsGeneral:
+      type: object
+      properties:
+        title:
+          type: string
+          title: 'Publication title'
+        date:
+          type: string
+          title: 'Publication date'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAuthor'
+        status:
+          type: string
+          title: 'Publication status (for example, "in press", "published", or "accepted").'
     v2reportsGenomeAnnotation:
       type: object
       properties:
@@ -12858,6 +12920,37 @@ components:
         collection_date:
           type: string
           title: 'The collection date for the sample from which the viral nucleotide sequence was derived'
+    v2reportsJournal:
+      type: object
+      properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this journal article.'
+        pmcid:
+          type: string
+          title: 'PubMed Central identifier for this journal article.'
+        doi:
+          type: string
+          title: 'Digital Object Identifier for this journal article.'
+        date:
+          type: string
+          title: 'Publication date of the journal article.'
+        journal_name:
+          type: string
+          title: 'Name of the journal in which the article was published.'
+        volume:
+          type: string
+          title: 'Volume number of the journal issue.'
+        issue:
+          type: string
+          title: 'Issue number of the journal volume.'
+        pages:
+          type: string
+          title: 'Page range within the journal issue.'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAuthor'
     v2reportsLineageOrganism:
       type: object
       properties:
@@ -12894,6 +12987,31 @@ components:
           type: string
         length:
           type: integer
+    v2reportsMedline:
+      type: object
+      properties:
+        medline_uid:
+          type: string
+        entry_month:
+          type: string
+        article:
+          $ref: '#/components/schemas/v2reportsArticle'
+        pmid:
+          type: integer
+        status:
+          $ref: '#/components/schemas/v2reportsMedlineStatus'
+    v2reportsMeeting:
+      type: object
+      properties:
+        number:
+          type: integer
+          title: 'Meeting number or edition identifier.'
+        date:
+          type: string
+          title: 'Date of the meeting.'
+        place:
+          type: string
+          title: 'Location where the meeting took place.'
     v2reportsMessage:
       type: object
       properties:
@@ -13127,6 +13245,32 @@ components:
         differences:
           type: string
           title: 'Concatenation of all differences between the GenBank and RefSeq assemblies, including manually curated description and other fields'
+    v2reportsPatent:
+      type: object
+      properties:
+        patent_id:
+          type: string
+          title: 'Patent identifier'
+        title:
+          type: string
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsAuthor'
+        claim_no:
+          type: integer
+        issued_date:
+          type: string
+          title: 'Publication date'
+        assignee:
+          type: string
+    v2reportsProceedings:
+      type: object
+      properties:
+        meeting:
+          $ref: '#/components/schemas/v2reportsMeeting'
+        book:
+          $ref: '#/components/schemas/v2reportsBook'
     v2reportsProcessMetadata:
       type: object
       properties:
@@ -13300,22 +13444,6 @@ components:
         type:
           type: string
           title: 'Sub-category specific to this method'
-    v2reportsPublication:
-      type: object
-      properties:
-        pmid:
-          type: integer
-          title: 'PubMed identifier'
-        title:
-          type: string
-          title: 'Publication title'
-        date:
-          type: string
-          title: 'Publication date'
-        authors:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsAuthor'
     v2reportsRange:
       type: object
       properties:
@@ -13477,12 +13605,6 @@ components:
         source_mrna:
           type: string
           title: 'Source mRNA accession when this report describes a protein sequence.'
-        publication_date:
-          type: string
-          title: 'Initial release/publication date in ISO-8601 format.'
-        latest_update_date:
-          type: string
-          title: 'Most recent update date in ISO-8601 format.'
         tax_id:
           type: integer
           title: 'NCBI Taxonomy identifier for this rank.'
@@ -13490,10 +13612,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsSubmission'
-        publications:
+        references:
           type: array
           items:
-            $ref: '#/components/schemas/v2reportsPublication'
+            $ref: '#/components/schemas/v2reportsSequenceReference'
         bioproject_accession:
           type: string
           title: 'NCBI BioProject accession linked to this sequence record.'
@@ -13513,6 +13635,9 @@ components:
         sample_info:
           $ref: '#/components/schemas/v2reportsSampleInfo'
           title: 'Sample Info'
+        genome_type:
+          $ref: '#/components/schemas/v2reportsSequenceDataReportGenomeType'
+          title: 'Genome type for this sequence record.'
         errors:
           type: array
           items:
@@ -13588,6 +13713,26 @@ components:
         submitter:
           type: string
           title: 'The submitter, e.g. NCBI Genome Project for RefSeq'
+    v2reportsSequenceReference:
+      type: object
+      properties:
+        article:
+          $ref: '#/components/schemas/v2reportsArticle'
+          title: 'Publication metadata for this sequence record.'
+        journal:
+          $ref: '#/components/schemas/v2reportsJournal'
+        book:
+          $ref: '#/components/schemas/v2reportsBook'
+        proceedings:
+          $ref: '#/components/schemas/v2reportsProceedings'
+        thesis:
+          $ref: '#/components/schemas/v2reportsThesis'
+        patent:
+          $ref: '#/components/schemas/v2reportsPatent'
+        general:
+          $ref: '#/components/schemas/v2reportsGeneral'
+        medline:
+          $ref: '#/components/schemas/v2reportsMedline'
     v2reportsSpecimenVoucher:
       type: object
       properties:
@@ -13609,7 +13754,7 @@ components:
         address:
           type: string
           title: 'Submitter mailing address or contact address.'
-        names:
+        authors:
           type: array
           items:
             type: string
@@ -13816,6 +13961,18 @@ components:
         type_class:
           type: string
           title: 'Type material classification.'
+    v2reportsThesis:
+      type: object
+      properties:
+        book:
+          $ref: '#/components/schemas/v2reportsBook'
+          title: 'Book-style bibliographic metadata for this thesis/manuscript/letter citation.'
+        id:
+          type: string
+          title: 'Identifier associated with the citation record.'
+        classification_type:
+          $ref: '#/components/schemas/v2reportsThesisType'
+          title: 'Classification of this citation entry.'
     v2reportsTranscript:
       type: object
       properties:
@@ -15010,6 +15167,15 @@ components:
         - Genetic
       default: Unknown
     
+    v2reportsMedlineStatus:
+      type: string
+      enum:
+        - uknown
+        - publisher
+        - premidline
+        - medline
+      default: uknown
+    
     v2reportsNameAndAuthorityNoteClassifier:
       type: string
       enum:
@@ -15127,6 +15293,36 @@ components:
         - tmRna
       default: rna_UNKNOWN
     
+    v2reportsSequenceDataReportGenomeType:
+      type: string
+      enum:
+        - genome_type_unknown
+        - genomic
+        - chloroplast
+        - chromoplast
+        - kinetoplast
+        - mitochondrion
+        - plastid
+        - macronuclear
+        - extrachromosomal
+        - plasmid
+        - transposon
+        - insertion_sequence
+        - cyanelle
+        - proviral
+        - virion
+        - nucleomorph
+        - apicoplast
+        - leucoplast
+        - proplastid
+        - endogenous_virus
+        - hydrogenosome
+        - chromatophore
+        - plasmid_in_mitochondrion
+        - plasmid_in_plastid
+        - nitroplast
+      default: genome_type_unknown
+    
     v2reportsSequenceDataReportOriginType:
       type: string
       enum:
@@ -15146,6 +15342,15 @@ components:
         - SOURCE_DATABASE_GENBANK
         - SOURCE_DATABASE_REFSEQ
       default: SOURCE_DATABASE_UNSPECIFIED
+    
+    v2reportsThesisType:
+      type: string
+      enum:
+        - unknown
+        - manuscript
+        - letter
+        - thesis
+      default: unknown
     
     v2reportsTranscriptSelectCategory:
       type: string
