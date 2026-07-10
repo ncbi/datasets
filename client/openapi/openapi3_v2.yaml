@@ -2999,8 +2999,8 @@ paths:
           type: string
         examples:
           example-0:
-            value: GCF_000001635.27
-            summary: Mouse reference genome assembly, GRCm39
+            value: GCF_058215675.1
+            summary: Bacillus tequilensis genome assembly, ASM5821567v1
       - name: annotation_ids
         description: 'Limit to one or more features annotated on the genome by specifying a number corresponding to a row_id (unstable).'
         in: query
@@ -3023,8 +3023,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: Qsox1
-            summary: Mouse gene Qsox1
+            value: feuC
+            summary: iron ABC transporter permease FeuC
       - name: locations
         description: 'Limit to features annotated at a specific location on the genome, by specifying a chromosome name or accession and optional start-stop range.'
         in: query
@@ -3035,11 +3035,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 1:1-1000
-            summary: Chromosome 1, nucleotides 1-1000
-          example-1:
-            value: NC_000067.7:3,000,000-4,000,000
-            summary: Mouse chromosome 1, nucleotides 3,000,000-4,000,000
+            value: NZ_CM177093.1:1-10000
+            summary: Chromosome, nucleotides 1-10,000
       - name: gene_types
         description: 'Limit to features of a specified gene locus type.'
         in: query
@@ -3121,7 +3118,8 @@ paths:
               Single GCF accession example:
                 description: Mouse reference genome assembly, GRCm39
                 value:
-                  accession: "GCF_000001635.27"
+                  accession: GCF_000001635.27
+                  page_size: 20
       parameters:
       - name: filename
         description: Output file name.
@@ -6035,8 +6033,8 @@ paths:
           type: string
         examples:
           example-0:
-            value: GCF_000001635.27
-            summary: Mouse reference genome assembly, GRCm39
+            value: GCF_058215675.1
+            summary: Bacillus tequilensis genome assembly, ASM5821567v1
       - name: annotation_ids
         description: 'Limit to one or more features annotated on the genome by specifying a number corresponding to a row_id (unstable).'
         in: query
@@ -6059,8 +6057,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: Qsox1
-            summary: Mouse gene Qsox1
+            value: feuC
+            summary: iron ABC transporter permease FeuC
       - name: locations
         description: 'Limit to features annotated at a specific location on the genome, by specifying a chromosome name or accession and optional start-stop range.'
         in: query
@@ -6071,11 +6069,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 1:1-1000
-            summary: Chromosome 1, nucleotides 1-1000
-          example-1:
-            value: NC_000067.7:3,000,000-4,000,000
-            summary: Mouse chromosome 1, nucleotides 3,000,000-4,000,000
+            value: NZ_CM177093.1:1-10000
+            summary: Chromosome, nucleotides 1-10,000
       - name: gene_types
         description: 'Limit to features of a specified gene locus type.'
         in: query
@@ -6117,6 +6112,10 @@ paths:
         schema:
           type: integer
           default: 20
+        examples:
+          example-0:
+            value: 20
+            summary: 20 results per page
       - name: table_format
         description: 'Optional pre-defined template for processing a tabular data request'
         in: query
@@ -6171,7 +6170,8 @@ paths:
               Single GCF accession example:
                 description: Mouse reference genome assembly, GRCm39
                 value:
-                  accession: "GCF_000001635.27"
+                  accession: GCF_000001635.27
+                  page_size: 20
   /genome/accession/{accession}/annotation_summary:
     get:
       summary: Get genome annotation report summary information by genome assembly accession
@@ -6201,8 +6201,8 @@ paths:
           type: string
         examples:
           example-0:
-            value: GCF_000001635.27
-            summary: Mouse reference genome assembly, GRCm39
+            value: GCF_058215675.1
+            summary: Bacillus tequilensis genome assembly, ASM5821567v1
       - name: sort.field
         in: query
         required: false
@@ -6243,7 +6243,8 @@ paths:
               Single GCF accession example:
                 description: Mouse reference genome assembly, GRCm39
                 value:
-                  accession: "GCF_000001635.27"
+                  accession: GCF_000001635.27
+                  page_size: 20
   /genome/accession/{accession}/annotation_report/download_summary:
     get:
       summary: Get a download summary (preview) of a genome annotation data package by genome assembly accession
@@ -6273,8 +6274,8 @@ paths:
           type: string
         examples:
           example-0:
-            value: GCF_000001635.27
-            summary: Mouse reference genome assembly, GRCm39
+            value: GCF_058215675.1
+            summary: Bacillus tequilensis genome assembly, ASM5821567v1
       - name: annotation_ids
         description: 'Limit to one or more features annotated on the genome by specifying a number corresponding to a row_id (unstable).'
         in: query
@@ -6297,8 +6298,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: Qsox1
-            summary: Mouse gene Qsox1
+            value: feuC
+            summary: iron ABC transporter permease FeuC
       - name: locations
         description: 'Limit to features annotated at a specific location on the genome, by specifying a chromosome name or accession and optional start-stop range.'
         in: query
@@ -6309,11 +6310,8 @@ paths:
             type: string
         examples:
           example-0:
-            value: 1:1-1000
-            summary: Chromosome 1, nucleotides 1-1000
-          example-1:
-            value: NC_000067.7:3,000,000-4,000,000
-            summary: Mouse chromosome 1, nucleotides 3,000,000-4,000,000
+            value: NZ_CM177093.1:1-10000
+            summary: Chromosome, nucleotides 1-10,000
       - name: gene_types
         description: 'Limit to features of a specified gene locus type.'
         in: query
@@ -6386,7 +6384,8 @@ paths:
               Single GCF accession example:
                 description: Mouse reference genome assembly, GRCm39
                 value:
-                  accession: "GCF_000001635.27"
+                  accession: GCF_000001635.27
+                  page_size: 20
   /organelle/accessions/{accessions}/dataset_report:
     get:
       summary: Get an organelle data report by nucleotide accession
@@ -11594,20 +11593,23 @@ components:
       properties:
         title:
           type: string
-          title: 'Publication title'
+          title: 'Title of this article.'
         date:
           type: string
-          title: 'Publication date'
+          title: 'Publication date of this article.'
         authors:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsAuthor'
         journal:
           $ref: '#/components/schemas/v2reportsJournal'
+          title: 'Journal in which this article was published.'
         book:
           $ref: '#/components/schemas/v2reportsBook'
+          title: 'Book in which this article was published.'
         proceedings:
           $ref: '#/components/schemas/v2reportsProceedings'
+          title: 'Proceedings in which this article was published.'
     v2reportsAssemblyDataReport:
       type: object
       properties:
@@ -12369,6 +12371,15 @@ components:
         range:
           $ref: '#/components/schemas/v2reportsRange'
           title: 'range on the protein'
+    v2reportsCultureCollection:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: 'Internal identifier for this culture collection entry.'
+        biocollection_code:
+          type: string
+          title: 'Institution code for the culture collection.'
     v2reportsError:
       type: object
       properties:
@@ -12709,6 +12720,30 @@ components:
         status:
           type: string
           title: 'Publication status (for example, "in press", "published", or "accepted").'
+    v2reportsGeneticCode:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: 'Genetic code identifier'
+        name:
+          type: string
+          title: 'Genetic code descriptive name'
+    v2reportsGeneticCodes:
+      type: object
+      properties:
+        primary:
+          $ref: '#/components/schemas/v2reportsGeneticCode'
+          title: 'Primary genetic code'
+        mitochondrial:
+          $ref: '#/components/schemas/v2reportsGeneticCode'
+          title: 'Mitochondrial genetic code'
+        plastid:
+          $ref: '#/components/schemas/v2reportsGeneticCode'
+          title: 'Plastid genetic code'
+        hydrogenosome:
+          $ref: '#/components/schemas/v2reportsGeneticCode'
+          title: 'Hydrogenosome  genetic code'
     v2reportsGenomeAnnotation:
       type: object
       properties:
@@ -12848,7 +12883,7 @@ components:
         institution:
           $ref: '#/components/schemas/v2reportsBiocollectionInstitution'
           title: 'A single institution and its collections. Each report contains exactly one institution record and the list of biocollections owned by that institution.'
-    v2reportsInfraspecificName:
+    v2reportsInfraspecificModifers:
       type: object
       properties:
         strain:
@@ -12881,12 +12916,21 @@ components:
         ecotype:
           type: string
           title: 'A genetically distinct geographical variety or population within a species.'
-        teleomorph:
-          type: string
-          title: 'The sexual reproductive stage of a fungus.'
         breed:
           type: string
           title: 'A domesticated group within a species'
+        specimen_voucher:
+          $ref: '#/components/schemas/v2reportsSpecimenVoucher'
+          title: 'Specimen voucher information for this sequence record.'
+        biomaterial:
+          type: string
+          title: 'Biomaterial identifier for this sequence record, for example a culture collection accession.'
+        culture_collection:
+          $ref: '#/components/schemas/v2reportsCultureCollection'
+          title: 'Culture collection information for this sequence record.'
+        type_material:
+          $ref: '#/components/schemas/v2reportsSequenceTypeMaterial'
+          title: 'Type material information for this sequence record.'
     v2reportsInfraspecificNames:
       type: object
       properties:
@@ -12920,6 +12964,30 @@ components:
         collection_date:
           type: string
           title: 'The collection date for the sample from which the viral nucleotide sequence was derived'
+    v2reportsIsolationDetails:
+      type: object
+      properties:
+        metagenomic:
+          type: boolean
+          title: 'True when the sample is metagenomic.'
+        metagenome_name:
+          type: string
+          title: 'Name of the metagenome.'
+        metagenome_taxid:
+          type: integer
+          title: 'NCBI taxonomy identifier for the metagenome.'
+        lab_host:
+          type: string
+          title: 'Laboratory host used to propagate the source organism or material.'
+        natural_host:
+          type: string
+          title: 'Natural host organism associated with the sample.'
+        environmental_sample:
+          type: boolean
+          title: 'True when the sample is environmental.'
+        isolation_source:
+          type: string
+          title: 'Source from which the sample was isolated.'
     v2reportsJournal:
       type: object
       properties:
@@ -12992,14 +13060,19 @@ components:
       properties:
         medline_uid:
           type: string
+          title: 'MEDLINE unique identifier for this record.'
         entry_month:
           type: string
+          title: 'Month this record was entered into MEDLINE (YYYYMM format).'
         article:
           $ref: '#/components/schemas/v2reportsArticle'
+          title: 'Article associated with this MEDLINE record.'
         pmid:
           type: integer
+          title: 'PubMed identifier associated with this MEDLINE record.'
         status:
           $ref: '#/components/schemas/v2reportsMedlineStatus'
+          title: 'Current indexing status of this MEDLINE record.'
     v2reportsMeeting:
       type: object
       properties:
@@ -13250,20 +13323,23 @@ components:
       properties:
         patent_id:
           type: string
-          title: 'Patent identifier'
+          title: 'Patent identifier.'
         title:
           type: string
+          title: 'Title of the patent.'
         authors:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsAuthor'
         claim_no:
           type: integer
+          title: 'Claim number within the patent.'
         issued_date:
           type: string
-          title: 'Publication date'
+          title: 'Date the patent was issued.'
         assignee:
           type: string
+          title: 'Entity to whom the patent is assigned.'
     v2reportsProceedings:
       type: object
       properties:
@@ -13505,21 +13581,12 @@ components:
         dev_stage:
           type: string
           title: 'Developmental stage at the time of sampling.'
-        lab_host:
-          type: string
-          title: 'Scientific name and description of the laboratory host used to propagate the source organism or material from which the sample was obtained.'
         tissue_lib:
           type: string
           title: 'Formal identifier that points to source institute and tissue library identifier.'
         geo_loc_name:
           type: string
           title: 'Geographical origin of the sample.'
-        environmental_sample:
-          type: boolean
-          title: 'True when the sample is environmental.'
-        isolation_source:
-          type: string
-          title: 'Source of the sample.'
         lat_lon:
           type: string
           title: 'Geographic coordinates of the location where the sample was collected.'
@@ -13532,9 +13599,6 @@ components:
         identified_by:
           type: string
           title: 'Name of the taxonomist who identified the specimen.'
-        metagenomic:
-          type: boolean
-          title: 'True when the sample is metagenomic.'
         mating_type:
           type: string
           title: 'Mating type of the sampled organism.'
@@ -13544,12 +13608,9 @@ components:
         altitude:
           type: string
           title: 'The altitude of the sample above sea level.'
-        metagenome_name:
-          type: string
-          title: 'Name of the metagenome.'
-        metagenome_taxid:
-          type: integer
-          title: 'NCBI taxonomy identifier for the metagenome.'
+        isolation_details:
+          $ref: '#/components/schemas/v2reportsIsolationDetails'
+          title: 'Isolation details of the sample.'
     v2reportsSeqRangeSet:
       type: object
       properties:
@@ -13591,11 +13652,11 @@ components:
           type: integer
           title: 'Sequence length measured in the units field.'
         units:
-          type: string
-          title: 'Units for sequence length, for example "nucleotides" or "amino acids".'
+          $ref: '#/components/schemas/v2reportsSequenceDataReportUnits'
+          title: 'Units for sequence length, for example nucleotides or amino acids.'
         molecule_type:
-          type: string
-          title: 'Molecule type such as "ss-RNA", "mRNA", or "protein".'
+          $ref: '#/components/schemas/v2reportsSequenceDataReportMoleculeType'
+          title: 'Molecule type for this sequence record.'
         database_provider:
           type: string
           title: 'Upstream source database for this record, for example "RefSeq".'
@@ -13626,18 +13687,24 @@ components:
         origin_type:
           $ref: '#/components/schemas/v2reportsSequenceDataReportOriginType'
           title: 'Biological context regarding how the material for the sequence originated.'
-        specimen_voucher:
-          $ref: '#/components/schemas/v2reportsSpecimenVoucher'
-          title: 'Specimen voucher information for this sequence record.'
-        infraspecific_names:
-          $ref: '#/components/schemas/v2reportsInfraspecificName'
-          title: 'Infraspecific Names'
+        infraspecific_modifiers:
+          $ref: '#/components/schemas/v2reportsInfraspecificModifers'
+          title: 'Infraspecific Modifiers'
         sample_info:
           $ref: '#/components/schemas/v2reportsSampleInfo'
           title: 'Sample Info'
         genome_type:
           $ref: '#/components/schemas/v2reportsSequenceDataReportGenomeType'
           title: 'Genome type for this sequence record.'
+    v2reportsSequenceDataReportMatch:
+      type: object
+      properties:
+        query:
+          type: string
+          title: 'Accession queried for this report'
+        report:
+          $ref: '#/components/schemas/v2reportsSequenceDataReport'
+          title: 'Sequence data report for a single accession.'
         errors:
           type: array
           items:
@@ -13648,7 +13715,7 @@ components:
         reports:
           type: array
           items:
-            $ref: '#/components/schemas/v2reportsSequenceDataReport'
+            $ref: '#/components/schemas/v2reportsSequenceDataReportMatch'
         total_count:
           type: integer
           title: 'Total number of reports available across all pages.'
@@ -13718,21 +13785,37 @@ components:
       properties:
         article:
           $ref: '#/components/schemas/v2reportsArticle'
-          title: 'Publication metadata for this sequence record.'
+          title: 'Article citation for this sequence record.'
         journal:
           $ref: '#/components/schemas/v2reportsJournal'
+          title: 'Journal citation for this sequence record.'
         book:
           $ref: '#/components/schemas/v2reportsBook'
+          title: 'Book citation for this sequence record.'
         proceedings:
           $ref: '#/components/schemas/v2reportsProceedings'
+          title: 'Proceedings citation for this sequence record.'
         thesis:
           $ref: '#/components/schemas/v2reportsThesis'
+          title: 'Thesis or manuscript citation for this sequence record.'
         patent:
           $ref: '#/components/schemas/v2reportsPatent'
+          title: 'Patent citation for this sequence record.'
         general:
           $ref: '#/components/schemas/v2reportsGeneral'
+          title: 'General or unpublished citation for this sequence record.'
         medline:
           $ref: '#/components/schemas/v2reportsMedline'
+          title: 'MEDLINE citation for this sequence record.'
+    v2reportsSequenceTypeMaterial:
+      type: object
+      properties:
+        type:
+          type: string
+          title: 'Type material identifier.'
+        name:
+          type: string
+          title: 'Institution code for the type material.'
     v2reportsSpecimenVoucher:
       type: object
       properties:
@@ -13917,6 +14000,9 @@ components:
         extinct:
           type: boolean
           title: 'True if organism is extinct'
+        genetic_code:
+          $ref: '#/components/schemas/v2reportsGeneticCodes'
+          title: 'Genetic codes for the organism'
     v2reportsTaxonomyNodeCountByType:
       type: object
       properties:
@@ -15323,6 +15409,24 @@ components:
         - nitroplast
       default: genome_type_unknown
     
+    v2reportsSequenceDataReportMoleculeType:
+      type: string
+      enum:
+        - molecule_type_unspecified
+        - unassigned_dna
+        - unassigned_rna
+        - genomic_dna
+        - genomic_rna
+        - m_rna
+        - r_rna
+        - t_rna
+        - transcribed_rna
+        - other_dna
+        - other_rna
+        - viral_c_rna
+        - protein
+      default: molecule_type_unspecified
+    
     v2reportsSequenceDataReportOriginType:
       type: string
       enum:
@@ -15334,6 +15438,14 @@ components:
         - purely_synthetic
         - other
       default: unknown
+    
+    v2reportsSequenceDataReportUnits:
+      type: string
+      enum:
+        - units_unspecified
+        - nucleotides
+        - amino_acids
+      default: units_unspecified
     
     v2reportsSourceDatabase:
       type: string
