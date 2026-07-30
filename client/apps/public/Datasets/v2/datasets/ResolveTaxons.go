@@ -139,6 +139,9 @@ func (apiService *taxonAutosuggestApi) GetMetadata(taxId string, returnedContent
 			ReturnedContent: &returnedContent,
 		},
 	).Execute()
+	if err != nil {
+		return nil, false, err
+	}
 
 	hasResults := (result.Reports != nil) && (len(result.Reports) == 1) && ((result.Reports)[0].Taxonomy != nil)
 	return result, hasResults, err

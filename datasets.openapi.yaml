@@ -5607,13 +5607,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2GeneDatasetRequestContentType'
-        examples:
-          example-0:
-            value: IDS_ONLY
-            summary: Return abbreviated report with GeneIDs
-          example-1:
-            value: COUNTS_ONLY
-            summary: Return abbreviated report with GeneIDs, transcript and protein counts
       - name: fasta_filter
         description: 'Limit the FASTA sequences in the datasets package to these transcript and protein accessions (deprecated)'
         in: query
@@ -5807,13 +5800,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2OrthologRequestContentType'
-        examples:
-          example-0:
-            value: IDS_ONLY
-            summary: Return abbreviated report with GeneIDs
-          example-1:
-            value: COUNTS_ONLY
-            summary: Return abbreviated report with GeneIDs, transcript and protein counts
       - name: taxon_filter
         description: 'Limit to genes from the specified NCBI Taxonomy ID or name (common or scientific) at any taxonomic rank.'
         in: query
@@ -10939,6 +10925,17 @@ components:
         accession:
           type: string
           title: 'Nucleotide sequence accession associated with a genome assembly'
+    v2SequenceDatasetRequest:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2SequenceDatasetRequestFileType'
     v2SequenceReportPage:
       type: object
       properties:
@@ -10962,6 +10959,9 @@ components:
         include_all_versions:
           type: boolean
           title: 'When true, include previous versions as well as the latest. Default behavior when this field is omitted is to return latest version only (i.e., `include_all_versions` defaults to false).'
+        returned_content:
+          $ref: '#/components/schemas/v2SequenceRequestContentType'
+          title: 'Return complete sequence reports or abbreviated reports with the sequence accession, molecule-type, taxd-id, and length'
     v2SleepReply:
       type: object
       properties:
@@ -11536,6 +11536,17 @@ components:
         bioproject_accession:
           type: string
           title: 'Bioproject accession'
+    v2reportsAggregateExpressionValue:
+      type: object
+      properties:
+        mean:
+          type: number
+          format: float
+          title: 'Mean'
+        stddev:
+          type: number
+          format: float
+          title: 'Standard deviation'
     v2reportsAnnotation:
       type: object
       properties:
@@ -11896,6 +11907,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsBioProject'
+    v2reportsBioSample:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'BioSample accession'
+        sra_runs:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSraRun'
     v2reportsBioSampleAttribute:
       type: object
       properties:
@@ -12403,6 +12424,55 @@ components:
           type: array
           items:
             type: string
+    v2reportsExpressionBioProject:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'BioProject Accession'
+        study_title:
+          type: string
+          title: 'Study title'
+        description:
+          type: string
+          title: 'Description'
+        sra_study_accession:
+          type: string
+          title: 'SRA study accession'
+        pmid:
+          type: string
+          format: uint64
+          title: 'PubMed identifier'
+        samples:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSample'
+    v2reportsExpressionDescriptor:
+      type: object
+      properties:
+        gene_id:
+          type: string
+          format: uint64
+          title: 'NCBI Gene ID'
+        expression_release:
+          $ref: '#/components/schemas/v2reportsExpressionRelease'
+          title: 'Expression Release'
+        expression_method:
+          type: string
+          title: 'Expression Method'
+        bioprojects:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsExpressionBioProject'
+    v2reportsExpressionRelease:
+      type: object
+      properties:
+        release_name:
+          type: string
+          title: 'Release Name'
+        assembly_accession:
+          type: string
+          title: 'Assembly Accession with Version'
     v2reportsFeatureCounts:
       type: object
       properties:
@@ -12678,6 +12748,8 @@ components:
           $ref: '#/components/schemas/v2reportsGeneDescriptor'
         product:
           $ref: '#/components/schemas/v2reportsProductDescriptor'
+        expression:
+          $ref: '#/components/schemas/v2reportsExpressionDescriptor'
         query:
           type: array
           items:
@@ -13548,6 +13620,19 @@ components:
           items:
             type: string
             format: uint64
+    v2reportsSample:
+      type: object
+      properties:
+        sample_name:
+          type: string
+          title: 'Sample name'
+        aggregate_expression_value:
+          $ref: '#/components/schemas/v2reportsAggregateExpressionValue'
+          title: 'Aggregate Expression Value'
+        biosamples:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsBioSample'
     v2reportsSampleInfo:
       type: object
       properties:
@@ -13696,13 +13781,17 @@ components:
         genome_type:
           $ref: '#/components/schemas/v2reportsSequenceDataReportGenomeType'
           title: 'Genome type for this sequence record.'
+        topology:
+          $ref: '#/components/schemas/v2reportsSequenceDataReportTopologyType'
+          title: 'Topology type for this sequence record.'
     v2reportsSequenceDataReportMatch:
       type: object
       properties:
         query:
-          type: string
-          title: 'Accession queried for this report'
-        report:
+          type: array
+          items:
+            type: string
+        sequence:
           $ref: '#/components/schemas/v2reportsSequenceDataReport'
           title: 'Sequence data report for a single accession.'
         errors:
@@ -13825,6 +13914,16 @@ components:
         biocollection_code:
           type: string
           title: 'Institution code for the specimen voucher.'
+    v2reportsSraRun:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'The SRA accession for this run.'
+        expression_value:
+          type: number
+          format: float
+          title: 'The expression value for this run.'
     v2reportsSubmission:
       type: object
       properties:
@@ -14524,6 +14623,9 @@ components:
           type: string
         total_count:
           type: integer
+        query_length:
+          type: integer
+          title: 'Complete length of the query protein chain in residues. Defines the shared coordinate system for ChainFootprint.query_from and ChainFootprint.query_to. This is not the requested domain length or an individual alignment length. Zero indicates unavailable.'
     ncbiprotddv2SimilarStructureRequest:
       type: object
       properties:
@@ -14948,6 +15050,23 @@ components:
         - FILE_TYPE_NUCLEOTIDE_WITH_FLANK
         - FILE_TYPE_PROTEIN
       default: FILE_TYPE_UNSPECIFIED
+    
+    v2SequenceDatasetRequestFileType:
+      type: string
+      enum:
+        - UNSPECIFIED
+        - FASTA
+        - GBFF
+        - DATASET_REPORT
+        - ANNOTATION_REPORT
+      default: UNSPECIFIED
+    
+    v2SequenceRequestContentType:
+      type: string
+      enum:
+        - COMPLETE
+        - MINIMAL
+      default: COMPLETE
     
     v2SortDirection:
       type: string
@@ -15438,6 +15557,16 @@ components:
         - purely_synthetic
         - other
       default: unknown
+    
+    v2reportsSequenceDataReportTopologyType:
+      type: string
+      enum:
+        - not_set
+        - linear
+        - circular
+        - tandem
+        - topology_other
+      default: not_set
     
     v2reportsSequenceDataReportUnits:
       type: string
