@@ -27,6 +27,7 @@ const (
 	ThreePrimeUtr
 	ProductReport
 	GeneIncludeNoneFlag
+	GeneIncludeAllFlag
 )
 
 var GeneIncludeFlagIds = map[GeneIncludeFlags][]string{
@@ -38,6 +39,7 @@ var GeneIncludeFlagIds = map[GeneIncludeFlags][]string{
 	ThreePrimeUtr:       {"3p-utr"},
 	ProductReport:       {"product-report"},
 	GeneIncludeNoneFlag: {"None"},
+	GeneIncludeAllFlag:  {"all"},
 }
 
 var GeneIncludeFlagsOpenapi = map[GeneIncludeFlags]openapi.V2Fasta{
@@ -73,6 +75,7 @@ func (gif *GeneIncludeFlag) RegisterFlags(flags *pflag.FlagSet) {
   * 5p-utr:         5'-UTR
   * 3p-utr:         3'-UTR
   * product-report: gene transcript and protein locations and metadata
+  * all:            include all file types (for non-prokaryotic genes: gene,rna,protein,cds,5p-utr,3p-utr,product-report; for prokaryotic genes: gene,protein)
   * none:           do not retrieve any sequence files
   `)
 }
@@ -88,15 +91,23 @@ func (gif *GeneIncludeFlag) SetProkDownloadFlags(request *openapi.V2ProkaryoteGe
 		return
 	}
 
+	includeAll := false
 	annotations := make([]openapi.V2Fasta, 0)
 	for _, fl := range gif.IncludeAnnotation {
 		if fl == GeneIncludeNoneFlag {
+			continue
+		}
+		if fl == GeneIncludeAllFlag {
+			includeAll = true
 			continue
 		}
 		if fl != Gene && fl != Protein {
 			return fmt.Errorf("File format %s is not supported for prokaryotic (WP_) downloads", GeneIncludeFlagIds[fl][0])
 		}
 		annotations = append(annotations, GeneIncludeFlagsOpenapi[fl])
+	}
+	if includeAll {
+		annotations = GeneAccessionFastaDefault
 	}
 	request.SetIncludeAnnotationType(annotations)
 	return
@@ -109,9 +120,14 @@ func (gif *GeneIncludeFlag) SetGeneDownloadFlags(request *openapi.V2GeneDatasetR
 		return
 	}
 
+	includeAll := false
 	annotations := make([]openapi.V2Fasta, 0)
 	for _, fl := range gif.IncludeAnnotation {
 		if fl == GeneIncludeNoneFlag {
+			continue
+		}
+		if fl == GeneIncludeAllFlag {
+			includeAll = true
 			continue
 		}
 		if fl == ProductReport {
@@ -119,6 +135,17 @@ func (gif *GeneIncludeFlag) SetGeneDownloadFlags(request *openapi.V2GeneDatasetR
 			continue
 		}
 		annotations = append(annotations, GeneIncludeFlagsOpenapi[fl])
+	}
+	if includeAll {
+		annotations = []openapi.V2Fasta{
+			GeneIncludeFlagsOpenapi[Gene],
+			GeneIncludeFlagsOpenapi[Rna],
+			GeneIncludeFlagsOpenapi[Protein],
+			GeneIncludeFlagsOpenapi[Cds],
+			GeneIncludeFlagsOpenapi[FivePrimeUtr],
+			GeneIncludeFlagsOpenapi[ThreePrimeUtr],
+		}
+		request.SetAuxReport(append(request.GetAuxReport(), openapi.V2GENEDATASETREQUESTGENEDATASETREPORTTYPE_PRODUCT_REPORT))
 	}
 	request.SetIncludeAnnotationType(annotations)
 }

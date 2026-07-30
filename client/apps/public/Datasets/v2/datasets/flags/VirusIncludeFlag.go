@@ -16,6 +16,7 @@ const (
 	VIRUS_ANNOTATION
 	VIRUS_BIOSAMPLE
 	NONE
+	ALL
 )
 
 var VirusDownloadIncludeIds = map[VirusDownloadInclude][]string{
@@ -25,6 +26,7 @@ var VirusDownloadIncludeIds = map[VirusDownloadInclude][]string{
 	VIRUS_ANNOTATION: {"annotation"},
 	VIRUS_BIOSAMPLE:  {"biosample"},
 	NONE:             {"none"},
+	ALL:              {"all"},
 }
 
 var VirusDownloadIncludeOpenapi = map[VirusDownloadInclude]openapi.V2ViralSequenceType{
@@ -67,6 +69,7 @@ const IncludeSequenceLongDescGenome string = `Specify virus genome sequence type
   * protein:    amino acid sequences
   * annotation: annotation report
   * biosample:  biosample report
+  * all:        include all reports and sequence data
   * none:       no sequence data, only primary data report
     `
 
@@ -75,6 +78,7 @@ const IncludeSequenceLongDescProtein string = `Specify virus genome sequence typ
   * protein:    amino acid sequences
   * annotation: annotation report
   * biosample:  biosample report
+  * all:        include all reports and sequence data
   * none:       no sequence data, only primary data report
     `
 
@@ -87,20 +91,31 @@ func (vsf *VirusDownloadIncludeFlag) RegisterFlags(flags *pflag.FlagSet) {
 }
 
 func (vsf *VirusDownloadIncludeFlag) PreRunE(cmd *cobra.Command, args []string) (err error) {
-
 	return nil
-
 }
 
 func (vsf *VirusDownloadIncludeFlag) PrepareDownloadRequest(request *openapi.V2VirusDatasetRequest) {
 	var virusSeqOptions []openapi.V2ViralSequenceType
 	var virusReportOptions []openapi.V2VirusDatasetReportType
 
+	includeAll := false
 	for _, v := range vsf.argsVirusSequence {
+		if v == ALL {
+			includeAll = true
+			continue
+		}
 		if v == VIRUS_ANNOTATION || v == VIRUS_BIOSAMPLE {
 			virusReportOptions = append(virusReportOptions, VirusReportSelectionOpenapi[v])
 		} else {
 			virusSeqOptions = append(virusSeqOptions, VirusDownloadIncludeOpenapi[v])
+		}
+	}
+	if includeAll {
+		virusReportOptions = []openapi.V2VirusDatasetReportType{VirusReportSelectionOpenapi[VIRUS_ANNOTATION], VirusReportSelectionOpenapi[VIRUS_BIOSAMPLE]}
+		virusSeqOptions = []openapi.V2ViralSequenceType{
+			VirusDownloadIncludeOpenapi[GENOME],
+			VirusDownloadIncludeOpenapi[CDS],
+			VirusDownloadIncludeOpenapi[PROTEIN],
 		}
 	}
 	request.SetIncludeSequence(virusSeqOptions)
@@ -111,13 +126,27 @@ func (vsf *VirusDownloadIncludeFlag) PrepareSarsProteinDownloadRequest(request *
 	var virusSeqOptions []openapi.V2ViralSequenceType
 	var virusReportOptions []openapi.V2VirusDatasetReportType
 
+	includeAll := false
 	for _, v := range vsf.argsVirusSequence {
+		if v == ALL {
+			includeAll = true
+			continue
+		}
 		if v == VIRUS_ANNOTATION || v == VIRUS_BIOSAMPLE {
 			virusReportOptions = append(virusReportOptions, VirusReportSelectionOpenapi[v])
 		} else {
 			virusSeqOptions = append(virusSeqOptions, VirusDownloadIncludeOpenapi[v])
 		}
 	}
+	if includeAll {
+		virusReportOptions = []openapi.V2VirusDatasetReportType{VirusReportSelectionOpenapi[VIRUS_ANNOTATION], VirusReportSelectionOpenapi[VIRUS_BIOSAMPLE]}
+		virusSeqOptions = []openapi.V2ViralSequenceType{
+			VirusDownloadIncludeOpenapi[CDS],
+			VirusDownloadIncludeOpenapi[PROTEIN],
+		}
+
+	}
+
 	request.SetIncludeSequence(virusSeqOptions)
 	request.SetAuxReport(virusReportOptions)
 }
