@@ -17,6 +17,8 @@ const (
 	PAGE_ITER_THRESHOLD int = 2000
 )
 
+// Page token functions for PagedRequest interface are optional because paging can also be done
+// client-side over a list of ids
 type PagedRequest interface {
 	*openapi.V2AssemblyDatasetReportsRequest |
 		*openapi.V2GeneDatasetReportsRequest |
@@ -25,10 +27,11 @@ type PagedRequest interface {
 		*openapi.V2VirusAnnotationReportRequest |
 		*openapi.V2AssemblySequenceReportsRequest |
 		*openapi.V2TaxonomyMetadataRequest |
-		*openapi.V2TaxonomyRelatedIdRequest
-	SetPageToken(string)
-	GetPageToken() string
-	SetPageSize(int32)
+		*openapi.V2TaxonomyRelatedIdRequest |
+		*openapi.V2SequenceRequest
+	// SetPageToken(string)
+	// GetPageToken() string
+	// SetPageSize(int32)
 }
 
 type PagedResponse interface {
@@ -38,10 +41,13 @@ type PagedResponse interface {
 		openapi.V2reportsVirusAnnotationReportPage |
 		openapi.V2SequenceReportPage |
 		openapi.V2reportsTaxonomyDataReportPage |
-		openapi.V2reportsTaxonomyNamesDataReportPage
+		openapi.V2reportsTaxonomyNamesDataReportPage |
+		openapi.V2reportsSequenceDataReportPage
 	MarshalJSON() ([]byte, error)
 }
 
+// Page token functions for the PPagedResponse interface are optional because paging can also be done
+// client-side over a list of ids
 type PPagedResponse[REP DatasetReport] interface {
 	*openapi.V2reportsAssemblyDataReportPage |
 		*openapi.V2reportsGeneDataReportPage |
@@ -49,11 +55,12 @@ type PPagedResponse[REP DatasetReport] interface {
 		*openapi.V2reportsVirusAnnotationReportPage |
 		*openapi.V2SequenceReportPage |
 		*openapi.V2reportsTaxonomyDataReportPage |
-		*openapi.V2reportsTaxonomyNamesDataReportPage
+		*openapi.V2reportsTaxonomyNamesDataReportPage |
+		*openapi.V2reportsSequenceDataReportPage
 	GetTotalCount() int32
 	SetTotalCount(int32)
 	GetReports() []REP
-	GetNextPageToken() string
+	// GetNextPageToken() string
 }
 
 type DatasetReport interface {
@@ -63,7 +70,8 @@ type DatasetReport interface {
 		openapi.V2reportsGeneReportMatch |
 		openapi.V2reportsSequenceInfo |
 		openapi.V2reportsTaxonomyReportMatch |
-		openapi.V2reportsTaxonomyNamesReportMatch
+		openapi.V2reportsTaxonomyNamesReportMatch |
+		openapi.V2reportsSequenceDataReportMatch
 }
 
 type PageRetriever[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedResponse[REP]] interface {
@@ -77,6 +85,42 @@ type PageProcessor[REP DatasetReport, PP PPagedResponse[REP]] interface {
 	SetLimit(int)
 	ReportName() string
 	RetrievalCount(int) int
+}
+
+//
+// The paged processor can work with non-paged interfaces when dealing with a list of ids,
+// which it sends in chunks to the backend.  The below functions support no-op calls for types that
+// don't directly implement paged processing but do support paging via lists of ids
+///
+
+func getNextPageToken(obj any) string {
+	// Inline check for GetNextPageToken function
+	if pagedInterface, ok := obj.(interface{ GetNextPageToken() string }); ok {
+		return pagedInterface.GetNextPageToken()
+	}
+	return ""
+}
+
+func setPageToken(obj any, token string) {
+	// Inline check for SetPageToken function
+	if pagedRequest, ok := obj.(interface{ SetPageToken(string) }); ok {
+		pagedRequest.SetPageToken(token)
+	}
+}
+
+func getPageToken(obj any) string {
+	// Inline check for GetPageToken function
+	if pagedRequest, ok := obj.(interface{ GetPageToken() string }); ok {
+		return pagedRequest.GetPageToken()
+	}
+	return ""
+}
+
+func setPageSize(obj any, size int32) {
+	// Inline check for SetPageSize function
+	if pagedRequest, ok := obj.(interface{ SetPageSize(int32) }); ok {
+		pagedRequest.SetPageSize(size)
+	}
 }
 
 // If you have an implementation of PageProcessor that doesn't need any of the
@@ -305,11 +349,11 @@ func (requestIter *IdRequestIterator[R, T]) SetRequestSize(rsize int) {
 
 func (requestIter *IdRequestIterator[R, T]) Finished() bool {
 	// return true if requestIter.ids is exhausted and we've paged though current request
-	return len(requestIter.ids) == 0 && requestIter.request.GetPageToken() == ""
+	return len(requestIter.ids) == 0 && getPageToken(requestIter.request) == ""
 }
 
 func (requestIter *IdRequestIterator[R, T]) GetIdUpdateCount() int {
-	if requestIter.request.GetPageToken() != "" {
+	if getPageToken(requestIter.request) != "" {
 		return 0
 	}
 
@@ -385,7 +429,7 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 	// Can't do an initial query to get total count if there are a large number of ids (they need to be paged by client)
 	bar_count := 0
 	if !requestIter.HasIds() {
-		requestIter.GetRequest().SetPageSize(int32(1))
+		setPageSize(requestIter.GetRequest(), int32(1))
 		ppage_first, err_first := pagePtrWithRetryFor(requestIter.GetRequest(), api)
 		if err_first != nil {
 			return 0, err_first
@@ -423,7 +467,7 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 
 	var retrievalCount int = 0
 	pageSize := minOf(MAX_PAGE_SIZE, maxRetrieval)
-	requestIter.GetRequest().SetPageSize(int32(pageSize))
+	setPageSize(requestIter.GetRequest(), int32(pageSize))
 	for {
 		requestIter.UpdateRequest()
 		ppage, err := pagePtrWithRetryFor(requestIter.GetRequest(), api)
@@ -440,7 +484,8 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 		}
 
 		// ppage.GetNextPageToken() may be blank, in which case UpdateRequest will refresh the ids if needed
-		requestIter.GetRequest().SetPageToken(ppage.GetNextPageToken())
+		nextPageToken := getNextPageToken(ppage)
+		setPageToken(requestIter.GetRequest(), nextPageToken)
 		if requestIter.Finished() || (pageProcessor.RetrievalCount(retrievalCount) >= maxRetrieval && !countOnly) {
 			ppage.SetTotalCount(int32(retrievalCount))
 			pageProcessor.Finish(ppage)
