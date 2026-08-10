@@ -10962,6 +10962,12 @@ components:
         returned_content:
           $ref: '#/components/schemas/v2SequenceRequestContentType'
           title: 'Return complete sequence reports or abbreviated reports with the sequence accession, molecule-type, taxd-id, and length'
+        include_tabular_header:
+          $ref: '#/components/schemas/v2IncludeTabularHeader'
+          title: 'Specify when to include the table header when requesting a tabular report.'
+        table_format:
+          $ref: '#/components/schemas/v2SequenceRequestTableFormat'
+          title: 'Specify a predefined set of fields for the tabular report using built-in templates. Use of this parameter requires the HTTP header, `accept: text/tab-separated-values`.'
     v2SleepReply:
       type: object
       properties:
@@ -11834,7 +11840,7 @@ components:
         gc_percent:
           type: number
           format: float
-          title: 'The percentage of GC base-pairs in the assembly'
+          title: 'The percentage of GC base-pairs in the assembly, rounded to the nearest 0.5%'
         genome_coverage:
           type: string
           title: 'Genome assembly coverage'
@@ -13736,6 +13742,9 @@ components:
         length:
           type: integer
           title: 'Sequence length measured in the units field.'
+        update_date:
+          type: string
+          title: 'Latest update date for the sequence.'
         units:
           $ref: '#/components/schemas/v2reportsSequenceDataReportUnits'
           title: 'Units for sequence length, for example nucleotides or amino acids.'
@@ -15068,6 +15077,14 @@ components:
         - MINIMAL
       default: COMPLETE
     
+    v2SequenceRequestTableFormat:
+      type: string
+      enum:
+        - SUMMARY
+        - SUMMARY_NO_QUERY
+      default: SUMMARY
+      title: 'Optional pre-defined template for processing a tabular data request'
+    
     v2SortDirection:
       type: string
       enum:
@@ -15502,7 +15519,6 @@ components:
       type: string
       enum:
         - genome_type_unknown
-        - genomic
         - chloroplast
         - chromoplast
         - kinetoplast
