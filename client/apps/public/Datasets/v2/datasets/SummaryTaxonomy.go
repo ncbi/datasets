@@ -86,29 +86,53 @@ func createCheckTaxonomyDuplicates() func(openapi.V2reportsTaxonomyReportMatch, 
 
 func updateTaxonNamesReportQuery(report *openapi.V2reportsTaxonomyNamesReportMatch, taxIdsMap map[string][]string) {
 	if report.HasTaxonomy() {
-		taxId := report.GetTaxonomy().TaxId
-		taxons := make([]string, len(taxIdsMap[*taxId]))
-		copy(taxons, taxIdsMap[*taxId])
-		report.SetQuery(taxons)
+		// If there is only 1 taxid in the map, all results will be assigned the same taxon query
+		// This will capture the cases where lineage or children are returned. Note that the query is empty when
+		// the input taxids are numeric.
+		if len(taxIdsMap) == 1 {
+			var taxId string
+			var query []string
+			for taxId, query = range taxIdsMap {
+				break
+			}
+			if len(query) == 0 {
+				query = append(query, taxId)
+			}
+			report.SetQuery(append([]string(nil), query...))
+			return
+		}
+		taxId := report.Taxonomy.GetTaxId()
+		if len(taxIdsMap[taxId]) > 0 {
+			taxons := make([]string, len(taxIdsMap[taxId]))
+			copy(taxons, taxIdsMap[taxId])
+			report.SetQuery(taxons)
+		}
 	}
 }
 
 func updateTaxonReportQuery(report *openapi.V2reportsTaxonomyReportMatch, taxIdsMap map[string][]string) {
 	if report.HasTaxonomy() {
 		// If there is only 1 taxid in the map, all results will be assigned the same taxon query
-		// This will capture the cases where lineage or children are returned
+		// This will capture the cases where lineage or children are returned. Note that the query is empty when
+		// the input taxids are numeric.
 		if len(taxIdsMap) == 1 {
-			for _, query := range taxIdsMap {
-				taxons := make([]string, len(query))
-				copy(taxons, query)
-				report.SetQuery(taxons)
-				return
+			var taxId string
+			var query []string
+			for taxId, query = range taxIdsMap {
+				break
 			}
+			if len(query) == 0 {
+				query = append(query, taxId)
+			}
+			report.SetQuery(append([]string(nil), query...))
+			return
 		}
 		taxId := strconv.Itoa(int((report.Taxonomy).GetTaxId()))
-		taxons := make([]string, len(taxIdsMap[taxId]))
-		copy(taxons, taxIdsMap[taxId])
-		report.SetQuery(taxons)
+		if len(taxIdsMap[taxId]) > 0 {
+			taxons := make([]string, len(taxIdsMap[taxId]))
+			copy(taxons, taxIdsMap[taxId])
+			report.SetQuery(taxons)
+		}
 	}
 }
 

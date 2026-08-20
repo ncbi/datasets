@@ -9973,6 +9973,73 @@ paths:
                 description: Human reference genome assembly, GRCh38.p14
                 value:
                   accession: "GCF_000001405.40"
+  /gene/id/{gene_ids}/expression_report:
+    get:
+      summary: Get a gene expression report by GeneID
+      description: 'Get a gene expression report by GeneID. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      tags:
+        - Gene
+      operationId: gene_expression_reports_by_id
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      parameters:
+      - name: gene_ids
+        description: 'NCBI gene ids, limited to 1000 ids'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+  /gene/expression_report:
+    post:
+      summary: Get a gene expression report
+      description: 'Get a gene expression report. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      tags:
+        - Gene
+      operationId: gene_expression_report
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            application/x-ndjson:
+              schema:
+                $ref: '#/components/schemas/v2reportsGeneDataReportPage'
+            text/tab-separated-values:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncbieukgenev2GeneIdRequest'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -10534,6 +10601,9 @@ components:
         resource_id:
           type: string
           title: 'A resource ID, provided if gene-id is not used for the link, e.g. the ortholog id.'
+        database:
+          type: string
+          title: 'For cross-reference links, the cross-referenced database'
     v2GeneLinksRequest:
       type: object
       properties:
@@ -10898,12 +10968,12 @@ components:
         accession:
           type: string
           title: 'Accession.version of the retrieved sequence'
-        seq_length:
+        length:
           type: string
           format: uint64
           title: 'Total length of the sequence (not just the amount retrieved)'
-        mol_type:
-          $ref: '#/components/schemas/v2MolType'
+        molecule_type:
+          $ref: '#/components/schemas/v2reportsMoleculeType'
           title: 'Molecule type - dna, rna, protein'
         defline:
           type: string
@@ -11608,6 +11678,9 @@ components:
     v2reportsArticle:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'Pubmed Identifier for this article.'
         title:
           type: string
           title: 'Title of this article.'
@@ -12285,6 +12358,9 @@ components:
     v2reportsBook:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this book.'
         title:
           type: string
           title: 'Book title'
@@ -12785,6 +12861,9 @@ components:
     v2reportsGeneral:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this general submission.'
         title:
           type: string
           title: 'Publication title'
@@ -13136,6 +13215,9 @@ components:
     v2reportsMedline:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this medline article.'
         medline_uid:
           type: string
           title: 'MEDLINE unique identifier for this record.'
@@ -13145,15 +13227,15 @@ components:
         article:
           $ref: '#/components/schemas/v2reportsArticle'
           title: 'Article associated with this MEDLINE record.'
-        pmid:
-          type: integer
-          title: 'PubMed identifier associated with this MEDLINE record.'
         status:
           $ref: '#/components/schemas/v2reportsMedlineStatus'
           title: 'Current indexing status of this MEDLINE record.'
     v2reportsMeeting:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this meeting.'
         number:
           type: integer
           title: 'Meeting number or edition identifier.'
@@ -13399,6 +13481,9 @@ components:
     v2reportsPatent:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this patent.'
         patent_id:
           type: string
           title: 'Patent identifier.'
@@ -13421,6 +13506,9 @@ components:
     v2reportsProceedings:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this proceeding.'
         meeting:
           $ref: '#/components/schemas/v2reportsMeeting'
         book:
@@ -13598,6 +13686,21 @@ components:
         type:
           type: string
           title: 'Sub-category specific to this method'
+    v2reportsProteinNameEvidence:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Evidence Accession'
+        category:
+          type: string
+          title: 'Evidence Category'
+        source:
+          type: string
+          title: 'Evidence Source'
+        source_identifier:
+          type: string
+          title: 'Source Identifier'
     v2reportsRange:
       type: object
       properties:
@@ -13749,8 +13852,13 @@ components:
           $ref: '#/components/schemas/v2reportsSequenceDataReportUnits'
           title: 'Units for sequence length, for example nucleotides or amino acids.'
         molecule_type:
-          $ref: '#/components/schemas/v2reportsSequenceDataReportMoleculeType'
+          $ref: '#/components/schemas/v2reportsMoleculeType'
           title: 'Molecule type for this sequence record.'
+        sequencing_method:
+          $ref: '#/components/schemas/v2reportsSequenceDataReportSequencingMethod'
+        completeness:
+          $ref: '#/components/schemas/v2reportsSequenceDataReportCompleteness'
+          title: 'Completeness'
         database_provider:
           type: string
           title: 'Upstream source database for this record, for example "RefSeq".'
@@ -13793,6 +13901,9 @@ components:
         topology:
           $ref: '#/components/schemas/v2reportsSequenceDataReportTopologyType'
           title: 'Topology type for this sequence record.'
+        protein_name_evidence:
+          $ref: '#/components/schemas/v2reportsProteinNameEvidence'
+          title: 'Evidence supporting the protein name for this sequence record.'
     v2reportsSequenceDataReportMatch:
       type: object
       properties:
@@ -13936,6 +14047,9 @@ components:
     v2reportsSubmission:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this submission.'
         date:
           type: string
           title: 'Submission date'
@@ -14158,6 +14272,9 @@ components:
     v2reportsThesis:
       type: object
       properties:
+        pmid:
+          type: integer
+          title: 'PubMed identifier for this thesis.'
         book:
           $ref: '#/components/schemas/v2reportsBook'
           title: 'Book-style bibliographic metadata for this thesis/manuscript/letter citation.'
@@ -14941,6 +15058,7 @@ components:
         - GDV_LINK
         - ORTHOLOG_LINK
         - MCGV_LINK
+        - CROSS_REFERENCE_LINK
       default: DEFAULT
       title: 'Types of gene links that may be returned'
     
@@ -15004,16 +15122,6 @@ components:
         - contig_fasta
         - protein_fasta
       default: FILE_TYPE_UNSPECIFIED
-    
-    v2MolType:
-      type: string
-      enum:
-        - MOL_UNSPECIFIED
-        - MOL_DNA
-        - MOL_RNA
-        - MOL_PROTEIN
-        - MOL_NA
-      default: MOL_UNSPECIFIED
     
     v2OrganelleMetadataRequestContentType:
       type: string
@@ -15392,11 +15500,29 @@ components:
     v2reportsMedlineStatus:
       type: string
       enum:
-        - uknown
+        - unknown
         - publisher
-        - premidline
+        - premedline
         - medline
-      default: uknown
+      default: unknown
+    
+    v2reportsMoleculeType:
+      type: string
+      enum:
+        - molecule_type_unspecified
+        - unassigned_dna
+        - unassigned_rna
+        - genomic_dna
+        - genomic_rna
+        - m_rna
+        - r_rna
+        - t_rna
+        - transcribed_rna
+        - other_dna
+        - other_rna
+        - viral_c_rna
+        - protein
+      default: molecule_type_unspecified
     
     v2reportsNameAndAuthorityNoteClassifier:
       type: string
@@ -15515,6 +15641,20 @@ components:
         - tmRna
       default: rna_UNKNOWN
     
+    v2reportsSequenceDataReportCompleteness:
+      type: string
+      enum:
+        - completeness_unknown
+        - complete
+        - partial
+        - no_left
+        - no_right
+        - no_ends
+        - has_left
+        - has_right
+        - completeness_other
+      default: completeness_unknown
+    
     v2reportsSequenceDataReportGenomeType:
       type: string
       enum:
@@ -15544,24 +15684,6 @@ components:
         - nitroplast
       default: genome_type_unknown
     
-    v2reportsSequenceDataReportMoleculeType:
-      type: string
-      enum:
-        - molecule_type_unspecified
-        - unassigned_dna
-        - unassigned_rna
-        - genomic_dna
-        - genomic_rna
-        - m_rna
-        - r_rna
-        - t_rna
-        - transcribed_rna
-        - other_dna
-        - other_rna
-        - viral_c_rna
-        - protein
-      default: molecule_type_unspecified
-    
     v2reportsSequenceDataReportOriginType:
       type: string
       enum:
@@ -15573,6 +15695,24 @@ components:
         - purely_synthetic
         - other
       default: unknown
+    
+    v2reportsSequenceDataReportSequencingMethod:
+      type: string
+      enum:
+        - sequencing_method_unknown
+        - expressed_sequence_tag
+        - sequence_tagged_site
+        - survey
+        - single_genomic_reads_for_coordination
+        - unordered_high_throughput_sequence_contig
+        - ordered_high_throughput_sequence_contig
+        - finished_high_throughput_sequence_contig
+        - full_length_insert_cDNA
+        - high_throughput_cDNA
+        - whole_genome_shotgun_sequencing
+        - barcode_of_life_project
+        - transcriptome_shotgun_assembly
+      default: sequencing_method_unknown
     
     v2reportsSequenceDataReportTopologyType:
       type: string
