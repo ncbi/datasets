@@ -44,10 +44,16 @@ func (downloadSummary *DownloadSummaryInterface) ProcessPage(ppage *openapi.V2re
 	}
 
 	// update record count
-	downloadSummary.RecordCount = downloadSummary.RecordCount + *summaryResponse.RecordCount
+	rc, hasRC := summaryResponse.GetRecordCountOk()
+	if hasRC {
+		downloadSummary.RecordCount = downloadSummary.RecordCount + *rc
+	}
 
 	// update ResourceUpdatedOn
-	downloadSummary.ResourceUpdatedOn = *summaryResponse.ResourceUpdatedOn
+	resourceUpdatedOn, hasResourceUpdatedOn := summaryResponse.GetResourceUpdatedOnOk()
+	if hasResourceUpdatedOn {
+		downloadSummary.ResourceUpdatedOn = *resourceUpdatedOn
+	}
 
 	hydrated, isHydratedValueSet := summaryResponse.GetHydratedOk()
 	if isHydratedValueSet {

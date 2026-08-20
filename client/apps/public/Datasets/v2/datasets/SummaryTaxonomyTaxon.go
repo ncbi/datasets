@@ -62,8 +62,10 @@ Print a data report containing taxonomy metadata by %s. The data report is retur
 			var taxIdsMap map[string][]string = make(map[string][]string)
 			if stf.inputFile.AllInts(stf.inputFile.InputIDArgs) {
 				allTaxIds := stf.inputFile.AsStringList()
+				// We don't add the source tax-id in the map since they would be identical. The taxonomy service will return
+				// the correct query term (tax-id) in the response, handling merged tax-ids correctly so we won't need the map.
 				for _, taxId := range allTaxIds {
-					taxIdsMap[taxId] = []string{taxId}
+					taxIdsMap[taxId] = []string{}
 				}
 			} else {
 				taxIdsMap, err = RetrieveTaxIdsForTaxons(cmd, stf.inputFile.InputIDArgs, true, openapi.V2ORGANISMQUERYREQUESTTAXONRESOURCEFILTER_ALL, "taxonomy")
