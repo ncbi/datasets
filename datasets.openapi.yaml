@@ -6782,6 +6782,102 @@ paths:
                   taxons:
                   - "9606"
                   - house mouse
+  /taxonomy/biocollections/id/{collection_ids}/dataset_report:
+    get:
+      summary: Get a biocollection report by collection ID or code
+      description: 'Get a biocollection report by collection ID or code in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: get_biocollections_by_get
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsBiocollectionsReportPage'
+      parameters:
+      - name: collection_ids
+        description: 'One or more collection IDs or codes'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          example-0:
+            value: 4296
+            summary: Collection ID for Culture Collection, University of Goteborg (Sweden)
+          example-1:
+            value: ANSP:FISH
+            summary: Collection code for Academy of Natural Sciences of Drexel University, Ichthyology Collection (USA)
+          example-2:
+            value: UC<USA-CA>
+            summary: NCBI unique code for University of California, University Herbarium (USA)
+          example-3:
+            value: inst:USNM
+            summary: Returns all collections from National Museum of Natural History, Smithsonian Institution (USA)
+      - name: page_size
+        description: 'The maximum number of biocollection reports to return. Default is 1000 and maximum is 1000. If the number of results exceeds the page size, `page_token` can be used to retrieve the remaining results.'
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page_token
+        description: 'A page token returned from a prior call with more than `page_size` results. Use this token with the same request parameters to retrieve the next page. When `page_token` is empty, all results have been retrieved.'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.field
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: sort.direction
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/v2SortDirection'
+  /taxonomy/biocollections/dataset_report:
+    post:
+      summary: Get a biocollection report by collection ID or code
+      description: 'Get a biocollection report by collection ID or code in JSON format.'
+      tags:
+        - Taxonomy
+      operationId: get_biocollections
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2reportsBiocollectionsReportPage'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2GetBiocollectionsRequest'
+            examples:
+              Biocollection lookup example:
+                description: Culture Collection, University of Goteborg (Sweden)
+                value:
+                  collection_ids:
+                   - "4296"
   /taxonomy/taxon/{taxons}/dataset_report:
     get:
       summary: Get a taxonomy data report by taxon
@@ -10051,13 +10147,6 @@ components:
       in: header
       name: api-key
   schemas:
-    v2Accessions:
-      type: object
-      properties:
-        accessions:
-          type: array
-          items:
-            type: string
     v2AssemblyAccessions:
       type: object
       properties:
@@ -10953,15 +11042,18 @@ components:
       properties:
         accession:
           type: string
-          title: 'NCBI Accession.version of the sequence'
+          title: 'A single nucleotide or protein accession'
         begin:
           type: string
           format: uint64
+          title: 'The first nucleotide or amino acid of the requested sequence'
         end:
           type: string
           format: uint64
+          title: 'The last nucleotide or amino acid of the requested sequence'
         orientation:
           $ref: '#/components/schemas/v2reportsOrientation'
+          title: 'This parameter has not yet been implemented'
     v2SeqReply:
       type: object
       properties:
@@ -11006,6 +11098,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2SequenceDatasetRequestFileType'
+    v2SequenceFeatureRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'A single nucleotide or protein sequence accession.'
+        page_size:
+          type: integer
+          title: 'The maximum number of sequence feature reports to return. Default is 20.'
+        page_token:
+          type: string
+          title: 'A page token is returned when more sequence feature reports are available. Use this token along with the accessions to retrieve the next page.'
     v2SequenceReportPage:
       type: object
       properties:
@@ -11028,10 +11132,10 @@ components:
             type: string
         include_all_versions:
           type: boolean
-          title: 'When true, include previous versions as well as the latest. Default behavior when this field is omitted is to return latest version only (i.e., `include_all_versions` defaults to false).'
+          title: 'When true, include previous versions as well as the latest. Default behavior when this field is omitted is to return latest version only (i.e., `include_all_versions` defaults to false). This is not yet implemented'
         returned_content:
           $ref: '#/components/schemas/v2SequenceRequestContentType'
-          title: 'Return complete sequence reports or abbreviated reports with the sequence accession, molecule-type, taxd-id, and length'
+          title: 'Return complete sequence reports, or abbreviated reports with the sequence accession, molecule type, taxonomy ID, and length'
         include_tabular_header:
           $ref: '#/components/schemas/v2IncludeTabularHeader'
           title: 'Specify when to include the table header when requesting a tabular report.'
@@ -13928,6 +14032,202 @@ components:
         total_count:
           type: integer
           title: 'Total number of reports available across all pages.'
+    v2reportsSequenceFeatureLocation:
+      type: object
+      properties:
+        from:
+          type: integer
+          title: 'Start position of the feature (1-based, inclusive).'
+        to:
+          type: integer
+          title: 'End position of the feature (1-based, inclusive).'
+        strand:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationStrand'
+          title: 'Strand of the feature location.'
+        fuzz_from:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
+          title: 'Fuzziness/uncertainty for the start position.'
+        fuzz_to:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
+          title: 'Fuzziness/uncertainty for the end position.'
+    v2reportsSequenceFeatureLocationFuzzRange:
+      type: object
+      properties:
+        min:
+          type: integer
+          title: 'Minimum position value.'
+        max:
+          type: integer
+          title: 'Maximum position value.'
+    v2reportsSequenceFeatureLocationIntFuzz:
+      type: object
+      properties:
+        p_m:
+          type: integer
+          title: 'Plus or minus uncertainty value.'
+        range:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationFuzzRange'
+          title: 'Range of uncertainty with min and max values.'
+        percentage:
+          type: integer
+          title: 'Percentage uncertainty.'
+        lim:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationFuzzLim'
+          title: 'Limit-based constraint on the position.'
+    v2reportsSequenceFeatureQualifier:
+      type: object
+      properties:
+        gene:
+          type: string
+        gene_synonym:
+          type: string
+        locus_tag:
+          type: string
+        old_locus_tag:
+          type: string
+        allele:
+          type: string
+        standard_name:
+          type: string
+        map:
+          type: string
+        operon:
+          type: string
+        product:
+          type: string
+        protein_id:
+          type: string
+        translation:
+          type: string
+        codon_start:
+          type: string
+        transl_table:
+          type: string
+        transl_except:
+          type: string
+        ec_number:
+          type: string
+        function:
+          type: string
+        experiment:
+          type: string
+        inference:
+          type: string
+        note:
+          type: string
+        external_db:
+          type: array
+          items:
+            type: string
+        citation:
+          type: string
+        compare:
+          type: string
+        number:
+          type: string
+        phenotype:
+          type: string
+        frequency:
+          type: string
+        pseudo:
+          type: boolean
+        pseudogene:
+          type: string
+        ribosomal_slippage:
+          type: boolean
+        trans_splicing:
+          type: boolean
+        circular_rna:
+          type: boolean
+        proviral:
+          type: boolean
+        germline:
+          type: boolean
+        rearranged:
+          type: boolean
+        macronuclear:
+          type: boolean
+        focus:
+          type: boolean
+        transgenic:
+          type: boolean
+        environmental_sample:
+          type: boolean
+        transcript_id:
+          type: string
+        regulatory_class:
+          type: string
+        bound_moiety:
+          type: string
+        direction:
+          type: string
+        pcr_conditions:
+          type: string
+        pcr_primers:
+          type: string
+        rpt_type:
+          type: string
+        rpt_family:
+          type: string
+        rpt_unit_range:
+          type: string
+        rpt_unit_seq:
+          type: string
+        satellite:
+          type: string
+        mod_base:
+          type: string
+        anticodon:
+          type: string
+        tag_peptide:
+          type: string
+        estimated_length:
+          type: string
+        gap_type:
+          type: string
+        linkage_evidence:
+          type: string
+        replace:
+          type: string
+        recombination_class:
+          type: string
+        mobile_element_type:
+          type: string
+        ncrna_class:
+          type: string
+        artificial_location:
+          type: string
+        exception:
+          type: string
+    v2reportsSequenceFeatureWithAccession:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'The accession this feature belongs to.'
+        name:
+          type: string
+          title: 'GenBank feature name, for example "gene", "CDS", "mRNA", or "rRNA".'
+        location:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceFeatureLocation'
+        qualifiers:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureQualifier'
+          title: 'Feature qualifiers as named fields.'
+    v2reportsSequenceFeaturesPage:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceFeatureWithAccession'
+        total_count:
+          type: integer
+          title: 'Total number of features available across all pages.'
+        next_page_token:
+          type: string
+          title: 'Token to retrieve the next page of features.'
     v2reportsSequenceInfo:
       type: object
       properties:
@@ -14660,6 +14960,13 @@ components:
         pages:
           type: string
           title: 'Pages of publication'
+    ncbiprotddv2ProteinAccessionRequest:
+      type: object
+      properties:
+        accessions:
+          type: array
+          items:
+            type: string
     ncbiprotddv2PubmedAbstractRequest:
       type: object
       properties:
@@ -15731,6 +16038,28 @@ components:
         - nucleotides
         - amino_acids
       default: units_unspecified
+    
+    v2reportsSequenceFeatureLocationFuzzLim:
+      type: string
+      enum:
+        - lim_unknown
+        - gt
+        - lt
+        - tr
+        - tl
+        - circle
+        - other
+      default: lim_unknown
+      title: 'Enumeration representing different types of position limit constraints.'
+    
+    v2reportsSequenceFeatureLocationStrand:
+      type: string
+      enum:
+        - strand_unknown
+        - plus
+        - minus
+      default: strand_unknown
+      title: 'Strand orientation of the feature.'
     
     v2reportsSourceDatabase:
       type: string

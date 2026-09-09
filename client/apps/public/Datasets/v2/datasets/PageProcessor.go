@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	_nethttp "net/http"
+	"time"
 
 	"github.com/gosuri/uiprogress"
 	"golang.org/x/text/language"
@@ -13,8 +14,9 @@ import (
 )
 
 const (
-	MAX_PAGE_SIZE       int = 1000
-	PAGE_ITER_THRESHOLD int = 2000
+	MAX_PAGE_SIZE         int = 1000
+	PAGE_ITER_THRESHOLD   int = 2000
+	progressSpinnerFrames     = "-\\|/"
 )
 
 // Page token functions for PagedRequest interface are optional because paging can also be done
@@ -425,6 +427,7 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 	}
 
 	var bar *uiprogress.Bar
+	unknownTotalCount := false
 
 	// Can't do an initial query to get total count if there are a large number of ids (they need to be paged by client)
 	bar_count := 0
@@ -441,28 +444,50 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 			pageProcessor.Finish(ppage_first)
 			return int(ppage_first.GetTotalCount()), nil
 		}
+		unknownTotalCount = bar_count == 0 || (getNextPageToken(ppage_first) != "" && bar_count <= len(ppage_first.GetReports()))
 	} else {
 		bar_count = requestIter.RemainingIds()
 	}
 
-	if bar_count > 0 {
-		bar = progress.AddBar(bar_count).AppendCompleted()
+	if bar_count > 0 || unknownTotalCount {
 		p := message.NewPrinter(language.English)
+		if unknownTotalCount {
+			bar = progress.AddBar(1)
+			bar.LeftEnd = ' '
+			bar.RightEnd = ' '
+			bar.Fill = ' '
+			bar.Head = ' '
+			bar.Empty = ' '
+			bar.Width = 2
+		} else {
+			bar = progress.AddBar(bar_count).AppendCompleted()
+			bar.Width = 50
+		}
 		bar.PrependFunc(func(b *uiprogress.Bar) string {
 			plural := ""
-			if b.Total > 1 {
+			if !unknownTotalCount && b.Total > 1 {
 				plural = "s"
 			}
 			reportName := pageProcessor.ReportName()
 			if reportName != "" {
 				reportName += " "
 			}
+			if unknownTotalCount {
+				frame := progressSpinnerFrames[(time.Now().UnixNano()/int64(150*time.Millisecond))%int64(len(progressSpinnerFrames))]
+				return p.Sprintf("%c Collecting %srecords", frame, reportName)
+			}
 			return p.Sprintf("Collecting %d %srecord%s", b.Total, reportName, plural)
 		})
 		bar.AppendFunc(func(b *uiprogress.Bar) string {
+			if unknownTotalCount {
+				plural := ""
+				if b.Current() != 1 {
+					plural = "s"
+				}
+				return p.Sprintf("%d record%s", b.Current(), plural)
+			}
 			return fmt.Sprintf("%d/%d", b.Current(), b.Total)
 		})
-		bar.Width = 50
 	}
 
 	var retrievalCount int = 0
@@ -477,6 +502,9 @@ func ProcessPages[R PagedRequest, P PagedResponse, REP DatasetReport, PP PPagedR
 
 		retrievalCount += len(ppage.GetReports())
 		if bar != nil {
+			if unknownTotalCount {
+				bar.Total = retrievalCount + 1
+			}
 			bar.Set(int(retrievalCount)) //nolint:errcheck
 		}
 		if !countOnly && len(ppage.GetReports()) > 0 {

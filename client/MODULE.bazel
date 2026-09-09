@@ -28,10 +28,8 @@ use_repo(
     "com_github_spf13_afero",
     "com_github_spf13_cobra",
     "com_github_spf13_pflag",
-    "com_github_stretchr_testify",
     "com_github_thediveo_enumflag_v2",
     "com_gitlab_metakeule_fmtdate",
-    "ke_bou_monkey",
     "org_golang_x_exp",
     "org_golang_x_text",
 )
@@ -41,8 +39,8 @@ use_repo(
 ###########
 
 bazel_dep(name = "aspect_bazel_lib", version = "1.38.1")
+
 bazel_dep(name = "openapi_tools_generator_bazel", version = "0.2.0")
-bazel_dep(name = "rules_python", version = "1.3.0")
 
 openapi_gen = use_extension("@openapi_tools_generator_bazel//:extension.bzl", "openapi_gen")
 openapi_gen.client(
