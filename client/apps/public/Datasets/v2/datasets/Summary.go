@@ -22,6 +22,8 @@ func createSummaryCmd() *cobra.Command {
 		RunE: ParentCommandRunE,
 	}
 
+	cmd.PersistentFlags().BoolVar(&argPretty, "pretty", false, "Pretty-print the JSON output")
+
 	cmd.AddCommand(createSummaryGeneCmd())
 	cmd.AddCommand(createSummaryGenomeCmd())
 	cmd.AddCommand(createSummaryVirusCmd())

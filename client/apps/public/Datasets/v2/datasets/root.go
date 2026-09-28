@@ -1,6 +1,7 @@
 package datasets
 
 import (
+	"bytes"
 	"context"
 	"crypto/rand"
 	"encoding/json"
@@ -41,6 +42,7 @@ var (
 	argApiKey     string
 	argGatewayURL string
 	argNoProgress bool
+	argPretty     bool
 	// argsVersion        bool
 
 	// Default retry configuration
@@ -404,7 +406,12 @@ func handleHTTPResponse(resp *http.Response, inError error) (err error) {
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	exitval := 0
-	err := rootCmd.Execute()
+	var err error
+	if isPrettyFlagRequested() {
+		err = executeWithPrettyPrint()
+	} else {
+		err = rootCmd.Execute()
+	}
 	if err != nil {
 		exitval = 1
 	}
@@ -412,6 +419,101 @@ func Execute() {
 		exitval = 1
 	}
 	os.Exit(exitval)
+}
+
+// isPrettyFlagRequested does a lightweight scan of the raw command-line
+// arguments to determine whether JSON output should be pretty-printed.
+// This is checked prior to cobra's normal flag parsing so that stdout can
+// be redirected/captured for the entire duration of command execution.
+func isPrettyFlagRequested() bool {
+	for _, arg := range os.Args[1:] {
+		switch {
+		case arg == "--pretty":
+			return true
+		case arg == "--pretty=true" || arg == "--pretty=1":
+			return true
+		}
+	}
+	return false
+}
+
+// executeWithPrettyPrint runs the root command with stdout captured, then
+// pretty-prints the resulting JSON output before writing it to the real
+// stdout. This has the same effect as piping the command's output to `jq .`.
+func executeWithPrettyPrint() error {
+	origStdout := os.Stdout
+
+	r, w, pipeErr := os.Pipe()
+	if pipeErr != nil {
+		// Fall back to normal execution if we can't set up the pipe.
+		return rootCmd.Execute()
+	}
+
+	os.Stdout = w
+
+	var captured bytes.Buffer
+	done := make(chan struct{})
+	go func() {
+		defer close(done)
+		_, _ = io.Copy(&captured, r)
+	}()
+
+	execErr := rootCmd.Execute()
+
+	os.Stdout = origStdout
+	_ = w.Close()
+	<-done
+	_ = r.Close()
+
+	prettyPrintJSONStream(origStdout, captured.Bytes())
+
+	return execErr
+}
+
+// prettyPrintJSONStream reformats captured command output as pretty-printed
+// JSON and writes it to w. It supports both a single JSON document and
+// JSON Lines output (multiple whitespace/newline-separated JSON documents,
+// as produced by --as-json-lines), pretty-printing each document in turn.
+// This mirrors the behavior of piping output through `jq .`, which handles
+// concatenated JSON values the same way.
+func prettyPrintJSONStream(w io.Writer, output []byte) {
+	if len(bytes.TrimSpace(output)) == 0 {
+		return
+	}
+
+	dec := json.NewDecoder(bytes.NewReader(output))
+
+	var wroteAny bool
+	for {
+		var raw json.RawMessage
+		if err := dec.Decode(&raw); err != nil {
+			if err == io.EOF {
+				break
+			}
+			if wroteAny {
+				// We already pretty-printed some documents; anything left
+				// over that isn't valid JSON (e.g. trailing plain text) is
+				// passed through unchanged, starting from where the
+				// decoder stopped.
+				remainder := output[dec.InputOffset():]
+				w.Write(remainder)
+				return
+			}
+			// Not valid JSON at all (e.g. an error message); pass through
+			// unchanged.
+			w.Write(output)
+			return
+		}
+
+		var pretty bytes.Buffer
+		if indentErr := json.Indent(&pretty, raw, "", "  "); indentErr != nil {
+			w.Write(raw)
+		} else {
+			w.Write(pretty.Bytes())
+		}
+		w.Write([]byte("\n"))
+		wroteAny = true
+	}
 }
 
 func GeneratePHID() string {
