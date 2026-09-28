@@ -7500,7 +7500,7 @@ paths:
                 description: Image stream (jpeg/png/tiff)
             image/gif:
               schema:
-                $ref: '#/components/schemas/v2HttpBody'
+                $ref: '#/components/schemas/googleapiHttpBody'
             image/tiff:
               schema:
                 format: binary
@@ -7526,6 +7526,13 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/v2ImageSize'
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
   /taxonomy/image:
     post:
       summary: Get a taxonomy image by taxon
@@ -7574,6 +7581,14 @@ paths:
                 description: NCBI Taxonomy ID for human
                 value:
                   taxon: "9606"
+      parameters:
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
   /taxonomy/taxon/{taxon}/image/metadata:
     get:
       summary: Get taxonomy image metadata by Taxonomy ID
@@ -8085,7 +8100,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/v2TabularOutput'
+                $ref: '#/components/schemas/googleapiHttpBody'
       parameters:
       - name: accessions
         description: 'One or more nucleotide sequence accessions'
@@ -8284,6 +8299,13 @@ paths:
           example-2:
             value: jsonl
             summary: JSON Lines
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
   /virus/taxon/sars2/protein/{proteins}/table:
     get:
       summary: Get SARS-CoV-2 protein metadata in a tabular format by protein name
@@ -8303,7 +8325,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/v2TabularOutput'
+                $ref: '#/components/schemas/googleapiHttpBody'
       parameters:
       - name: proteins
         description: 'One or more SARS-CoV-2 protein names'
@@ -8462,6 +8484,13 @@ paths:
           example-1:
             value: jsonl
             summary: JSON Lines format
+      - name: filename
+        description: Output file name.
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ncbi_dataset.zip
   /virus/taxon/{taxon}/dataset_report:
     get:
       summary: Get a virus data report by taxon
@@ -10797,16 +10826,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2BiocollectionsSortField'
-    v2HttpBody:
-      type: object
-      properties:
-        content_type:
-          type: string
-          title: 'The HTTP Content-Type header value specifying the content type of the body.'
-        data:
-          type: string
-          format: byte
-          title: 'The HTTP request/response body as raw binary.'
     v2MicroBiggeDatasetRequest:
       type: object
       properties:
@@ -11037,50 +11056,6 @@ components:
         group_name:
           type: string
           title: 'Group name (blast group)'
-    v2SeqRange:
-      type: object
-      properties:
-        accession:
-          type: string
-          title: 'A single nucleotide or protein accession'
-        begin:
-          type: string
-          format: uint64
-          title: 'The first nucleotide or amino acid of the requested sequence'
-        end:
-          type: string
-          format: uint64
-          title: 'The last nucleotide or amino acid of the requested sequence'
-        orientation:
-          $ref: '#/components/schemas/v2reportsOrientation'
-          title: 'This parameter has not yet been implemented'
-    v2SeqReply:
-      type: object
-      properties:
-        accession:
-          type: string
-          title: 'Accession.version of the retrieved sequence'
-        length:
-          type: string
-          format: uint64
-          title: 'Total length of the sequence (not just the amount retrieved)'
-        molecule_type:
-          $ref: '#/components/schemas/v2reportsMoleculeType'
-          title: 'Molecule type - dna, rna, protein'
-        defline:
-          type: string
-          title: 'Defline for the retrieved sequence data'
-        sequence:
-          type: string
-          title: 'The retrieved sequence (includes line-breaks)'
-        begin:
-          type: string
-          format: uint64
-          title: 'starting index of the retrieved sequence'
-        end:
-          type: string
-          format: uint64
-          title: 'ending index of retrieved sequence - may be less than the ''end'' requested if the requested size was greater than the maximum retrieval length.'
     v2SequenceAccessionRequest:
       type: object
       properties:
@@ -11098,6 +11073,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2SequenceDatasetRequestFileType'
+    v2SequenceFastaRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'NCBI Accession.version of the sequence'
+        begin:
+          type: string
+          format: uint64
+          title: 'One-based inclusive start position. Zero with end zero returns the whole sequence.'
+        end:
+          type: string
+          format: uint64
+          title: 'One-based inclusive end position. Zero with begin zero returns the whole sequence.'
+        orientation:
+          $ref: '#/components/schemas/v2reportsOrientation'
+          title: 'Strand orientation for the returned sequence.'
+        include_header:
+          type: boolean
+          title: 'Controls inclusion of the FASTA definition line.'
     v2SequenceFeatureRequest:
       type: object
       properties:
@@ -11110,6 +11105,37 @@ components:
         page_token:
           type: string
           title: 'A page token is returned when more sequence feature reports are available. Use this token along with the accessions to retrieve the next page.'
+    v2SequenceFeatureTreeRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'A single nucleotide or protein sequence accession.'
+    v2SequenceFeaturesByIdRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'A single nucleotide or protein sequence accession.'
+        feature_ids:
+          type: array
+          items:
+            type: integer
+        page_size:
+          type: integer
+          title: 'The maximum number of sequence feature reports to return. Default is 20 and maximum is 1000.'
+        page_token:
+          type: string
+          title: 'A page token is returned when more requested feature reports are available. Use this token along with the accession and feature_ids to retrieve the next page.'
+    v2SequenceFileRequest:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'Nucleotide or protein sequence accession for sequence file retrieval.'
+        format:
+          $ref: '#/components/schemas/v2SequenceFileRequestFormat'
+          title: 'Requested representation of the sequence file.'
     v2SequenceReportPage:
       type: object
       properties:
@@ -11163,11 +11189,6 @@ components:
           type: string
         direction:
           $ref: '#/components/schemas/v2SortDirection'
-    v2TabularOutput:
-      type: object
-      properties:
-        data:
-          type: string
     v2TaxonomyDatasetRequest:
       type: object
       properties:
@@ -14041,6 +14062,9 @@ components:
         to:
           type: integer
           title: 'End position of the feature (1-based, inclusive).'
+        point:
+          type: integer
+          title: 'Point location for the feature (1-based, inclusive).'
         strand:
           $ref: '#/components/schemas/v2reportsSequenceFeatureLocationStrand'
           title: 'Strand of the feature location.'
@@ -14050,6 +14074,9 @@ components:
         fuzz_to:
           $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
           title: 'Fuzziness/uncertainty for the end position.'
+        fuzz:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
+          title: 'If location is a pnt only one fuzz exists and from/to will not'
     v2reportsSequenceFeatureLocationFuzzRange:
       type: object
       properties:
@@ -14095,7 +14122,7 @@ components:
           type: string
         product:
           type: string
-        protein_id:
+        protein_accession:
           type: string
         translation:
           type: string
@@ -14103,8 +14130,10 @@ components:
           type: string
         transl_table:
           type: string
-        transl_except:
-          type: string
+        translation_exception:
+          type: array
+          items:
+            type: string
         ec_number:
           type: string
         function:
@@ -14153,7 +14182,7 @@ components:
           type: boolean
         environmental_sample:
           type: boolean
-        transcript_id:
+        transcript_accession:
           type: string
         regulatory_class:
           type: string
@@ -14165,13 +14194,13 @@ components:
           type: string
         pcr_primers:
           type: string
-        rpt_type:
+        repeat_type:
           type: string
-        rpt_family:
+        repeat_family:
           type: string
-        rpt_unit_range:
+        repeat_unit_range:
           type: string
-        rpt_unit_seq:
+        repeat_unit_sequence:
           type: string
         satellite:
           type: string
@@ -14193,12 +14222,55 @@ components:
           type: string
         mobile_element_type:
           type: string
-        ncrna_class:
+        nc_rna_class:
           type: string
         artificial_location:
           type: string
         exception:
           type: string
+        go_component:
+          type: array
+          items:
+            type: string
+        go_function:
+          type: array
+          items:
+            type: string
+        go_process:
+          type: array
+          items:
+            type: string
+        used_in:
+          type: array
+          items:
+            type: string
+        repeat_unit:
+          type: string
+        gene_id:
+          type: string
+          format: uint64
+          title: 'NCBI GeneID parsed from GeneID db_xref.'
+    v2reportsSequenceFeatureTreeNode:
+      type: object
+      properties:
+        feature_id:
+          type: integer
+          title: 'Sequential feature identifier assigned over the full feature tree for this accession.'
+        parent_feature_id:
+          type: integer
+          title: 'Parent feature identifier assigned over the full feature tree. Zero means this is a root feature.'
+        has_children:
+          type: boolean
+          title: 'Whether this feature has child features in the full feature tree.'
+        accession:
+          type: string
+          title: 'The accession this feature belongs to.'
+        name:
+          type: string
+          title: 'GenBank feature name, for example "gene", "CDS", "mRNA", or "rRNA".'
+        label:
+          type: string
+          title: 'Precomputed display label for the feature.'
     v2reportsSequenceFeatureWithAccession:
       type: object
       properties:
@@ -14215,6 +14287,28 @@ components:
         qualifiers:
           $ref: '#/components/schemas/v2reportsSequenceFeatureQualifier'
           title: 'Feature qualifiers as named fields.'
+        feature_id:
+          type: integer
+          title: 'Sequential feature identifier assigned over the full feature tree for this accession.'
+        parent_feature_id:
+          type: integer
+          title: 'Parent feature identifier assigned over the full feature tree. Zero means this is a root feature.'
+        has_children:
+          type: boolean
+          title: 'Whether this feature has child features in the full feature tree.'
+    v2reportsSequenceFeaturesByIdResponse:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceFeatureWithAccession'
+        total_count:
+          type: integer
+          title: 'The total count of requested feature identifiers.'
+        next_page_token:
+          type: string
+          title: 'A token to retrieve the next page of requested feature identifiers.'
     v2reportsSequenceFeaturesPage:
       type: object
       properties:
@@ -14917,6 +15011,37 @@ components:
           type: integer
         dependent_to:
           type: integer
+    ncbiprotddv2GetVastQueryDomainsRequest:
+      type: object
+      properties:
+        pdb_id:
+          type: string
+          title: 'Canonical pdb_XXXXXXXX or legacy four-character PDB identifier. Letter case is ignored.'
+        mmdb_id:
+          type: integer
+          title: 'Positive MMDB ID.'
+    ncbiprotddv2GetVastQueryDomainsResponse:
+      type: object
+      properties:
+        mmdb_id:
+          type: integer
+          title: 'MMDB ID selected for the request. A PDB request selects its live MMDB ID when one exists, or its most recent obsolete MMDB ID otherwise. An MMDB request returns the requested MMDB ID.'
+        pdb_id:
+          type: string
+          title: 'Lowercase canonical PDB identifier: pdb_ followed by eight letters or digits.'
+        structure_title:
+          type: string
+          title: 'Structure title. Empty when no title is available.'
+        status:
+          $ref: '#/components/schemas/ncbiprotddv2VastQueryStatus'
+          title: 'Availability of VAST query domains.'
+        protein_chains:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2VastProteinChain'
+        replacement:
+          $ref: '#/components/schemas/ncbiprotddv2VastReplacement'
+          title: 'Replacement for the obsolete MMDB record. Absent when none is known.'
     ncbiprotddv2ParsedAbstract:
       type: object
       properties:
@@ -15175,6 +15300,56 @@ components:
         mmdb_id:
           type: integer
           title: 'The MMDB ID of the structure'
+    ncbiprotddv2VastProteinChain:
+      type: object
+      properties:
+        asu_molecule_id:
+          type: integer
+          title: 'MMDB molecule ID.'
+        chain_id:
+          type: string
+          title: 'Chain ID.'
+        protein_chain_name:
+          type: string
+          title: 'Protein molecule name. This is not the structure title.'
+        query_domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2VastQueryDomain'
+    ncbiprotddv2VastQueryDomain:
+      type: object
+      properties:
+        sdid:
+          type: integer
+          title: 'Structure Domain ID used by GetSimilarStructures.'
+        domain_number:
+          type: integer
+          title: 'Domain number. Zero identifies the whole protein chain.'
+        intervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/ncbiprotddv2VastResidueInterval'
+        all_sequences_result_count:
+          type: integer
+          title: 'Number of results in the ALL_SEQUENCES set, excluding the query domain. Each structural alignment counts once, so one neighbor SDID can add more than one result. Results for suppressed neighbor SDIDs are not included.'
+    ncbiprotddv2VastReplacement:
+      type: object
+      properties:
+        mmdb_id:
+          type: integer
+          title: 'MMDB ID of the live replacement.'
+        pdb_id:
+          type: string
+          title: 'Lowercase canonical PDB identifier of the live replacement. It can differ from the requested PDB identifier.'
+    ncbiprotddv2VastResidueInterval:
+      type: object
+      properties:
+        start:
+          type: integer
+          title: 'First residue in the interval. The value is 1-based and inclusive.'
+        end:
+          type: integer
+          title: 'Last residue in the interval. The value is 1-based and inclusive.'
     ncbiprotddv2VastScore:
       type: object
       properties:
@@ -15484,6 +15659,15 @@ components:
         - DATASET_REPORT
         - ANNOTATION_REPORT
       default: UNSPECIFIED
+    
+    v2SequenceFileRequestFormat:
+      type: string
+      enum:
+        - GENBANK
+        - GENBANK_FULL
+        - ASN1
+        - FEATURE_TABLE
+      default: GENBANK
     
     v2SequenceRequestContentType:
       type: string
@@ -16210,6 +16394,16 @@ components:
         - OTHER
       default: DNA
       title: 'Kind of molecule. DNA, RNA, Protein, etc.'
+    
+    ncbiprotddv2VastQueryStatus:
+      type: string
+      enum:
+        - VAST_QUERY_STATUS_UNSPECIFIED
+        - VAST_QUERY_STATUS_READY
+        - VAST_QUERY_STATUS_NO_PROTEIN_CHAINS
+        - VAST_QUERY_STATUS_NO_SEARCHABLE_DOMAINS
+        - VAST_QUERY_STATUS_OBSOLETE
+      default: VAST_QUERY_STATUS_UNSPECIFIED
     protobufAny:
       type: object
       properties:
@@ -16218,6 +16412,18 @@ components:
         value:
           type: string
           format: byte
+    googleapiHttpBody:
+      type: object
+      properties:
+        content_type:
+          type: string
+        data:
+          type: string
+          format: byte
+        extensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/protobufAny'
     rpcStatus:
       type: object
       properties:
