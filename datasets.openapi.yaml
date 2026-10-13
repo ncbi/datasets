@@ -5866,77 +5866,6 @@ paths:
                   gene_id: 2778
                   taxon_filter:
                    - primates
-  /gene/id/{gene_ids}/links:
-    get:
-      summary: Get gene links by GeneID
-      description: 'Get links to available gene resources in JSON format.'
-      tags:
-        - Gene
-      operationId: gene_links_by_id
-      responses:
-        default:
-          description: An unexpected error response.
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2GeneLinksReply'
-      parameters:
-      - name: gene_ids
-        description: 'One or more NCBI GeneIDs, limited to 100'
-        in: path
-        required: true
-        schema:
-          type: array
-          items:
-            type: integer
-        examples:
-          example-0:
-            value: 59067
-            summary: Human IL21, interleukin 21
-          example-1:
-            value:
-              - 59067
-              - 50615
-            summary: Human IL21 and ILR21R, interleukin 21 and interleukin 21 receptor
-  /gene/links:
-    post:
-      summary: Get gene links by GeneID
-      description: 'Get links to available gene resources in JSON format.'
-      tags:
-        - Gene
-      operationId: gene_links_by_id_by_post
-      responses:
-        default:
-          description: An unexpected error response.
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/rpcStatus'
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2GeneLinksReply'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/v2GeneLinksRequest'
-            examples:
-              Multiple GeneID examples:
-                description: Human interleukin 21 and interleukin 21 receptor genes
-                value:
-                  gene_ids:
-                  - 59067
-                  - 50615
   /gene/taxon/{taxon}/annotation/{annotation_name}/chromosome_summary:
     get:
       summary: Get gene counts per chromosome by taxon and annotation name
@@ -10101,7 +10030,7 @@ paths:
   /gene/id/{gene_ids}/expression_report:
     get:
       summary: Get a gene expression report by GeneID
-      description: 'Get a gene expression report by GeneID. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      description: 'Get a gene expression report by GeneID. Gene expression values are organized by BioProject, sample group, BioSample, and SRA run. By default, in JSON format, but also available in JSON Lines (accept: application/x-ndjson) format.'
       tags:
         - Gene
       operationId: gene_expression_reports_by_id
@@ -10126,17 +10055,24 @@ paths:
                 type: string
       parameters:
       - name: gene_ids
-        description: 'NCBI gene ids, limited to 1000 ids'
+        description: 'One or more NCBI GeneIDs, limited to 1,000'
         in: path
         required: true
         schema:
           type: array
           items:
             type: integer
+        examples:
+          example-0:
+            value: 25617
+            summary: Rat HSPA5 gene
+          example-1:
+            value: 100067235
+            summary: Horse HSPA5 gene
   /gene/expression_report:
     post:
-      summary: Get a gene expression report
-      description: 'Get a gene expression report. By default, in paged JSON format, but also available in tabular (accept: text/tab-separated-values) or JSON Lines (accept: application/x-ndjson) formats.'
+      summary: Get a gene expression report by GeneID
+      description: 'Get a gene expression report by GeneID. Gene expression values are organized by BioProject, sample group, BioSample, and SRA run. By default, in JSON format, but also available in JSON Lines (accept: application/x-ndjson) format.'
       tags:
         - Gene
       operationId: gene_expression_report
@@ -10165,6 +10101,80 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ncbieukgenev2GeneIdRequest'
+            examples:
+              Single GeneID example:
+                description: Rat HSPA5 gene
+                value:
+                  gene_ids:
+                  - 25617
+  /gene/id/{gene_ids}/links:
+    get:
+      summary: Get gene links by GeneID
+      description: 'Get links to available gene resources in JSON format.'
+      tags:
+        - Gene
+      operationId: gene_links_by_id
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2GeneLinksReply'
+      parameters:
+      - name: gene_ids
+        description: 'One or more NCBI GeneIDs, limited to 1,000'
+        in: path
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+        examples:
+          example-0:
+            value: 25617
+            summary: Rat HSPA5 gene
+          example-1:
+            value: 100067235
+            summary: Horse HSPA5 gene
+  /gene/links:
+    post:
+      summary: Get gene links by GeneID
+      description: 'Get links to available gene resources in JSON format.'
+      tags:
+        - Gene
+      operationId: gene_links_by_id_by_post
+      responses:
+        default:
+          description: An unexpected error response.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/rpcStatus'
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2GeneLinksReply'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncbieukgenev2GeneIdRequest'
+            examples:
+              Single GeneID example:
+                description: Rat HSPA5 gene
+                value:
+                  gene_ids:
+                  - 25617
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -11743,11 +11753,11 @@ components:
         mean:
           type: number
           format: float
-          title: 'Mean'
+          title: 'Mean expression value for this sample group'
         stddev:
           type: number
           format: float
-          title: 'Standard deviation'
+          title: 'Standard deviation of expression values for this sample group'
     v2reportsAnnotation:
       type: object
       properties:
@@ -11816,6 +11826,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/v2reportsAuthor'
+        doi:
+          type: string
+          title: 'Article DOI'
         journal:
           $ref: '#/components/schemas/v2reportsJournal'
           title: 'Journal in which this article was published.'
@@ -12116,7 +12129,7 @@ components:
       properties:
         accession:
           type: string
-          title: 'BioSample accession'
+          title: 'BioSample accession associated with these SRA Runs'
         sra_runs:
           type: array
           items:
@@ -12636,20 +12649,20 @@ components:
       properties:
         accession:
           type: string
-          title: 'BioProject Accession'
+          title: 'BioProject accession for the expression study'
         study_title:
           type: string
-          title: 'Study title'
+          title: 'Title of the expression study'
         description:
           type: string
-          title: 'Description'
+          title: 'Description of the expression study'
         sra_study_accession:
           type: string
-          title: 'SRA study accession'
+          title: 'SRA Study accession associated with the expression study'
         pmid:
           type: string
           format: uint64
-          title: 'PubMed identifier'
+          title: 'PubMed identifier of a publication associated with the expression study'
         samples:
           type: array
           items:
@@ -12663,10 +12676,10 @@ components:
           title: 'NCBI Gene ID'
         expression_release:
           $ref: '#/components/schemas/v2reportsExpressionRelease'
-          title: 'Expression Release'
+          title: 'Release and genome assembly associated with the expression data'
         expression_method:
           type: string
-          title: 'Expression Method'
+          title: 'Method used to report expression values, such as transcripts per million (TPM)'
         bioprojects:
           type: array
           items:
@@ -12676,10 +12689,10 @@ components:
       properties:
         release_name:
           type: string
-          title: 'Release Name'
+          title: 'Name of the gene expression data release'
         assembly_accession:
           type: string
-          title: 'Assembly Accession with Version'
+          title: 'NCBI genome assembly accession used for the gene expression data'
     v2reportsFeatureCounts:
       type: object
       properties:
@@ -12957,6 +12970,7 @@ components:
           $ref: '#/components/schemas/v2reportsProductDescriptor'
         expression:
           $ref: '#/components/schemas/v2reportsExpressionDescriptor'
+          title: 'Gene expression report for the matched gene.'
         query:
           type: array
           items:
@@ -13859,10 +13873,10 @@ components:
       properties:
         sample_name:
           type: string
-          title: 'Sample name'
+          title: 'Name of the biological sample group, such as a tissue'
         aggregate_expression_value:
           $ref: '#/components/schemas/v2reportsAggregateExpressionValue'
-          title: 'Aggregate Expression Value'
+          title: 'Aggregate expression value (mean and standard deviation) for this sample group'
         biosamples:
           type: array
           items:
@@ -13967,9 +13981,15 @@ components:
         organism_name:
           type: string
           title: 'Scientific organism name associated with this sequence.'
+        curator_common_name:
+          type: string
+          title: 'Common Tax name'
         length:
           type: integer
           title: 'Sequence length measured in the units field.'
+        chromosome_name:
+          type: string
+          title: 'Chromosome name'
         update_date:
           type: string
           title: 'Latest update date for the sequence.'
@@ -14029,6 +14049,9 @@ components:
         protein_name_evidence:
           $ref: '#/components/schemas/v2reportsProteinNameEvidence'
           title: 'Evidence supporting the protein name for this sequence record.'
+        sequence_status:
+          $ref: '#/components/schemas/v2reportsSequenceDataReportSequenceStatus'
+          title: 'Sequence status indicating data accessibility and availability.'
     v2reportsSequenceDataReportMatch:
       type: object
       properties:
@@ -14277,7 +14300,7 @@ components:
         accession:
           type: string
           title: 'The accession this feature belongs to.'
-        name:
+        feature_type:
           type: string
           title: 'GenBank feature name, for example "gene", "CDS", "mRNA", or "rRNA".'
         location:
@@ -14433,11 +14456,11 @@ components:
       properties:
         accession:
           type: string
-          title: 'The SRA accession for this run.'
+          title: 'SRA Run accession'
         expression_value:
           type: number
           format: float
-          title: 'The expression value for this run.'
+          title: 'Gene expression value'
     v2reportsSubmission:
       type: object
       properties:
@@ -15541,6 +15564,7 @@ components:
         - ORTHOLOG_LINK
         - MCGV_LINK
         - CROSS_REFERENCE_LINK
+        - VARIATION_VIEWER_LINK
       default: DEFAULT
       title: 'Types of gene links that may be returned'
     
@@ -16186,6 +16210,17 @@ components:
         - purely_synthetic
         - other
       default: unknown
+    
+    v2reportsSequenceDataReportSequenceStatus:
+      type: string
+      enum:
+        - sequence_status_unknown
+        - live
+        - discontinued
+        - public
+        - suppressed
+        - withdrawn
+      default: sequence_status_unknown
     
     v2reportsSequenceDataReportSequencingMethod:
       type: string
