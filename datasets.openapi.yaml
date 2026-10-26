@@ -14273,6 +14273,12 @@ components:
           type: string
           format: uint64
           title: 'NCBI GeneID parsed from GeneID db_xref.'
+        description:
+          type: string
+        region_name:
+          type: string
+        site_type:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureQualifierSiteType'
     v2reportsSequenceFeatureTreeNode:
       type: object
       properties:
@@ -14522,7 +14528,7 @@ components:
           title: 'The total count of available taxons - deprecated because it not supported for multiple-page results.'
         next_page_token:
           type: string
-          title: 'A page token.  A token that can be used in a future request as `page_token` to retrieve the next page. If this field is emtpy then there are no subsequent pages available.'
+          title: 'A page token.  A token that can be used in a future request as `page_token` to retrieve the next page. If this field is empty then there are no subsequent pages available.'
     v2reportsTaxonomyNamesDescriptor:
       type: object
       properties:
@@ -15211,7 +15217,7 @@ components:
       type: object
       properties:
         sdid:
-          type: string
+          type: integer
         page_token:
           type: string
           title: 'Only needed for paging GetSimilarStructures RPC'
@@ -16279,6 +16285,39 @@ components:
         - minus
       default: strand_unknown
       title: 'Strand orientation of the feature.'
+    
+    v2reportsSequenceFeatureQualifierSiteType:
+      type: string
+      enum:
+        - site_type_unspecified
+        - site_type_active
+        - site_type_binding
+        - site_type_cleavage
+        - site_type_inhibit
+        - site_type_modified
+        - site_type_glycosylation
+        - site_type_myristoylation
+        - site_type_mutagenized
+        - site_type_metal_binding
+        - site_type_phosphorylation
+        - site_type_acetylation
+        - site_type_amidation
+        - site_type_methylation
+        - site_type_hydroxylation
+        - site_type_sulfatation
+        - site_type_oxidative_deamination
+        - site_type_pyrrolidone_carboxylic_acid
+        - site_type_gamma_carboxyglutamic_acid
+        - site_type_blocked
+        - site_type_lipid_binding
+        - site_type_np_binding
+        - site_type_dna_binding
+        - site_type_signal_peptide
+        - site_type_transit_peptide
+        - site_type_transmembrane_region
+        - site_type_nitrosylation
+        - site_type_other
+      default: site_type_unspecified
     
     v2reportsSourceDatabase:
       type: string
