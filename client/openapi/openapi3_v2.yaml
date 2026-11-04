@@ -12621,6 +12621,15 @@ components:
         biocollection_code:
           type: string
           title: 'Institution code for the culture collection.'
+    v2reportsDatabaseReference:
+      type: object
+      properties:
+        database:
+          type: string
+          title: 'Name of database reference'
+        resource_id:
+          type: string
+          title: 'Id in database reference'
     v2reportsError:
       type: object
       properties:
@@ -14076,7 +14085,84 @@ components:
         total_count:
           type: integer
           title: 'Total number of reports available across all pages.'
+    v2reportsSequenceFeature:
+      type: object
+      properties:
+        accession:
+          type: string
+          title: 'The accession this feature belongs to.'
+        feature_type:
+          type: string
+          title: 'GenBank feature name, for example "gene", "CDS", "mRNA", or "rRNA".'
+        location:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsSequenceFeatureLocation'
+        qualifiers:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureQualifier'
+          title: 'Feature qualifiers as named fields.'
+        feature_id:
+          type: integer
+          title: 'Sequential feature identifier assigned over the full feature tree for this accession.'
+        parent_feature_id:
+          type: integer
+          title: 'Parent feature identifier assigned over the full feature tree. Zero means this is a root feature.'
+        has_children:
+          type: boolean
+          title: 'Whether this feature has child features in the full feature tree.'
+        database_cross_references:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsDatabaseReference'
     v2reportsSequenceFeatureLocation:
+      type: object
+      properties:
+        interval:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationInterval'
+          title: 'An interval component. Packed intervals are represented as multiple parts.'
+        point:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationPoint'
+          title: 'A point component. Packed points are represented as multiple parts.'
+        crosses_origin:
+          type: boolean
+          title: 'Marks this component as continuing across a circular-sequence origin.'
+    v2reportsSequenceFeatureLocationCoordinateStatus:
+      type: object
+      properties:
+        range:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatusRange'
+          title: 'Inclusive 1-based coordinate bounds.'
+        partial:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatusPartial'
+          title: 'Biological terminus that is partial at this coordinate.'
+        between:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatusBetween'
+          title: 'The coordinate lies immediately to one side of the reported position.'
+        plus_minus:
+          type: integer
+          title: 'Fixed positional fuzz in residues.'
+        percent:
+          type: number
+          format: float
+          title: 'Percentage coordinate fuzz, in percent units.'
+        alternatives:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatusAlternatives'
+          title: 'Possible 1-based coordinate values.'
+    v2reportsSequenceFeatureLocationCoordinateStatusAlternatives:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            type: integer
+    v2reportsSequenceFeatureLocationCoordinateStatusRange:
+      type: object
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+    v2reportsSequenceFeatureLocationInterval:
       type: object
       properties:
         from:
@@ -14085,45 +14171,32 @@ components:
         to:
           type: integer
           title: 'End position of the feature (1-based, inclusive).'
-        point:
-          type: integer
-          title: 'Point location for the feature (1-based, inclusive).'
         strand:
           $ref: '#/components/schemas/v2reportsSequenceFeatureLocationStrand'
           title: 'Strand of the feature location.'
-        fuzz_from:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
-          title: 'Fuzziness/uncertainty for the start position.'
-        fuzz_to:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
-          title: 'Fuzziness/uncertainty for the end position.'
-        fuzz:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationIntFuzz'
-          title: 'If location is a pnt only one fuzz exists and from/to will not'
-    v2reportsSequenceFeatureLocationFuzzRange:
+        from_status:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatus'
+          title: 'Status of the start and end coordinates, respectively.'
+        to_status:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatus'
+        accession:
+          type: string
+          title: 'Accession for a remote component; otherwise inherited from the feature.'
+    v2reportsSequenceFeatureLocationPoint:
       type: object
       properties:
-        min:
+        point:
           type: integer
-          title: 'Minimum position value.'
-        max:
-          type: integer
-          title: 'Maximum position value.'
-    v2reportsSequenceFeatureLocationIntFuzz:
-      type: object
-      properties:
-        p_m:
-          type: integer
-          title: 'Plus or minus uncertainty value.'
-        range:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationFuzzRange'
-          title: 'Range of uncertainty with min and max values.'
-        percentage:
-          type: integer
-          title: 'Percentage uncertainty.'
-        lim:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationFuzzLim'
-          title: 'Limit-based constraint on the position.'
+          title: 'Point position (1-based, inclusive).'
+        strand:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationStrand'
+          title: 'Strand orientation of the point.'
+        point_status:
+          $ref: '#/components/schemas/v2reportsSequenceFeatureLocationCoordinateStatus'
+          title: 'Status of the point coordinate.'
+        accession:
+          type: string
+          title: 'Accession for a remote component; otherwise inherited from the feature.'
     v2reportsSequenceFeatureQualifier:
       type: object
       properties:
@@ -14300,38 +14373,13 @@ components:
         label:
           type: string
           title: 'Precomputed display label for the feature.'
-    v2reportsSequenceFeatureWithAccession:
-      type: object
-      properties:
-        accession:
-          type: string
-          title: 'The accession this feature belongs to.'
-        feature_type:
-          type: string
-          title: 'GenBank feature name, for example "gene", "CDS", "mRNA", or "rRNA".'
-        location:
-          type: array
-          items:
-            $ref: '#/components/schemas/v2reportsSequenceFeatureLocation'
-        qualifiers:
-          $ref: '#/components/schemas/v2reportsSequenceFeatureQualifier'
-          title: 'Feature qualifiers as named fields.'
-        feature_id:
-          type: integer
-          title: 'Sequential feature identifier assigned over the full feature tree for this accession.'
-        parent_feature_id:
-          type: integer
-          title: 'Parent feature identifier assigned over the full feature tree. Zero means this is a root feature.'
-        has_children:
-          type: boolean
-          title: 'Whether this feature has child features in the full feature tree.'
     v2reportsSequenceFeaturesByIdResponse:
       type: object
       properties:
         reports:
           type: array
           items:
-            $ref: '#/components/schemas/v2reportsSequenceFeatureWithAccession'
+            $ref: '#/components/schemas/v2reportsSequenceFeature'
         total_count:
           type: integer
           title: 'The total count of requested feature identifiers.'
@@ -14344,7 +14392,7 @@ components:
         reports:
           type: array
           items:
-            $ref: '#/components/schemas/v2reportsSequenceFeatureWithAccession'
+            $ref: '#/components/schemas/v2reportsSequenceFeature'
         total_count:
           type: integer
           title: 'Total number of features available across all pages.'
@@ -14566,6 +14614,10 @@ components:
         current_scientific_name_is_formal:
           type: boolean
           title: 'Specify if the current scientific name is considered ''formal'' or not.'
+        in_part_names:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2reportsNameAndAuthority'
     v2reportsTaxonomyNamesDescriptorCitation:
       type: object
       properties:
@@ -15571,6 +15623,7 @@ components:
         - MCGV_LINK
         - CROSS_REFERENCE_LINK
         - VARIATION_VIEWER_LINK
+        - CLINVAR_LINK
       default: DEFAULT
       title: 'Types of gene links that may be returned'
     
@@ -16264,18 +16317,23 @@ components:
         - amino_acids
       default: units_unspecified
     
-    v2reportsSequenceFeatureLocationFuzzLim:
+    v2reportsSequenceFeatureLocationCoordinateStatusBetween:
       type: string
       enum:
-        - lim_unknown
-        - gt
-        - lt
-        - tr
-        - tl
-        - circle
-        - other
-      default: lim_unknown
-      title: 'Enumeration representing different types of position limit constraints.'
+        - between_unknown
+        - left
+        - right
+      default: between_unknown
+    
+    v2reportsSequenceFeatureLocationCoordinateStatusPartial:
+      type: string
+      enum:
+        - partial_unknown
+        - five_prime
+        - three_prime
+        - n_terminus
+        - c_terminus
+      default: partial_unknown
     
     v2reportsSequenceFeatureLocationStrand:
       type: string
